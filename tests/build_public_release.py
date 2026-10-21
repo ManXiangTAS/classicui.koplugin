@@ -3,26 +3,26 @@
 from pathlib import Path
 import hashlib,json,re,sys,zipfile
 PROJECT=Path(__file__).resolve().parents[1]
-VERSION='0.4.0-test.3'
+VERSION='0.4.0-test.4'
 def sha(data):return hashlib.sha256(data).hexdigest()
 def public_paths():
  paths=[]
  for folder in ['einkfrontend.koplugin','tests']:
   for p in (PROJECT/folder).rglob('*'):
    if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc':paths.append(p)
- for rel in ['README.md','docs/PagePress.md','docs/主页固定一屏.md','COPYING','PROJECT_STATUS.json','Voyage_0.4.0_实测指南.md','docs/0.4.0_主题与主页编辑.md','docs/vendor/tzdata2026e.tar.gz','tools/build_timezones.py','tools/publish_test_release.py','tools/import_public_snapshot.py','test-results-049/combined-summary.json','test-results-049/syntax.json','test-results-049/summary.json','test-results-047/browser-summary.json','test-results-040/summary.json','test-results-041/summary.json']:
+ for rel in ['README.md','docs/PagePress.md','docs/0.4.0-test.4_修复说明.md','docs/主页固定一屏.md','COPYING','PROJECT_STATUS.json','Voyage_0.4.0_实测指南.md','docs/0.4.0_主题与主页编辑.md','docs/vendor/tzdata2026e.tar.gz','tools/build_timezones.py','tools/publish_test_release.py','tools/import_public_snapshot.py','test-results-050/combined-summary.json','test-results-050/syntax.json','test-results-050/summary.json','test-results-047/browser-summary.json','test-results-040/summary.json','test-results-041/summary.json']:
   paths.append(PROJECT/rel)
  paths+=list((PROJECT/'docs/previews').glob('*.png'))
  paths+=list((PROJECT/'.github/workflows').glob('*.yml'))
  return sorted(set(paths))
 def inputs():
  status=json.loads((PROJECT/'PROJECT_STATUS.json').read_text());assert status['software_version']==VERSION
- checks=json.loads((PROJECT/'test-results-049/combined-summary.json').read_text());assert checks['failures']==0
- syntax=json.loads((PROJECT/'test-results-049/syntax.json').read_text());assert syntax['status']=='PASS'
+ checks=json.loads((PROJECT/'test-results-050/combined-summary.json').read_text());assert checks['failures']==0
+ syntax=json.loads((PROJECT/'test-results-050/syntax.json').read_text());assert syntax['status']=='PASS'
  for rel,digest in syntax['sha256'].items():assert sha((PROJECT/rel).read_bytes())==digest,rel
  zones=PROJECT/'einkfrontend.koplugin/resources/timezones';inventory=json.loads((zones/'zones.json').read_text());assert inventory['version']=='2026e' and len(inventory['zones'])==419
  for z in inventory['zones']:assert sha((zones/z['id']).read_bytes())==z['sha256'],z['id']
- icons=PROJECT/'einkfrontend.koplugin/resources/icons/sharp';assert len(list(icons.glob('*.svg')))==32
+ icons=PROJECT/'einkfrontend.koplugin/resources/icons/sharp';assert len(list(icons.glob('*.svg')))==33
  for f in [zones/'LICENSE',icons/'LICENSE',PROJECT/'COPYING']:assert f.is_file()
  files={p.relative_to(PROJECT).as_posix():p.read_bytes() for p in public_paths()}
  for rel,data in files.items():

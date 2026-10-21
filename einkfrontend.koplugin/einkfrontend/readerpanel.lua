@@ -29,6 +29,7 @@ function Panel:source()
  if not t or not t.meta then return "" end
  local id=t.meta.theme_id;local theme=id and self.app.themes:find(id)
  if theme and t:matches(theme.values) then return "主题 · "..theme.name end
+ if id=="builtin:default" and t:matches(t:defaults()) then return "主题 · 默认" end
  if id then return "本书 · 已调整" end
  local inherited=false;for _,v in pairs(t.meta.inherit) do inherited=inherited or v end
  return inherited and "本书 · 继承默认" or "仅这本书"
@@ -51,18 +52,13 @@ end
 function Panel:themeManage(id) self.theme_id=id;self:setTab("theme_manage") end
 function Panel:themeChoices()
  local t=self.app.typography
- local out={{id="custom",name="自定义",custom=true}}
- for i,def in ipairs({{"普通",24,120,12},{"写实",22,110,8},{"舒适",28,140,18}}) do
-  local values=t:defaults()
-  values.font_size=def[2];values.line_spacing=def[3];values.page_margins={def[4],def[4],def[4],def[4]}
-  out[#out+1]={id="builtin:"..i,name=def[1],values=values}
- end
+ local out={{id="builtin:default",name="默认",builtin=true,values=t:defaults()}}
  for _,theme in ipairs(self.app.themes.records) do out[#out+1]=theme end
- local selected="custom"
+ local selected
  for _,entry in ipairs(out) do
-  if entry.values and t.meta.theme_id==entry.id and t:matches(entry.values) then selected=entry.id;break end
+  if t.meta.theme_id==entry.id and t:matches(entry.values) then selected=entry.id;break end
  end
- if selected=="custom" then self.custom_values=t:snapshot() end
+ if not selected and t:matches(out[1].values) then selected=out[1].id end
  return out,selected
 end
 function Panel:drawThemes(bb,x,y,w,h)
@@ -77,14 +73,7 @@ function Panel:drawThemes(bb,x,y,w,h)
    local side=S(44);local iy=ry+math.floor((rowh-side)/2);local active=selected==entry.id
    -- Like the reference: a compact outlined sample at left, plain name at right.
    clip:paintBorder(cx,iy,side,side,S(1.5),B.COLOR_BLACK,S(6))
-   if entry.custom then P.inkLabel(clip,"A",cx,iy,side,side,26,false)
-   else
-    clip:paintCircle(cx+math.floor(side/2),iy+S(14),S(5),B.COLOR_BLACK)
-    for sy=0,S(9)-1 do
-     local half=math.max(1,math.floor(S(11)*math.sqrt(1-(1-sy/S(9))^2)))
-     clip:paintRect(cx+math.floor(side/2)-half,iy+S(26)+sy,half*2,1,B.COLOR_BLACK)
-    end
-   end
+   P.inkIcon(clip,"appbar.textsize",cx,iy,side,side,S(28))
    if active then
     clip:paintRect(cx-S(8),iy-S(8),S(23),S(22),B.COLOR_WHITE)
     P.inkLabel(clip,"✓",cx-S(13),iy-S(14),S(35),S(30),24,true)
@@ -95,8 +84,7 @@ function Panel:drawThemes(bb,x,y,w,h)
    local hy=math.max(y,y+ry);local hh=math.min(y+viewh,y+ry+rowh)-hy
    local chosen=entry
    self.hits[#self.hits+1]={x=x+(i-1)%2*w/2,y=hy,w=w/2,h=hh,id="theme_"..entry.id,callback=function()
-    if chosen.custom and not self.custom_values then return end
-    local ok,why=self.app.typography:apply(chosen.custom and self.custom_values or chosen.values,false,not chosen.custom and chosen.id or nil)
+    local ok,why=self.app.typography:apply(chosen.values,chosen.builtin==true,chosen.id)
     if not ok then self.app:message(why) end;UI:setDirty("all","ui")
    end}
    self.theme_tiles[#self.theme_tiles+1]={id=entry.id,selected=active,x=x+cx,y=y+iy,w=side,h=side}

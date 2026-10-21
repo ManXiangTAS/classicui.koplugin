@@ -17,7 +17,9 @@ function HW:ioctl(path,request,value)
  return ioctl(path,request,value)
 end
 function HW:fsr(request,value)
- if self:ioctl('/dev/keypad',0x80044202)~=0 then error('翻页键被系统锁定，请返回 Kindle 设置检查') end
+ if self:ioctl('/dev/keypad',0x80044202)~=0 then
+  error(setmetatable({kind='busy',message='翻页键暂由系统占用，请稍后重试'},{__tostring=function(e) return e.message end}),0)
+ end
  return self:ioctl('/dev/keypad',request,value)
 end
 local function readfile(path)

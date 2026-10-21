@@ -1,13 +1,13 @@
 {
   "snapshot_date": "2026-10-21",
-  "software_version": "0.4.0-test.3",
+  "software_version": "0.4.0-test.4",
   "working_name": "墨页 E-Ink Frontend",
   "overall_status": "DEVELOPMENT_PREVIEW_DESKTOP_VERIFIED_DEVICE_PENDING",
   "device": {
     "primary": "Kindle Voyage",
-    "firmware": "CURRENT_VERSION_NOT_CONFIRMED",
+    "firmware": "5.13.6 (Voyage, user confirmed)",
     "physical_test": "NOT_RUN",
-    "user_feedback": "User reports PagePress useful; renamed to 翻页键. Home fixed to one bounded screen; device retest pending."
+    "user_feedback": "Voyage 5.13.6: pressure settings showed driver lock error. Bounded retry and stale error cleanup implemented; physical retest pending."
   },
   "target_koreader": {
     "user_string": "0702",
@@ -90,7 +90,7 @@
     "home_quote_editing": "plain text, persisted, tap next",
     "native_notice_transition_handoff": true,
     "icon_family": "Material Symbols Sharp, fill 1, weight 600",
-    "bundled_icon_count": 32,
+    "bundled_icon_count": 33,
     "annotation_failure_rollback": true,
     "collection_input_errors_local": true,
     "browser_state_validation": true,
@@ -132,29 +132,30 @@
     "scoped_search": true,
     "maintenance_subcategories": true,
     "pagepress": "Voyage-only driver ABI adapter; enable pressure haptic lock and actual gain readback; desktop mocked ABI verified, device pending",
-    "home_fixed_viewport": "Header/footer bounded; adaptive minimum sizes; no vertical scrolling; overflow editing checks; legacy layouts preserved"
+    "home_fixed_viewport": "Header/footer bounded; adaptive minimum sizes; no vertical scrolling; overflow editing checks; legacy layouts preserved",
+    "reader_themes": "One built-in default using KOReader defaults; actual saved themes retained; Material Sharp format_size icon",
+    "pagepress_wake_retry": "Typed temporary busy only; bounded 4 seconds; canceled on suspend and last owner detach; no force unlock"
   },
   "verification": {
-    "current_version": "0.4.0-test.1",
-    "checks": 940,
-    "distinct_cases": 294,
-    "process_runs": 120,
-    "summary": "test-results-046/combined-summary.json",
-    "lua_syntax_files": 37,
+    "current_version": "0.4.0-test.4",
+    "checks": 814,
+    "distinct_cases": 304,
+    "process_runs": 96,
+    "summary": "test-results-050/combined-summary.json",
+    "lua_syntax_files": 41,
     "physical_device": "NOT_RUN_AFTER_CHANGES",
     "timezone_inventory": 419,
     "timezone_tests": "IANA offsets/DST, SQLite boundary, rollback, cross-owner state and restart",
     "network_sync": "Native callback controlled in tests; actual system clock, RTC and NTP not changed",
     "current_suites": {
       "test-results": 143,
-      "test-results-030": 441,
-      "test-results-039": 57,
+      "test-results-030": 408,
       "test-results-043": 42,
-      "test-results-045": 39,
       "test-results-046": 54,
-      "web_http": 14,
-      "alignment_dropdown": 69,
-      "alignment_settings": 81
+      "test-results-048": 96,
+      "test-results-049": 42,
+      "test-results-050": 12,
+      "web_http": 17
     },
     "previous_full_baseline": {
       "version": "0.3.9-dev",
@@ -189,7 +190,7 @@
     "千本/万本性能与增量索引",
     "更多版本与机型适配"
   ],
-  "next_action": "Publish 0.4.0-test.3 and collect fixed-home device feedback. Repository private; visibility change still needs an authorized administrative route.",
+  "next_action": "Collect Voyage 5.13.6 retest for transient lock recovery and updated themes. Repository visibility remains private; no administration capability exposed.",
   "unattended_after_turn": false,
   "reference_scope": {
     "pinned_repositories": 10,
@@ -263,5 +264,26 @@
     "home_replaced_legacy_cases": "Old scroll-based home_widgets modes replaced by 14 fixed-home cases, repeated at three geometries",
     "physical_feedback": "User reports PagePress useful; new home still pending device retest",
     "runtime": "Official KOReader v2026.07.1, same source as v2026.07.2; SDL3 dummy; Chromium and actual LuaSocket HTTP"
+  },
+  "current_validation": {
+    "version": "0.4.0-test.4",
+    "checks": 814,
+    "distinct_cases": 304,
+    "runs": 96,
+    "failures": 0,
+    "suites": {
+      "test-results": 143,
+      "test-results-030": 408,
+      "test-results-043": 42,
+      "test-results-046": 54,
+      "test-results-048": 96,
+      "test-results-049": 42,
+      "test-results-050": 12,
+      "web_http": 17
+    },
+    "device": "NOT_RUN_AFTER_CHANGES",
+    "hardware": "Voyage 5.13.6 photograph: driver lock error. Busy recovery verified against ABI emulator; no real hardware writes.",
+    "runtime": "Official KOReader v2026.07.1, same source as v2026.07.2; SDL3 dummy; Chromium and actual LuaSocket HTTP",
+    "current_code": "All counted suites rerun for test.4."
   }
 }

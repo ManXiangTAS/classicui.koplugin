@@ -48,8 +48,12 @@ local function fixture()
   state.gain=assert(tonumber(value));return true
  end
  local settings=Settings:open(DS:getSettingsDir()..'/pagepress-'..counter..'.lua')
- local hw=HW.new(io_);local service=PP.new(settings,hw);service:resume()
- return service,state,settings,hw
+ local clock={jobs={},scheduled=0}
+ function clock:scheduleIn(delay,job) assert(delay==.5);self.scheduled=self.scheduled+1;self.jobs[#self.jobs+1]=job end
+ function clock:unschedule(job) for i=#self.jobs,1,-1 do if self.jobs[i]==job then table.remove(self.jobs,i) end end end
+ function clock:step() local job=table.remove(self.jobs,1);assert(job);job() end
+ local hw=HW.new(io_);local service=PP.new(settings,hw,clock);service:resume()
+ return service,state,settings,hw,clock
 end
 check('Only Voyage is eligible; other Kindle models and desktop never attach hardware',function()
  assert(PP.supported({model='KindleVoyage'}));assert(not PP.supported({model='KindlePaperWhite3'}));assert(not PP.supported(Device))
@@ -101,7 +105,7 @@ check('Haptic off uses the lock, gain zero remains a valid strength, and false b
 end)
 check('A locked keypad reports a reason without writes or saved settings',function()
  local service,state=fixture();state.locked=true;local ok,why=service:change('pressure',100)
- assert(not ok and why:find('锁定',1,true));assert(state.writes==0 and service.config.pressure==nil)
+ assert(not ok and why:find('系统占用',1,true));assert(state.writes==0 and service.config.pressure==nil)
 end)
 check('Gain parser rejects unknown firmware output and actual register readback detects ignored writes',function()
  local service,state=fixture();state.bad_gain=true;local value,why=service:read('gain');assert(value==nil and why:find('不兼容',1,true))
@@ -147,13 +151,54 @@ check('Unavailable hardware during suspend is reported and saved overrides can r
  local service,state=fixture();assert(service:change('pressure',100));state.locked=true;service:suspend()
  assert(service.errors.pressure and state.pressure==100);state.locked=false;service:resume();service:suspend();assert(state.pressure==180)
 end)
+check('A transient wake lock retries saved pressure and clears the error after recovery',function()
+ local service,state,_,_,clock=fixture();assert(service:change('pressure',100));service:suspend()
+ state.locked=true;service:resume();assert(state.pressure==180 and service.errors.pressure and #clock.jobs==1)
+ local writes=state.writes;clock:step();assert(state.writes==writes and #clock.jobs==1)
+ state.locked=false;clock:step();assert(state.pressure==100 and not service.errors.pressure and #clock.jobs==0)
+ service:suspend();assert(state.pressure==180)
+end)
+check('Retry stops after four seconds and opening settings can retry a later recovery',function()
+ local service,state,_,_,clock=fixture();assert(service:change('pressure',100));service:suspend()
+ state.locked=true;service:resume();for i=1,8 do clock:step() end
+ assert(#clock.jobs==0 and clock.scheduled==8 and service.apply_pending.pressure)
+ state.locked=false;service:retryPending();assert(state.pressure==100 and not service.errors.pressure)
+end)
+check('Suspend cancels pending retries and even retained stale callbacks cannot write',function()
+ local service,state,_,_,clock=fixture();assert(service:change('pressure',100));service:suspend()
+ state.locked=true;service:resume();local stale=clock.jobs[1];service:suspend();assert(#clock.jobs==0)
+ state.locked=false;local writes=state.writes;stale();assert(state.writes==writes and state.pressure==180)
+ service:resume();assert(state.pressure==100)
+end)
+check('A successful manual override wins over pending wake retries',function()
+ local service,state,_,_,clock=fixture();assert(service:change('pressure',100));service:suspend()
+ state.locked=true;service:resume();state.locked=false;assert(service:change('pressure',200));clock:step()
+ assert(state.pressure==200 and service.config.pressure==200 and #clock.jobs==0)
+end)
+check('Real IO errors are reported once without polling or leaking source paths',function()
+ local service,state,_,hw,clock=fixture();assert(service:change('pressure',100));service:suspend()
+ hw.read=function() error('plugins/einkfrontend.koplugin/einkfrontend/pagepresshw.lua:20: device IO failed') end
+ service:resume();assert(#clock.jobs==0 and not service.apply_pending.pressure)
+ assert(service.errors.pressure=='device IO failed' and not service.errors.pressure:find('.lua',1,true))
+ assert(type(PP.cleanError({}))=='string')
+end)
+check('A successful resume clears an earlier failed restoration even when the value already matches',function()
+ local service,state=fixture();assert(service:change('pressure',100));state.locked=true;service:suspend()
+ assert(service.errors.pressure);state.locked=false;service:resume();assert(not service.errors.pressure)
+ service:suspend();assert(state.pressure==180)
+end)
+check('Wake retries survive one owner leaving and stop when the last owner leaves',function()
+ local service,state,_,_,clock=fixture();assert(service:change('pressure',100));service:suspend()
+ local a,b={},{};service.owners[a]=true;service.owners[b]=true;state.locked=true;service:resume()
+ service:detach(a);assert(#clock.jobs==1 and service.running);service:detach(b);assert(#clock.jobs==0 and not service.running)
+end)
 FM:showFiles(assert(os.getenv('EINK_030_BOOKS')));local app=assert(FM.instance.einkfrontend.app)
 local function row(title) for _,r in ipairs(app.screen.model.rows) do if r.title==title then return r end end;error('missing row '..title) end
 check('Non Voyage settings and global search do not offer PagePress',function()
  app:open('catalog_category','input');for _,r in ipairs(app.screen.model.rows) do assert(r.title~='翻页键') end
  require('einkfrontend/settings').search(app,'翻页键');for _,r in ipairs(app.screen.model.rows) do assert(r.title~='翻页键') end
 end)
-local service,state=fixture();app.pagepress=service;service.owners[app]=true
+local service,state,_,_,clock=fixture();app.pagepress=service;service.owners[app]=true
 local function shot(name)
  local notices={};for _,entry in ipairs(UI._window_stack) do if entry.widget.text then notices[#notices+1]=entry.widget end end
  for _,notice in ipairs(notices) do UI:close(notice) end
@@ -167,6 +212,21 @@ check('PagePress integrates with shared settings rendering and live device value
  row('反馈强度').callback();row('中').callback();assert(state.gain==1);row('震动反馈').callback();row('开').callback();assert(state.haptic)
  row('按压力度').callback();assert(row('轻按（100）').checked);shot('pagepress-pressure');row('沿用 Kindle 设置').callback();assert(state.pressure==180)
 end)
+check('Help stays beside the title and neither help nor historical errors occupy settings rows',function()
+ service.errors.pressure='old error';app:go('pagepress_settings');UI:forceRePaint()
+ assert(#app.screen.model.rows==5 and row('按压力度').value=='180')
+ local h=assert(app.screen.header_ink);assert(h.info and h.info.x>h.title.x+h.title.w)
+ assert(h.info.x+h.info.w<h.search.x and math.abs((h.info.y+h.info.h/2)-(h.close.y+h.close.h/2))<=1)
+ local info;for _,hit in ipairs(app.screen.hits) do if hit.id=='settings_help' then info=hit end end;assert(info)
+ local original=app.message;local text;app.message=function(_,s) text=s end;info.callback();app.message=original
+ assert(text:find('按压力度',1,true) and not text:find('.lua',1,true));shot('pagepress-title-help')
+end)
+check('Visible settings refresh automatically when a wake retry recovers',function()
+ assert(service:change('pressure',100));service:suspend();state.locked=true;service:resume()
+ app:go('pagepress_settings');assert(row('按压力度').value=='系统占用')
+ state.locked=false;clock:step();assert(row('按压力度').value=='100' and not service.errors.pressure)
+ assert(service:change('pressure',nil))
+end)
 check('PagePress search covers sensitivity pressure vibration and Voyage',function()
  for _,q in ipairs({'灵敏度','按压力度','振动','震动','Voyage','翻页键'}) do
   require('einkfrontend/settings').search(app,q);row('翻页键').callback();assert(app.screen.model.title=='翻页键')
@@ -178,9 +238,9 @@ check('Direction control invokes the existing KOReader inversion event',function
  row('反转翻页方向').callback();assert(G_reader_settings:isTrue('input_invert_page_turn_keys')==before)
 end)
 check('Unavailable settings remain informative instead of throwing or displaying a fabricated state',function()
- state.locked=true;app:go('pagepress_settings');assert(row('按压力度').value=='不可用');assert(row('反馈强度').value=='中')
+ state.locked=true;app:go('pagepress_settings');assert(row('按压力度').value=='系统占用');assert(row('反馈强度').value=='中')
  local message;local original=app.message;app.message=function(_,text) message=text end
- row('按压力度').callback();app.message=original;assert(message:find('锁定',1,true));state.locked=false
+ row('按压力度').callback();app.message=original;assert(message:find('系统占用',1,true));state.locked=false
 end)
 check('Plugin suspend and resume restore and reapply hardware; stop restores entry values',function()
  assert(service:change('pressure',100));app.plugin:onSuspend();assert(state.pressure==180 and not state.haptic and state.gain==2)

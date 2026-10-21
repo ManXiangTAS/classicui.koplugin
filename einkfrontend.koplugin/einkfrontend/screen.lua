@@ -110,10 +110,15 @@ function Page:_paintSettings(bb,x,y)
         self.hits[#self.hits+1]={x=x,y=y,w=S(46),h=self.header_h,callback=function() self.app:back() end,id="settings_back"}
     end
     local tx=self.model.route.id=="settings" and S(20) or S(48)
-    local title=Paint.inkLabel(bb,self.model.title,x+tx,y,w-tx-S(112),self.header_h,Paint.style.title,true,nil,"left")
+    local title=Paint.inkLabel(bb,self.model.title,x+tx,y,w-tx-S(self.model.help and 160 or 112),self.header_h,Paint.style.title,true,nil,"left")
     local search=Paint.inkIcon(bb,"appbar.search",x+w-S(106),y,S(53),self.header_h,S(25))
     local close=Paint.inkIcon(bb,"close",x+w-S(53),y,S(53),self.header_h,S(25))
     self.header_ink={title=title,search=search,close=close}
+    if self.model.help then
+        local hx=math.min(x+w-S(153),title.x+title.w+S(12))
+        self.header_ink.info=Paint.inkIcon(bb,'info',hx,y,S(40),self.header_h,S(20))
+        self.hits[#self.hits+1]={x=hx,y=y,w=S(40),h=self.header_h,callback=self.model.help,id='settings_help'}
+    end
     self.hits[#self.hits+1]={x=x+w-S(106),y=y,w=S(53),h=self.header_h,callback=function() self.app:searchCurrent() end,id="settings_search"}
     self.hits[#self.hits+1]={x=x+w-S(53),y=y,w=S(53),h=self.header_h,callback=function() self.app:dismiss() end,id="settings_close"}
 

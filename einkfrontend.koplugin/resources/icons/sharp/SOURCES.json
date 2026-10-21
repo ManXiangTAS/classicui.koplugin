@@ -131,6 +131,10 @@
     "category.svg": {
       "source": "https://github.com/google/material-design-icons/blob/49d4db35df873165d6bd6ba09b063c7dafbac2f4/symbols/web/category/materialsymbolssharp/category_wght600fill1_24px.svg",
       "blob_sha": "8f814a509eb0c7af4cbc0c7fa8a7571eba9b2ef5"
+    },
+    "info.svg": {
+      "source": "https://github.com/google/material-design-icons/blob/49d4db35df873165d6bd6ba09b063c7dafbac2f4/symbols/web/info/materialsymbolssharp/info_wght600fill1_24px.svg",
+      "blob_sha": "c4fbd362dea251de9a584dceeb2900ce683e6736"
     }
   }
 }

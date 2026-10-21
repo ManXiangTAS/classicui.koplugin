@@ -21,12 +21,13 @@ local function hit(widget,id) UI:forceRePaint();for _,h in ipairs(widget.hits) d
 local function activate(widget,id) return hit(widget,id).callback() end
 
 Reader:doShowReader(books..'/navigation.epub');local r=assert(Reader.instance);local app=r.einkfrontend.app
-check('Themes use reference icon and text tiles with Save and Manage actions',function()
- local panel=app:showReader('themes');UI:forceRePaint();assert(#panel.theme_tiles==4)
- assert(panel.theme_tiles[1].selected);hit(panel,'theme_save');hit(panel,'theme_manage')
- shot('themes-reference');activate(panel,'theme_builtin:1');UI:forceRePaint()
- assert(app.adapter:read("font_size")==24 and app.typography.meta.theme_id=='builtin:1')
- assert(panel.theme_tiles[2].selected);activate(panel,'theme_custom');UI:forceRePaint();assert(panel.theme_tiles[1].selected);activate(panel,'theme_manage');UI:forceRePaint();assert(panel.tab=='theme_list');activate(panel,'aa_back');assert(panel.tab=='themes')
+check('Themes offer one default tile and retain Save and Manage actions',function()
+ local panel=app:showReader('themes');UI:forceRePaint();assert(#panel.theme_tiles==1)
+ hit(panel,'theme_save');hit(panel,'theme_manage')
+ activate(panel,'theme_builtin:default');UI:forceRePaint()
+ assert(app.typography.meta.theme_id=='builtin:default' and app.typography:matches(app.typography:defaults()))
+ assert(panel.theme_tiles[1].selected);shot('themes-reference')
+ activate(panel,'theme_manage');UI:forceRePaint();assert(panel.tab=='theme_list');activate(panel,'aa_back');assert(panel.tab=='themes')
 end)
 check('Every Aa close button removes panel and toolbar',function()
  for _,tab in ipairs({'themes','font','layout','fonts','font_options','layout_options','theme_list'}) do

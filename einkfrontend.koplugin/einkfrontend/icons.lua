@@ -13,6 +13,7 @@ Icons.names={
  ["appbar.rotation"]="screen_rotation",["cre.render.reload.alpha"]="refresh",
  plugins="extension",device="devices",maintenance="build",misc="category",reading="menu_book",
  brightness="light_mode",check="check",more="more_horiz",night="dark_mode",sync="sync",
+ info="info",
 }
 -- Optical size corrections are context-specific, not a change to slot geometry.
 -- Preserve the original paths/aspect ratios; the visible-ink pass keeps centers.
