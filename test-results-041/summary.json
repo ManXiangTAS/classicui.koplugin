@@ -1,0 +1,1698 @@
+{
+  "version": "0.3.11-dev",
+  "process_runs": 9,
+  "regression_checks": 81,
+  "pixel_frames": 15,
+  "measured_elements": 450,
+  "failures": 0,
+  "tolerance_pixels": 1,
+  "partial_scroll_pixel_matches": 3,
+  "device": "NOT_RUN",
+  "results": [
+    {
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Settings use a fixed bold header and a scroll viewport with no pagination footer"
+        },
+        {
+          "status": "PASS",
+          "name": "Vertical swipe moves settings content continuously while the header remains fixed"
+        },
+        {
+          "status": "PASS",
+          "name": "Partial-row pan preserves native tap hold and disabled-state callbacks"
+        },
+        {
+          "status": "PASS",
+          "name": "Scrollbar reaches the final native setting and clamps at both ends"
+        },
+        {
+          "status": "PASS",
+          "name": "Returning from a native submenu restores its parent scroll position"
+        },
+        {
+          "status": "PASS",
+          "name": "Quick-control labels are larger black text centered below their actual icons"
+        },
+        {
+          "status": "PASS",
+          "name": "Reading top tap opens chrome without creating native menus or moving the document"
+        },
+        {
+          "status": "PASS",
+          "name": "Top reading bar opens Aa and book statistics while Settings stays in quick controls"
+        },
+        {
+          "status": "PASS",
+          "name": "Top-bar navigation uses native document data and search keeps its feature window"
+        },
+        {
+          "status": "PASS",
+          "name": "Top bar and quick controls switch cleanly and font lists scroll without footer pages"
+        },
+        {
+          "status": "PASS",
+          "name": "Reading top-bar return goes to the plugin library even with automatic startup disabled"
+        }
+      ],
+      "mode": "style_navigation",
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "desktop"
+    },
+    {
+      "variant": "desktop",
+      "mode": "fixes033",
+      "audits": {},
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Settings icons and text share measured vertical centers and the title has no breadcrumb target"
+        },
+        {
+          "status": "PASS",
+          "name": "Settings is a standalone quick action with its own centered icon and label"
+        },
+        {
+          "status": "PASS",
+          "name": "Native opening notices retain delay timeout dismissability and callback while restyled"
+        },
+        {
+          "status": "PASS",
+          "name": "Native toast masks history and input propagation remain intact with the shared style"
+        },
+        {
+          "status": "PASS",
+          "name": "Notice style hooks restore on takeover disable and preserve another live owner"
+        },
+        {
+          "status": "PASS",
+          "name": "Notice hooks coexist with a later wrapper through disable and re-enable"
+        },
+        {
+          "status": "PASS",
+          "name": "Repeated gestures reuse one visible panel even after losing a cached reference"
+        },
+        {
+          "status": "PASS",
+          "name": "Shrinking Aa to layout redraws the document where the taller panel used to be"
+        },
+        {
+          "status": "PASS",
+          "name": "Font contrast and quarter-step weight controls apply live engine settings and persist"
+        },
+        {
+          "status": "PASS",
+          "name": "Thirteen-field themes restore all new typography values and independent table snapshots"
+        },
+        {
+          "status": "PASS",
+          "name": "Invalid contrast weight and word-spacing values reject the transaction without partial changes"
+        },
+        {
+          "status": "PASS",
+          "name": "Legacy seven-field themes preserve new adjustments until explicitly updated"
+        },
+        {
+          "status": "PASS",
+          "name": "New typography fields roll back together when a document save fails"
+        },
+        {
+          "status": "PASS",
+          "name": "Separated Aa spacing options expose word spacing without a nested More action"
+        },
+        {
+          "status": "PASS",
+          "name": "New typography defaults and inheritance clean all newly managed sidecar keys"
+        },
+        {
+          "status": "PASS",
+          "name": "New inherited typography fields save intent before a later process reads changed defaults"
+        }
+      ],
+      "device": "NOT_RUN"
+    },
+    {
+      "variant": "voyage_layout",
+      "mode": "style_navigation",
+      "audits": {},
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Settings use a fixed bold header and a scroll viewport with no pagination footer"
+        },
+        {
+          "status": "PASS",
+          "name": "Vertical swipe moves settings content continuously while the header remains fixed"
+        },
+        {
+          "status": "PASS",
+          "name": "Partial-row pan preserves native tap hold and disabled-state callbacks"
+        },
+        {
+          "status": "PASS",
+          "name": "Scrollbar reaches the final native setting and clamps at both ends"
+        },
+        {
+          "status": "PASS",
+          "name": "Returning from a native submenu restores its parent scroll position"
+        },
+        {
+          "status": "PASS",
+          "name": "Quick-control labels are larger black text centered below their actual icons"
+        },
+        {
+          "status": "PASS",
+          "name": "Reading top tap opens chrome without creating native menus or moving the document"
+        },
+        {
+          "status": "PASS",
+          "name": "Top reading bar opens Aa and book statistics while Settings stays in quick controls"
+        },
+        {
+          "status": "PASS",
+          "name": "Top-bar navigation uses native document data and search keeps its feature window"
+        },
+        {
+          "status": "PASS",
+          "name": "Top bar and quick controls switch cleanly and font lists scroll without footer pages"
+        },
+        {
+          "status": "PASS",
+          "name": "Reading top-bar return goes to the plugin library even with automatic startup disabled"
+        }
+      ],
+      "device": "NOT_RUN"
+    },
+    {
+      "device": "NOT_RUN",
+      "variant": "voyage_layout",
+      "tests": [
+        {
+          "name": "Settings icons and text share measured vertical centers and the title has no breadcrumb target",
+          "status": "PASS"
+        },
+        {
+          "name": "Settings is a standalone quick action with its own centered icon and label",
+          "status": "PASS"
+        },
+        {
+          "name": "Native opening notices retain delay timeout dismissability and callback while restyled",
+          "status": "PASS"
+        },
+        {
+          "name": "Native toast masks history and input propagation remain intact with the shared style",
+          "status": "PASS"
+        },
+        {
+          "name": "Notice style hooks restore on takeover disable and preserve another live owner",
+          "status": "PASS"
+        },
+        {
+          "name": "Notice hooks coexist with a later wrapper through disable and re-enable",
+          "status": "PASS"
+        },
+        {
+          "name": "Repeated gestures reuse one visible panel even after losing a cached reference",
+          "status": "PASS"
+        },
+        {
+          "name": "Shrinking Aa to layout redraws the document where the taller panel used to be",
+          "status": "PASS"
+        },
+        {
+          "name": "Font contrast and quarter-step weight controls apply live engine settings and persist",
+          "status": "PASS"
+        },
+        {
+          "name": "Thirteen-field themes restore all new typography values and independent table snapshots",
+          "status": "PASS"
+        },
+        {
+          "name": "Invalid contrast weight and word-spacing values reject the transaction without partial changes",
+          "status": "PASS"
+        },
+        {
+          "name": "Legacy seven-field themes preserve new adjustments until explicitly updated",
+          "status": "PASS"
+        },
+        {
+          "name": "New typography fields roll back together when a document save fails",
+          "status": "PASS"
+        },
+        {
+          "name": "Separated Aa spacing options expose word spacing without a nested More action",
+          "status": "PASS"
+        },
+        {
+          "name": "New typography defaults and inheritance clean all newly managed sidecar keys",
+          "status": "PASS"
+        },
+        {
+          "name": "New inherited typography fields save intent before a later process reads changed defaults",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "mode": "fixes033"
+    },
+    {
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Settings use a fixed bold header and a scroll viewport with no pagination footer"
+        },
+        {
+          "status": "PASS",
+          "name": "Vertical swipe moves settings content continuously while the header remains fixed"
+        },
+        {
+          "status": "PASS",
+          "name": "Partial-row pan preserves native tap hold and disabled-state callbacks"
+        },
+        {
+          "status": "PASS",
+          "name": "Scrollbar reaches the final native setting and clamps at both ends"
+        },
+        {
+          "status": "PASS",
+          "name": "Returning from a native submenu restores its parent scroll position"
+        },
+        {
+          "status": "PASS",
+          "name": "Quick-control labels are larger black text centered below their actual icons"
+        },
+        {
+          "status": "PASS",
+          "name": "Reading top tap opens chrome without creating native menus or moving the document"
+        },
+        {
+          "status": "PASS",
+          "name": "Top reading bar opens Aa and book statistics while Settings stays in quick controls"
+        },
+        {
+          "status": "PASS",
+          "name": "Top-bar navigation uses native document data and search keeps its feature window"
+        },
+        {
+          "status": "PASS",
+          "name": "Top bar and quick controls switch cleanly and font lists scroll without footer pages"
+        },
+        {
+          "status": "PASS",
+          "name": "Reading top-bar return goes to the plugin library even with automatic startup disabled"
+        }
+      ],
+      "audits": {},
+      "mode": "style_navigation",
+      "device": "NOT_RUN",
+      "variant": "landscape"
+    },
+    {
+      "device": "NOT_RUN",
+      "variant": "landscape",
+      "mode": "fixes033",
+      "audits": {},
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Settings icons and text share measured vertical centers and the title has no breadcrumb target"
+        },
+        {
+          "status": "PASS",
+          "name": "Settings is a standalone quick action with its own centered icon and label"
+        },
+        {
+          "status": "PASS",
+          "name": "Native opening notices retain delay timeout dismissability and callback while restyled"
+        },
+        {
+          "status": "PASS",
+          "name": "Native toast masks history and input propagation remain intact with the shared style"
+        },
+        {
+          "status": "PASS",
+          "name": "Notice style hooks restore on takeover disable and preserve another live owner"
+        },
+        {
+          "status": "PASS",
+          "name": "Notice hooks coexist with a later wrapper through disable and re-enable"
+        },
+        {
+          "status": "PASS",
+          "name": "Repeated gestures reuse one visible panel even after losing a cached reference"
+        },
+        {
+          "status": "PASS",
+          "name": "Shrinking Aa to layout redraws the document where the taller panel used to be"
+        },
+        {
+          "status": "PASS",
+          "name": "Font contrast and quarter-step weight controls apply live engine settings and persist"
+        },
+        {
+          "status": "PASS",
+          "name": "Thirteen-field themes restore all new typography values and independent table snapshots"
+        },
+        {
+          "status": "PASS",
+          "name": "Invalid contrast weight and word-spacing values reject the transaction without partial changes"
+        },
+        {
+          "status": "PASS",
+          "name": "Legacy seven-field themes preserve new adjustments until explicitly updated"
+        },
+        {
+          "status": "PASS",
+          "name": "New typography fields roll back together when a document save fails"
+        },
+        {
+          "status": "PASS",
+          "name": "Separated Aa spacing options expose word spacing without a nested More action"
+        },
+        {
+          "status": "PASS",
+          "name": "New typography defaults and inheritance clean all newly managed sidecar keys"
+        },
+        {
+          "status": "PASS",
+          "name": "New inherited typography fields save intent before a later process reads changed defaults"
+        }
+      ]
+    }
+  ],
+  "pixel_samples": [
+    {
+      "file": "settings-root-desktop.png",
+      "measurements": [
+        {
+          "element": "title",
+          "offset_y": 0.0
+        },
+        {
+          "element": "search",
+          "offset_y": 0.0
+        },
+        {
+          "element": "close",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 2",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 3",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 3",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 4",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 4",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 5",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 5",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 7",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 7",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 8",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 8",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 9",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 9",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 10",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 10",
+          "offset_y": 0.0
+        }
+      ]
+    },
+    {
+      "file": "settings-root-bottom-desktop.png",
+      "measurements": [
+        {
+          "element": "title",
+          "offset_y": 0.0
+        },
+        {
+          "element": "search",
+          "offset_y": 0.0
+        },
+        {
+          "element": "close",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 2",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 3",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 3",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 4",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 4",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 5",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 5",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 7",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 7",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 8",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 8",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 9",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 9",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 10",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 10",
+          "offset_y": 0.0
+        }
+      ]
+    },
+    {
+      "file": "settings-mixed-desktop.png",
+      "measurements": [
+        {
+          "element": "title",
+          "offset_y": 0.0
+        },
+        {
+          "element": "search",
+          "offset_y": 0.0
+        },
+        {
+          "element": "close",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 3",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 3",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 4",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 4",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 5",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 5",
+          "offset_y": -0.5
+        },
+        {
+          "element": "text 6",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 7",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 7",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 8",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 8",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 9",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 9",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 10",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 10",
+          "offset_y": 0.0
+        }
+      ]
+    },
+    {
+      "file": "settings-partial-desktop.png",
+      "measurements": [
+        {
+          "element": "title",
+          "offset_y": 0.0
+        },
+        {
+          "element": "search",
+          "offset_y": 0.0
+        },
+        {
+          "element": "close",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 3",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 3",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 4",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 4",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 5",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 5",
+          "offset_y": -0.5
+        },
+        {
+          "element": "text 6",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 7",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 7",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 8",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 8",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 9",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 9",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 10",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 10",
+          "offset_y": 0.0
+        }
+      ]
+    },
+    {
+      "file": "settings-bottom-desktop.png",
+      "measurements": [
+        {
+          "element": "title",
+          "offset_y": 0.0
+        },
+        {
+          "element": "search",
+          "offset_y": 0.0
+        },
+        {
+          "element": "close",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 11",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 11",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 12",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 12",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 13",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 13",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 14",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 14",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 15",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 15",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 16",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 16",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 17",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 17",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 18",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 18",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 19",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 19",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 20",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 20",
+          "offset_y": 0.0
+        }
+      ]
+    },
+    {
+      "file": "settings-root-voyage_layout.png",
+      "measurements": [
+        {
+          "element": "title",
+          "offset_y": 0.0
+        },
+        {
+          "element": "search",
+          "offset_y": 0.5
+        },
+        {
+          "element": "close",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 2",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 3",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 3",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 4",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 4",
+          "offset_y": -0.5
+        },
+        {
+          "element": "text 5",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 5",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 7",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 7",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 8",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 8",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 9",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 9",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 10",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 10",
+          "offset_y": 0.5
+        }
+      ]
+    },
+    {
+      "file": "settings-root-bottom-voyage_layout.png",
+      "measurements": [
+        {
+          "element": "title",
+          "offset_y": 0.0
+        },
+        {
+          "element": "search",
+          "offset_y": 0.5
+        },
+        {
+          "element": "close",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 2",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 3",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 3",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 4",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 4",
+          "offset_y": -0.5
+        },
+        {
+          "element": "text 5",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 5",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 7",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 7",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 8",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 8",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 9",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 9",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 10",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 10",
+          "offset_y": 0.5
+        }
+      ]
+    },
+    {
+      "file": "settings-mixed-voyage_layout.png",
+      "measurements": [
+        {
+          "element": "title",
+          "offset_y": 0.5
+        },
+        {
+          "element": "search",
+          "offset_y": 0.5
+        },
+        {
+          "element": "close",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 3",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 3",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 4",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 4",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 5",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 5",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 6",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 7",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 7",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 8",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 8",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 9",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 9",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 10",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 10",
+          "offset_y": 0.0
+        }
+      ]
+    },
+    {
+      "file": "settings-partial-voyage_layout.png",
+      "measurements": [
+        {
+          "element": "title",
+          "offset_y": 0.5
+        },
+        {
+          "element": "search",
+          "offset_y": 0.5
+        },
+        {
+          "element": "close",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 3",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 3",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 4",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 4",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 5",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 5",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 6",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 7",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 7",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 8",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 8",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 9",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 9",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 10",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 10",
+          "offset_y": 0.0
+        }
+      ]
+    },
+    {
+      "file": "settings-bottom-voyage_layout.png",
+      "measurements": [
+        {
+          "element": "title",
+          "offset_y": 0.5
+        },
+        {
+          "element": "search",
+          "offset_y": 0.5
+        },
+        {
+          "element": "close",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 11",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 11",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 12",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 12",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 13",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 13",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 14",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 14",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 15",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 15",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 16",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 16",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 17",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 17",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 18",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 18",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 19",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 19",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 20",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 20",
+          "offset_y": 0.0
+        }
+      ]
+    },
+    {
+      "file": "settings-root-landscape.png",
+      "measurements": [
+        {
+          "element": "title",
+          "offset_y": 0.0
+        },
+        {
+          "element": "search",
+          "offset_y": 0.5
+        },
+        {
+          "element": "close",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 2",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 3",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 3",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 4",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 4",
+          "offset_y": -0.5
+        },
+        {
+          "element": "text 5",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 5",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 7",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 7",
+          "offset_y": 0.5
+        }
+      ]
+    },
+    {
+      "file": "settings-root-bottom-landscape.png",
+      "measurements": [
+        {
+          "element": "title",
+          "offset_y": 0.0
+        },
+        {
+          "element": "search",
+          "offset_y": 0.5
+        },
+        {
+          "element": "close",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 4",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 4",
+          "offset_y": -0.5
+        },
+        {
+          "element": "text 5",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 5",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 7",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 7",
+          "offset_y": 0.5
+        },
+        {
+          "element": "text 8",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 8",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 9",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 9",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 10",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 10",
+          "offset_y": 0.5
+        }
+      ]
+    },
+    {
+      "file": "settings-mixed-landscape.png",
+      "measurements": [
+        {
+          "element": "title",
+          "offset_y": 0.5
+        },
+        {
+          "element": "search",
+          "offset_y": 0.5
+        },
+        {
+          "element": "close",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 1",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 3",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 3",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 4",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 4",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 5",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 5",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 6",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 7",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 7",
+          "offset_y": 0.0
+        }
+      ]
+    },
+    {
+      "file": "settings-partial-landscape.png",
+      "measurements": [
+        {
+          "element": "title",
+          "offset_y": 0.5
+        },
+        {
+          "element": "search",
+          "offset_y": 0.5
+        },
+        {
+          "element": "close",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "icon 2",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 3",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 3",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 4",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 4",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 5",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 5",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 6",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 6",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 7",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 7",
+          "offset_y": 0.0
+        }
+      ]
+    },
+    {
+      "file": "settings-bottom-landscape.png",
+      "measurements": [
+        {
+          "element": "title",
+          "offset_y": 0.5
+        },
+        {
+          "element": "search",
+          "offset_y": 0.5
+        },
+        {
+          "element": "close",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 14",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 14",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 15",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 15",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 16",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 16",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 17",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 17",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 18",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 18",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 19",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 19",
+          "offset_y": 0.0
+        },
+        {
+          "element": "text 20",
+          "offset_y": 0.5
+        },
+        {
+          "element": "icon 20",
+          "offset_y": 0.0
+        }
+      ]
+    }
+  ]
+}

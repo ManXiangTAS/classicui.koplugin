@@ -1,0 +1,58 @@
+#!/usr/bin/env python3
+"""Build reproducible public artifacts from an explicit source allowlist."""
+from pathlib import Path
+import hashlib,json,re,sys,zipfile
+PROJECT=Path(__file__).resolve().parents[1]
+VERSION='0.4.0-test.1'
+def sha(data):return hashlib.sha256(data).hexdigest()
+def public_paths():
+ paths=[]
+ for folder in ['einkfrontend.koplugin','tests']:
+  for p in (PROJECT/folder).rglob('*'):
+   if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc':paths.append(p)
+ for rel in ['README.md','COPYING','PROJECT_STATUS.json','Voyage_0.4.0_实测指南.md','docs/0.4.0_主题与主页编辑.md','docs/vendor/tzdata2026e.tar.gz','tools/build_timezones.py','tools/publish_test_release.py','tools/import_public_snapshot.py','test-results-046/combined-summary.json','test-results-046/syntax.json','test-results-047/browser-summary.json','test-results-040/summary.json','test-results-041/summary.json']:
+  paths.append(PROJECT/rel)
+ paths+=list((PROJECT/'docs/previews').glob('*.png'))
+ paths+=list((PROJECT/'.github/workflows').glob('*.yml'))
+ return sorted(set(paths))
+def inputs():
+ status=json.loads((PROJECT/'PROJECT_STATUS.json').read_text());assert status['software_version']==VERSION
+ checks=json.loads((PROJECT/'test-results-046/combined-summary.json').read_text());assert checks['failures']==0
+ syntax=json.loads((PROJECT/'test-results-046/syntax.json').read_text());assert syntax['status']=='PASS'
+ for rel,digest in syntax['sha256'].items():assert sha((PROJECT/rel).read_bytes())==digest,rel
+ zones=PROJECT/'einkfrontend.koplugin/resources/timezones';inventory=json.loads((zones/'zones.json').read_text());assert inventory['version']=='2026e' and len(inventory['zones'])==419
+ for z in inventory['zones']:assert sha((zones/z['id']).read_bytes())==z['sha256'],z['id']
+ icons=PROJECT/'einkfrontend.koplugin/resources/icons/sharp';assert len(list(icons.glob('*.svg')))==32
+ for f in [zones/'LICENSE',icons/'LICENSE',PROJECT/'COPYING']:assert f.is_file()
+ files={p.relative_to(PROJECT).as_posix():p.read_bytes() for p in public_paths()}
+ for rel,data in files.items():
+  assert not any(part in rel.split('/') for part in ['data','.env','.git']) and not rel.endswith('.log'),rel
+  if rel.endswith(('.py','.lua','.md','.mjs','.html','.json','.yml')):
+   text=data.decode('utf-8');assert not re.search(r'github_pat_[A-Za-z0-9_]{30,}|gh[pousr]_[A-Za-z0-9]{30,}|-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----',text),rel
+ manifest={k:sha(v) for k,v in sorted(files.items())}
+ return files,manifest,checks,syntax
+
+def writezip(path,files):
+ staged=path.with_suffix('.zip.building')
+ with zipfile.ZipFile(staged,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as z:
+  for rel,data in sorted(files.items()):
+   info=zipfile.ZipInfo(rel,(2026,10,21,0,0,0));info.external_attr=0o100644<<16;info.compress_type=zipfile.ZIP_DEFLATED;z.writestr(info,data)
+ with zipfile.ZipFile(staged) as z:
+  assert z.testzip() is None
+  for rel,data in files.items():assert sha(z.read(rel))==sha(data),rel
+ staged.replace(path)
+
+def build(output):
+ output=Path(output);output.mkdir(parents=True,exist_ok=True)
+ files,manifest,checks,syntax=inputs()
+ info={'version':VERSION,'date':'2026-10-21','source_tree_sha256':sha(json.dumps(manifest,sort_keys=True).encode()),'koreader_commit':'9192014d8bd82a91dc1012473be0f238dedfdb54','checks':checks['checks'],'distinct_cases':checks['distinct_cases'],'runs':checks['runs'],'lua_files':syntax['files'],'device':'NOT_RUN_AFTER_CHANGES','network_clock':'Native callback verified; no NTP or RTC changed on host','lan_editor':'Real LuaSocket + Chromium loopback verified; Kindle firewall and LAN pending'}
+ encoded=lambda value:(json.dumps(value,ensure_ascii=False,indent=2)+'\n').encode()
+ install={k:v for k,v in files.items() if k.startswith('einkfrontend.koplugin/')};install['einkfrontend.koplugin/COPYING']=files['COPYING']
+ install['README_安装与范围.md']=files['README.md'];install['Voyage_0.4.0_实测指南.md']=files['Voyage_0.4.0_实测指南.md'];install['BUILD_INFO.json']=encoded(info)
+ install['SOURCE_FILES_SHA256.json']=encoded({k:sha(v) for k,v in sorted(install.items())})
+ installer=output/f'ClassicUI_{VERSION}_install.zip';writezip(installer,install)
+ source=dict(files);source['PUBLIC_MANIFEST_SHA256.json']=encoded(manifest);source['BUILD_INFO.json']=encoded(info)
+ archive=output/f'ClassicUI_{VERSION}_source.zip';writezip(archive,source)
+ hashes={p.name:sha(p.read_bytes()) for p in [installer,archive]};(output/'SHA256SUMS.txt').write_text(''.join(v+'  '+k+'\n' for k,v in hashes.items()))
+ print(json.dumps({'version':VERSION,'files':len(files),'source_tree_sha256':info['source_tree_sha256'],'assets':hashes},indent=2));return installer,archive
+if __name__=='__main__':build(sys.argv[1] if len(sys.argv)>1 else PROJECT/'release-build')

@@ -1,0 +1,10 @@
+{
+  "project": "IANA Time Zone Database",
+  "version": "2026e",
+  "source_url": "https://data.iana.org/time-zones/releases/tzdata2026e.tar.gz",
+  "archive_sha256": "b26882805f26aac59d5b222978e6580484b834ccdc98be89df2f05a6dc53a652",
+  "compile_command": "zic -b fat -d OUTPUT africa antarctica asia australasia europe northamerica southamerica etcetera backward",
+  "compiler": "zic (Ubuntu GLIBC 2.39-0ubuntu8.6) 2.39",
+  "selector": "zone.tab plus Etc/UTC",
+  "license": "Public domain; see LICENSE"
+}

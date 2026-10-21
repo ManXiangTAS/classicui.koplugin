@@ -1,0 +1,2100 @@
+{
+  "version": "2026e",
+  "zones": [
+    {
+      "id": "Africa/Abidjan",
+      "country": "CI",
+      "sha256": "d2efac4e5f23d88c95d72c1db42807170f52f43dd98a205af5a92a91b9f2d997"
+    },
+    {
+      "id": "Africa/Accra",
+      "country": "GH",
+      "sha256": "d2efac4e5f23d88c95d72c1db42807170f52f43dd98a205af5a92a91b9f2d997"
+    },
+    {
+      "id": "Africa/Addis_Ababa",
+      "country": "ET",
+      "sha256": "c89b2e253a8926a6cecf7eff34e4bfcdb7fe24daff22d84718c30deec0ea4968"
+    },
+    {
+      "id": "Africa/Algiers",
+      "country": "DZ",
+      "sha256": "bda1698cd542c0e6e76dfbbcdab390cdd26f37a9d5826a57a50d5aab37f3b2a6"
+    },
+    {
+      "id": "Africa/Asmara",
+      "country": "ER",
+      "sha256": "c89b2e253a8926a6cecf7eff34e4bfcdb7fe24daff22d84718c30deec0ea4968"
+    },
+    {
+      "id": "Africa/Bamako",
+      "country": "ML",
+      "sha256": "d2efac4e5f23d88c95d72c1db42807170f52f43dd98a205af5a92a91b9f2d997"
+    },
+    {
+      "id": "Africa/Bangui",
+      "country": "CF",
+      "sha256": "cffeb0282ccbd7fba0e493ff8677a1e5a6dd5197885042e437f95a773f844846"
+    },
+    {
+      "id": "Africa/Banjul",
+      "country": "GM",
+      "sha256": "d2efac4e5f23d88c95d72c1db42807170f52f43dd98a205af5a92a91b9f2d997"
+    },
+    {
+      "id": "Africa/Bissau",
+      "country": "GW",
+      "sha256": "223bb10cfe846620c716f97f6c74ba34deec751c4b297965a28042f36f69a1a9"
+    },
+    {
+      "id": "Africa/Blantyre",
+      "country": "MW",
+      "sha256": "444ed3a710414bc6bf43eb27e591da49d3be3db153449a6a0c9473f7e39fdbcb"
+    },
+    {
+      "id": "Africa/Brazzaville",
+      "country": "CG",
+      "sha256": "cffeb0282ccbd7fba0e493ff8677a1e5a6dd5197885042e437f95a773f844846"
+    },
+    {
+      "id": "Africa/Bujumbura",
+      "country": "BI",
+      "sha256": "444ed3a710414bc6bf43eb27e591da49d3be3db153449a6a0c9473f7e39fdbcb"
+    },
+    {
+      "id": "Africa/Cairo",
+      "country": "EG",
+      "sha256": "2dfb7e1822d085a4899bd56a526b041681c84b55617daee91499fd1990a989fb"
+    },
+    {
+      "id": "Africa/Casablanca",
+      "country": "MA",
+      "sha256": "336794042a93f5c46b110d81414030a0ca7f9a2544e3155b19700d1119e0893a"
+    },
+    {
+      "id": "Africa/Ceuta",
+      "country": "ES",
+      "sha256": "0b0fb6fe714319b37c5aa22c56971abb2668a165fc8f72a6c763e70b47c7badf"
+    },
+    {
+      "id": "Africa/Conakry",
+      "country": "GN",
+      "sha256": "d2efac4e5f23d88c95d72c1db42807170f52f43dd98a205af5a92a91b9f2d997"
+    },
+    {
+      "id": "Africa/Dakar",
+      "country": "SN",
+      "sha256": "d2efac4e5f23d88c95d72c1db42807170f52f43dd98a205af5a92a91b9f2d997"
+    },
+    {
+      "id": "Africa/Dar_es_Salaam",
+      "country": "TZ",
+      "sha256": "c89b2e253a8926a6cecf7eff34e4bfcdb7fe24daff22d84718c30deec0ea4968"
+    },
+    {
+      "id": "Africa/Djibouti",
+      "country": "DJ",
+      "sha256": "c89b2e253a8926a6cecf7eff34e4bfcdb7fe24daff22d84718c30deec0ea4968"
+    },
+    {
+      "id": "Africa/Douala",
+      "country": "CM",
+      "sha256": "cffeb0282ccbd7fba0e493ff8677a1e5a6dd5197885042e437f95a773f844846"
+    },
+    {
+      "id": "Africa/El_Aaiun",
+      "country": "EH",
+      "sha256": "44e31fb1ea270408877e3cffbe6e1dae16313e21e2cba505322ad8b0263e0af2"
+    },
+    {
+      "id": "Africa/Freetown",
+      "country": "SL",
+      "sha256": "d2efac4e5f23d88c95d72c1db42807170f52f43dd98a205af5a92a91b9f2d997"
+    },
+    {
+      "id": "Africa/Gaborone",
+      "country": "BW",
+      "sha256": "444ed3a710414bc6bf43eb27e591da49d3be3db153449a6a0c9473f7e39fdbcb"
+    },
+    {
+      "id": "Africa/Harare",
+      "country": "ZW",
+      "sha256": "444ed3a710414bc6bf43eb27e591da49d3be3db153449a6a0c9473f7e39fdbcb"
+    },
+    {
+      "id": "Africa/Johannesburg",
+      "country": "ZA",
+      "sha256": "6c1bcc752668e77585a308ae8543bd0bccd8e813865626e809bf94f3fe3d977e"
+    },
+    {
+      "id": "Africa/Juba",
+      "country": "SS",
+      "sha256": "5159c8a843c9c072d3302fabe6a6501cdbfda29a1856c29dabeb5aff95d4c3f4"
+    },
+    {
+      "id": "Africa/Kampala",
+      "country": "UG",
+      "sha256": "c89b2e253a8926a6cecf7eff34e4bfcdb7fe24daff22d84718c30deec0ea4968"
+    },
+    {
+      "id": "Africa/Khartoum",
+      "country": "SD",
+      "sha256": "318583a09dc070222d65d029a1e3a0b565830f1aaec13a27e6fe533863fbd3ea"
+    },
+    {
+      "id": "Africa/Kigali",
+      "country": "RW",
+      "sha256": "444ed3a710414bc6bf43eb27e591da49d3be3db153449a6a0c9473f7e39fdbcb"
+    },
+    {
+      "id": "Africa/Kinshasa",
+      "country": "CD",
+      "sha256": "cffeb0282ccbd7fba0e493ff8677a1e5a6dd5197885042e437f95a773f844846"
+    },
+    {
+      "id": "Africa/Lagos",
+      "country": "NG",
+      "sha256": "cffeb0282ccbd7fba0e493ff8677a1e5a6dd5197885042e437f95a773f844846"
+    },
+    {
+      "id": "Africa/Libreville",
+      "country": "GA",
+      "sha256": "cffeb0282ccbd7fba0e493ff8677a1e5a6dd5197885042e437f95a773f844846"
+    },
+    {
+      "id": "Africa/Lome",
+      "country": "TG",
+      "sha256": "d2efac4e5f23d88c95d72c1db42807170f52f43dd98a205af5a92a91b9f2d997"
+    },
+    {
+      "id": "Africa/Luanda",
+      "country": "AO",
+      "sha256": "cffeb0282ccbd7fba0e493ff8677a1e5a6dd5197885042e437f95a773f844846"
+    },
+    {
+      "id": "Africa/Lubumbashi",
+      "country": "CD",
+      "sha256": "444ed3a710414bc6bf43eb27e591da49d3be3db153449a6a0c9473f7e39fdbcb"
+    },
+    {
+      "id": "Africa/Lusaka",
+      "country": "ZM",
+      "sha256": "444ed3a710414bc6bf43eb27e591da49d3be3db153449a6a0c9473f7e39fdbcb"
+    },
+    {
+      "id": "Africa/Malabo",
+      "country": "GQ",
+      "sha256": "cffeb0282ccbd7fba0e493ff8677a1e5a6dd5197885042e437f95a773f844846"
+    },
+    {
+      "id": "Africa/Maputo",
+      "country": "MZ",
+      "sha256": "444ed3a710414bc6bf43eb27e591da49d3be3db153449a6a0c9473f7e39fdbcb"
+    },
+    {
+      "id": "Africa/Maseru",
+      "country": "LS",
+      "sha256": "6c1bcc752668e77585a308ae8543bd0bccd8e813865626e809bf94f3fe3d977e"
+    },
+    {
+      "id": "Africa/Mbabane",
+      "country": "SZ",
+      "sha256": "6c1bcc752668e77585a308ae8543bd0bccd8e813865626e809bf94f3fe3d977e"
+    },
+    {
+      "id": "Africa/Mogadishu",
+      "country": "SO",
+      "sha256": "c89b2e253a8926a6cecf7eff34e4bfcdb7fe24daff22d84718c30deec0ea4968"
+    },
+    {
+      "id": "Africa/Monrovia",
+      "country": "LR",
+      "sha256": "f95b095b9714e0a76f7e061a415bf895cbb399a28854531de369cee915ce05d5"
+    },
+    {
+      "id": "Africa/Nairobi",
+      "country": "KE",
+      "sha256": "c89b2e253a8926a6cecf7eff34e4bfcdb7fe24daff22d84718c30deec0ea4968"
+    },
+    {
+      "id": "Africa/Ndjamena",
+      "country": "TD",
+      "sha256": "f13dc0d199bd1a3d01be6eab77cf2ddc60172a229d1947c7948a98964608d0a3"
+    },
+    {
+      "id": "Africa/Niamey",
+      "country": "NE",
+      "sha256": "cffeb0282ccbd7fba0e493ff8677a1e5a6dd5197885042e437f95a773f844846"
+    },
+    {
+      "id": "Africa/Nouakchott",
+      "country": "MR",
+      "sha256": "d2efac4e5f23d88c95d72c1db42807170f52f43dd98a205af5a92a91b9f2d997"
+    },
+    {
+      "id": "Africa/Ouagadougou",
+      "country": "BF",
+      "sha256": "d2efac4e5f23d88c95d72c1db42807170f52f43dd98a205af5a92a91b9f2d997"
+    },
+    {
+      "id": "Africa/Porto-Novo",
+      "country": "BJ",
+      "sha256": "cffeb0282ccbd7fba0e493ff8677a1e5a6dd5197885042e437f95a773f844846"
+    },
+    {
+      "id": "Africa/Sao_Tome",
+      "country": "ST",
+      "sha256": "31d8f1a50dbaf2ecc9ed9c7566ba0552d454c2ab09e85ff263701857d157c352"
+    },
+    {
+      "id": "Africa/Tripoli",
+      "country": "LY",
+      "sha256": "5b5769b460fbd13ee9a46a28d1f733150783888a749ee96d2cd3d5eba3300767"
+    },
+    {
+      "id": "Africa/Tunis",
+      "country": "TN",
+      "sha256": "38554c10ce1e613d84cf46deba1114093488a5c165756c6c576b84a1364850d2"
+    },
+    {
+      "id": "Africa/Windhoek",
+      "country": "NA",
+      "sha256": "c6e86fb9dacc1f86a59d59a8b924d023c60bf05fc76e0b05d8443b0192b3b87b"
+    },
+    {
+      "id": "America/Adak",
+      "country": "US",
+      "sha256": "9d767d4f8dfffee4fdf29e594a8552a41aa77d41cdb4a2e5f7687c94b5699e54"
+    },
+    {
+      "id": "America/Anchorage",
+      "country": "US",
+      "sha256": "385fe1232365859f607e890bbc1b37bcac6c2d13932ecf8cee82ed76ee156043"
+    },
+    {
+      "id": "America/Anguilla",
+      "country": "AI",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/Antigua",
+      "country": "AG",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/Araguaina",
+      "country": "BR",
+      "sha256": "929a628b2b6649079eb1f97234660cdebf0d5549750be820bb4f2cf7f4edf9ca"
+    },
+    {
+      "id": "America/Argentina/Buenos_Aires",
+      "country": "AR",
+      "sha256": "9ed9ff1851da75bac527866e854ea1daecdb170983c92f665d5e52dbca64185f"
+    },
+    {
+      "id": "America/Argentina/Catamarca",
+      "country": "AR",
+      "sha256": "7621f57fdea46db63eee0258427482347b379fd7701c9a94852746371d4bec8d"
+    },
+    {
+      "id": "America/Argentina/Cordoba",
+      "country": "AR",
+      "sha256": "d57a883fc428d9b3d1efdd3d86b008faa02db726e6c045b89acec58d903961fc"
+    },
+    {
+      "id": "America/Argentina/Jujuy",
+      "country": "AR",
+      "sha256": "e474744e564589fc09e672d39a0ef25978024f1f664616a17ece3f5aaef4c0e6"
+    },
+    {
+      "id": "America/Argentina/La_Rioja",
+      "country": "AR",
+      "sha256": "65ffc4dda905135614b7d319e31c5b4673aba766c7d43f818ec73448b15f4725"
+    },
+    {
+      "id": "America/Argentina/Mendoza",
+      "country": "AR",
+      "sha256": "e43262618790a5c2c147f228209b64e3722cc0978661ac31e46ca4b33b89f8dc"
+    },
+    {
+      "id": "America/Argentina/Rio_Gallegos",
+      "country": "AR",
+      "sha256": "4fded6003c2f6ba25bc480af88d414b7fee2c3d73e9e5a08e10242b1c10d49c9"
+    },
+    {
+      "id": "America/Argentina/Salta",
+      "country": "AR",
+      "sha256": "013c34b91eaccd628fb3a8f3767eab7af4bb5310970f6e8e44aea3966b232f5f"
+    },
+    {
+      "id": "America/Argentina/San_Juan",
+      "country": "AR",
+      "sha256": "aa55baf776b44e7a1fcbe45d71506e598dc3bd34c6c56c1c61d294dd8f7ca57f"
+    },
+    {
+      "id": "America/Argentina/San_Luis",
+      "country": "AR",
+      "sha256": "59875cae8e7e15ef8de8b910b0ac31ff5b55a339a7069e7c0ced7e049b36b2ea"
+    },
+    {
+      "id": "America/Argentina/Tucuman",
+      "country": "AR",
+      "sha256": "c2c8e0d5ae4033574fda08ebd75da4defb79e2dadc38e33f4ad17be31cef0497"
+    },
+    {
+      "id": "America/Argentina/Ushuaia",
+      "country": "AR",
+      "sha256": "f79e3c56fabf929c3f357e6ceb9bd8b886eabf0195f8f071ab099cadf94b2345"
+    },
+    {
+      "id": "America/Aruba",
+      "country": "AW",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/Asuncion",
+      "country": "PY",
+      "sha256": "a9e3a3a4b284bb3ed45dabfb7b1df7e14c482e835c7b5856ab6cdfbf1ef4c709"
+    },
+    {
+      "id": "America/Atikokan",
+      "country": "CA",
+      "sha256": "91ac80fe976931c490d058c8ce8b5d71ffa6d4961f6ca13ea9c153f0b0bccea0"
+    },
+    {
+      "id": "America/Bahia",
+      "country": "BR",
+      "sha256": "7262e448003320d9736065c1a800c4537b8f800f52e67b7ea75015dd9cbce956"
+    },
+    {
+      "id": "America/Bahia_Banderas",
+      "country": "MX",
+      "sha256": "32fad7189e4bcda1ce7a0b89ab1b33c63c4c85569f1956e4fa88d711ceff6042"
+    },
+    {
+      "id": "America/Barbados",
+      "country": "BB",
+      "sha256": "8a66be42bae16b3bb841fbeed99d3e7ba13e193898927b8906ee9cdb2546f4b1"
+    },
+    {
+      "id": "America/Belem",
+      "country": "BR",
+      "sha256": "ff6e7c85064b0845c15fcc512f2412c3e004fa38839a3570257df698de545049"
+    },
+    {
+      "id": "America/Belize",
+      "country": "BZ",
+      "sha256": "a647cb63629f3dc85b7896b5a56717996030a7866546fc562d57b35e7adb930b"
+    },
+    {
+      "id": "America/Blanc-Sablon",
+      "country": "CA",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/Boa_Vista",
+      "country": "BR",
+      "sha256": "5785553a4ac5515d6a51f569f44f7be0838916603943142b72d6ad4c111bfa1b"
+    },
+    {
+      "id": "America/Bogota",
+      "country": "CO",
+      "sha256": "44db45e2f7284906b476564ba407098ed49ac7b575d8c5a048d6afe8b6792b71"
+    },
+    {
+      "id": "America/Boise",
+      "country": "US",
+      "sha256": "ec742c34f262521790805cf99152ef4e77f9c615c061a78036a0ec9312b3d95b"
+    },
+    {
+      "id": "America/Cambridge_Bay",
+      "country": "CA",
+      "sha256": "ff8c51957dd6755a4472aa13ea6c83ecd7930979e7f4e624fe21f4d3a6f050ba"
+    },
+    {
+      "id": "America/Campo_Grande",
+      "country": "BR",
+      "sha256": "e41044351dfff20269e05fd48f6451927bd173824958d44f9d953d13bb5bf102"
+    },
+    {
+      "id": "America/Cancun",
+      "country": "MX",
+      "sha256": "11d574370d968cced59e3147a2ae63b126cbbae13b78fd4e13be2eb44c96246e"
+    },
+    {
+      "id": "America/Caracas",
+      "country": "VE",
+      "sha256": "d8da705cf12d42423cd96099b905875dfeba54200371ac0ca5f84a4ecb80d31e"
+    },
+    {
+      "id": "America/Cayenne",
+      "country": "GF",
+      "sha256": "6ad55b5b90a1262290feafb7905b3e0cb4d365af69b64887926265ab8017a18e"
+    },
+    {
+      "id": "America/Cayman",
+      "country": "KY",
+      "sha256": "91ac80fe976931c490d058c8ce8b5d71ffa6d4961f6ca13ea9c153f0b0bccea0"
+    },
+    {
+      "id": "America/Chicago",
+      "country": "US",
+      "sha256": "feba326ebe88eac20017a718748c46c68469a1e7f5e7716dcb8f1d43a6e6f686"
+    },
+    {
+      "id": "America/Chihuahua",
+      "country": "MX",
+      "sha256": "dcd8336de760f00cc0ab1b1b4121b48d5471f8bc58970d62de4c7e63397ed887"
+    },
+    {
+      "id": "America/Ciudad_Juarez",
+      "country": "MX",
+      "sha256": "8abe1bdbb0e216b84bd07e1f650f769c46be041a0f7cb588cf7a61537ef77601"
+    },
+    {
+      "id": "America/Costa_Rica",
+      "country": "CR",
+      "sha256": "ef8ad86ba96b80893296cf4f907a3c482625f683aa8ae1b94bb31676725e94fe"
+    },
+    {
+      "id": "America/Coyhaique",
+      "country": "CL",
+      "sha256": "1c54d0a27e44241baf597e2406334a6d29124ccc3a7edce42e070bab4f77c027"
+    },
+    {
+      "id": "America/Creston",
+      "country": "CA",
+      "sha256": "8a5973d2c62e2cbf2520f2b44e4a2ee9d2f455c93f0f45bfdeb4533af1584664"
+    },
+    {
+      "id": "America/Cuiaba",
+      "country": "BR",
+      "sha256": "33416c47c4fdb388c54aecc3f108baa6ab5be917f6353cf254728666b9f9ea7e"
+    },
+    {
+      "id": "America/Curacao",
+      "country": "CW",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/Danmarkshavn",
+      "country": "GL",
+      "sha256": "6116407d40a856d68bd4bf8c60c60c1f5c3239a5509df528fe0167bcc5d2bb3c"
+    },
+    {
+      "id": "America/Dawson",
+      "country": "CA",
+      "sha256": "ac01e1cae32eca37ff7b20364811bbe8c4417ff7e3ff18b9140ba2595420261c"
+    },
+    {
+      "id": "America/Dawson_Creek",
+      "country": "CA",
+      "sha256": "6895c2c8fe23de0804e3018237e2eb4bd8690ffe73587cd04de4802935843d43"
+    },
+    {
+      "id": "America/Denver",
+      "country": "US",
+      "sha256": "32e819c00a43b3c348f539d700d425504f20b8d068c16418d26fa9b693e775c9"
+    },
+    {
+      "id": "America/Detroit",
+      "country": "US",
+      "sha256": "85e733f32a98d828f907ad46de02d9740559bd180af65d0ff7473f80dfae0f98"
+    },
+    {
+      "id": "America/Dominica",
+      "country": "DM",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/Edmonton",
+      "country": "CA",
+      "sha256": "b5e3d3820009abc262c82a3ebfa9261dd12fc210f77322ef121067b040866587"
+    },
+    {
+      "id": "America/Eirunepe",
+      "country": "BR",
+      "sha256": "a52f741d9cd1c07e137fcba098a1df8a9857ef308fa99921ff408d6fe7c43003"
+    },
+    {
+      "id": "America/El_Salvador",
+      "country": "SV",
+      "sha256": "82f18df0b923fac1a6dbfaecf0e52300c7f5a0cb4aa765deb3a51f593d16aa05"
+    },
+    {
+      "id": "America/Fort_Nelson",
+      "country": "CA",
+      "sha256": "7ab7ce0ebdc3ad2a73eb990074eed3b367466d9c6f75d10fea0c78057df2d89d"
+    },
+    {
+      "id": "America/Fortaleza",
+      "country": "BR",
+      "sha256": "9884ee32b44b4535b2a22174e0ecbf519f20c59a1f4e95c36e533cb7b721ed28"
+    },
+    {
+      "id": "America/Glace_Bay",
+      "country": "CA",
+      "sha256": "1bc0c62c609aa47fda60217f3a168be50a277fb14e02000fc1e94ee61b425817"
+    },
+    {
+      "id": "America/Goose_Bay",
+      "country": "CA",
+      "sha256": "26068bb9e8214af5f683bdb914e7c882982fb2ac591b29163a1019586a506516"
+    },
+    {
+      "id": "America/Grand_Turk",
+      "country": "TC",
+      "sha256": "e1838510f2bad017a5dbf7c2b18eaf499c5470c24a8e22adc8e7ff4349211305"
+    },
+    {
+      "id": "America/Grenada",
+      "country": "GD",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/Guadeloupe",
+      "country": "GP",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/Guatemala",
+      "country": "GT",
+      "sha256": "76e81480277a418e76c87907b943f88d15b3a39c78dfd2108a06980af105e3a4"
+    },
+    {
+      "id": "America/Guayaquil",
+      "country": "EC",
+      "sha256": "3db705e1bbc6026f9a17076d18fa2d272de46f8370a325b0c60c0bf7c05e5160"
+    },
+    {
+      "id": "America/Guyana",
+      "country": "GY",
+      "sha256": "89c1eed182c2261c24f43e3b7f85420478277b1eb21ab638245b6391f308783b"
+    },
+    {
+      "id": "America/Halifax",
+      "country": "CA",
+      "sha256": "4d9a667393f05a82df4df42843f6f7535ec113689529278d911d07a3c99b4e7f"
+    },
+    {
+      "id": "America/Havana",
+      "country": "CU",
+      "sha256": "1d441e02e281b04908e522d98eaca75c808e51539a8e42b3287e6bf8ebf939d7"
+    },
+    {
+      "id": "America/Hermosillo",
+      "country": "MX",
+      "sha256": "8b160a7acb4b992ee05a86e4f4aaba16d2d9a35caa6d601cb6b1542a5bb372dc"
+    },
+    {
+      "id": "America/Indiana/Indianapolis",
+      "country": "US",
+      "sha256": "90d2b2f4a8fd202b226187c209b020833300edec5ff86a463ccc685e8707532c"
+    },
+    {
+      "id": "America/Indiana/Knox",
+      "country": "US",
+      "sha256": "0acbd9e412b0daa55abf7c7f17c094f6d68974393b8d7e3509fb2a9acea35d5f"
+    },
+    {
+      "id": "America/Indiana/Marengo",
+      "country": "US",
+      "sha256": "7f7b50fa580c49403b9ef9fae295e12ad24bee65b319a8e809e81ae4c10949b2"
+    },
+    {
+      "id": "America/Indiana/Petersburg",
+      "country": "US",
+      "sha256": "03cf0e1ee334460de230b1e32a05eafddda36427554b2b5442cfbd5b429c1724"
+    },
+    {
+      "id": "America/Indiana/Tell_City",
+      "country": "US",
+      "sha256": "e1d5aa02bf58d815df2f8a40424fbcd5cde01a5d9c35d1d7383effc09861867f"
+    },
+    {
+      "id": "America/Indiana/Vevay",
+      "country": "US",
+      "sha256": "1fb551d86fbfb03fc2e519b83f78358910b515608f8389b43060f73f53cbcec9"
+    },
+    {
+      "id": "America/Indiana/Vincennes",
+      "country": "US",
+      "sha256": "eb6980c53ec03c509aa3281f96713374ea5ef9fb96d7239b23a9ba11451c4bb0"
+    },
+    {
+      "id": "America/Indiana/Winamac",
+      "country": "US",
+      "sha256": "69918cda347c087f411d252aed7ca08b078377a768ad72cf5e0db8e97b1b47ab"
+    },
+    {
+      "id": "America/Inuvik",
+      "country": "CA",
+      "sha256": "3992044b9bfa8c0abde7438eab008bc4efd5d36792ae0ca26f7037dd57ef728a"
+    },
+    {
+      "id": "America/Iqaluit",
+      "country": "CA",
+      "sha256": "7de3a7c40374374afe335aa592b03824cc9ac28734b6a69ed2288108f0c0b389"
+    },
+    {
+      "id": "America/Jamaica",
+      "country": "JM",
+      "sha256": "c256a089e50f45fe7e6de89efa1ed0b0e35b3738c6b26f2f32cf2e7f6f29c36f"
+    },
+    {
+      "id": "America/Juneau",
+      "country": "US",
+      "sha256": "17db0b8cc14d0ae8f210903ffda6a5f68679cbbfa7cc270834acedb3a4086b31"
+    },
+    {
+      "id": "America/Kentucky/Louisville",
+      "country": "US",
+      "sha256": "b4fd3bdb157f9ffbc8423c71709efb0067868fac8bd4a3e99f77f089db3d8355"
+    },
+    {
+      "id": "America/Kentucky/Monticello",
+      "country": "US",
+      "sha256": "2ed7720a8f3906b5d0b3aae51fad589bef0aa961c7e8fc003a30f44318487733"
+    },
+    {
+      "id": "America/Kralendijk",
+      "country": "BQ",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/La_Paz",
+      "country": "BO",
+      "sha256": "3c0185d9553f40ec36c53d42a9da763fc023f615cc55694207257b72f7c843f9"
+    },
+    {
+      "id": "America/Lima",
+      "country": "PE",
+      "sha256": "2470c283de6ec3a044bb86b819fca2926d6cf2b9bc02c60f1bc749c5040d645b"
+    },
+    {
+      "id": "America/Los_Angeles",
+      "country": "US",
+      "sha256": "68977bb9ad6d186fefc6c7abd36010a66e30008dcb2d376087a41c49861e7268"
+    },
+    {
+      "id": "America/Lower_Princes",
+      "country": "SX",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/Maceio",
+      "country": "BR",
+      "sha256": "a738cd82199e1e1bc5e1a237703ab61bfe6def505234621b4401793662720e6c"
+    },
+    {
+      "id": "America/Managua",
+      "country": "NI",
+      "sha256": "c41cc5d350079f61367c3f10772f831c57b7e94aa878da4a3df0a176e04a59d9"
+    },
+    {
+      "id": "America/Manaus",
+      "country": "BR",
+      "sha256": "969e91964717250ee64ac2aa9c4802f2cbc956b143264ff5eb1c6f7e9352a4ae"
+    },
+    {
+      "id": "America/Marigot",
+      "country": "MF",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/Martinique",
+      "country": "MQ",
+      "sha256": "7ccb3cd24394d9816f0b47fdcb67a37bdec9780b536016a65eb9e54ee9cd2f34"
+    },
+    {
+      "id": "America/Matamoros",
+      "country": "MX",
+      "sha256": "7eaf8fa9d999ad0f7c52c1661c0f62be3059bf91840514ceb8b4390aee5a8d6f"
+    },
+    {
+      "id": "America/Mazatlan",
+      "country": "MX",
+      "sha256": "0561f636a54f0353ecc842cf37fd8117c2a596bb26424aa0d5eba3b10be79f1f"
+    },
+    {
+      "id": "America/Menominee",
+      "country": "US",
+      "sha256": "02bbfd58b6df84d72946c5231c353be7b044770969d3c1addf4022c46de0674e"
+    },
+    {
+      "id": "America/Merida",
+      "country": "MX",
+      "sha256": "4953441c26b38e899fb67b8f5416b2148f84f884345a696e1df4e91cfd21dddd"
+    },
+    {
+      "id": "America/Metlakatla",
+      "country": "US",
+      "sha256": "09fb18b409c5defed5f7d11d9fdc10dafc8fd2e0267afd2e07679ddfbcbbb657"
+    },
+    {
+      "id": "America/Mexico_City",
+      "country": "MX",
+      "sha256": "528836f85316cf6a35da347ab0af6f7a625a98b7a8e8e105310477b34c53c647"
+    },
+    {
+      "id": "America/Miquelon",
+      "country": "PM",
+      "sha256": "c1e3fb359fc8c508ace29266314768a6211b28e217c2457b2d3c6e9e0cdbf06d"
+    },
+    {
+      "id": "America/Moncton",
+      "country": "CA",
+      "sha256": "5a6bfe6e4f5a28a7165b33a9735505bbaec739fc1a224d969a1dcb82a19cb72b"
+    },
+    {
+      "id": "America/Monterrey",
+      "country": "MX",
+      "sha256": "622c5311226e6dfe990545f2ea0df6840336811e065d73ea394e2dbf42f7906d"
+    },
+    {
+      "id": "America/Montevideo",
+      "country": "UY",
+      "sha256": "e237204de80ae57f05d32358ce4fb7a32499e14f57434f546d327f9a5bbc37bd"
+    },
+    {
+      "id": "America/Montserrat",
+      "country": "MS",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/Nassau",
+      "country": "BS",
+      "sha256": "a587a1a1607439f7bac283e1815f2bdbafb9649a453d18e06c2e44e6996d888f"
+    },
+    {
+      "id": "America/New_York",
+      "country": "US",
+      "sha256": "e9ed07d7bee0c76a9d442d091ef1f01668fee7c4f26014c0a868b19fe6c18a95"
+    },
+    {
+      "id": "America/Nome",
+      "country": "US",
+      "sha256": "b0cf6377a846706c9fcff994a561dfde0c88347b21ab57798d3541cc8339f28d"
+    },
+    {
+      "id": "America/Noronha",
+      "country": "BR",
+      "sha256": "dd1e252d5f238394a58e10b9395542939d58efb11f8e8eb309efa8a6983f145a"
+    },
+    {
+      "id": "America/North_Dakota/Beulah",
+      "country": "US",
+      "sha256": "aad81ba8dbbc3370241c5da7fbfa12a6cd69613e12c607256e490f29b5da047b"
+    },
+    {
+      "id": "America/North_Dakota/Center",
+      "country": "US",
+      "sha256": "f5959b2bd60a92ab942f2054152dcbaff89dc5bb7b57bcb85b810ed0a9f6d2cc"
+    },
+    {
+      "id": "America/North_Dakota/New_Salem",
+      "country": "US",
+      "sha256": "0c7fdbb107ee5272b6a1b75bd3a2a08ac3b85cbaa1b75d815ddae052c659bde8"
+    },
+    {
+      "id": "America/Nuuk",
+      "country": "GL",
+      "sha256": "d10822ffacf8c01b25cee6d99f0f862eea713a894818a9f1a3b63353519c4202"
+    },
+    {
+      "id": "America/Ojinaga",
+      "country": "MX",
+      "sha256": "6f7f10ffb55d902673695c1bece5ee75d8a1240cd428f4d3a97726a419b59ed1"
+    },
+    {
+      "id": "America/Panama",
+      "country": "PA",
+      "sha256": "91ac80fe976931c490d058c8ce8b5d71ffa6d4961f6ca13ea9c153f0b0bccea0"
+    },
+    {
+      "id": "America/Paramaribo",
+      "country": "SR",
+      "sha256": "1e6e6d0f05269e84eb4d43c43b8580adf485ef8663cb0544a1ccb890be751730"
+    },
+    {
+      "id": "America/Phoenix",
+      "country": "US",
+      "sha256": "8a5973d2c62e2cbf2520f2b44e4a2ee9d2f455c93f0f45bfdeb4533af1584664"
+    },
+    {
+      "id": "America/Port-au-Prince",
+      "country": "HT",
+      "sha256": "d3d64025de083a23297dda54b85d54e3847f851b7a06fa409055ce9d83bdc8e3"
+    },
+    {
+      "id": "America/Port_of_Spain",
+      "country": "TT",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/Porto_Velho",
+      "country": "BR",
+      "sha256": "6517f380612edba86797724fb6264b3921468ff58149b38a7622c2d712327397"
+    },
+    {
+      "id": "America/Puerto_Rico",
+      "country": "PR",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/Punta_Arenas",
+      "country": "CL",
+      "sha256": "dfd2c88e86a8399349656b1820dfd061d842e1caea6c2e8b5abc683d6761f441"
+    },
+    {
+      "id": "America/Rankin_Inlet",
+      "country": "CA",
+      "sha256": "9d782a8cbdced815747a6f9793ca9545165bfd7d324261c4eaf9924af23d2b37"
+    },
+    {
+      "id": "America/Recife",
+      "country": "BR",
+      "sha256": "8a314dd99cd97b9a0161d97c020dd2c261a38f625e558617d95a3bebb836b3a2"
+    },
+    {
+      "id": "America/Regina",
+      "country": "CA",
+      "sha256": "ca3a93d3ca476c80987bcdc7f099ad68306f085a91bfb4dfcdedd8f31b97ba4c"
+    },
+    {
+      "id": "America/Resolute",
+      "country": "CA",
+      "sha256": "0a7314d9d048fbadefb7cf89d10d51a29c7ef1bf694422e386faf270c21e7468"
+    },
+    {
+      "id": "America/Rio_Branco",
+      "country": "BR",
+      "sha256": "d7ba27926f0ffd580c904ae32bdaebd2ac0d9e2eeaa7db6071467dde0de5b4eb"
+    },
+    {
+      "id": "America/Santarem",
+      "country": "BR",
+      "sha256": "1a5fe5237a4f679ed42185d6726693a45a960c0e6b7ba6c78759d6b3f674f8d7"
+    },
+    {
+      "id": "America/Santiago",
+      "country": "CL",
+      "sha256": "ef9d2bf24112c65671eea391722ad6ae2cbf5f2f6ed5fcee8cc2c860780bfa01"
+    },
+    {
+      "id": "America/Santo_Domingo",
+      "country": "DO",
+      "sha256": "0cab5a123f1f43ddb26c84d3594e019b5eb44bda732665156e36964677a7c54e"
+    },
+    {
+      "id": "America/Sao_Paulo",
+      "country": "BR",
+      "sha256": "70edd519e90c19d49fd72e1ffd4824a433117acdbafa5d68194a038252225108"
+    },
+    {
+      "id": "America/Scoresbysund",
+      "country": "GL",
+      "sha256": "75a39cf7fa0b8f250c4f8453d43588fbcc7d0e0ae58be81e2d45ce8891292c96"
+    },
+    {
+      "id": "America/Sitka",
+      "country": "US",
+      "sha256": "4c55dbd6a95eeb899aea20d3197b2287e693ad80150a4b7c19e2df4c14806842"
+    },
+    {
+      "id": "America/St_Barthelemy",
+      "country": "BL",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/St_Johns",
+      "country": "CA",
+      "sha256": "af5fb5eee2afdbb799dc9b15930fc32d941ba3ac2f8eeb95bbb0b6a43b263a02"
+    },
+    {
+      "id": "America/St_Kitts",
+      "country": "KN",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/St_Lucia",
+      "country": "LC",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/St_Thomas",
+      "country": "VI",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/St_Vincent",
+      "country": "VC",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/Swift_Current",
+      "country": "CA",
+      "sha256": "45128e17bbd90bc56f6310fc3cfe09d7f8543dac8a04fecbbbcd1abd191f3c36"
+    },
+    {
+      "id": "America/Tegucigalpa",
+      "country": "HN",
+      "sha256": "1333b3ee7b5396b78cabaf4967609c01bf0fb3df15f5b50c378f34b693c8cb0e"
+    },
+    {
+      "id": "America/Thule",
+      "country": "GL",
+      "sha256": "f31b8f45a654f1180ee440aa1581d89a71e2a1cf35b0139a8a5915bbc634da2f"
+    },
+    {
+      "id": "America/Tijuana",
+      "country": "MX",
+      "sha256": "8c2e7b321726e6345912da396796bdb3672bfc4bd1a91c65ee58b38e004d4ca5"
+    },
+    {
+      "id": "America/Toronto",
+      "country": "CA",
+      "sha256": "a587a1a1607439f7bac283e1815f2bdbafb9649a453d18e06c2e44e6996d888f"
+    },
+    {
+      "id": "America/Tortola",
+      "country": "VG",
+      "sha256": "8491e557ff801a8306516b8ca5946ff5f2e6821af31477eb47d7d191cc5a6497"
+    },
+    {
+      "id": "America/Vancouver",
+      "country": "CA",
+      "sha256": "e182e20ec67c46a7dd0aedb3d45fb1395edcb14ff2af2ac694a5776b307bed31"
+    },
+    {
+      "id": "America/Whitehorse",
+      "country": "CA",
+      "sha256": "4eb47a3c29d81be9920a504ca21aa53fcaa76215cc52cc9d23e2feaae5c5c723"
+    },
+    {
+      "id": "America/Winnipeg",
+      "country": "CA",
+      "sha256": "4cbeda42e9c21c0e3b8017248071bbd194136350581e3c71ee3312c0f6ddb383"
+    },
+    {
+      "id": "America/Yakutat",
+      "country": "US",
+      "sha256": "bba6f211a06eba4abf0cc777414ef41431e634bd72573b13caadd61a24b873f6"
+    },
+    {
+      "id": "Antarctica/Casey",
+      "country": "AQ",
+      "sha256": "f8c45f27605f5b7f12c009a914042a53ad991ac268056fc49b61a093d620be52"
+    },
+    {
+      "id": "Antarctica/Davis",
+      "country": "AQ",
+      "sha256": "e8fa24c8e69a212453375dec8acb8681db79bc6e40d98a8da282697cb4dbe524"
+    },
+    {
+      "id": "Antarctica/DumontDUrville",
+      "country": "AQ",
+      "sha256": "7a2fd78e68910cb87e454f78bafcfd0822084451f5af45fb58bfac07ee8317ad"
+    },
+    {
+      "id": "Antarctica/Macquarie",
+      "country": "AU",
+      "sha256": "89eed195a53c4474e8ad5563f8c5fc4ad28cab1fe85dfe141f63d4aa9cdcc1ed"
+    },
+    {
+      "id": "Antarctica/Mawson",
+      "country": "AQ",
+      "sha256": "f535b583fcf4b64e447de07b2baf55268f1a80eefe2bd67159b8aa34a9d464d1"
+    },
+    {
+      "id": "Antarctica/McMurdo",
+      "country": "AQ",
+      "sha256": "8000e3a323e8fd0212414e9426b020707a771c368ca0e151747f9ddb7b814b27"
+    },
+    {
+      "id": "Antarctica/Palmer",
+      "country": "AQ",
+      "sha256": "0d6fc35c1c97839327319fb0d5b35dbbc6f494a3980ff120acf45de44732126e"
+    },
+    {
+      "id": "Antarctica/Rothera",
+      "country": "AQ",
+      "sha256": "4102359b520de3fd9ee816f4cfeace61a3b0c69e178cc24338a33d4850d43ca8"
+    },
+    {
+      "id": "Antarctica/Syowa",
+      "country": "AQ",
+      "sha256": "aeaf4a3e3f25d050679ca9fddd690c780d489e036d4f3939fe8578b04661738c"
+    },
+    {
+      "id": "Antarctica/Troll",
+      "country": "AQ",
+      "sha256": "df3ae1f8ffe3302b2cf461b01c9247932a5967276ae26920a3f4c3a9cb67ddce"
+    },
+    {
+      "id": "Antarctica/Vostok",
+      "country": "AQ",
+      "sha256": "fd919da6bacf97141ca6169c92cf789f6a6e5a7c816564b5a9f17b329124355d"
+    },
+    {
+      "id": "Arctic/Longyearbyen",
+      "country": "SJ",
+      "sha256": "5ee475f71a0fc1a32faeb849f8c39c6e7aa66d6d41ec742b97b3a7436b3b0701"
+    },
+    {
+      "id": "Asia/Aden",
+      "country": "YE",
+      "sha256": "aeaf4a3e3f25d050679ca9fddd690c780d489e036d4f3939fe8578b04661738c"
+    },
+    {
+      "id": "Asia/Almaty",
+      "country": "KZ",
+      "sha256": "0027ca41ce1a18262ee881b9daf8d4c0493240ccc468da435d757868d118c81e"
+    },
+    {
+      "id": "Asia/Amman",
+      "country": "JO",
+      "sha256": "5fd1b785b66b85d591515bc49aaf85e05e94a1c4156698f0a2b6c17eee93d9f6"
+    },
+    {
+      "id": "Asia/Anadyr",
+      "country": "RU",
+      "sha256": "8430d3972e397a3a1554ff40974ed398aa5300234625a20f95c5cb45bb06ff88"
+    },
+    {
+      "id": "Asia/Aqtau",
+      "country": "KZ",
+      "sha256": "0397b164ddb9e896a01494dc6ac81d0ab43c8223aa6761053115580564daa990"
+    },
+    {
+      "id": "Asia/Aqtobe",
+      "country": "KZ",
+      "sha256": "2d0ecfe4b1047bb8db59b8eabf398cefd734a3a01d65e084c504be7ce5a9f32c"
+    },
+    {
+      "id": "Asia/Ashgabat",
+      "country": "TM",
+      "sha256": "2f80d85769995b272c61e1c8ca95f33ba64d637b43f308e0c5f3d1d993d6dba7"
+    },
+    {
+      "id": "Asia/Atyrau",
+      "country": "KZ",
+      "sha256": "dee128f3d391c8326a43f4ed6907487fd50f681f16a88450562d2079e63d8151"
+    },
+    {
+      "id": "Asia/Baghdad",
+      "country": "IQ",
+      "sha256": "9503125273ae8a36dca13682a8c3676219ef2ad4b62153ff917140cde3d53435"
+    },
+    {
+      "id": "Asia/Bahrain",
+      "country": "BH",
+      "sha256": "574ac525d2c722b4e82795a5dbc573568c3009566863c65949e369fbb90ebe36"
+    },
+    {
+      "id": "Asia/Baku",
+      "country": "AZ",
+      "sha256": "be11e796268e751c8db9d974b0524574bca7120d0773423e22264d7db0de09b3"
+    },
+    {
+      "id": "Asia/Bangkok",
+      "country": "TH",
+      "sha256": "798ab4be1f3d3758f4ebd511a10bed06ed277446a5e853ebb5b17c58228aa43c"
+    },
+    {
+      "id": "Asia/Barnaul",
+      "country": "RU",
+      "sha256": "d9cd42abc5d89418326d140c3fcc343427fb91a2c3acf66d1a7e0ce622596c9a"
+    },
+    {
+      "id": "Asia/Beirut",
+      "country": "LB",
+      "sha256": "fd9ff664083f88bf6f539d490c1f02074e2e5c10eb7f590b222b3e2675da4b6a"
+    },
+    {
+      "id": "Asia/Bishkek",
+      "country": "KG",
+      "sha256": "768ff8922d49bd22aea54aef973f634641eca4385dbe4d43d88901c85b248c93"
+    },
+    {
+      "id": "Asia/Brunei",
+      "country": "BN",
+      "sha256": "2ac02d4346a8708368ce2c705bb0a4a2b63ed4f4cb96c8fb5149d01903046134"
+    },
+    {
+      "id": "Asia/Chita",
+      "country": "RU",
+      "sha256": "e0808e7005401169cff9c75ffd826ed7f90262760f1b6fef61f49bb8d23e5702"
+    },
+    {
+      "id": "Asia/Colombo",
+      "country": "LK",
+      "sha256": "1c679af63b30208833ee4db42d3cdb2ad43252e9faec83f91efb19ae60096496"
+    },
+    {
+      "id": "Asia/Damascus",
+      "country": "SY",
+      "sha256": "fb90ce2ad6329e7b146189c13108a7dd7b2d850f58e651bebdd9e20fde6d2037"
+    },
+    {
+      "id": "Asia/Dhaka",
+      "country": "BD",
+      "sha256": "dcae6594685ca4275930c709ba8988095bfb9599434695383d46f90ed171f25e"
+    },
+    {
+      "id": "Asia/Dili",
+      "country": "TL",
+      "sha256": "9d4384e3039ac9fc4b4d9c3becc8aa43802f9ccecd8e0b20bbb82fb1ba227f61"
+    },
+    {
+      "id": "Asia/Dubai",
+      "country": "AE",
+      "sha256": "fa06b49b7b9af58ea4496444cf6fd576d715024abcdd6ad6defc63048ed6346b"
+    },
+    {
+      "id": "Asia/Dushanbe",
+      "country": "TJ",
+      "sha256": "15493d4edfc68a67d1ba57166a612fb8ebc0ec5439d987d9a90db0f3ca8cc7a3"
+    },
+    {
+      "id": "Asia/Famagusta",
+      "country": "CY",
+      "sha256": "085adcca077cb9d7b9c7a384b5f33f0f0d0a607a31a4f3f3ab8e8aa075718e37"
+    },
+    {
+      "id": "Asia/Gaza",
+      "country": "PS",
+      "sha256": "b7463171440be7754d2a729b2a28e7d0e13f31aaf21329e89da6ec7be893b73b"
+    },
+    {
+      "id": "Asia/Hebron",
+      "country": "PS",
+      "sha256": "e98d144872b1fb1a02c42aff5a90ae337a253f5bd41a7ceb7271a2c9015ca9d4"
+    },
+    {
+      "id": "Asia/Ho_Chi_Minh",
+      "country": "VN",
+      "sha256": "e23774e40786df8d8cc1ef0fb6a6a72ba32c94d9cb7765fb06ed4dfd8c96065e"
+    },
+    {
+      "id": "Asia/Hong_Kong",
+      "country": "HK",
+      "sha256": "6a5fcee243e5ab92698242d88c4699ceb7208a22ee97d342d11e41ebd2555a17"
+    },
+    {
+      "id": "Asia/Hovd",
+      "country": "MN",
+      "sha256": "2549cea2cecf3538b65512b10fa5e7695477369ba1b17fcf8b5f2b23355ed71c"
+    },
+    {
+      "id": "Asia/Irkutsk",
+      "country": "RU",
+      "sha256": "894259095063a5f078acd2893abea0d33519b5c718624fc6934c13925c7c623d"
+    },
+    {
+      "id": "Asia/Jakarta",
+      "country": "ID",
+      "sha256": "4ef13306f4b37f314274eb0c019d10811f79240e717f790064e361cb98045d11"
+    },
+    {
+      "id": "Asia/Jayapura",
+      "country": "ID",
+      "sha256": "8a1cd477e2fc1d456a1be35ad743323c4f986308d5163fb17abaa34cde04259b"
+    },
+    {
+      "id": "Asia/Jerusalem",
+      "country": "IL",
+      "sha256": "254b964265b94e16b4a498f0eb543968dec25f4cf80fba29b3d38e4a775ae837"
+    },
+    {
+      "id": "Asia/Kabul",
+      "country": "AF",
+      "sha256": "89a97b4afc1e1d34170e5efd3275e6e901ed8b0da2ed9b757b9bab2d753c4aaf"
+    },
+    {
+      "id": "Asia/Kamchatka",
+      "country": "RU",
+      "sha256": "a4103445bca72932ac30299fda124c67f8605543de9a6b3e55c78c309ed00bae"
+    },
+    {
+      "id": "Asia/Karachi",
+      "country": "PK",
+      "sha256": "881fa658c4d75327c1c00919773f3f526130d31b20c48b9bf8a348eda9338649"
+    },
+    {
+      "id": "Asia/Kathmandu",
+      "country": "NP",
+      "sha256": "4d4796eeb0d289f3934ac371be8f628086197c621311951ffb4123825c910d6b"
+    },
+    {
+      "id": "Asia/Khandyga",
+      "country": "RU",
+      "sha256": "5d8cc4dadb04e526b2f698347070d090413d693bb2da988548b006c7f77e7663"
+    },
+    {
+      "id": "Asia/Kolkata",
+      "country": "IN",
+      "sha256": "e90c341036cb7203200e293cb3b513267e104a39a594f35e195254e6bc0a17cf"
+    },
+    {
+      "id": "Asia/Krasnoyarsk",
+      "country": "RU",
+      "sha256": "9f3470e0f2360222bf19ef39e1bf14ed3483c342c6432ddc6b962e38e5365f02"
+    },
+    {
+      "id": "Asia/Kuala_Lumpur",
+      "country": "MY",
+      "sha256": "739e349e40a3e820c222f70c4c9d55810b65987ffb14e494d08b145ed3445711"
+    },
+    {
+      "id": "Asia/Kuching",
+      "country": "MY",
+      "sha256": "2ac02d4346a8708368ce2c705bb0a4a2b63ed4f4cb96c8fb5149d01903046134"
+    },
+    {
+      "id": "Asia/Kuwait",
+      "country": "KW",
+      "sha256": "aeaf4a3e3f25d050679ca9fddd690c780d489e036d4f3939fe8578b04661738c"
+    },
+    {
+      "id": "Asia/Macau",
+      "country": "MO",
+      "sha256": "32f02447246cac0dabd39d88b65c85e5b8761617918c8d233f0834b88887d989"
+    },
+    {
+      "id": "Asia/Magadan",
+      "country": "RU",
+      "sha256": "72ac23290b7c4e5ce7335c360decc066ecf512378e7cbc4f792635f62f7391f4"
+    },
+    {
+      "id": "Asia/Makassar",
+      "country": "ID",
+      "sha256": "3a126d0aa493114faee67d28a4154ee41bbec10cdc60fcbd4bfe9a02125780ec"
+    },
+    {
+      "id": "Asia/Manila",
+      "country": "PH",
+      "sha256": "f314d21c542e615756dd385d36a896cd57ba16fef983fe6b4d061444bbf1ac9e"
+    },
+    {
+      "id": "Asia/Muscat",
+      "country": "OM",
+      "sha256": "fa06b49b7b9af58ea4496444cf6fd576d715024abcdd6ad6defc63048ed6346b"
+    },
+    {
+      "id": "Asia/Nicosia",
+      "country": "CY",
+      "sha256": "d149e6d08153ec7c86790ec5def4daffe9257f2b0282bba5a853ba043d699595"
+    },
+    {
+      "id": "Asia/Novokuznetsk",
+      "country": "RU",
+      "sha256": "bd019ca8a766626583765ef740f65373269d9e8a5ed513c9e2806065e950bbdd"
+    },
+    {
+      "id": "Asia/Novosibirsk",
+      "country": "RU",
+      "sha256": "0292f7b36d075f6788027a34dc709ad915dd94ba2d55bf49be7665ed6d6c334d"
+    },
+    {
+      "id": "Asia/Omsk",
+      "country": "RU",
+      "sha256": "c316c47ac7deedd24e90d3df7ea4f04fac2e4d249333a13d7f4b85300cb33023"
+    },
+    {
+      "id": "Asia/Oral",
+      "country": "KZ",
+      "sha256": "88c8ea0f82ef0e0cb1375e6fec2ab211d043c8115a3a50a1c17d701f3d898954"
+    },
+    {
+      "id": "Asia/Phnom_Penh",
+      "country": "KH",
+      "sha256": "798ab4be1f3d3758f4ebd511a10bed06ed277446a5e853ebb5b17c58228aa43c"
+    },
+    {
+      "id": "Asia/Pontianak",
+      "country": "ID",
+      "sha256": "8a7397c2e2ad8cabf5cff7a588f65222a8d2b7ac21b6ec613de1b56298d4fc14"
+    },
+    {
+      "id": "Asia/Pyongyang",
+      "country": "KP",
+      "sha256": "ffe8371a70c0b5f0d7e17024b571fd8c5a2e2d40e63a8be78e839fbd1a540ec1"
+    },
+    {
+      "id": "Asia/Qatar",
+      "country": "QA",
+      "sha256": "574ac525d2c722b4e82795a5dbc573568c3009566863c65949e369fbb90ebe36"
+    },
+    {
+      "id": "Asia/Qostanay",
+      "country": "KZ",
+      "sha256": "f76633d7074fa667abc02f50d5685c95e2023102c3c1c68d8550ae36c09e77b5"
+    },
+    {
+      "id": "Asia/Qyzylorda",
+      "country": "KZ",
+      "sha256": "6a2491c70a146d0f930477f6c1cc9a3a141bf3a8f78d0a57c1c41a48f9c0b705"
+    },
+    {
+      "id": "Asia/Riyadh",
+      "country": "SA",
+      "sha256": "aeaf4a3e3f25d050679ca9fddd690c780d489e036d4f3939fe8578b04661738c"
+    },
+    {
+      "id": "Asia/Sakhalin",
+      "country": "RU",
+      "sha256": "f7901d3f03a049ed20f70771ebb90a2c36e3bd8dc5b697950680166c955ca34c"
+    },
+    {
+      "id": "Asia/Samarkand",
+      "country": "UZ",
+      "sha256": "0417ba1a0fca95242e4b9840cafbe165698295c2c96858e708d182dfdd471d03"
+    },
+    {
+      "id": "Asia/Seoul",
+      "country": "KR",
+      "sha256": "2c8f4bb15dd77090b497e2a841ff3323ecbbae4f9dbb9edead2f8dd8fb5d8bb4"
+    },
+    {
+      "id": "Asia/Shanghai",
+      "country": "CN",
+      "sha256": "64ffc2e43a94435a043c040d1d3af7e92d031adc78e7737af1861baa4eeef3e6"
+    },
+    {
+      "id": "Asia/Singapore",
+      "country": "SG",
+      "sha256": "739e349e40a3e820c222f70c4c9d55810b65987ffb14e494d08b145ed3445711"
+    },
+    {
+      "id": "Asia/Srednekolymsk",
+      "country": "RU",
+      "sha256": "d039655bcab95605c4315e5cfe72c912566c3696aebcd84d00242972076a125d"
+    },
+    {
+      "id": "Asia/Taipei",
+      "country": "TW",
+      "sha256": "0cc990c0ea4faa5db9b9edcd7fcbc028a4f87a6d3a0f567dac76cb222b718b19"
+    },
+    {
+      "id": "Asia/Tashkent",
+      "country": "UZ",
+      "sha256": "2d2fb24f1874bf5be626843d23a7d8f8811193bba43e6a2f571d94b7ff9bf888"
+    },
+    {
+      "id": "Asia/Tbilisi",
+      "country": "GE",
+      "sha256": "c3a50dc60ca7e015554c5e56900b71a3fbbb9e7218dba99a90a4399d18227ddb"
+    },
+    {
+      "id": "Asia/Tehran",
+      "country": "IR",
+      "sha256": "bffd5dcf4d4e22ca9686e496cbe32d7cd4c6d00de20835ff31639ad2b6d63f64"
+    },
+    {
+      "id": "Asia/Thimphu",
+      "country": "BT",
+      "sha256": "ba26bca2be5db4393155466b70bc248db4f3f42ed984bab44f88e513862fbaf4"
+    },
+    {
+      "id": "Asia/Tokyo",
+      "country": "JP",
+      "sha256": "a02b9e66044dc5c35c5f76467627fdcba4aee1cc958606b85c777095cad82ceb"
+    },
+    {
+      "id": "Asia/Tomsk",
+      "country": "RU",
+      "sha256": "efb6207492f111344a8d08e76871dfe78c4102a372c130f0410999e6fe80ab6f"
+    },
+    {
+      "id": "Asia/Ulaanbaatar",
+      "country": "MN",
+      "sha256": "bb2412cc8065d1fd935c7ae6526dd53ecd42f6ba34d77858980971eb25238776"
+    },
+    {
+      "id": "Asia/Urumqi",
+      "country": "CN",
+      "sha256": "0045c32793f140e85e3d9670d50665f7c9a80cd6be6d6dc8dd654d4191c13d80"
+    },
+    {
+      "id": "Asia/Ust-Nera",
+      "country": "RU",
+      "sha256": "2406614403dd6ce2fd00bf961ce2fc6998f1759c4b9860cd046302c3d4cab51f"
+    },
+    {
+      "id": "Asia/Vientiane",
+      "country": "LA",
+      "sha256": "798ab4be1f3d3758f4ebd511a10bed06ed277446a5e853ebb5b17c58228aa43c"
+    },
+    {
+      "id": "Asia/Vladivostok",
+      "country": "RU",
+      "sha256": "5a892182d8f69f0523f7dda1ed2c9f07f7d134700a7cf37386c7ffa19a629bc7"
+    },
+    {
+      "id": "Asia/Yakutsk",
+      "country": "RU",
+      "sha256": "455088979d84bccae9d911b6860d9c8c34abf5086cb1c6804fe355f35c70ef37"
+    },
+    {
+      "id": "Asia/Yangon",
+      "country": "MM",
+      "sha256": "647b97f97547afc746263acf439716edbf23414bf78a1c9df95ccde78e6694c0"
+    },
+    {
+      "id": "Asia/Yekaterinburg",
+      "country": "RU",
+      "sha256": "37355cd8388f7b2c3415d307c123d0245f64dedbd676dac44d988de7ca72c4b9"
+    },
+    {
+      "id": "Asia/Yerevan",
+      "country": "AM",
+      "sha256": "934587b56416fdc0428dc12ff273f4d5c54f79354395fd7c950d3fbba7229f5a"
+    },
+    {
+      "id": "Atlantic/Azores",
+      "country": "PT",
+      "sha256": "91dba61a9e3608f795cfc5c469d802ab610b1c00fd8890b6db2236d48d541857"
+    },
+    {
+      "id": "Atlantic/Bermuda",
+      "country": "BM",
+      "sha256": "2cd18a7ccb2762fc089a34f2cd7acb84c3871c3bbba88ebb45b60d2afbc8d792"
+    },
+    {
+      "id": "Atlantic/Canary",
+      "country": "ES",
+      "sha256": "ca62bdb9faa986f3630cade1ce290de067e4711dd07820623cac9573a16395b0"
+    },
+    {
+      "id": "Atlantic/Cape_Verde",
+      "country": "CV",
+      "sha256": "11242f13775e308fa5c7d986d3224b12c157e4a465fbb73a803e4eda1d199bd4"
+    },
+    {
+      "id": "Atlantic/Faroe",
+      "country": "FO",
+      "sha256": "3626dd64f66d6a99d847f9b22199cc753692286b0e04682e8e3d3f4f636f033b"
+    },
+    {
+      "id": "Atlantic/Madeira",
+      "country": "PT",
+      "sha256": "95863ce4c0b9f8650a1319b7e778b1c2d643c5ab186af4d35842efbf94572f11"
+    },
+    {
+      "id": "Atlantic/Reykjavik",
+      "country": "IS",
+      "sha256": "d2efac4e5f23d88c95d72c1db42807170f52f43dd98a205af5a92a91b9f2d997"
+    },
+    {
+      "id": "Atlantic/South_Georgia",
+      "country": "GS",
+      "sha256": "419ef67d12a9e8a82fcbb0dfc871a1b753159f31a048fba32d07785cc8cdaeb7"
+    },
+    {
+      "id": "Atlantic/St_Helena",
+      "country": "SH",
+      "sha256": "d2efac4e5f23d88c95d72c1db42807170f52f43dd98a205af5a92a91b9f2d997"
+    },
+    {
+      "id": "Atlantic/Stanley",
+      "country": "FK",
+      "sha256": "7b128c2f0f8ff79db04b5153c558e7514d66903d8ebca503c2d0edf081a07fcc"
+    },
+    {
+      "id": "Australia/Adelaide",
+      "country": "AU",
+      "sha256": "95dd846f153be6856098f7bbd37cfe23a6aa2e0d0a9afeb665c086ce44f9476d"
+    },
+    {
+      "id": "Australia/Brisbane",
+      "country": "AU",
+      "sha256": "796e90cf37b6b74faca5e2669afb7524ccdb91269d20a744f385c773b254b467"
+    },
+    {
+      "id": "Australia/Broken_Hill",
+      "country": "AU",
+      "sha256": "de4ff79634ef4b91927e8ed787ac3bd54811dda03060f06c9c227e9a51180aa4"
+    },
+    {
+      "id": "Australia/Darwin",
+      "country": "AU",
+      "sha256": "7e7d08661216f7c1409f32e283efc606d5b92c0e788da8dd79e533838b421afa"
+    },
+    {
+      "id": "Australia/Eucla",
+      "country": "AU",
+      "sha256": "2f112e156c8cb1efdc00b56d4560a47fab08204935de34382575bc9366a049df"
+    },
+    {
+      "id": "Australia/Hobart",
+      "country": "AU",
+      "sha256": "18b412ce021fb16c4ebe628eae1a5fa1f5aa20d41fea1dfa358cb799caba81c8"
+    },
+    {
+      "id": "Australia/Lindeman",
+      "country": "AU",
+      "sha256": "c4ce94771db6a0b3682d1d58ec64211ce628bfc9f0df140daa073f35543624ae"
+    },
+    {
+      "id": "Australia/Lord_Howe",
+      "country": "AU",
+      "sha256": "2ee7f42f1fe2247ba1de465de0bc518dfdfab4b179fb05b650531534a353ee08"
+    },
+    {
+      "id": "Australia/Melbourne",
+      "country": "AU",
+      "sha256": "96fc7f31072e9cc73abb6b2622b97c5f8dbb6cbb17be3920a4249d8d80933413"
+    },
+    {
+      "id": "Australia/Perth",
+      "country": "AU",
+      "sha256": "025d4339487853fa1f3144127959734b20f7c7b4948cff5d72149a0541a67968"
+    },
+    {
+      "id": "Australia/Sydney",
+      "country": "AU",
+      "sha256": "42c3857585b16db2f8ffd47ba19faa60f473340de8d4fe9320ea7be861605906"
+    },
+    {
+      "id": "Etc/UTC",
+      "country": "--",
+      "sha256": "8b85846791ab2c8a5463c83a5be3c043e2570d7448434d41398969ed47e3e6f2"
+    },
+    {
+      "id": "Europe/Amsterdam",
+      "country": "NL",
+      "sha256": "812f55aeb6e8cde9ddf4786e15eb4256b21e82cf5f5d28da1bad17d94570cac0"
+    },
+    {
+      "id": "Europe/Andorra",
+      "country": "AD",
+      "sha256": "8130798c2426bc8c372498b5fef01c398ba1b733c147a457531f60555ea9eae8"
+    },
+    {
+      "id": "Europe/Astrakhan",
+      "country": "RU",
+      "sha256": "cb0b732fdd8a55fa326ce980844f5e1ea98c72f2599b96f48ece460dd5882444"
+    },
+    {
+      "id": "Europe/Athens",
+      "country": "GR",
+      "sha256": "5c363e14151d751c901cdf06c502d9e1ac23b8e956973954763bfb39d5c53730"
+    },
+    {
+      "id": "Europe/Belgrade",
+      "country": "RS",
+      "sha256": "3a95adb06156044fd2fa662841c0268c2b5af47c1b19000d9d299563d387093a"
+    },
+    {
+      "id": "Europe/Berlin",
+      "country": "DE",
+      "sha256": "5ee475f71a0fc1a32faeb849f8c39c6e7aa66d6d41ec742b97b3a7436b3b0701"
+    },
+    {
+      "id": "Europe/Bratislava",
+      "country": "SK",
+      "sha256": "1bd7dd8545e6cf1eb9d419f267a57b00e60857d115e5a309326e3878968b2d9c"
+    },
+    {
+      "id": "Europe/Brussels",
+      "country": "BE",
+      "sha256": "812f55aeb6e8cde9ddf4786e15eb4256b21e82cf5f5d28da1bad17d94570cac0"
+    },
+    {
+      "id": "Europe/Bucharest",
+      "country": "RO",
+      "sha256": "9df83af9b5360fa0cc1166fd10c2014799319cdb1b0d2c7450a7c71ff673a857"
+    },
+    {
+      "id": "Europe/Budapest",
+      "country": "HU",
+      "sha256": "94dc2ac5672206fc3d7a2f35550c082876c2fd90c98e980753a1c5838c025246"
+    },
+    {
+      "id": "Europe/Busingen",
+      "country": "DE",
+      "sha256": "2b9418ed48e3d9551c84a4786e185bd2181d009866c040fbd729170d038629ef"
+    },
+    {
+      "id": "Europe/Chisinau",
+      "country": "MD",
+      "sha256": "7b4941ae82ed7958f8897d198bf937e7ccf5460065caca2728e2a471cb3e9d93"
+    },
+    {
+      "id": "Europe/Copenhagen",
+      "country": "DK",
+      "sha256": "5ee475f71a0fc1a32faeb849f8c39c6e7aa66d6d41ec742b97b3a7436b3b0701"
+    },
+    {
+      "id": "Europe/Dublin",
+      "country": "IE",
+      "sha256": "0676251fa5226d9b79a6967c02b110e59399cdedc423610af2350715f3431684"
+    },
+    {
+      "id": "Europe/Gibraltar",
+      "country": "GI",
+      "sha256": "6bced6a5a065bf123880053d3a940e90df155096e2ad55987fe55f14b4c8a12e"
+    },
+    {
+      "id": "Europe/Guernsey",
+      "country": "GG",
+      "sha256": "c85495070dca42687df6a1c3ee780a27cbcb82f1844750ea6f642833a44d29b4"
+    },
+    {
+      "id": "Europe/Helsinki",
+      "country": "FI",
+      "sha256": "184901ecbb158667a0b7b62eb9685e083bc3182edbecdc3d6d3743192f6a9097"
+    },
+    {
+      "id": "Europe/Isle_of_Man",
+      "country": "IM",
+      "sha256": "c85495070dca42687df6a1c3ee780a27cbcb82f1844750ea6f642833a44d29b4"
+    },
+    {
+      "id": "Europe/Istanbul",
+      "country": "TR",
+      "sha256": "d92d00fdfed5c6fc84ac930c08fa8adf7002840dbd21590caf5a3e4a932d3319"
+    },
+    {
+      "id": "Europe/Jersey",
+      "country": "JE",
+      "sha256": "c85495070dca42687df6a1c3ee780a27cbcb82f1844750ea6f642833a44d29b4"
+    },
+    {
+      "id": "Europe/Kaliningrad",
+      "country": "RU",
+      "sha256": "b3b19749ed58bcc72cec089484735303a2389c03909ff2a6cff66a2583be2cc3"
+    },
+    {
+      "id": "Europe/Kirov",
+      "country": "RU",
+      "sha256": "3fb4f665fe44a3aa382f80db83f05f8858d48138f47505e5af063e419d5e0559"
+    },
+    {
+      "id": "Europe/Kyiv",
+      "country": "UA",
+      "sha256": "fb0ae91bd8cfb882853f5360055be7c6c3117fd2ff879cf727a4378e3d40c0d3"
+    },
+    {
+      "id": "Europe/Lisbon",
+      "country": "PT",
+      "sha256": "92b07cb24689226bf934308d1f1bd33c306aa4da610c52cd5bce25077960502c"
+    },
+    {
+      "id": "Europe/Ljubljana",
+      "country": "SI",
+      "sha256": "3a95adb06156044fd2fa662841c0268c2b5af47c1b19000d9d299563d387093a"
+    },
+    {
+      "id": "Europe/London",
+      "country": "GB",
+      "sha256": "c85495070dca42687df6a1c3ee780a27cbcb82f1844750ea6f642833a44d29b4"
+    },
+    {
+      "id": "Europe/Luxembourg",
+      "country": "LU",
+      "sha256": "812f55aeb6e8cde9ddf4786e15eb4256b21e82cf5f5d28da1bad17d94570cac0"
+    },
+    {
+      "id": "Europe/Madrid",
+      "country": "ES",
+      "sha256": "9a42d7d37ad6dedd2d9b328120f7bf9e852f6850c4af00baff964f659b161cea"
+    },
+    {
+      "id": "Europe/Malta",
+      "country": "MT",
+      "sha256": "12129c6cf2f8efbeb9b56022439edcbac68ad9368842a64282d268119b3751dd"
+    },
+    {
+      "id": "Europe/Mariehamn",
+      "country": "AX",
+      "sha256": "184901ecbb158667a0b7b62eb9685e083bc3182edbecdc3d6d3743192f6a9097"
+    },
+    {
+      "id": "Europe/Minsk",
+      "country": "BY",
+      "sha256": "9a7f3acddacd5a92580df139d48cbd9f5f998b6a624f26fd10f692d80fae1894"
+    },
+    {
+      "id": "Europe/Monaco",
+      "country": "MC",
+      "sha256": "ab77a1488a2dd4667a4f23072236e0d2845fe208405eec1b4834985629ba7af8"
+    },
+    {
+      "id": "Europe/Moscow",
+      "country": "RU",
+      "sha256": "2a69287d1723e93f0f876f0f242866f09569d77b91bde7fa4d9d06b8fcd4883c"
+    },
+    {
+      "id": "Europe/Oslo",
+      "country": "NO",
+      "sha256": "5ee475f71a0fc1a32faeb849f8c39c6e7aa66d6d41ec742b97b3a7436b3b0701"
+    },
+    {
+      "id": "Europe/Paris",
+      "country": "FR",
+      "sha256": "ab77a1488a2dd4667a4f23072236e0d2845fe208405eec1b4834985629ba7af8"
+    },
+    {
+      "id": "Europe/Podgorica",
+      "country": "ME",
+      "sha256": "3a95adb06156044fd2fa662841c0268c2b5af47c1b19000d9d299563d387093a"
+    },
+    {
+      "id": "Europe/Prague",
+      "country": "CZ",
+      "sha256": "1bd7dd8545e6cf1eb9d419f267a57b00e60857d115e5a309326e3878968b2d9c"
+    },
+    {
+      "id": "Europe/Riga",
+      "country": "LV",
+      "sha256": "849dbfd26d6d696f48b80fa13323f99fe597ed83ab47485e2accc98609634569"
+    },
+    {
+      "id": "Europe/Rome",
+      "country": "IT",
+      "sha256": "d5ade82cc4a232949b87d43157c84b2c355b66a6ac87cf6250ed6ead80b5018f"
+    },
+    {
+      "id": "Europe/Samara",
+      "country": "RU",
+      "sha256": "cf68a79ea499f3f964132f1c23217d24cfc57e73b6b1665aa9e16a3a1f290fb3"
+    },
+    {
+      "id": "Europe/San_Marino",
+      "country": "SM",
+      "sha256": "d5ade82cc4a232949b87d43157c84b2c355b66a6ac87cf6250ed6ead80b5018f"
+    },
+    {
+      "id": "Europe/Sarajevo",
+      "country": "BA",
+      "sha256": "3a95adb06156044fd2fa662841c0268c2b5af47c1b19000d9d299563d387093a"
+    },
+    {
+      "id": "Europe/Saratov",
+      "country": "RU",
+      "sha256": "04c7a3e3d1e5406db80960a1e5538436b0778cfb893d270fb3346d6fb32b2772"
+    },
+    {
+      "id": "Europe/Simferopol",
+      "country": "UA",
+      "sha256": "b7397bc5d355499a6b342ba5e181392d2a6847d268ba398eabc55b6c1f301e27"
+    },
+    {
+      "id": "Europe/Skopje",
+      "country": "MK",
+      "sha256": "3a95adb06156044fd2fa662841c0268c2b5af47c1b19000d9d299563d387093a"
+    },
+    {
+      "id": "Europe/Sofia",
+      "country": "BG",
+      "sha256": "84240a5df30dae7039c47370feecd38cacd5c38f81becab9a063b8c940afe6d6"
+    },
+    {
+      "id": "Europe/Stockholm",
+      "country": "SE",
+      "sha256": "5ee475f71a0fc1a32faeb849f8c39c6e7aa66d6d41ec742b97b3a7436b3b0701"
+    },
+    {
+      "id": "Europe/Tallinn",
+      "country": "EE",
+      "sha256": "e1ae890b4688a4ccea215ecedf9ce81b42cb270910ab90285d9da2be489cebec"
+    },
+    {
+      "id": "Europe/Tirane",
+      "country": "AL",
+      "sha256": "ced959c824bd5825de556f2706e9f74f28b91d463412d15b8816c473582e72ec"
+    },
+    {
+      "id": "Europe/Ulyanovsk",
+      "country": "RU",
+      "sha256": "9c5b207154e64e2885cc7b722434673bedc7e064407c079c79be9bda31472d44"
+    },
+    {
+      "id": "Europe/Vaduz",
+      "country": "LI",
+      "sha256": "2b9418ed48e3d9551c84a4786e185bd2181d009866c040fbd729170d038629ef"
+    },
+    {
+      "id": "Europe/Vatican",
+      "country": "VA",
+      "sha256": "d5ade82cc4a232949b87d43157c84b2c355b66a6ac87cf6250ed6ead80b5018f"
+    },
+    {
+      "id": "Europe/Vienna",
+      "country": "AT",
+      "sha256": "6662379000c4e9b9eb24471caa1ef75d7058dfa2f51b80e4a624d0226b4dad49"
+    },
+    {
+      "id": "Europe/Vilnius",
+      "country": "LT",
+      "sha256": "505cd15f7a2b09307c77d23397124fcb9794036a013ee0aed54265fb60fb0b75"
+    },
+    {
+      "id": "Europe/Volgograd",
+      "country": "RU",
+      "sha256": "46016fb7b9b367e4ed20a2fd0551e6a0d64b21e2c8ba20dd5de635d20dbfbe4b"
+    },
+    {
+      "id": "Europe/Warsaw",
+      "country": "PL",
+      "sha256": "4e22c33db79517472480b54491a49e0da299f3072d7490ce97f1c4fd6779acab"
+    },
+    {
+      "id": "Europe/Zagreb",
+      "country": "HR",
+      "sha256": "3a95adb06156044fd2fa662841c0268c2b5af47c1b19000d9d299563d387093a"
+    },
+    {
+      "id": "Europe/Zurich",
+      "country": "CH",
+      "sha256": "2b9418ed48e3d9551c84a4786e185bd2181d009866c040fbd729170d038629ef"
+    },
+    {
+      "id": "Indian/Antananarivo",
+      "country": "MG",
+      "sha256": "c89b2e253a8926a6cecf7eff34e4bfcdb7fe24daff22d84718c30deec0ea4968"
+    },
+    {
+      "id": "Indian/Chagos",
+      "country": "IO",
+      "sha256": "db7076ea9c302b48315bb4cfefa1a5b7263e454fe8e911864ab17dde917b4b51"
+    },
+    {
+      "id": "Indian/Christmas",
+      "country": "CX",
+      "sha256": "798ab4be1f3d3758f4ebd511a10bed06ed277446a5e853ebb5b17c58228aa43c"
+    },
+    {
+      "id": "Indian/Cocos",
+      "country": "CC",
+      "sha256": "647b97f97547afc746263acf439716edbf23414bf78a1c9df95ccde78e6694c0"
+    },
+    {
+      "id": "Indian/Comoro",
+      "country": "KM",
+      "sha256": "c89b2e253a8926a6cecf7eff34e4bfcdb7fe24daff22d84718c30deec0ea4968"
+    },
+    {
+      "id": "Indian/Kerguelen",
+      "country": "TF",
+      "sha256": "7544016eb9a8077a1d5ac32ddcad58527078e3b03a9e45b7691d5a1f374b17b3"
+    },
+    {
+      "id": "Indian/Mahe",
+      "country": "SC",
+      "sha256": "fa06b49b7b9af58ea4496444cf6fd576d715024abcdd6ad6defc63048ed6346b"
+    },
+    {
+      "id": "Indian/Maldives",
+      "country": "MV",
+      "sha256": "7544016eb9a8077a1d5ac32ddcad58527078e3b03a9e45b7691d5a1f374b17b3"
+    },
+    {
+      "id": "Indian/Mauritius",
+      "country": "MU",
+      "sha256": "93abd651571f537812d4ad767bf68cc3a05e49d32f74bc822510802fb083d20a"
+    },
+    {
+      "id": "Indian/Mayotte",
+      "country": "YT",
+      "sha256": "c89b2e253a8926a6cecf7eff34e4bfcdb7fe24daff22d84718c30deec0ea4968"
+    },
+    {
+      "id": "Indian/Reunion",
+      "country": "RE",
+      "sha256": "fa06b49b7b9af58ea4496444cf6fd576d715024abcdd6ad6defc63048ed6346b"
+    },
+    {
+      "id": "Pacific/Apia",
+      "country": "WS",
+      "sha256": "726e92e83d15747b1da8b264ba95091faa4bca76a8e50970a4c99123d9b9647e"
+    },
+    {
+      "id": "Pacific/Auckland",
+      "country": "NZ",
+      "sha256": "8000e3a323e8fd0212414e9426b020707a771c368ca0e151747f9ddb7b814b27"
+    },
+    {
+      "id": "Pacific/Bougainville",
+      "country": "PG",
+      "sha256": "64a0dafd2ff68129663968b35750eac47df06c4e7cadf2b5bca64766aaebb632"
+    },
+    {
+      "id": "Pacific/Chatham",
+      "country": "NZ",
+      "sha256": "96456a692175596a6ffc1d8afa4dae269dac7ad4552ba5db8ec437f200c65448"
+    },
+    {
+      "id": "Pacific/Chuuk",
+      "country": "FM",
+      "sha256": "7a2fd78e68910cb87e454f78bafcfd0822084451f5af45fb58bfac07ee8317ad"
+    },
+    {
+      "id": "Pacific/Easter",
+      "country": "CL",
+      "sha256": "64eefdb1ed60766dd954d0fdaf98b5162ad501313612ce55f61fdd506b0788d3"
+    },
+    {
+      "id": "Pacific/Efate",
+      "country": "VU",
+      "sha256": "a46e0d31578cde10494d99d99aa78bab3dd0e680a08135b81cef91f457bddba0"
+    },
+    {
+      "id": "Pacific/Fakaofo",
+      "country": "TK",
+      "sha256": "828c3e4a0139af973c27f020e67bc9e5250f0e0eb21fca6d87f6be40b0dc3eff"
+    },
+    {
+      "id": "Pacific/Fiji",
+      "country": "FJ",
+      "sha256": "c955305c2fc9c0bc9f929adf08d4e7580add30ba925c600e7a479ee37b191a23"
+    },
+    {
+      "id": "Pacific/Funafuti",
+      "country": "TV",
+      "sha256": "bd3e94c56eca786a6d761f34163f404804c698bc7c59a8badf494c2f89b083cd"
+    },
+    {
+      "id": "Pacific/Galapagos",
+      "country": "EC",
+      "sha256": "31db650be7dfa7cade202cc3c6c43cb5632c4e4ab965c37e8f73b2ca18e8915f"
+    },
+    {
+      "id": "Pacific/Gambier",
+      "country": "PF",
+      "sha256": "cfa79817cb2cccb8e47e9aa65a76c1040501fa26da4799e874a68061bbd739ed"
+    },
+    {
+      "id": "Pacific/Guadalcanal",
+      "country": "SB",
+      "sha256": "e865fe5e9c5c0b203ae2a50c77124c14cab8b0f93466385ec6a19baf2cdf8231"
+    },
+    {
+      "id": "Pacific/Guam",
+      "country": "GU",
+      "sha256": "131f739e67faacd7c6cdeea036964908caf54d3e2b925d929eb85e72b749b9f2"
+    },
+    {
+      "id": "Pacific/Honolulu",
+      "country": "US",
+      "sha256": "7f03d1bf5264e7ab023a2ef9b997ddfc8cb6936692407c770762b9c549523f33"
+    },
+    {
+      "id": "Pacific/Kanton",
+      "country": "KI",
+      "sha256": "52f13b7d5b79bc64bb968297d7489b84d8a596288dab0bd001757d3518588603"
+    },
+    {
+      "id": "Pacific/Kiritimati",
+      "country": "KI",
+      "sha256": "5474778aec22bf7b71eb95ad8ad5470a840483754977cd76559e5d8ee4b25317"
+    },
+    {
+      "id": "Pacific/Kosrae",
+      "country": "FM",
+      "sha256": "566e40288e8dbee612cf9f2cf3ddb658d2225a8a8f722c7624e24e8b1d669525"
+    },
+    {
+      "id": "Pacific/Kwajalein",
+      "country": "MH",
+      "sha256": "2f89c7deac6fe4404a551c58b7aedbf487d97c1ce0e4a264d7d8aeef1de804c9"
+    },
+    {
+      "id": "Pacific/Majuro",
+      "country": "MH",
+      "sha256": "bd3e94c56eca786a6d761f34163f404804c698bc7c59a8badf494c2f89b083cd"
+    },
+    {
+      "id": "Pacific/Marquesas",
+      "country": "PF",
+      "sha256": "bb3b2356896eb46457a7f1519ef5e85340290c46f865a628cffafad03ee3b9f8"
+    },
+    {
+      "id": "Pacific/Midway",
+      "country": "UM",
+      "sha256": "7c262b62985863aad47f13b0ef5db2e5cc917b5d38002de9a2ea83ddb0883458"
+    },
+    {
+      "id": "Pacific/Nauru",
+      "country": "NR",
+      "sha256": "a06c68718b2ab2c67f11e4077f77143f9720d2ab6acf1d41ce81235568c4ffb8"
+    },
+    {
+      "id": "Pacific/Niue",
+      "country": "NU",
+      "sha256": "29cd01460b2eee0d904d1f5edfb0eea91a35b140960c5328c00438c0ee98350d"
+    },
+    {
+      "id": "Pacific/Norfolk",
+      "country": "NF",
+      "sha256": "09d11733d48a602f569fb68cc43dac5798bccc4f3c350a36e59fcbf3be09b612"
+    },
+    {
+      "id": "Pacific/Noumea",
+      "country": "NC",
+      "sha256": "1526a7a4038213b58741e8a8a78404aca57d642dd3ceed86c641fcfad217b076"
+    },
+    {
+      "id": "Pacific/Pago_Pago",
+      "country": "AS",
+      "sha256": "7c262b62985863aad47f13b0ef5db2e5cc917b5d38002de9a2ea83ddb0883458"
+    },
+    {
+      "id": "Pacific/Palau",
+      "country": "PW",
+      "sha256": "0915bffcc7173e539ac68d92f641cc1da05d8efeeee7d65613062e242a27ce64"
+    },
+    {
+      "id": "Pacific/Pitcairn",
+      "country": "PN",
+      "sha256": "3bae4477514e085ff4ac48e960f02ab83c2d005de1c7224d8ae8e0a60655d247"
+    },
+    {
+      "id": "Pacific/Pohnpei",
+      "country": "FM",
+      "sha256": "e865fe5e9c5c0b203ae2a50c77124c14cab8b0f93466385ec6a19baf2cdf8231"
+    },
+    {
+      "id": "Pacific/Port_Moresby",
+      "country": "PG",
+      "sha256": "7a2fd78e68910cb87e454f78bafcfd0822084451f5af45fb58bfac07ee8317ad"
+    },
+    {
+      "id": "Pacific/Rarotonga",
+      "country": "CK",
+      "sha256": "deeaf48e2050a94db457228c2376d27c0f8705a43e1e18c4953aac1d69359227"
+    },
+    {
+      "id": "Pacific/Saipan",
+      "country": "MP",
+      "sha256": "131f739e67faacd7c6cdeea036964908caf54d3e2b925d929eb85e72b749b9f2"
+    },
+    {
+      "id": "Pacific/Tahiti",
+      "country": "PF",
+      "sha256": "f62a335d11580e104e2e28e60e4da6452e0c6fe2d7596d6eee7efdd2304d2b13"
+    },
+    {
+      "id": "Pacific/Tarawa",
+      "country": "KI",
+      "sha256": "bd3e94c56eca786a6d761f34163f404804c698bc7c59a8badf494c2f89b083cd"
+    },
+    {
+      "id": "Pacific/Tongatapu",
+      "country": "TO",
+      "sha256": "6f44db6da6015031243c8a5c4be12720a099e4a4a0d8734e188649f4f6bc4c42"
+    },
+    {
+      "id": "Pacific/Wake",
+      "country": "UM",
+      "sha256": "bd3e94c56eca786a6d761f34163f404804c698bc7c59a8badf494c2f89b083cd"
+    },
+    {
+      "id": "Pacific/Wallis",
+      "country": "WF",
+      "sha256": "bd3e94c56eca786a6d761f34163f404804c698bc7c59a8badf494c2f89b083cd"
+    }
+  ]
+}
