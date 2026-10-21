@@ -99,6 +99,7 @@ function Plugin:stopPlugin(transition)
     local notices=require("einkfrontend/notices")
     if transition then notices.handoff(self) end
     self.active=false
+    if self.app.pagepress then self.app.pagepress:detach(self.app) end
     notices.detach(self,not transition)
     if self.gate then self.gate:restore() end
     if self.app.typography then self.app.typography:detach() end
@@ -141,6 +142,10 @@ function Plugin:onCloseDocument()
     self:stopPlugin(self.ui.tearing_down)
 end
 function Plugin:onSuspend()
+    if self.app and self.app.pagepress then self.app.pagepress:suspend() end
     if self.app and self.app.home_editor then self.app.home_editor:onSuspend() end
+end
+function Plugin:onResume()
+    if self.active and self.app and self.app.pagepress then self.app.pagepress:resume() end
 end
 return Plugin

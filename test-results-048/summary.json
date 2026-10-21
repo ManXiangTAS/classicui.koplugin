@@ -1,0 +1,332 @@
+{
+  "version": "0.4.0-test.2",
+  "failures": 0,
+  "checks": 69,
+  "distinct_cases": 23,
+  "runs": 3,
+  "pixel_frames": 6,
+  "device": "NOT_RUN",
+  "results": [
+    {
+      "tests": [
+        {
+          "name": "Only Voyage is eligible; other Kindle models and desktop never attach hardware",
+          "status": "PASS"
+        },
+        {
+          "name": "First use inherits hardware without writing or assuming stock defaults",
+          "status": "PASS"
+        },
+        {
+          "name": "Pressure uses the native scalar ABI and its release threshold rule, then restores entry value",
+          "status": "PASS"
+        },
+        {
+          "name": "Both PagePress directions toggle together and separate original states survive restore",
+          "status": "PASS"
+        },
+        {
+          "name": "Failure on the second button write rolls back the first and leaves no saved override",
+          "status": "PASS"
+        },
+        {
+          "name": "Readback mismatch is failure and restores the old pressure",
+          "status": "PASS"
+        },
+        {
+          "name": "A failed rollback is explicit and cleanup retries partially written hardware",
+          "status": "PASS"
+        },
+        {
+          "name": "Haptic off uses the lock, gain zero remains a valid strength, and false baseline survives repeated edits",
+          "status": "PASS"
+        },
+        {
+          "name": "A locked keypad reports a reason without writes or saved settings",
+          "status": "PASS"
+        },
+        {
+          "name": "Gain parser rejects unknown firmware output and actual register readback detects ignored writes",
+          "status": "PASS"
+        },
+        {
+          "name": "Invalid persisted data and invalid changes cannot reach the hardware",
+          "status": "PASS"
+        },
+        {
+          "name": "Settings flush failure restores in-memory config disk config and hardware",
+          "status": "PASS"
+        },
+        {
+          "name": "A silent failed save is detected by reopening the settings file",
+          "status": "PASS"
+        },
+        {
+          "name": "Saved values reapply after restart and external hardware changes are preserved on suspend",
+          "status": "PASS"
+        },
+        {
+          "name": "Filemanager and reader owners share one lifecycle; only the last detach restores hardware",
+          "status": "PASS"
+        },
+        {
+          "name": "The actual Voyage attach factory shares one backend and detaches without leaked ownership",
+          "status": "PASS"
+        },
+        {
+          "name": "Unavailable hardware during suspend is reported and saved overrides can recover on resume",
+          "status": "PASS"
+        },
+        {
+          "name": "Non Voyage settings and global search do not offer PagePress",
+          "status": "PASS"
+        },
+        {
+          "name": "PagePress integrates with shared settings rendering and live device values",
+          "status": "PASS"
+        },
+        {
+          "name": "PagePress search covers sensitivity pressure vibration and Voyage",
+          "status": "PASS"
+        },
+        {
+          "name": "Direction control invokes the existing KOReader inversion event",
+          "status": "PASS"
+        },
+        {
+          "name": "Unavailable settings remain informative instead of throwing or displaying a fabricated state",
+          "status": "PASS"
+        },
+        {
+          "name": "Plugin suspend and resume restore and reapply hardware; stop restores entry values",
+          "status": "PASS"
+        }
+      ],
+      "frames": [
+        {
+          "file": "pagepress-settings-desktop.png"
+        },
+        {
+          "file": "pagepress-pressure-desktop.png"
+        }
+      ],
+      "hardware": "ABI emulator; no real hardware writes",
+      "variant": "desktop",
+      "device": "NOT_RUN"
+    },
+    {
+      "device": "NOT_RUN",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Only Voyage is eligible; other Kindle models and desktop never attach hardware"
+        },
+        {
+          "status": "PASS",
+          "name": "First use inherits hardware without writing or assuming stock defaults"
+        },
+        {
+          "status": "PASS",
+          "name": "Pressure uses the native scalar ABI and its release threshold rule, then restores entry value"
+        },
+        {
+          "status": "PASS",
+          "name": "Both PagePress directions toggle together and separate original states survive restore"
+        },
+        {
+          "status": "PASS",
+          "name": "Failure on the second button write rolls back the first and leaves no saved override"
+        },
+        {
+          "status": "PASS",
+          "name": "Readback mismatch is failure and restores the old pressure"
+        },
+        {
+          "status": "PASS",
+          "name": "A failed rollback is explicit and cleanup retries partially written hardware"
+        },
+        {
+          "status": "PASS",
+          "name": "Haptic off uses the lock, gain zero remains a valid strength, and false baseline survives repeated edits"
+        },
+        {
+          "status": "PASS",
+          "name": "A locked keypad reports a reason without writes or saved settings"
+        },
+        {
+          "status": "PASS",
+          "name": "Gain parser rejects unknown firmware output and actual register readback detects ignored writes"
+        },
+        {
+          "status": "PASS",
+          "name": "Invalid persisted data and invalid changes cannot reach the hardware"
+        },
+        {
+          "status": "PASS",
+          "name": "Settings flush failure restores in-memory config disk config and hardware"
+        },
+        {
+          "status": "PASS",
+          "name": "A silent failed save is detected by reopening the settings file"
+        },
+        {
+          "status": "PASS",
+          "name": "Saved values reapply after restart and external hardware changes are preserved on suspend"
+        },
+        {
+          "status": "PASS",
+          "name": "Filemanager and reader owners share one lifecycle; only the last detach restores hardware"
+        },
+        {
+          "status": "PASS",
+          "name": "The actual Voyage attach factory shares one backend and detaches without leaked ownership"
+        },
+        {
+          "status": "PASS",
+          "name": "Unavailable hardware during suspend is reported and saved overrides can recover on resume"
+        },
+        {
+          "status": "PASS",
+          "name": "Non Voyage settings and global search do not offer PagePress"
+        },
+        {
+          "status": "PASS",
+          "name": "PagePress integrates with shared settings rendering and live device values"
+        },
+        {
+          "status": "PASS",
+          "name": "PagePress search covers sensitivity pressure vibration and Voyage"
+        },
+        {
+          "status": "PASS",
+          "name": "Direction control invokes the existing KOReader inversion event"
+        },
+        {
+          "status": "PASS",
+          "name": "Unavailable settings remain informative instead of throwing or displaying a fabricated state"
+        },
+        {
+          "status": "PASS",
+          "name": "Plugin suspend and resume restore and reapply hardware; stop restores entry values"
+        }
+      ],
+      "frames": [
+        {
+          "file": "pagepress-settings-voyage.png"
+        },
+        {
+          "file": "pagepress-pressure-voyage.png"
+        }
+      ],
+      "hardware": "ABI emulator; no real hardware writes",
+      "variant": "voyage"
+    },
+    {
+      "frames": [
+        {
+          "file": "pagepress-settings-landscape.png"
+        },
+        {
+          "file": "pagepress-pressure-landscape.png"
+        }
+      ],
+      "hardware": "ABI emulator; no real hardware writes",
+      "variant": "landscape",
+      "device": "NOT_RUN",
+      "tests": [
+        {
+          "name": "Only Voyage is eligible; other Kindle models and desktop never attach hardware",
+          "status": "PASS"
+        },
+        {
+          "name": "First use inherits hardware without writing or assuming stock defaults",
+          "status": "PASS"
+        },
+        {
+          "name": "Pressure uses the native scalar ABI and its release threshold rule, then restores entry value",
+          "status": "PASS"
+        },
+        {
+          "name": "Both PagePress directions toggle together and separate original states survive restore",
+          "status": "PASS"
+        },
+        {
+          "name": "Failure on the second button write rolls back the first and leaves no saved override",
+          "status": "PASS"
+        },
+        {
+          "name": "Readback mismatch is failure and restores the old pressure",
+          "status": "PASS"
+        },
+        {
+          "name": "A failed rollback is explicit and cleanup retries partially written hardware",
+          "status": "PASS"
+        },
+        {
+          "name": "Haptic off uses the lock, gain zero remains a valid strength, and false baseline survives repeated edits",
+          "status": "PASS"
+        },
+        {
+          "name": "A locked keypad reports a reason without writes or saved settings",
+          "status": "PASS"
+        },
+        {
+          "name": "Gain parser rejects unknown firmware output and actual register readback detects ignored writes",
+          "status": "PASS"
+        },
+        {
+          "name": "Invalid persisted data and invalid changes cannot reach the hardware",
+          "status": "PASS"
+        },
+        {
+          "name": "Settings flush failure restores in-memory config disk config and hardware",
+          "status": "PASS"
+        },
+        {
+          "name": "A silent failed save is detected by reopening the settings file",
+          "status": "PASS"
+        },
+        {
+          "name": "Saved values reapply after restart and external hardware changes are preserved on suspend",
+          "status": "PASS"
+        },
+        {
+          "name": "Filemanager and reader owners share one lifecycle; only the last detach restores hardware",
+          "status": "PASS"
+        },
+        {
+          "name": "The actual Voyage attach factory shares one backend and detaches without leaked ownership",
+          "status": "PASS"
+        },
+        {
+          "name": "Unavailable hardware during suspend is reported and saved overrides can recover on resume",
+          "status": "PASS"
+        },
+        {
+          "name": "Non Voyage settings and global search do not offer PagePress",
+          "status": "PASS"
+        },
+        {
+          "name": "PagePress integrates with shared settings rendering and live device values",
+          "status": "PASS"
+        },
+        {
+          "name": "PagePress search covers sensitivity pressure vibration and Voyage",
+          "status": "PASS"
+        },
+        {
+          "name": "Direction control invokes the existing KOReader inversion event",
+          "status": "PASS"
+        },
+        {
+          "name": "Unavailable settings remain informative instead of throwing or displaying a fabricated state",
+          "status": "PASS"
+        },
+        {
+          "name": "Plugin suspend and resume restore and reapply hardware; stop restores entry values",
+          "status": "PASS"
+        }
+      ]
+    }
+  ]
+}

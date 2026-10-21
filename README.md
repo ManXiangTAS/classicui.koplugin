@@ -2,11 +2,11 @@
 
 为 KOReader 提供统一的黑白阅读前端：书库、主页、阅读菜单和设置。首测设备为 Kindle Voyage，当前支持 **KOReader v2026.07.1 / v2026.07.2 stable**，固定源码 `9192014d8bd82a91dc1012473be0f238dedfdb54`。不修改 KOReader 核心文件。
 
-**当前版本：0.4.0-test.1，公开测试版。桌面集成与浏览器验证通过，修改后尚未进行 Voyage 真机验收。**
+**当前版本：0.4.0-test.2，测试版。桌面集成与浏览器验证通过，修改后尚未进行 Voyage 真机验收。**
 
 ## 下载与安装
 
-从 [测试版发布页](https://github.com/ManXiangTAS/classicui.koplugin/releases/tag/v0.4.0-test.1) 下载 `ClassicUI_0.4.0-test.1_install.zip`。
+从 [测试版发布页](https://github.com/ManXiangTAS/classicui.koplugin/releases/tag/v0.4.0-test.2) 下载 `ClassicUI_0.4.0-test.2_install.zip`。
 
 1. 完全退出 KOReader，升级前备份原插件和 `koreader/settings`。
 2. 将压缩包中的 `einkfrontend.koplugin` 文件夹复制到 `koreader/plugins/`，升级时覆盖同名插件。
@@ -16,6 +16,8 @@
 恢复原生界面：设置 → 维护与恢复 → 前端开关与恢复，可临时进入原生菜单或停用插件。如果界面无法打开，完全退出 KOReader 后移走 `plugins/einkfrontend.koplugin`，保留书籍和设置，再启动。
 
 ## 本版变化
+
+- Voyage 新增设置 → 触控与按键 → PagePress：翻页开关、按压力度、震动反馈与强度、反转翻页方向。每项支持沿用 Kindle 设置；退出和休眠时尝试恢复进入前的硬件值。见 [PagePress 说明与验证边界](docs/PagePress.md)。
 
 - 主题按参考样式使用双列图标与文字，提供普通、写实、舒适、自定义及已保存主题。底部有保存当前设置和管理主题入口。
 - 隐藏“设为默认 / 恢复继承”操作行；字体、排版、主题的叉号关闭整个设置菜单。
@@ -42,7 +44,7 @@
 
 ## 验证与开发
 
-见 [版本说明](docs/0.4.0_主题与主页编辑.md)、[实测指南](Voyage_0.4.0_实测指南.md) 和 `test-results-046/combined-summary.json`。测试使用官方 KOReader Linux AppImage、真实 Lua 模块、crengine/MuPDF 及 Chromium，所有书籍和配置均在隔离目录中。测试报告不代表真机通过。
+见 [版本说明](docs/0.4.0_主题与主页编辑.md)、[实测指南](Voyage_0.4.0_实测指南.md) 和 `test-results-048/combined-summary.json`。测试使用官方 KOReader Linux AppImage、真实 Lua 模块、crengine/MuPDF 及 Chromium，所有书籍和配置均在隔离目录中。测试报告不代表真机通过。
 
 `python tests/build_public_release.py dist` 可重建公开安装包与源码包，并验证插件源文件哈希、时区、图标和许可。集成运行器用法：`python tests/run_regression046.py /absolute/path/to/koreader`；其他回归运行器位于 `tests/`。手机编辑测试额外需要 Playwright/Chromium，环境变量 `EINK_CHROMIUM` 指定浏览器。
 

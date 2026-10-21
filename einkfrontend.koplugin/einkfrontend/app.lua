@@ -21,6 +21,7 @@ function App.new(plugin, adapter)
     self.home_layout=require("einkfrontend/homelayout").new()
     if plugin.active then self.clock=require("einkfrontend/clock").new(self) end
     if plugin.active then self.typography=require("einkfrontend/typography").new(adapter) end
+    if plugin.active then self.pagepress=require("einkfrontend/pagepress").attach(self) end
     return self
 end
 
@@ -360,6 +361,7 @@ function App:render()
     local function row(title,note,fn) m.rows[#m.rows+1]={title=title,note=note,callback=fn} end
     local function go(id,param) return function() self:go(id,param) end end
     if require("einkfrontend/clocksettings").render(self,route,m,row,go) then
+    elseif require("einkfrontend/pagepresssettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/homecustom").render(self,route,m,row,go) then
     elseif require("einkfrontend/settings").render(self,route,m,row,go) then
     elseif route.id=="home" then

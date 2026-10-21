@@ -1,13 +1,13 @@
 {
   "snapshot_date": "2026-10-21",
-  "software_version": "0.4.0-test.1",
+  "software_version": "0.4.0-test.2",
   "working_name": "墨页 E-Ink Frontend",
   "overall_status": "DEVELOPMENT_PREVIEW_DESKTOP_VERIFIED_DEVICE_PENDING",
   "device": {
     "primary": "Kindle Voyage",
     "firmware": "CURRENT_VERSION_NOT_CONFIRMED",
     "physical_test": "NOT_RUN",
-    "user_feedback": "Theme icon/text layout, unified close, collection visibility, live home editor, temporary LAN browser editor, scoped search and maintenance regrouping implemented; physical retest pending."
+    "user_feedback": "Voyage PagePress settings added; physical 5.13.6 test pending."
   },
   "target_koreader": {
     "user_string": "0702",
@@ -130,7 +130,8 @@
     "reader_theme_icon_grid": true,
     "aa_closes_entire_overlay": true,
     "scoped_search": true,
-    "maintenance_subcategories": true
+    "maintenance_subcategories": true,
+    "pagepress": "Voyage-only driver ABI adapter; enable pressure haptic lock and actual gain readback; desktop mocked ABI verified, device pending"
   },
   "verification": {
     "current_version": "0.4.0-test.1",
@@ -187,7 +188,7 @@
     "千本/万本性能与增量索引",
     "更多版本与机型适配"
   ],
-  "next_action": "Release 0.4.0-test.1, make repository public per user authorization, and collect Voyage device results.",
+  "next_action": "Publish 0.4.0-test.2 and collect real Voyage PagePress results. Repository visibility remains private; public change pending authorized administrative route.",
   "unattended_after_turn": false,
   "reference_scope": {
     "pinned_repositories": 10,
@@ -223,5 +224,22 @@
       "physical_device": "NOT_RUN"
     },
     "reading_themes": "INTEGRATED_LUA_PERSISTENCE_0.3.0_DESKTOP_PASS"
+  },
+  "pagepress_validation": {
+    "version": "0.4.0-test.2",
+    "checks": 707,
+    "distinct_cases": 257,
+    "runs": 91,
+    "failures": 0,
+    "suites": {
+      "test-results": 143,
+      "test-results-030": 441,
+      "test-results-046": 54,
+      "test-results-048": 69
+    },
+    "device": "NOT_RUN",
+    "hardware": "PagePress ABI emulated; actual Voyage pressure haptic firmware and suspend not tested",
+    "previous_release_evidence": "Additional clock alignment web and other regression reports retained from test.1; not counted as rerun here",
+    "runtime": "Official KOReader v2026.07.1, same source as v2026.07.2; SDL3 dummy"
   }
 }

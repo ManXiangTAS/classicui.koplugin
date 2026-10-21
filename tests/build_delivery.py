@@ -19,7 +19,7 @@ with zipfile.ZipFile(staged,'w',zipfile.ZIP_DEFLATED) as z:
   if rel=='source-history.bundle':continue
   z.write(project/rel,prefix+rel);manifest[rel]=digest(project/rel)
  for path,rel in [(bundle,'source-history.bundle'),(installer,'安装包/'+installer.name)]:z.write(path,prefix+rel);manifest[rel]=digest(path)
- info=json.loads((project/'test-results-046/combined-summary.json').read_text());info.update(source_commit=commit,version=VERSION,history='Complete local Git history; public repository is a sanitized snapshot')
+ info=json.loads((project/'test-results-048/combined-summary.json').read_text());info.update(source_commit=commit,version=VERSION,history='Complete local Git history; public repository is a sanitized snapshot')
  z.writestr(prefix+'BUILD_INFO.json',json.dumps(info,ensure_ascii=False,indent=2));z.writestr(prefix+'MANIFEST_SHA256.json',json.dumps(manifest,ensure_ascii=False,indent=2))
 with zipfile.ZipFile(staged) as z:
  assert z.testzip() is None

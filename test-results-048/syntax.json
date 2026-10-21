@@ -1,10 +1,10 @@
 {
   "status": "PASS",
-  "files": 37,
+  "files": 40,
   "sha256": {
-    "einkfrontend.koplugin/_meta.lua": "58d3a2a69a3195d3fc370c8c2b98df1ed77326d5dc2b4834cf873bd2623dc897",
+    "einkfrontend.koplugin/_meta.lua": "4bdd9f0e33d0b7129602d0bc1f540023fae0c81f1bb20419f9080a1152581515",
     "einkfrontend.koplugin/einkfrontend/adapter.lua": "b6097d59dadac1ed8a2584ef3d35a427a414579685c8cf4b7d9351dad860d1c4",
-    "einkfrontend.koplugin/einkfrontend/app.lua": "9f6986fd6b94554ef56c24895c9c6cfcd6a02a1d54f1dc1ed70b9f348a13cdf1",
+    "einkfrontend.koplugin/einkfrontend/app.lua": "83c46f375502fb7094d053dbf6b550f05753524d241b4c3f9506cddf32f997a9",
     "einkfrontend.koplugin/einkfrontend/bookstatistics.lua": "00524505625411f9541c13ad30c8bcf040601f5eb97d439ab33a3cc9b50271c9",
     "einkfrontend.koplugin/einkfrontend/browser.lua": "d6018a7b2e3f6e6dff9ccf53f21eef6ff3a922fb4bbc1968d91a9739a0163189",
     "einkfrontend.koplugin/einkfrontend/catalog.lua": "25cc987e728edc873189ca93d49ccf7d8cfc36c5e1498f6d621ce915b1caf1dc",
@@ -27,17 +27,20 @@
     "einkfrontend.koplugin/einkfrontend/navigationdata.lua": "25b313c9589877baea4637c0efce68da79f31a5801f6c63daacfab9be4064858",
     "einkfrontend.koplugin/einkfrontend/notices.lua": "3e3541aae5bdef11e6dc90ef3a96732620070def897eddb93ec603e5bb665565",
     "einkfrontend.koplugin/einkfrontend/overlay.lua": "ee5e8ae6cf50cb20070dec7f53abe1273e57dfa1ffdeb15b2881d90a9e605014",
+    "einkfrontend.koplugin/einkfrontend/pagepress.lua": "2f5dfb00ed642f44e29697377160c2904c6bfc739b882b92e8b361e5487a7708",
+    "einkfrontend.koplugin/einkfrontend/pagepresshw.lua": "5ba4bf581c749099d1010d87575c28e672a1d31d6e27bd79366ced60cf7e2299",
+    "einkfrontend.koplugin/einkfrontend/pagepresssettings.lua": "f259dd74cb07f36e8c4d0f654cfba402a21a31d9977fa2fd369e4306cc0b6ae7",
     "einkfrontend.koplugin/einkfrontend/paint.lua": "93804158d5c36549978b4b8da9443ede578f3de1d3b4d39192c2617446cddfa1",
     "einkfrontend.koplugin/einkfrontend/readernavigation.lua": "f3213255561e6e722bcd96d4aa769f48bfc85f4834830a6ebc885fd3a43fb701",
     "einkfrontend.koplugin/einkfrontend/readerpanel.lua": "dba097098755542e8589892009abb8542a2411d42df713fdb5f384dffb38e740",
     "einkfrontend.koplugin/einkfrontend/readertopbar.lua": "95e09f127af66b5d1b11eb435c982df286e6bc63e0a651b75d1a3bf72efce878",
     "einkfrontend.koplugin/einkfrontend/registry.lua": "88d32c5f2842fcca85ce09a37af6d5c1f31d3b006e99ffb4b234aef2dcf42880",
     "einkfrontend.koplugin/einkfrontend/screen.lua": "beb18551cc07991fa235d9eb9bc470bcd6d7c757d6bf73da5ab502ce15f94f11",
-    "einkfrontend.koplugin/einkfrontend/settings.lua": "4d9469f5b7ec306d8765d12f38448444f9713e9b39f4f8291a34c08eb3ec6173",
+    "einkfrontend.koplugin/einkfrontend/settings.lua": "b591148fcde06630eef955392f31bf677253d95b91cb94ab8a5ec55d049fdcb1",
     "einkfrontend.koplugin/einkfrontend/shell.lua": "4c897c69c1244b2f378060299cc01d30e58fbcfda4d7d588566f425667a4fb6f",
     "einkfrontend.koplugin/einkfrontend/style.lua": "463ca96e39fb3c38c7023908ee2aeb523c51754b32d14c4d91c7104acc4d791a",
     "einkfrontend.koplugin/einkfrontend/themes.lua": "c58619c8cd11d8a3bfc465e24d3f1020cee810dcf8f6c4e9b5a720d23b1168b8",
     "einkfrontend.koplugin/einkfrontend/typography.lua": "62f873e22ef96995b6258185c5644ee6e483c15604eb1e84f0019fa2282cdf71",
-    "einkfrontend.koplugin/main.lua": "7b997161e53d35dc37af533a036e02bf30c1dbecaeeeb2ce1a363b373eaee73b"
+    "einkfrontend.koplugin/main.lua": "3facfb3a6c7ad69ed1ac854823fb344bf8dbf0806deaf2fc0d086328c9cca8d7"
   }
 }

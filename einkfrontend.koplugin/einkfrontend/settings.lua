@@ -19,6 +19,7 @@ function Settings.render(app,route,m,row,go)
    row("原生页面配置","高级页面控件兼容入口",function() app:openNativeConfig() end)
   end
   local nodes=app.native.catalog.roots[route.param] or {}
+  if route.param=="input" and app.pagepress then row("PagePress",nil,go("pagepress_settings")) end
   if route.param=="device" or route.param=="network" then
    row("时间与日期",nil,go("clock_settings"))
   end
@@ -71,6 +72,7 @@ function Settings.search(app,query)
   if match(title.." "..(keywords or "")) then results[#results+1]={title=title,path=path,route=route,param=param} end
  end
  add("时间与日期","设备与系统","clock_settings",nil,"网络同步时间 校时 时区 夏令时 timezone ntp")
+ if app.pagepress then add("PagePress","触控与按键","pagepress_settings",nil,"压感 按压力度 灵敏度 震动 振动 反馈 翻页 按键 Voyage") end
  add("前端开关与恢复","维护与恢复","frontend",nil,"停用 启动 接管 原生兼容")
  for _,c in ipairs(Native.extra_categories) do add(c[2],"维护与恢复","catalog_category",c[1]) end
  for _,def in ipairs(require("einkfrontend/homelayout").registry) do add(def.name,"主页 › 编辑主页","home_customize",def.id,"部件 布局") end
