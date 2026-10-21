@@ -9,7 +9,7 @@ local function ioctl(path,request,value)
  local data=ffi.new('uint32_t[1]',value or 0)
  local ok,ret=pcall(function() return ffi.C.ioctl(fd,request,data) end)
  local errno=ffi.errno();ffi.C.close(fd)
- if not ok or ret<0 then error('PagePress 驱动操作失败（'..errno..'）') end
+ if not ok or ret<0 then error('翻页键驱动操作失败（'..errno..'）') end
  return tonumber(data[0])
 end
 function HW:ioctl(path,request,value)
@@ -17,7 +17,7 @@ function HW:ioctl(path,request,value)
  return ioctl(path,request,value)
 end
 function HW:fsr(request,value)
- if self:ioctl('/dev/keypad',0x80044202)~=0 then error('PagePress 被系统锁定，请返回 Kindle 设置检查') end
+ if self:ioctl('/dev/keypad',0x80044202)~=0 then error('翻页键被系统锁定，请返回 Kindle 设置检查') end
  return self:ioctl('/dev/keypad',request,value)
 end
 local function readfile(path)
@@ -37,7 +37,7 @@ function HW:read(key)
   local reg=(self.io and self.io.readfile or readfile)(GAIN..'id'):match('ctrl reg=0x(%x+)')
   assert(reg,'震动强度接口格式不兼容');return tonumber(reg,16)%4
  end
- error('未知 PagePress 设置')
+ error('未知翻页键设置')
 end
 function HW:write(key,value)
  if key=='enabled' then
@@ -49,6 +49,6 @@ function HW:write(key,value)
   if self.io then return self.io.writefile(GAIN..'gain_setting',tostring(value)..'\n') end
   local f=assert(io.open(GAIN..'gain_setting','w'),'无法写入震动强度接口')
   local ok,why=f:write(tostring(value)..'\n');local closed,err=f:close();assert(ok and closed,why or err)
- else error('未知 PagePress 设置') end
+ else error('未知翻页键设置') end
 end
 return HW

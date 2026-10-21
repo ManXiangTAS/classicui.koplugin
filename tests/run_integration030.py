@@ -3,6 +3,7 @@ from pathlib import Path
 import hashlib,json,os,shutil,subprocess,sys,time,tempfile
 project=Path(__file__).resolve().parents[1];runtime=Path(sys.argv[1]).resolve();output=project/'test-results-030';output.mkdir(exist_ok=True)
 results=[]
+# Home module cases moved to run_home049.py: the current home is fixed to one screen.
 for variant,w,h,dpi in [('desktop',600,800,160),('voyage_layout',1072,1448,300),('landscape',1448,1072,300)]:
  (output/'data').mkdir(exist_ok=True)
  state=Path(tempfile.mkdtemp(prefix=variant+'-',dir=output/'data'))
@@ -11,7 +12,7 @@ for variant,w,h,dpi in [('desktop',600,800,160),('voyage_layout',1072,1448,300),
  shutil.copyfile(project/'tests/pdf/layout.pdf',books/'sample.pdf')
  before={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in books.iterdir() if p.is_file()}
  env=os.environ.copy();env.update(KO_HOME=str(state),EINK_PROJECT=str(project),EINK_030_BOOKS=str(books),EINK_VARIANT=variant,SDL_VIDEODRIVER='dummy',SDL_RENDER_DRIVER='software',EMULATE_BW_SCREEN='1',EMULATE_READER_W=str(w),EMULATE_READER_H=str(h),EMULATE_READER_DPI=str(dpi))
- for mode in ['catalog','typography','restart','pdf','library_navigation','style_navigation','fixes033','fixes033_restart','navigation034','navigation034_restart','navigation034_pdf','home034','regression035','regression035_restart','regression036','regression037','regression037_restart','home_widgets','home_widgets_restart','notice_transitions']:
+ for mode in ['catalog','typography','restart','pdf','library_navigation','style_navigation','fixes033','fixes033_restart','navigation034','navigation034_restart','navigation034_pdf','home034','regression035','regression035_restart','regression036','regression037','regression037_restart','notice_transitions']:
   if mode=='navigation034':
    navigation=books/'navigation.epub';shutil.copyfile(project/'tests/navigation/chapters.epub',navigation)
    before[navigation.name]=hashlib.sha256(navigation.read_bytes()).hexdigest()

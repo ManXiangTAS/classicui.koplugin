@@ -1,13 +1,13 @@
 {
   "snapshot_date": "2026-10-21",
-  "software_version": "0.4.0-test.2",
+  "software_version": "0.4.0-test.3",
   "working_name": "墨页 E-Ink Frontend",
   "overall_status": "DEVELOPMENT_PREVIEW_DESKTOP_VERIFIED_DEVICE_PENDING",
   "device": {
     "primary": "Kindle Voyage",
     "firmware": "CURRENT_VERSION_NOT_CONFIRMED",
     "physical_test": "NOT_RUN",
-    "user_feedback": "Voyage PagePress settings added; physical 5.13.6 test pending."
+    "user_feedback": "User reports PagePress useful; renamed to 翻页键. Home fixed to one bounded screen; device retest pending."
   },
   "target_koreader": {
     "user_string": "0702",
@@ -131,7 +131,8 @@
     "aa_closes_entire_overlay": true,
     "scoped_search": true,
     "maintenance_subcategories": true,
-    "pagepress": "Voyage-only driver ABI adapter; enable pressure haptic lock and actual gain readback; desktop mocked ABI verified, device pending"
+    "pagepress": "Voyage-only driver ABI adapter; enable pressure haptic lock and actual gain readback; desktop mocked ABI verified, device pending",
+    "home_fixed_viewport": "Header/footer bounded; adaptive minimum sizes; no vertical scrolling; overflow editing checks; legacy layouts preserved"
   },
   "verification": {
     "current_version": "0.4.0-test.1",
@@ -188,7 +189,7 @@
     "千本/万本性能与增量索引",
     "更多版本与机型适配"
   ],
-  "next_action": "Publish 0.4.0-test.2 and collect real Voyage PagePress results. Repository visibility remains private; public change pending authorized administrative route.",
+  "next_action": "Publish 0.4.0-test.3 and collect fixed-home device feedback. Repository private; visibility change still needs an authorized administrative route.",
   "unattended_after_turn": false,
   "reference_scope": {
     "pinned_repositories": 10,
@@ -241,5 +242,26 @@
     "hardware": "PagePress ABI emulated; actual Voyage pressure haptic firmware and suspend not tested",
     "previous_release_evidence": "Additional clock alignment web and other regression reports retained from test.1; not counted as rerun here",
     "runtime": "Official KOReader v2026.07.1, same source as v2026.07.2; SDL3 dummy"
+  },
+  "home_fixed_validation": {
+    "version": "0.4.0-test.3",
+    "checks": 775,
+    "distinct_cases": 291,
+    "runs": 93,
+    "failures": 0,
+    "suites": {
+      "test-results": 143,
+      "test-results-030": 408,
+      "test-results-043": 42,
+      "test-results-046": 54,
+      "test-results-048": 69,
+      "test-results-049": 42,
+      "web_http": 17
+    },
+    "device": "NOT_RUN_AFTER_CHANGES",
+    "home": "Fixed viewport at three geometries, 13 full/half widgets and minimum heights, all pairings, no scroll or stale hit targets, overflow preserves preferences, native and web preview share bounds",
+    "home_replaced_legacy_cases": "Old scroll-based home_widgets modes replaced by 14 fixed-home cases, repeated at three geometries",
+    "physical_feedback": "User reports PagePress useful; new home still pending device retest",
+    "runtime": "Official KOReader v2026.07.1, same source as v2026.07.2; SDL3 dummy; Chromium and actual LuaSocket HTTP"
   }
 }

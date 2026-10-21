@@ -29,6 +29,18 @@
       "status": "PASS"
     },
     {
+      "name": "Preview is a single bounded screen with no scrolling controls",
+      "status": "PASS"
+    },
+    {
+      "name": "Overflow reports the device reason and rolls back rejected controls",
+      "status": "PASS"
+    },
+    {
+      "name": "Editor stays usable after a rejected overflowing change",
+      "status": "PASS"
+    },
+    {
       "name": "Unauthenticated network request is rejected",
       "status": "PASS"
     },

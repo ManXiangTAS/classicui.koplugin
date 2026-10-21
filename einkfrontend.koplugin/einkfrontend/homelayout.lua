@@ -94,6 +94,9 @@ function Layout:change(fn)
  if self.error then return false,"主页配置损坏，原文件已保留；可恢复默认布局" end
  local next_config=Copy(self.config);local ok,err=pcall(fn,next_config)
  if not ok then return false,tostring(err) end
+ local valid,reason=pcall(Layout.validate,next_config);if not valid then return false,tostring(reason) end
+ local Fit=require('einkfrontend/homefit');local size=require('device').screen:getSize()
+ local fits,why=Fit.checkChange(self.config,next_config,size.w,Fit.viewport(size.h));if not fits then return false,why end
  return self:commit(next_config)
 end
 function Layout:move(id,delta)

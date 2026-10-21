@@ -1,0 +1,21 @@
+{
+  "version": "0.4.0-test.3",
+  "checks": 775,
+  "distinct_cases": 291,
+  "runs": 93,
+  "failures": 0,
+  "suites": {
+    "test-results": 143,
+    "test-results-030": 408,
+    "test-results-043": 42,
+    "test-results-046": 54,
+    "test-results-048": 69,
+    "test-results-049": 42,
+    "web_http": 17
+  },
+  "device": "NOT_RUN_AFTER_CHANGES",
+  "home": "Fixed viewport at three geometries, 13 full/half widgets and minimum heights, all pairings, no scroll or stale hit targets, overflow preserves preferences, native and web preview share bounds",
+  "home_replaced_legacy_cases": "Old scroll-based home_widgets modes replaced by 14 fixed-home cases, repeated at three geometries",
+  "physical_feedback": "User reports PagePress useful; new home still pending device retest",
+  "runtime": "Official KOReader v2026.07.1, same source as v2026.07.2; SDL3 dummy; Chromium and actual LuaSocket HTTP"
+}

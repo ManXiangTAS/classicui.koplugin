@@ -99,10 +99,10 @@ function Web:request(method,path,headers,body)
  if headers.authorization~='Bearer '..self.token then return self:response(401,'{}') end
  if method=='GET' and path=='/api/layout' then
   local registry={};for _,def in ipairs(require('einkfrontend/homelayout').registry) do registry[#registry+1]={id=def.id,name=def.name} end
-  return self:response(200,json.encode{config=self.editor.draft,revision=self.editor.revision,widgets=registry})
+  return self:response(200,json.encode{config=self.editor.draft,revision=self.editor.revision,widgets=registry,fit=self.editor.preview_fit,dirty=not require('einkfrontend/adapter').equal(self.editor.base,self.editor.draft)})
  elseif method=='GET' and (path=='/api/preview' or path:match('^/api/preview%?offset=%d+$')) then
   local offset=path:match('offset=(%d+)$')
-  if offset then self.editor.preview_scroll=math.min(tonumber(offset),self.editor.preview_max or 0);self.editor:refreshPreview() end
+  if offset then self.editor.preview_scroll=0 end
   local file=(require('datastorage'):getDataDir()..'/cache')..'/eink-home-preview-'..self.port..'.png'
   local ok,png=pcall(function() self.editor.preview:writePNG(file);return readfile(file,8000000) end);os.remove(file)
   return ok and self:response(200,png,'image/png','X-Preview-Offset: '..math.floor(self.editor.preview_scroll)..'\r\nX-Preview-Max: '..math.floor(self.editor.preview_max or 0)..'\r\n') or self:response(500,'{}')
@@ -127,7 +127,7 @@ function Web:request(method,path,headers,body)
    ok,why=self.editor:save(true)
    if not ok then return self:response(409,json.encode{error=why,revision=self.editor.revision}) end
   end
-  return self:response(200,json.encode{revision=self.editor.revision,saved=path=='/api/save'})
+  return self:response(200,json.encode{revision=self.editor.revision,saved=path=='/api/save',fit=self.editor.preview_fit,dirty=not require('einkfrontend/adapter').equal(self.editor.base,self.editor.draft)})
  end
  return self:response(404,'{}')
 end

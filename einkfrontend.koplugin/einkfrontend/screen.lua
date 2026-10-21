@@ -57,9 +57,7 @@ function Page:setModel(model)
     self.capacity=model.grid and self.grid_capacity or self.list_capacity
     self.model.page = math.max(1, math.min(model.page or 1, math.max(1, math.ceil(#model.rows/self.capacity))))
     if model.home then
-        local _,content_h=require("einkfrontend/homewidgets").layout(self.app.home_layout.config,self.dimen.w)
-        self.scroll_max=math.max(0,content_h-self.viewport_h)
-        self.scroll_y=math.max(0,math.min(model.route.scroll_y or 0,self.scroll_max))
+        self.scroll_max=0;self.scroll_y=0;model.route.scroll_y=0;self.scroll_track=nil
     elseif model.settings then
         self.scroll_max=math.max(0,#model.rows*self.row_h-self.viewport_h)
         self.scroll_y=math.max(0,math.min(model.route.scroll_y or 0,self.scroll_max))
@@ -307,13 +305,14 @@ function Page:onFrontendHold(ignored,ges)
 end
 
 function Page:scrollBy(delta)
+    if self.model.home then self.scroll_y=0;self.scroll_max=0;self.model.route.scroll_y=0;return end
     self.scroll_y=math.max(0,math.min(self.scroll_max,math.floor(self.scroll_y+delta)))
     self.model.route.scroll_y=self.scroll_y
     UIManager:setDirty(self,"ui")
 end
 
 function Page:turn(delta)
-    if self.model.home then self:scrollBy(delta*self.viewport_h*.65);return end
+    if self.model.home then return end
     if self.model.settings then
         self:scrollBy(delta*(self.viewport_h-self.row_h))
         self.focus_index=math.min(#self.model.rows,math.ceil(self.scroll_y/self.row_h)+1)
@@ -329,7 +328,8 @@ function Page:onFrontendSwipe(ignored,ges)
     if ges and ges.direction=="south" and ges.pos and ges.pos.y<=self.header_h then
         self.app:safe(function() self.app:showControls() end);return true
     end
-    if self.model.settings or self.model.home then
+    if self.model.home then return true end
+    if self.model.settings then
         if ges and (ges.direction=="north" or ges.direction=="south") then
             local amount=ges.distance or (self.viewport_h*.65)
             self:scrollBy((ges.direction=="north" and 1 or -1)*amount)
@@ -342,7 +342,7 @@ function Page:onFrontendSwipe(ignored,ges)
 end
 
 function Page:onFrontendPan(_,ges)
-    if not (self.model.settings or self.model.home) or not ges then return true end
+    if not self.model.settings or not ges then return true end
     if ges.relative then self.pan_delta=ges.relative.y end
     if ges.pos and self.scroll_track and ges.pos.x>=self.scroll_track.x then
         local t=self.scroll_track;local ratio=(ges.pos.y-t.y-t.thumb_h/2)/math.max(1,t.h-t.thumb_h)
@@ -351,7 +351,7 @@ function Page:onFrontendPan(_,ges)
     return true
 end
 function Page:onFrontendPanRelease(_,ges)
-    if (self.model.settings or self.model.home) and not self.dragging_scrollbar then
+    if self.model.settings and not self.dragging_scrollbar then
         local delta=ges and ges.relative and ges.relative.y or self.pan_delta
         if delta then self:scrollBy(-delta) end
     end

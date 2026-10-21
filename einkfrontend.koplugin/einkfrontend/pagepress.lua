@@ -24,7 +24,7 @@ function PP:verifiedWrite(key,value)
  local actual=self.hw:read(key);assert(equal(actual,value),'设备未接受设置，读回值不一致')
 end
 function PP:change(key,value,persist)
- if not valid(key,value) or not ({enabled=true,pressure=true,haptic=true,gain=true})[key] then return false,'无效的 PagePress 设置' end
+ if not valid(key,value) or not ({enabled=true,pressure=true,haptic=true,gain=true})[key] then return false,'无效的翻页键设置' end
  local old,why=self:read(key);if old==nil then return false,why end
  local desired=value
  if key=='enabled' and value~=nil then desired=value and {1,1} or {0,0} end
@@ -36,10 +36,10 @@ function PP:change(key,value,persist)
   if not equal(old,desired) then wrote=true;self:verifiedWrite(key,desired) end
   if persist~=false then
    self.config[key]=value;self.settings:saveSetting('eink_pagepress',self.config)
-   assert(self.settings:flush()~=false,'无法保存 PagePress 设置')
+   assert(self.settings:flush()~=false,'无法保存翻页键设置')
    if self.settings.file then
     local saved=require('luasettings'):open(self.settings.file):readSetting('eink_pagepress')
-    for _,k in ipairs(keys) do assert(type(saved)=='table' and saved[k]==self.config[k],'PagePress 设置未能保存') end
+    for _,k in ipairs(keys) do assert(type(saved)=='table' and saved[k]==self.config[k],'翻页键设置未能保存') end
    end
   end
  end)

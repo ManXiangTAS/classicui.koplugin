@@ -150,8 +150,8 @@ end)
 FM:showFiles(assert(os.getenv('EINK_030_BOOKS')));local app=assert(FM.instance.einkfrontend.app)
 local function row(title) for _,r in ipairs(app.screen.model.rows) do if r.title==title then return r end end;error('missing row '..title) end
 check('Non Voyage settings and global search do not offer PagePress',function()
- app:open('catalog_category','input');for _,r in ipairs(app.screen.model.rows) do assert(r.title~='PagePress') end
- require('einkfrontend/settings').search(app,'PagePress');for _,r in ipairs(app.screen.model.rows) do assert(r.title~='PagePress') end
+ app:open('catalog_category','input');for _,r in ipairs(app.screen.model.rows) do assert(r.title~='翻页键') end
+ require('einkfrontend/settings').search(app,'翻页键');for _,r in ipairs(app.screen.model.rows) do assert(r.title~='翻页键') end
 end)
 local service,state=fixture();app.pagepress=service;service.owners[app]=true
 local function shot(name)
@@ -161,15 +161,15 @@ local function shot(name)
  for _,r in ipairs(app.screen.row_layout) do if r.value then assert(math.abs((r.label.y+r.label.h/2)-(r.value.y+r.value.h/2))<=1) end end
 end
 check('PagePress integrates with shared settings rendering and live device values',function()
- app:open('catalog_category','input');row('PagePress').callback();assert(app.screen.model.title=='PagePress')
- assert(row('PagePress 翻页').value=='部分开启');assert(row('按压力度').value=='180');assert(row('震动反馈').value=='关')
- shot('pagepress-settings');row('按压力度').callback();row('轻按（100）').callback();assert(state.pressure==100 and app.screen.model.title=='PagePress')
+ app:open('catalog_category','input');row('翻页键').callback();assert(app.screen.model.title=='翻页键')
+ assert(row('启用翻页键').value=='部分开启');assert(row('按压力度').value=='180');assert(row('震动反馈').value=='关')
+ shot('pagepress-settings');row('按压力度').callback();row('轻按（100）').callback();assert(state.pressure==100 and app.screen.model.title=='翻页键')
  row('反馈强度').callback();row('中').callback();assert(state.gain==1);row('震动反馈').callback();row('开').callback();assert(state.haptic)
  row('按压力度').callback();assert(row('轻按（100）').checked);shot('pagepress-pressure');row('沿用 Kindle 设置').callback();assert(state.pressure==180)
 end)
 check('PagePress search covers sensitivity pressure vibration and Voyage',function()
- for _,q in ipairs({'灵敏度','按压力度','振动','震动','Voyage','PagePress'}) do
-  require('einkfrontend/settings').search(app,q);row('PagePress').callback();assert(app.screen.model.title=='PagePress')
+ for _,q in ipairs({'灵敏度','按压力度','振动','震动','Voyage','翻页键'}) do
+  require('einkfrontend/settings').search(app,q);row('翻页键').callback();assert(app.screen.model.title=='翻页键')
  end
 end)
 check('Direction control invokes the existing KOReader inversion event',function()

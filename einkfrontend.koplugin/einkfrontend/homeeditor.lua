@@ -4,6 +4,7 @@ local Device=require('device');local UI=require('ui/uimanager');local Gesture=re
 local P=require('einkfrontend/paint');local S=P.s;local B=P.BB
 local Layout=require('einkfrontend/homelayout');local Copy=require('einkfrontend/catalog').copy
 local Equal=require('einkfrontend/adapter').equal
+local Fit=require('einkfrontend/homefit')
 local Editor=Input:extend{covers_fullscreen=true,stop_events_propagation=true}
 function Editor:init()
  self.dimen=Device.screen:getSize();self.base=Copy(self.app.home_layout.config);self.draft=Copy(self.base)
@@ -18,20 +19,24 @@ function Editor:refreshPreview()
  local page={app=proxy,dimen=self.dimen,model={home=true,home_data=require('einkfrontend/home').model(proxy),route={scroll_y=self.preview_scroll}},hits={}}
  local bb=B.new(self.dimen.w,self.dimen.h,B.TYPE_BB8)
  require('einkfrontend/shell').home(page,bb,0,0)
- self.preview=bb;self.preview_max=page.scroll_max;self.preview_scroll=page.scroll_y
+ self.preview=bb;self.preview_max=0;self.preview_scroll=0;self.preview_fit=page.home_fit
  UI:setDirty(self,'ui')
 end
 function Editor:change(fn)
  local draft=Copy(self.draft);local ok,why=pcall(function() fn(draft);Layout.validate(draft) end)
  if not ok then self.app:message(why);return false,tostring(why) end
+ local fits,reason=Fit.checkChange(self.draft,draft,self.dimen.w,Fit.viewport(self.dimen.h))
+ if not fits then self.app:message(reason);return false,reason end
  self.draft=draft;self.revision=self.revision+1;self:refreshPreview();return true
 end
 function Editor:replaceDraft(config,revision)
  if revision~=self.revision then return false,'conflict' end
  local ok,why=pcall(Layout.validate,config);if not ok then return false,tostring(why) end
+ local fits,reason=Fit.checkChange(self.draft,config,self.dimen.w,Fit.viewport(self.dimen.h));if not fits then return false,reason end
  self.draft=Copy(config);self.revision=self.revision+1;self:refreshPreview();return true
 end
 function Editor:save(keep_open)
+ if not self.preview_fit.fits then return false,'本屏放不下全部部件，请先隐藏部分部件或调整宽度' end
  if not Equal(self.app.home_layout.config,self.base) then return false,'主页已在其他窗口修改，请关闭编辑器后重试' end
  local ok,why=self.app.home_layout:commit(self.draft)
  if not ok then return false,why end
@@ -100,7 +105,10 @@ function Editor:paintTo(bb,x,y)
  P.rule(bb,x,y+S(54),w)
  local ph=math.floor(h*.40);local pw=math.floor(ph*w/h);local px=x+math.floor((w-pw)/2);local py=y+S(60)
  local scaled=self.preview:scale(pw,ph);bb:blitFrom(scaled,px,py,0,0,pw,ph);scaled:free();bb:paintBorder(px,py,pw,ph,1,B.COLOR_BLACK)
- P.inkLabel(bb,'即时预览',x+S(12),py,S(120),S(32),14,true,nil,'left')
+ P.inkLabel(bb,'一屏预览',x+S(12),py,S(120),S(32),14,true,nil,'left')
+ local fit=self.preview_fit
+ P.inkLabel(bb,fit.visible..' / '..fit.requested..' 部件',x+S(12),py+S(34),S(120),S(28),13,true,nil,'left')
+ if not fit.fits then P.inkLabel(bb,'超出 '..#fit.omitted..' 个',x+S(12),py+S(64),S(120),S(28),13,true,nil,'left') end
  self.preview_area={x=px,y=py,w=pw,h=ph}
  self.hits[#self.hits+1]={x=px,y=py,w=pw,h=ph,callback=function() self.full_preview=true;UI:setDirty(self,'ui') end,id='editor_preview'}
  local cy=py+ph+S(6)
@@ -115,7 +123,9 @@ function Editor:paintTo(bb,x,y)
   if ry+rowh>0 and ry<viewh then
    local id=widget.id;local active=self.selected==id
    if active then clip:paintRect(0,math.max(0,ry),S(3),math.min(rowh,viewh-math.max(0,ry)),B.COLOR_BLACK) end
-   P.inkLabel(clip,(widget.enabled and '✓ ' or '＋ ')..Layout.by_id[id].name,S(14),ry,w-S(238),rowh,16,true,nil,'left')
+   local prefix=widget.enabled and '✓ ' or '＋ '
+   for _,missing in ipairs(self.preview_fit.omitted) do if missing==id then prefix='超出 ' end end
+   P.inkLabel(clip,prefix..Layout.by_id[id].name,S(14),ry,w-S(238),rowh,16,true,nil,'left')
    local hy=math.max(cy,cy+ry);local hh=math.min(cy+viewh,cy+ry+rowh)-hy
    local function action(left,width,label,fn,hitid)
     P.inkLabel(clip,label,left,ry,width,rowh,16,true)
@@ -142,9 +152,13 @@ function Editor:onEditorSwipe(_,ges)
  if not ges then return true end
  local delta=ges.direction=='north' and 1 or ges.direction=='south' and -1 or 0
  if self.full_preview or (ges.pos and self.preview_area and ges.pos.y<self.preview_area.y+self.preview_area.h) then
-  self.preview_scroll=math.max(0,math.min(self.preview_max or 0,self.preview_scroll+delta*self.dimen.h*.5));self:refreshPreview()
+  return true
  else self.scroll=math.max(0,math.min(self.list_max or 0,self.scroll+delta*S(156)));UI:setDirty(self,'ui') end
  return true
+end
+function Editor:onSetDimensions()
+ self.dimen=Device.screen:getSize();for _,seq in pairs(self.ges_events) do seq[1].range=self.dimen end
+ self.preview_scroll=0;self.revision=self.revision+1;self:refreshPreview();return true
 end
 function Editor:onKeyPress(key) if key:match({Device.input.group.Back}) then self:requestClose() end;return true end
 return Editor

@@ -13,6 +13,14 @@ try{
  await page.locator('#daily_goal_minutes').fill('45');await page.locator('#quote_text').fill('<img src=x onerror=alert(1)>｜自己的摘记');await page.locator('#save').click();await page.waitForFunction(()=>document.getElementById('status').textContent==='已保存到 Kindle');
  check('Save commits edited values to device',await page.locator('#save').isDisabled());check('Custom text is handled without executing markup',errors.length===0);
  const response=await context.request.get(meta.origin+'/api/layout',{headers:{Authorization:'Bearer '+meta.token}}),layout=await response.json();check('HTTP readback matches toggles quote and daily goal',layout.config.daily_goal_minutes===45&&layout.config.widgets[0].enabled!==before&&layout.config.quote_text.startsWith('<img'));
+ check('Preview is a single bounded screen with no scrolling controls',await page.locator('#prev,#next').count()===0&&(await page.locator('#capacity').textContent()).includes('本屏显示'));
+ const acceptedCount=layout.config.widgets.filter(w=>w.enabled).length;
+ await page.locator('article input[type=checkbox]').evaluateAll(inputs=>{for(const checkbox of inputs)if(!checkbox.checked){checkbox.checked=true;checkbox.dispatchEvent(new Event('change',{bubbles:true}));}});
+ await page.waitForFunction(()=>document.getElementById('status').textContent.includes('本次修改未应用'));
+ check('Overflow reports the device reason and rolls back rejected controls',await page.locator('article input[type=checkbox]:checked').count()===acceptedCount&&(await page.locator('#status').textContent()).includes('空间不足'));
+ await page.locator('article input[type=checkbox]').first().check();await page.waitForFunction(()=>document.getElementById('status').textContent.includes('预览已更新'));
+ await page.locator('#save').click();await page.waitForFunction(()=>document.getElementById('status').textContent==='已保存到 Kindle');
+ check('Editor stays usable after a rejected overflowing change',await page.locator('#save').isDisabled()&&errors.length===0);
  const noauth=await context.request.get(meta.origin+'/api/layout');check('Unauthenticated network request is rejected',noauth.status()===401);
  const badOrigin=await context.request.get(meta.origin+'/api/layout',{headers:{Authorization:'Bearer '+meta.token,Origin:'http://foreign.example'}});check('Cross origin network request is rejected',badOrigin.status()===403);
  const badHost=await context.request.get(meta.origin+'/api/layout',{headers:{Authorization:'Bearer '+meta.token,Host:'foreign.example'}});check('Foreign Host network request is rejected',badHost.status()===403);

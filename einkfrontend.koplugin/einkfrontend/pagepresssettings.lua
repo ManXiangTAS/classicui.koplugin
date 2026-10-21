@@ -1,12 +1,12 @@
 -- Original implementation. SPDX-License-Identifier: AGPL-3.0-or-later
 local View={}
-local labels={enabled='PagePress 翻页',pressure='按压力度',haptic='震动反馈',gain='反馈强度'}
+local labels={enabled='启用翻页键',pressure='按压力度',haptic='震动反馈',gain='反馈强度'}
 local gains={'弱','中','强','最强'}
 function View.render(app,route,m,row,go)
  if route.id~='pagepress_settings' and route.id~='pagepress_choice' then return false end
- m.settings=true;m.title='PagePress';m.subtitle=''
+ m.settings=true;m.title='翻页键';m.subtitle=''
  local service=app.pagepress
- if not service then row('当前设备不支持 PagePress');return true end
+ if not service then row('当前设备不支持翻页键');return true end
  local function choose(key,value)
   local ok,why=service:change(key,value)
   if ok then app:back() else app:message(why) end
@@ -28,7 +28,7 @@ function View.render(app,route,m,row,go)
   row('反转翻页方向',nil,function()
    require('ui/uimanager'):broadcastEvent(require('ui/event'):new('SwapPageTurnButtons'));app:render()
   end);m.rows[#m.rows].checked=G_reader_settings:isTrue('input_invert_page_turn_keys')
-  row('关于 PagePress 设置',nil,function()
+  row('关于翻页键设置',nil,function()
    app:message('按压力度越小越容易触发。100 / 150 / 200 是墨页提供的预设。\n设置在 KOReader 内生效，休眠或退出墨页时尝试恢复进入前的 Kindle 设置；唤醒后重新应用。\n左右两侧按键共用设置。真机效果待验证。')
   end)
  else

@@ -119,15 +119,15 @@ check('Half-width pairs always have equal heights including shelves and stats, w
   local f=widgets.layout(c,Device.screen:getWidth());assert(f[1].y==f[2].y and f[1].h==f[2].h and f[3].y>f[1].y+f[1].h)
  end end
 end)
-check('All six dashboards read native data and render at full and half width, including clipped scroll',function()
+check('All six dashboards read native data and render within a fixed viewport at full and half width',function()
  local layout=app.home_layout
- for _,span in ipairs({2,1}) do
-  assert(layout:change(function(c) for _,v in ipairs(c.widgets) do v.enabled=Layout.by_id[v.id].stats==true;v.span=span end end))
+ for _,span in ipairs({2,1}) do for _,def in ipairs(Layout.registry) do if def.stats then
+  assert(layout:change(function(c) for _,v in ipairs(c.widgets) do v.enabled=v.id==def.id;v.span=span end end))
   app:open('home');UI:forceRePaint();assert(not app.screen.paint_fault and app.screen.model.home_data.dashboard)
   shot('home-statistics-'..span)
   local page=app.screen
   for _,frame in ipairs(page.widget_frames) do page:scrollBy(frame.y-page.scroll_y);UI:forceRePaint();assert(not page.paint_fault);shot('widget-'..frame.id..'-'..span) end
- end
+ end end end
  assert(layout:change(function(c) for _,v in ipairs(c.widgets) do v.enabled=v.id=='clock' or v.id=='quote';v.span=1 end end))
  app:open('home');shot('home-equal-clock-quote')
  local f=app.screen.widget_frames;assert(f[1].h==f[2].h and f[1].y==f[2].y)
