@@ -1,6 +1,6 @@
 {
   "snapshot_date": "2026-10-21",
-  "software_version": "0.4.0-test.4",
+  "software_version": "0.5.0-test.1",
   "working_name": "墨页 E-Ink Frontend",
   "overall_status": "DEVELOPMENT_PREVIEW_DESKTOP_VERIFIED_DEVICE_PENDING",
   "device": {
@@ -134,15 +134,22 @@
     "pagepress": "Voyage-only driver ABI adapter; enable pressure haptic lock and actual gain readback; desktop mocked ABI verified, device pending",
     "home_fixed_viewport": "Header/footer bounded; adaptive minimum sizes; no vertical scrolling; overflow editing checks; legacy layouts preserved",
     "reader_themes": "One built-in default using KOReader defaults; actual saved themes retained; Material Sharp format_size icon",
-    "pagepress_wake_retry": "Typed temporary busy only; bounded 4 seconds; canceled on suspend and last owner detach; no force unlock"
+    "pagepress_wake_retry": "Typed temporary busy only; bounded 4 seconds; canceled on suspend and last owner detach; no force unlock",
+    "settings_more_menu": [
+      "Scoped search",
+      "Confirm and native KOReader restart"
+    ],
+    "lan_book_transfer": "Temporary authenticated IPv4 HTTP; chunked disk writes; safe filenames; no overwrite; automatic scan; 30 minute session",
+    "transfer_setup": "First automatic launch wizard; ManualBook default; path can be changed and library root follows",
+    "epub_reflow": "Explicit opt-in; same-origin local engine; sandboxed previews; configurable layout; ZIP/size/CRC/path/encryption guards; _精排 copy"
   },
   "verification": {
-    "current_version": "0.4.0-test.4",
-    "checks": 814,
-    "distinct_cases": 304,
-    "process_runs": 96,
-    "summary": "test-results-050/combined-summary.json",
-    "lua_syntax_files": 41,
+    "current_version": "0.5.0-test.1",
+    "checks": 911,
+    "distinct_cases": 361,
+    "process_runs": 101,
+    "summary": "test-results-051/combined-summary.json",
+    "lua_syntax_files": 44,
     "physical_device": "NOT_RUN_AFTER_CHANGES",
     "timezone_inventory": 419,
     "timezone_tests": "IANA offsets/DST, SQLite boundary, rollback, cross-owner state and restart",
@@ -155,7 +162,9 @@
       "test-results-048": 96,
       "test-results-049": 42,
       "test-results-050": 12,
-      "web_http": 17
+      "test-results-051": 60,
+      "home_web_http": 17,
+      "transfer_web_http": 37
     },
     "previous_full_baseline": {
       "version": "0.3.9-dev",
@@ -190,7 +199,7 @@
     "千本/万本性能与增量索引",
     "更多版本与机型适配"
   ],
-  "next_action": "Collect Voyage 5.13.6 retest for transient lock recovery and updated themes. Repository visibility remains private; no administration capability exposed.",
+  "next_action": "Collect Voyage 5.13.6 and Basic 2022 device validation for Wi-Fi, firewall, sleep cleanup and EPUB rendering. Repository visibility remains private; connection lacks visibility mutation.",
   "unattended_after_turn": false,
   "reference_scope": {
     "pinned_repositories": 10,
@@ -266,10 +275,10 @@
     "runtime": "Official KOReader v2026.07.1, same source as v2026.07.2; SDL3 dummy; Chromium and actual LuaSocket HTTP"
   },
   "current_validation": {
-    "version": "0.4.0-test.4",
-    "checks": 814,
-    "distinct_cases": 304,
-    "runs": 96,
+    "version": "0.5.0-test.1",
+    "checks": 911,
+    "distinct_cases": 361,
+    "runs": 101,
     "failures": 0,
     "suites": {
       "test-results": 143,
@@ -279,11 +288,13 @@
       "test-results-048": 96,
       "test-results-049": 42,
       "test-results-050": 12,
-      "web_http": 17
+      "test-results-051": 60,
+      "home_web_http": 17,
+      "transfer_web_http": 37
     },
     "device": "NOT_RUN_AFTER_CHANGES",
-    "hardware": "Voyage 5.13.6 photograph: driver lock error. Busy recovery verified against ABI emulator; no real hardware writes.",
     "runtime": "Official KOReader v2026.07.1, same source as v2026.07.2; SDL3 dummy; Chromium and actual LuaSocket HTTP",
-    "current_code": "All counted suites rerun for test.4."
+    "transfer": "Safe scoped paths, chunk order, duplicate preservation, persistent destination, wizard, scoped More search, restart callback, cleanup failure retry, idle/expiry/suspend/root switch/firewall rollback verified",
+    "web": "Real byte-identical uploads, opt-in typography, image/nav/OPF preservation, script/network isolation, ZIP expansion/path/CRC/symlink/XML/CSS rejection, cancel and no partial files"
   }
 }

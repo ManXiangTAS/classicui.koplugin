@@ -2,11 +2,11 @@
 
 为 KOReader 提供统一的黑白阅读前端：书库、主页、阅读菜单和设置。首测设备为 Kindle Voyage，当前支持 **KOReader v2026.07.1 / v2026.07.2 stable**，固定源码 `9192014d8bd82a91dc1012473be0f238dedfdb54`。不修改 KOReader 核心文件。
 
-**当前版本：0.4.0-test.4，测试版。桌面集成与浏览器验证通过，修改后尚未进行 Voyage 真机验收。**
+**当前版本：0.5.0-test.1，测试版。桌面集成与浏览器验证通过，修改后尚未进行 Voyage 真机验收。**
 
 ## 下载与安装
 
-从 [测试版发布页](https://github.com/ManXiangTAS/classicui.koplugin/releases/tag/v0.4.0-test.4) 下载 `ClassicUI_0.4.0-test.4_install.zip`。
+从 [测试版发布页](https://github.com/ManXiangTAS/classicui.koplugin/releases/tag/v0.5.0-test.1) 下载 `ClassicUI_0.5.0-test.1_install.zip`。
 
 1. 完全退出 KOReader，升级前备份原插件和 `koreader/settings`。
 2. 将压缩包中的 `einkfrontend.koplugin` 文件夹复制到 `koreader/plugins/`，升级时覆盖同名插件。
@@ -17,7 +17,16 @@
 
 ## 本版变化
 
-- 修复翻页键唤醒时系统暂时占用后不再应用覆盖、恢复后旧错误残留的问题。最多短时重试4秒，不解除系统锁；错误提示去掉代码路径。说明移至标题旁的信息图标。见 [本次修复说明](docs/0.4.0-test.4_修复说明.md)。
+- 设置页右上角三个点提供搜索和重启 KOReader。
+- 首次向导可设置传书与书库共用目录，默认 `/mnt/us/documents/ManualBook`；在设置中可更改。
+- 同一 Wi-Fi 扫码打开临时网页，拖放或多选传书；同名书籍保留，完成后自动更新书库。
+- EPUB 重排手动勾选，支持高级参数和前后预览。采用统一的白色页面、蓝色辅助操作和黄色主按钮。
+- [传书与重排说明](docs/0.5.0_网页传书与重排.md) · [安装与完整使用教程](docs/墨页安装与使用教程.html)。
+
+![网页传书](docs/previews/transfer-desktop.png)
+![EPUB 高级设置与预览](docs/previews/epub-advanced.png)
+
+- 修复翻页键唤醒时系统暂时占用后不再应用覆盖、恢复后旧错误残留的问题。最多短时重试4秒，不解除系统锁；错误提示去掉代码路径。说明移至标题旁的信息图标。
 
 - 主页固定在标题栏和底部导航之间，上下滑动、拖动或翻页键不再滚动内容。所有部件按可用高度调整，半行配对等高；保持可读的最小尺寸。一屏放不下时编辑器提示调整，不会自动删除旧配置。设备和手机预览使用同一范围。见 [主页固定一屏](docs/主页固定一屏.md)。
 
@@ -50,7 +59,7 @@
 
 ## 验证与开发
 
-见 [版本说明](docs/0.4.0_主题与主页编辑.md)、[实测指南](Voyage_0.4.0_实测指南.md) 和 `test-results-050/combined-summary.json`。测试使用官方 KOReader Linux AppImage、真实 Lua 模块、crengine/MuPDF 及 Chromium，所有书籍和配置均在隔离目录中。测试报告不代表真机通过。
+见 [版本说明](docs/0.4.0_主题与主页编辑.md)、[实测指南](Voyage_0.4.0_实测指南.md) 和 `test-results-051/combined-summary.json`。测试使用官方 KOReader Linux AppImage、真实 Lua 模块、crengine/MuPDF 及 Chromium，所有书籍和配置均在隔离目录中。测试报告不代表真机通过。
 
 `python tests/build_public_release.py dist` 可重建公开安装包与源码包，并验证插件源文件哈希、时区、图标和许可。集成运行器用法：`python tests/run_regression046.py /absolute/path/to/koreader`；其他回归运行器位于 `tests/`。手机编辑测试额外需要 Playwright/Chromium，环境变量 `EINK_CHROMIUM` 指定浏览器。
 

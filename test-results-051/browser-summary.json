@@ -1,0 +1,146 @@
+{
+  "checks": [
+    {
+      "name": "Token fragment is removed and destination matches device settings",
+      "status": "PASS"
+    },
+    {
+      "name": "Reflow is opt in and unavailable until explicit preview",
+      "status": "PASS"
+    },
+    {
+      "name": "Standalone installation and usage guide is available locally",
+      "status": "PASS"
+    },
+    {
+      "name": "Missing token rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "Foreign origin rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "DNS rebinding host rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "No file download or filesystem listing endpoint",
+      "status": "PASS"
+    },
+    {
+      "name": "Hostile filename rejected \"../escape.epub\"",
+      "status": "PASS"
+    },
+    {
+      "name": "Hostile filename rejected \"bad.lua\"",
+      "status": "PASS"
+    },
+    {
+      "name": "Hostile filename rejected \"a\\r\\nB: x.epub\"",
+      "status": "PASS"
+    },
+    {
+      "name": "Multi chunk original file arrives byte for byte",
+      "status": "PASS"
+    },
+    {
+      "name": "Existing names get a suffix without modifying original",
+      "status": "PASS"
+    },
+    {
+      "name": "Advanced view loads the real supplied EPUB engine",
+      "status": "PASS"
+    },
+    {
+      "name": "Processed preview is sandboxed and uses selected typography",
+      "status": "PASS"
+    },
+    {
+      "name": "Preview keeps real images visible inside opaque sandbox",
+      "status": "PASS"
+    },
+    {
+      "name": "Confirming preview explicitly enables reflow",
+      "status": "PASS"
+    },
+    {
+      "name": "Reflow generates a separate readable EPUB and leaves original local bytes unchanged",
+      "status": "PASS"
+    },
+    {
+      "name": "Preserved resource OEBPS/window.png",
+      "status": "PASS"
+    },
+    {
+      "name": "Preserved resource OEBPS/nav.xhtml",
+      "status": "PASS"
+    },
+    {
+      "name": "Preserved resource OEBPS/content.opf",
+      "status": "PASS"
+    },
+    {
+      "name": "Footnote anchors links and chapter title survive",
+      "status": "PASS"
+    },
+    {
+      "name": "Font declarations and page background are cleaned",
+      "status": "PASS"
+    },
+    {
+      "name": "Generated EPUB has first uncompressed mimetype",
+      "status": "PASS"
+    },
+    {
+      "name": "Encrypted EPUB is refused for reflow",
+      "status": "PASS"
+    },
+    {
+      "name": "Expansion bomb is rejected before inflating",
+      "status": "PASS"
+    },
+    {
+      "name": "ZIP traversal rejected instead of silently normalizing",
+      "status": "PASS"
+    },
+    {
+      "name": "Corrupt resource CRC stops reflow",
+      "status": "PASS"
+    },
+    {
+      "name": "ZIP symlinks and special files are refused",
+      "status": "PASS"
+    },
+    {
+      "name": "XML entity declarations are rejected before DOM parsing",
+      "status": "PASS"
+    },
+    {
+      "name": "Deep CSS nesting is refused before recursive processing overflows",
+      "status": "PASS"
+    },
+    {
+      "name": "Book preview cannot execute scripts or make external requests",
+      "status": "PASS"
+    },
+    {
+      "name": "Browser cancel removes partial file and stays usable",
+      "status": "PASS"
+    },
+    {
+      "name": "Phone layout fits viewport",
+      "status": "PASS"
+    },
+    {
+      "name": "Reload reuses the same session without putting the secret in URL",
+      "status": "PASS"
+    },
+    {
+      "name": "No JavaScript errors in upload and preview UI",
+      "status": "PASS"
+    }
+  ],
+  "device": "NOT_RUN",
+  "backend": "Real KOReader LuaSocket + Chromium; disk byte comparison"
+}

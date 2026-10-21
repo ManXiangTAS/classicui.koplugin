@@ -46,7 +46,7 @@ function Plugin:init()
     if self.active and not self.ui.document and (requested or (not suppress_start and self:option("auto_open",true))) then
         self.pending_open=function()
             self.pending_open=nil
-            if self.active and self.adapter:alive() then self.app:safe(function() self.app:open(requested) end) end
+            if self.active and self.adapter:alive() then self.app:safe(function() self.app:open(requested);local t=require("einkfrontend/transfersettings");if not t.config().configured and not t.config().wizard_seen then t.wizard(self.app) end end) end
         end
         self.ui:registerPostInitCallback(function()
             if self.active and self.pending_open then UIManager:nextTick(self.pending_open) end
@@ -142,6 +142,7 @@ function Plugin:onCloseDocument()
     self:stopPlugin(self.ui.tearing_down)
 end
 function Plugin:onSuspend()
+    if self.app and self.app.transfer_server then self.app.transfer_server:stop() end
     if self.app and self.app.pagepress then self.app.pagepress:suspend() end
     if self.app and self.app.home_editor then self.app.home_editor:onSuspend() end
 end

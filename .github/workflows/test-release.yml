@@ -13,6 +13,15 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Restore verified guide from bounded transfer parts
+        if: hashFiles('.bootstrap/guide-*.part') != ''
+        run: |
+          python3 .bootstrap/restore.py
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --all
+          git commit -m 'Restore verified offline guide and clean transfer staging'
+          git push origin HEAD:main
       - name: Import reviewed source snapshot on first publication
         if: hashFiles('.bootstrap/source.zip') != ''
         run: |

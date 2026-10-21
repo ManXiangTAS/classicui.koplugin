@@ -18,6 +18,7 @@ function Settings.render(app,route,m,row,go)
    m.title="高级排版"
    row("原生页面配置","高级页面控件兼容入口",function() app:openNativeConfig() end)
   end
+  if route.param=="library" or route.param=="network" then row("传书与书库",nil,go("transfer_settings")) end
   local nodes=app.native.catalog.roots[route.param] or {}
   if route.param=="input" and app.pagepress then row("翻页键",nil,go("pagepress_settings")) end
   if route.param=="device" or route.param=="network" then
@@ -71,6 +72,7 @@ function Settings.search(app,query)
  local function add(title,path,route,param,keywords)
   if match(title.." "..(keywords or "")) then results[#results+1]={title=title,path=path,route=route,param=param} end
  end
+ add("传书与书库","书库与文件","transfer_settings",nil,"上传 传输 书籍 文件 目录 文件夹 路径 网页 Wi-Fi 重排 EPUB")
  add("时间与日期","设备与系统","clock_settings",nil,"网络同步时间 校时 时区 夏令时 timezone ntp")
  if app.pagepress then add("翻页键","触控与按键","pagepress_settings",nil,"PagePress 压感 按压力度 灵敏度 震动 振动 反馈 翻页 按键 Voyage") end
  add("前端开关与恢复","维护与恢复","frontend",nil,"停用 启动 接管 原生兼容")

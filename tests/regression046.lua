@@ -3,6 +3,7 @@ package.path='plugins/einkfrontend.koplugin/?.lua;'..package.path
 G_defaults=require('luadefaults'):open()
 local DS=require('datastorage');local Settings=require('luasettings')
 G_reader_settings=Settings:open(DS:getDataDir()..'/settings.reader.lua')
+G_reader_settings:saveSetting('eink_transfer',{wizard_seen=true})
 G_reader_settings:saveSetting('language','zh_CN');require('gettext').changeLang('zh_CN')
 G_reader_settings:saveSetting('eink_frontend',{auto_open=false,reader_entry=true,full_takeover=true})
 G_reader_settings:saveSetting('document_metadata_folder','dir')

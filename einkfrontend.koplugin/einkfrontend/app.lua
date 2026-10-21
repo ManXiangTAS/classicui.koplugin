@@ -92,6 +92,7 @@ function App:open(route,param)
 end
 
 function App:close()
+    if self.transfer_server then self.transfer_server:stop() end
     Overlay.close(self)
     if self.reader_topbar then self.reader_topbar:close() end
     if self.library_popup then self.library_popup:close() end
@@ -157,7 +158,25 @@ function App:change(item,value)
     self:render()
 end
 
+function App:showSettingsMore()
+ local dialog
+ dialog=require('ui/widget/buttondialog'):new{title='更多',buttons={
+  {{text='搜索',callback=function() UIManager:close(dialog);self:searchCurrent() end}},
+  {{text='重启 KOReader',callback=function() UIManager:close(dialog);self:confirm('保存设置并重启 KOReader？',function()
+   UIManager:flushSettings();UIManager:restartKOReader()
+  end) end}},
+ }};UIManager:show(dialog)
+ return dialog
+end
+
 function App:scanLibrary(path)
+    local transfer=require('einkfrontend/transfersettings');local config=transfer.config()
+    if config.configured and config.path~=path then
+        path=require('einkfrontend/transferstore').directory(path,false)
+        local old=config.path;config.path=path;G_reader_settings:saveSetting('eink_transfer',config)
+        if G_reader_settings:flush()==false then config.path=old;error('无法保存书库目录') end
+        if self.transfer_server then self.transfer_server:stop() end
+    end
     self.status="正在整理书库，可随时退出"
     self.library:scan(path,function(ok,message)
         if not self.screen then return end
@@ -360,7 +379,8 @@ function App:render()
     local m={title="墨页",subtitle="",rows={},page=route.page or 1,route=route}
     local function row(title,note,fn) m.rows[#m.rows+1]={title=title,note=note,callback=fn} end
     local function go(id,param) return function() self:go(id,param) end end
-    if require("einkfrontend/clocksettings").render(self,route,m,row,go) then
+    if require("einkfrontend/transfersettings").render(self,route,m,row,go) then
+    elseif require("einkfrontend/clocksettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/pagepresssettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/homecustom").render(self,route,m,row,go) then
     elseif require("einkfrontend/settings").render(self,route,m,row,go) then
