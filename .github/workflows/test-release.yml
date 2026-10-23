@@ -1,8 +1,13 @@
-name: Build and publish test package
+name: Prepare release candidate
 on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      publish_confirmed:
+        description: Publish only after the maintainer has confirmed device stability
+        type: boolean
+        default: false
 permissions:
   contents: write
 concurrency:
@@ -32,8 +37,11 @@ jobs:
           git commit -m 'Import verified ClassicUI 0.4.0-test.1 source snapshot'
           git push origin HEAD:main
       - name: Verify source and build reproducible artifacts
-        run: python3 tests/build_public_release.py dist
-      - name: Publish verified prerelease assets
+        run: |
+          python3 tests/test_release_policy.py
+          python3 tests/build_public_release.py dist
+      - name: Prepare draft assets and hide previous releases
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_PUBLISH_CONFIRMED: ${{ github.event_name == 'workflow_dispatch' && inputs.publish_confirmed && '1' || '0' }}
         run: GITHUB_SHA=$(git rev-parse HEAD) python3 tools/publish_test_release.py dist

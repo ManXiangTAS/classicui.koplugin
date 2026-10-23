@@ -315,9 +315,22 @@ function Adapter:openKindleLibrary()
     assert(ok and handled,"Kindle 书库未能打开；请检查该插件设置")
 end
 
-function Adapter:returnToLibrary()
+function Adapter:returnToLibrary(shell)
     assert(self:alive() and self.ui.document,"请先打开书籍")
-    self.ui:onHome()
+    local gate=self.app and self.app.plugin.gate
+    if gate then gate:native(function() self.ui:onHome() end) else self.ui:onHome() end
+    -- onHome may reuse an existing FileManager, which never runs plugin init.
+    -- Complete the handoff against its actual live plugin instead of relying
+    -- solely on a startup flag or post-init task to reopen the shell.
+    local fm=require("apps/filemanager/filemanager").instance
+    local target=fm and fm.einkfrontend
+    if target and target.active and target.adapter:alive() then
+        if target.pending_open then
+            require("ui/uimanager"):unschedule(target.pending_open);target.pending_open=nil
+        end
+        Adapter.shell_requested=nil;Adapter.library_requested=nil
+        target.app:safe(function() target.app:open(shell=="home" and "home" or "library") end)
+    end
 end
 
 function Adapter.equal(a,b)

@@ -57,7 +57,7 @@ function Plugin:init()
 end
 
 function Plugin:addToMainMenu(items)
-    items.einkfrontend={text="墨页前端（开发预览）",sorting_hint="more_tools",callback=function() self:onEInkFrontendOpen() end}
+    items.einkfrontend={text="墨页前端",sorting_hint="more_tools",callback=function() self:onEInkFrontendOpen() end}
 end
 
 function Plugin:onEInkFrontendOpen()
@@ -135,6 +135,7 @@ function Plugin:installTakeover()
         elseif destination=="annotation_details" then self.app:showNavigation("details",...)
         elseif destination=="aa" then self.app:showReader("font")
         elseif destination=="book_statistics" then self.app:showBookStatistics()
+        elseif destination=="library" then self.app:returnToOrigin()
         else self.app:showReader("menu") end
     end):install()
     self.gate.onFailure=function() self:stopPlugin() end

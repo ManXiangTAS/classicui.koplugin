@@ -3,12 +3,17 @@ const require=createRequire(import.meta.url),{chromium}=require('playwright');
 const m=JSON.parse(readFileSync(process.argv[2],'utf8')),report={checks:[],external:[],errors:[]};
 const browser=await chromium.launch({executablePath:process.env.EINK_CHROMIUM,headless:true,args:['--no-sandbox']});const context=await browser.newContext({viewport:{width:1440,height:1100},recordVideo:{dir:m.output+'/recordings',size:{width:1440,height:1100}}});const page=await context.newPage();
 page.on('pageerror',e=>report.errors.push(e.message));page.on('request',r=>{if(/^https?:/.test(r.url())&&!r.url().startsWith(m.origin))report.external.push(r.url());});
+page.on('requestfailed',r=>{if(r.failure()?.errorText!=='net::ERR_ABORTED')console.error('Request failed',new URL(r.url()).pathname,r.failure()?.errorText);});
 const check=(name,ok)=>{if(!ok)throw Error(name);report.checks.push({name,status:'PASS'});console.log('PASS '+name);};
 const begins=[];page.on('request',r=>{if(r.url().endsWith('/api/begin'))begins.push(r.postDataJSON());});
 const headers={Authorization:'Bearer '+m.token};const waitDone=()=>page.waitForFunction(()=>document.querySelectorAll('.status.good').length>0&&document.querySelector('#cancel').hidden);
 try{
  await page.goto(m.url);await page.waitForFunction(()=>!!document.querySelector('#directory').textContent);
  check('Token is removed from the address and no reflow UI remains',!new URL(page.url()).hash&&await page.locator('#advanced,#reflow,iframe').count()===0);
+ check('Amazon blue banner and original device artwork load from this Kindle',await page.locator('.hero').evaluate(e=>getComputedStyle(e).backgroundColor)==='rgb(35, 117, 199)'&&await page.locator('.hero img').evaluate(e=>e.complete&&e.naturalWidth===606&&e.naturalHeight===188));
+ await page.locator('#drop').dispatchEvent('dragover');
+ check('Drag feedback uses the blue original document artwork',await page.locator('.documents img').evaluateAll(es=>es.every(e=>e.src.endsWith('-blue.svg'))));
+ await page.locator('#drop').dispatchEvent('dragleave');
  await page.screenshot({path:m.output+'/transfer-empty.png',fullPage:true});
  const req=context.request;
  check('Missing auth is rejected',(await req.get(m.origin+'/api/info')).status()===401);
@@ -38,4 +43,5 @@ try{
  check('Unsupported and empty files are not queued',await page.locator('.file').count()===0);
  check('No page JavaScript error and no external connection',report.errors.length===0&&report.external.length===0);
  writeFileSync(m.output+'/browser-summary.json',JSON.stringify({failures:0,checks:report.checks.length,distinct_cases:report.checks.length,runs:1,...report},null,2));
+}catch(e){console.error(JSON.stringify({errors:report.errors,message:await page.locator('#message').textContent()}));throw e;
 }finally{const video=page.video();await context.close();writeFileSync(m.output+'/recording.json',JSON.stringify({file:await video.path()}));await browser.close();}

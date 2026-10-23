@@ -165,6 +165,34 @@ end)
 check('Changing route discards old rail and row hits before the next paint',function()
  manySettings();app:open('settings');assert(not page.scroll_track and not next(page.hits));UI:forceRePaint()
 end)
+check('Quick control feedback follows the circle and leaves its corners and label unchanged',function()
+ app:showControls();local controls=app.controls;UI:forceRePaint()
+ local hit=assert(find(controls,'control_settings'));local c=assert(hit.feedback_circle)
+ local cx,cy=math.floor(c.cx),math.floor(c.cy);local corner_x,corner_y=cx-math.floor(c.r),cy-math.floor(c.r)
+ local label_x,label_y=cx,cy+S(42)
+ local before=Device.screen.bb:getPixel(cx,cy):getColor8().a
+ local corner=Device.screen.bb:getPixel(corner_x,corner_y):getColor8().a
+ local label=Device.screen.bb:getPixel(label_x,label_y):getColor8().a
+ local yield=UI.yieldToEPDC;local seen=0
+ UI.yieldToEPDC=function()
+  seen=seen+1
+  assert(Device.screen.bb:getPixel(cx,cy):getColor8().a==255-before)
+  assert(Device.screen.bb:getPixel(corner_x,corner_y):getColor8().a==corner)
+  assert(Device.screen.bb:getPixel(label_x,label_y):getColor8().a==label)
+  shot('controls-circle-pressed')
+ end
+ tap(controls,'control_settings');UI.yieldToEPDC=yield
+ assert(seen==1 and not app.controls and app.screen.model.settings)
+end)
+check('A circular feedback failure restores its original pixels before executing once',function()
+ UI:forceRePaint();local before=Device.screen.bb:getPixel(10,10):getColor8().a
+ local yield=UI.yieldToEPDC;UI.yieldToEPDC=function() error('circle feedback fixture') end
+ local calls=0;local w={hits={{x=0,y=0,w=25,h=25,feedback_circle={cx=10,cy=10,r=8},callback=function()
+  assert(Device.screen.bb:getPixel(10,10):getColor8().a==before);calls=calls+1
+ end}}}
+ assert(P.activate(w,{x=10,y=10}) and calls==1 and w._eink_feedback_failed)
+ UI.yieldToEPDC=yield
+end)
 check('Home remains a fixed viewport; editor list has its own independent rail',function()
  app:open('home');UI:forceRePaint();assert(page.scroll_max==0 and not page.scroll_track)
  app:showHomeEditor();local ed=app.home_editor;UI:forceRePaint();railGeometry(ed,ed.scroll_track);shot('home-editor-scroll')

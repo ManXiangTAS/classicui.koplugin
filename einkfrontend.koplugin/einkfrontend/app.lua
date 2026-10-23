@@ -324,7 +324,7 @@ function App:returnToOrigin()
     self.library.settings:saveSetting("return_stack",context.routes)
     self.library.settings:saveSetting("resume_library",true);self.library.settings:flush()
     require("einkfrontend/adapter").shell_requested=context.shell
-    self:close();self.adapter:returnToLibrary()
+    self:close();self.adapter:returnToLibrary(context.shell)
 end
 -- Compatibility name for existing callers; the destination follows book provenance.
 function App:returnToLibrary() return self:returnToOrigin() end

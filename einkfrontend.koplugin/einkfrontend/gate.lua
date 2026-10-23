@@ -28,9 +28,10 @@ function Gate:wrap(object,key,destination,direction)
         if not self.active or self.native_depth>0 or self.native_session or (direction and (not gesture or gesture.direction~=direction)) then
             return original(this,...)
         end
-        local ok=pcall(self.route,destination,key,unpack(args))
+        local ok,why=pcall(self.route,destination,key,unpack(args))
         if ok then return true end
         -- Routing failed: restore the instance and delegate this call to native behavior.
+        require('logger').err('EInkFrontend route failed:',destination,why)
         self:restore()
         if self.onFailure then pcall(self.onFailure) end
         return original(this,...)
@@ -55,6 +56,7 @@ function Gate:install()
     self:wrap(menu,"onTapShowMenu",self.ui.document and "reader_top" or "ignore_top_tap")
     self:wrap(menu,"onSwipeShowMenu","controls","south")
     if self.ui.document then
+        self:wrap(self.ui,"onHome","library")
         self:wrap(self.ui.toc,"onShowToc","toc")
         self:wrap(self.ui.bookmark,"onShowBookmark","bookmarks")
         self:wrap(self.ui.bookmark,"showBookmarkDetails","annotation_details")

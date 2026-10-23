@@ -131,6 +131,20 @@ check('Invalid metadata and prices are rejected before file creation',function()
  for _,d in ipairs({{name='a.txt',size=4,title=''},{name='a.txt',size=4,author=3},{name='a.txt',size=4,price='-10'},{name='a.txt',size=4,price='0.001'},{name='a.txt',size=4,command='ls'},{name='../a.txt',size=4,title='x'}}) do assert(req('POST','/api/begin',json.encode(d))==400);assert(not server.store.upload) end
  assert(req('POST','/api/begin',json.encode{name='a.txt',size=4}, {host='evil',authorization=headers.authorization,['content-type']='application/json'})==403)
 end)
+check('Deep JSON is rejected before decoding and public asset routes remain bounded',function()
+ local body='{"title":'..string.rep('[',50)..'0'..string.rep(']',50)..'}'
+ assert(req('POST','/api/begin',body)==400 and not server.store.upload)
+ assert(server:request('GET','/assets/kindle-devices.png',{host=server.host},''):match('HTTP/1.1 200'))
+ assert(req('GET','/assets/../../main.lua')==404)
+end)
+check('Cancellation reports failed cleanup and permits retry without losing delivered books',function()
+ local _,u=req('POST','/api/begin',json.encode{name='取消.txt',size=5,title='取消'})
+ local temp=assert(server.store.temp);local remove=os.remove
+ os.remove=function(path) if path==temp then return nil,'fixture' end;return remove(path) end
+ local code,result=req('POST','/api/cancel/'..u.id,'');os.remove=remove
+ assert(code==400 and not result.cancelled and lfs.attributes(temp))
+ local retried,data=req('POST','/api/cancel/'..u.id,'');assert(retried==200 and data.cancelled and not lfs.attributes(temp))
+end)
 check('Upload preserves bytes and persists filename, native metadata and price; finish replay is idempotent',function()
  local code,u=req('POST','/api/begin',json.encode{name='新书.txt',size=5,title='测试标题',author='测试作者',price='39.80'});assert(code==200)
  local h={host=server.host,authorization=headers.authorization,['content-type']='application/octet-stream'}

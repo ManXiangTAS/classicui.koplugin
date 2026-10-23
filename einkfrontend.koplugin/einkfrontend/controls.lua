@@ -39,7 +39,8 @@ function Controls:paintTo(bb,x,y)
   if a.checked then P.rule(bb,cx-S(13),cy+S(28),S(26),2) end
   local m=P.label(bb,a[1],cx-cw/2,cy+S(32),cw,S(36),P.style.label,true,"center")
   self.action_layout[#self.action_layout+1]={label=a[1],cx=cx,cy=cy,radius=radius,icon=icon,label_x=m.x,label_w=m.w,id=a.id}
-  self.hits[#self.hits+1]={x=cx-cw/2,y=cy-S(34),w=cw,h=S(104),callback=a[2],id=a.id}
+  self.hits[#self.hits+1]={x=cx-cw/2,y=cy-S(34),w=cw,h=S(104),callback=a[2],id=a.id,
+   feedback_circle={cx=cx,cy=cy,r=radius}}
  end
  local state=self.app.adapter:deviceStatus()
  if state.frontlight then

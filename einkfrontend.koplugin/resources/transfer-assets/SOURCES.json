@@ -1,0 +1,25 @@
+{
+  "copyright": "Amazon or the respective rights holders; separate from the project code license",
+  "assets": [
+    {
+      "file": "image-document-blue.svg",
+      "source": "https://m.media-amazon.com/images/G/01/pdocs-client/stk/drag-n-drop/ImageDocument_blue.svg",
+      "sha256": "55da36d26293314cdce8e2e7cd18bfa8e326b86fdb45a90546e34fed2662093d"
+    },
+    {
+      "file": "text-document-blue.svg",
+      "source": "https://m.media-amazon.com/images/G/01/pdocs-client/stk/drag-n-drop/TextDocument_blue.svg",
+      "sha256": "db1393e5ed69a19c31bc48b88039382d82449f6d9df9f1459ca0d219a729ac21"
+    },
+    {
+      "file": "pdf-document-blue.svg",
+      "source": "https://m.media-amazon.com/images/G/01/pdocs-client/stk/drag-n-drop/PDFDocument_blue.svg",
+      "sha256": "2551fe9e319abcea8e9c181601fea21a6a06ad4b31df808aa0da969c3a643043"
+    },
+    {
+      "file": "kindle-devices.png",
+      "source": "https://m.media-amazon.com/images/G/01/pdocs-client/stk/DnDbanner._CB595750163_.png",
+      "sha256": "a277111bd9ac66d9aeef996f3b26b04794f147fc3a55c75545eb3ae31987806b"
+    }
+  ]
+}

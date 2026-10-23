@@ -121,23 +121,34 @@ local function feedback(widget,hit,UI)
   or (type(hit.id)=="string" and hit.id:match("_slider$"))
   or G_reader_settings:isFalse("flash_ui") then return end
  local screen=Device.screen
- local x,y,w,h,region,inverted
+ local x,y,w,h,region,inverted,snapshot
+ local circle=hit.feedback_circle
  local ok,err=pcall(function()
-  x=math.max(0,math.ceil(hit.x));y=math.max(0,math.ceil(hit.y))
-  w=math.min(screen:getWidth(),math.floor(hit.x+hit.w))-x
-  h=math.min(screen:getHeight(),math.floor(hit.y+hit.h))-y
+  local box=circle and {x=circle.cx-circle.r,y=circle.cy-circle.r,w=2*circle.r+1,h=2*circle.r+1} or hit
+  x=math.max(0,math.ceil(box.x));y=math.max(0,math.ceil(box.y))
+  w=math.min(screen:getWidth(),math.floor(box.x+box.w))-x
+  h=math.min(screen:getHeight(),math.floor(box.y+box.h))-y
   if w<=0 or h<=0 then return end
   region=require("ui/geometry"):new{x=x,y=y,w=w,h=h}
   UI:forceRePaint()
-  UI:widgetInvert(widget,x,y,w,h);inverted=true
+  if circle then
+   snapshot=P.BB.new(w,h,screen.bb:getType());snapshot:blitFrom(screen.bb,0,0,x,y,w,h)
+   for py=y,y+h-1 do
+    local half=math.floor(math.sqrt(math.max(0,circle.r^2-(py-circle.cy)^2)))
+    local left=math.max(x,math.ceil(circle.cx-half));local right=math.min(x+w-1,math.floor(circle.cx+half))
+    if right>=left then screen.bb:invertRect(left,py,right-left+1,1) end
+   end
+  else UI:widgetInvert(widget,x,y,w,h);inverted=true end
   UI:setDirty(nil,"fast",region)
   UI:forceRePaint();UI:yieldToEPDC()
  end)
  -- Undo before the action can replace/close the page, including on failure.
  local restored,restore_err=pcall(function()
-  if inverted then UI:widgetInvert(widget,x,y,w,h) end
+  if snapshot then screen.bb:blitFrom(snapshot,x,y,0,0,w,h)
+  elseif inverted then UI:widgetInvert(widget,x,y,w,h) end
   if region then UI:setDirty(nil,"ui",region) end
  end)
+ if snapshot then snapshot:free() end
  if not ok or not restored then
   owner._eink_feedback_failed=true
   require("logger").warn("EInkFrontend: click feedback disabled:",ok and restore_err or err)

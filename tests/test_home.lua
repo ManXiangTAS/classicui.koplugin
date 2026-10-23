@@ -149,5 +149,37 @@ check('Book shelf opens a real book and returns to the same fixed home without s
  assert(r.einkfrontend.app:readingReturnLabel()=='主页');r.einkfrontend.app:returnToOrigin();UI:_checkTasks();UI:_checkTasks()
  app=assert(FM.instance.einkfrontend.app);layout=app.home_layout;UI:forceRePaint();assert(app.screen.model.home);bounded(app.screen)
 end)
+check('Actual reader return tap restores the original shell with verbose logs enabled',function()
+ local Debug=require('dbg');Debug:turnOn();Debug:setVerbose(true)
+ for _,shell in ipairs({'library','home','library'}) do
+  app:open(shell);app:openRecentBook(books..'/A.epub');UI:_checkTasks();UI:_checkTasks()
+  local reading=assert(Reader.instance).einkfrontend.app
+  local notices={};for _,entry in ipairs(UI._window_stack) do if entry.widget.text then notices[#notices+1]=entry.widget end end
+  for _,notice in ipairs(notices) do UI:close(notice) end
+  reading:showReaderTopbar();UI:forceRePaint();local bar=reading.reader_topbar;local hit
+  for _,h in ipairs(bar.hits) do if h.id=='reader_return_library' then hit=h end end
+  assert(hit);UI:sendEvent(require('ui/event'):new('Gesture',{ges='tap',pos=require('ui/geometry'):new{x=hit.x+hit.w/2,y=hit.y+hit.h/2}}))
+  UI:_checkTasks();UI:_checkTasks();app=assert(FM.instance).einkfrontend.app;layout=app.home_layout
+  assert(app.screen and (shell=='home' and app.screen.model.home or shell=='library' and app.screen.model.library))
+ end
+ Debug:setVerbose(false);Debug:turnOff()
+end)
+check('Returning through the native reader entry restores Moye even without a startup resume flag',function()
+ app:open('library');app:openRecentBook(books..'/A.epub');UI:_checkTasks();UI:_checkTasks()
+ local reader=assert(Reader.instance);reader.einkfrontend.app.library.settings:delSetting('resume_library')
+ reader:onHome();UI:_checkTasks();UI:_checkTasks()
+ app=assert(FM.instance).einkfrontend.app;layout=app.home_layout
+ assert(app.screen and app.screen.model.library and not app.plugin.pending_open)
+end)
+check('Returning to an already constructed filemanager reopens the origin without plugin initialization',function()
+ app:open('home');app:openRecentBook(books..'/A.epub');UI:_checkTasks();UI:_checkTasks()
+ local reading=assert(Reader.instance).einkfrontend.app
+ -- ReaderUI explicitly supports this reuse branch in showFileManager.
+ FM:showFiles(books);local existing=assert(FM.instance);assert(not existing.einkfrontend.app.screen)
+ reading:returnToOrigin();UI:_checkTasks();UI:_checkTasks()
+ assert(FM.instance==existing);app=existing.einkfrontend.app;layout=app.home_layout
+ assert(app.screen and app.screen.model.home and not app.plugin.pending_open)
+ assert(not require('einkfrontend/adapter').shell_requested)
+end)
 app:close();FM.instance:onClose()
 local f=assert(io.open(output..'regression-'..variant..'.json','w'));f:write(json.encode(report));f:close();print('COMPLETE '..variant)

@@ -16,8 +16,8 @@ function Web.new(app,options)
  self.host=self.ip..':'..self.port;self.origin='http://'..self.host;self.url=self.origin..'/#'..self.token
  local good,why=pcall(function()
   self.assets={['/']={body=read('send-to-device.html'),mime='text/html; charset=utf-8'}}
-  for _,name in ipairs({'text-document.svg','pdf-document.svg','image-document.svg'}) do
-   self.assets['/assets/'..name]={body=read('transfer-assets/'..name),mime='image/svg+xml'}
+  for _,name in ipairs({'text-document.svg','pdf-document.svg','image-document.svg','text-document-blue.svg','pdf-document-blue.svg','image-document-blue.svg','kindle-devices.png'}) do
+   self.assets['/assets/'..name]={body=read('transfer-assets/'..name),mime=name:match('%.png$') and 'image/png' or 'image/svg+xml'}
   end
   self.installed={}
   if Device:isKindle() and not options.no_firewall then
@@ -66,6 +66,11 @@ function Web:request(method,path,headers,body)
  local valid,why=pcall(function()
   if method=='POST' and path=='/api/begin' then
    assert(headers['content-type']=='application/json','请求类型无效');assert(#body<=4096,'请求过大')
+   local depth,inside,escape=0,false,false
+   for i=1,#body do local c=body:sub(i,i)
+    if inside then if escape then escape=false elseif c=='\\' then escape=true elseif c=='"' then inside=false end
+    elseif c=='"' then inside=true elseif c=='{' or c=='[' then depth=depth+1;assert(depth<=8,'请求嵌套过深') elseif c=='}' or c==']' then depth=depth-1 end
+   end
    local d=assert(json.decode(body));assert(type(d)=='table','请求格式无效');for k in pairs(d) do assert(k=='name' or k=='size' or k=='title' or k=='author' or k=='price','未知请求字段') end
    local meta={}
    if d.title~=nil then assert(type(d.title)=='string' and #d.title<=600 and d.title:match('%S') and not d.title:find('[%c]'),'书名无效');meta.title=d.title end
@@ -91,7 +96,14 @@ function Web:request(method,path,headers,body)
    self.scan_job=function() self.scan_job=nil;if self.app.plugin.active and self.app.adapter:alive() then self.app:scanLibrary(self.store.root) end end
    UI:scheduleIn(.5,self.scan_job);local receipt={name=name,saved=true,warning=#warnings>0 and table.concat(warnings,'；') or nil};self.receipts[id]=receipt;self.receipt_order[#self.receipt_order+1]=id;if #self.receipt_order>20 then self.receipts[table.remove(self.receipt_order,1)]=nil end;return receipt
   elseif method=='POST' and path:match('^/api/cancel/[a-f0-9]+$') then
-   local id=path:match('/([a-f0-9]+)$');if self.store.upload then assert(self.store.upload.id==id,'上传标识无效');self.store:abort();self.metadata=nil end;return {cancelled=true}
+   assert(#body==0,'请求格式无效')
+   local id=path:match('/([a-f0-9]+)$');if self.store.upload then
+    assert(self.store.upload.id==id,'上传标识无效');local cleaned=self.store:abort()
+    assert(cleaned,'临时文件未能清理，请关闭传书后重试');self.metadata=nil;self.last_activity=nil
+   elseif self.store.temp then
+    assert(self.store.temp:match('/%.moye%-upload%-'..id..'%.part$'),'上传标识无效')
+    assert(self.store:abort(),'临时文件未能清理，请关闭传书后重试');self.metadata=nil;self.last_activity=nil
+   end;return {cancelled=true}
   end
  end)
  if valid and why then return self:response(200,json.encode(why)) end
@@ -126,7 +138,9 @@ function Web:poll()
  if self.store.temp and not self.store.upload and (not self.cleanup_at or now()>self.cleanup_at) then self.store:abort();self.cleanup_at=now()+1 end
  if self.last_activity and now()-self.last_activity>120 then self.store:abort();self.metadata=nil;self.last_activity=nil end
  for _=1,4 do local client=self.listener:accept();if not client then break end
-  if #self.clients>=4 then client:close() else client:settimeout(0);self.clients[#self.clients+1]={socket=client,buffer='',deadline=now()+15} end
+  -- A browser loads the four illustrations and /api/info concurrently. Keep
+  -- enough bounded slots for that first paint instead of dropping its API call.
+  if #self.clients>=8 then client:close() else client:settimeout(0);self.clients[#self.clients+1]={socket=client,buffer='',deadline=now()+15} end
  end
  for i=#self.clients,1,-1 do local c=self.clients[i];local done=false
   if now()>c.deadline then done=true
