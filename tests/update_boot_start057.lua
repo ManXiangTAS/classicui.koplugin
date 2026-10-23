@@ -1,0 +1,12 @@
+require('setupkoenv');package.path='plugins/einkfrontend.koplugin/?.lua;'..package.path
+G_defaults=require('luadefaults'):open()
+local DS=require('datastorage');G_reader_settings=require('luasettings'):open(DS:getDataDir()..'/settings.reader.lua')
+G_reader_settings:saveSetting('eink_frontend',{auto_open=false,full_takeover=true});G_reader_settings:saveSetting('eink_transfer',{wizard_seen=true})
+local Device=require('device');require('document/canvascontext'):init(Device)
+local FM=require('apps/filemanager/filemanager');FM:showFiles(os.getenv('EINK_030_BOOKS'))
+local app=assert(FM.instance.einkfrontend.app);app:open('plugin_update')
+local U=require('einkfrontend/updater');assert(U.current==os.getenv('EINK_BOOT_EXPECTED'),U.current)
+local B=require('einkfrontend/updateboot');assert(not B.pending(B.root()) and not B.load(B.work(B.root()),'journal.json'))
+app:open('about');assert(app.screen.model.subtitle:find(U.current,1,true))
+assert(B.read(B.root()..'/user-note.txt')=='preserved user file')
+print('PASS loaded complete plugin '..U.current);os.exit(0)

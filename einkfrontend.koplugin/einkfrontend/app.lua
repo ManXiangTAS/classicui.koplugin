@@ -387,7 +387,8 @@ function App:render()
     local m={title="墨页",subtitle="",rows={},page=route.page or 1,route=route}
     local function row(title,note,fn) m.rows[#m.rows+1]={title=title,note=note,callback=fn} end
     local function go(id,param) return function() self:go(id,param) end end
-    if require("einkfrontend/transfersettings").render(self,route,m,row,go) then
+    if require("einkfrontend/updatesettings").render(self,route,m,row,go) then
+    elseif require("einkfrontend/transfersettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/inputsettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/clocksettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/pagepresssettings").render(self,route,m,row,go) then
@@ -680,7 +681,7 @@ function App:render()
         end)
         row("停用墨页并重启后保持","恢复原生入口；重新启用请用原生插件管理器",function() self.plugin:disableFrontend() end)
     elseif route.id=="about" then
-        m.title="关于与兼容性";m.subtitle="ClassicUI · 墨页 · 0.5.0-test.6"
+        m.title="关于与兼容性";m.subtitle="ClassicUI · 墨页 · "..require("einkfrontend/version")
         local _,revision=require("einkfrontend/adapter").supported()
         row("KOReader "..revision,"固定源码：9192014d8bd82a91dc1012473be0f238dedfdb54")
         row("首测目标：Kindle Voyage","桌面软件验证与真机验收分别记录；未宣称真机通过")

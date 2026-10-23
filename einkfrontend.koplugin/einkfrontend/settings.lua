@@ -28,6 +28,7 @@ function Settings.render(app,route,m,row,go)
    row("时间与日期",nil,go("clock_settings"))
   end
   if route.param=="maintenance" then
+   row("墨页更新",nil,go("plugin_update"))
    row("前端开关与恢复",nil,go("frontend"))
    row("原生界面设置",nil,go("catalog_category","compatibility"))
    row("诊断与高级工具",nil,go("catalog_category","diagnostics"))
@@ -81,6 +82,7 @@ function Settings.search(app,query)
  add("中文输入法","触控与按键","input_method",nil,"拼音 中文 汉字 候选词 键盘 pinyin 中英 英文 输入 切换 EN")
  if require('device'):isKindle() then add("Kindle 原生屏保","设备与系统","stock_screensaver",nil,"休眠 图片 壁纸 screensaver") end
  if app.pagepress then add("翻页键","触控与按键","pagepress_settings",nil,"PagePress 压感 按压力度 灵敏度 震动 振动 反馈 翻页 按键 Voyage") end
+ add("墨页更新","维护与恢复","plugin_update",nil,"插件 检查更新 下载安装 更新 自动检查 自动更新 更新通道 OTA update")
  add("前端开关与恢复","维护与恢复","frontend",nil,"停用 启动 接管 原生兼容")
  for _,c in ipairs(Native.extra_categories) do add(c[2],"维护与恢复","catalog_category",c[1]) end
  for _,def in ipairs(require("einkfrontend/homelayout").registry) do add(def.name,"主页 › 编辑主页","home_customize",def.id,"部件 布局") end

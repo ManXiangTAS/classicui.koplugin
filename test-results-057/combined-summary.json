@@ -1,0 +1,21 @@
+{
+  "version": "0.5.0-test.7",
+  "checks": 839,
+  "distinct_cases": 297,
+  "runs": 99,
+  "failures": 0,
+  "device": "NOT_RUN",
+  "reports": [
+    "test-results/summary.json",
+    "test-results-030/summary.json",
+    "test-results-051/summary.json",
+    "test-results-053/summary.json",
+    "test-results-054/summary.json",
+    "test-results-055/summary.json",
+    "test-results-056/summary.json",
+    "test-results-057/summary.json",
+    "test-results-057/tls-summary.json",
+    "test-results-057/boot-summary.json"
+  ],
+  "scope": "Listed suites rerun. TLS uses a real loopback server; direct GitHub DNS unavailable; physical Kindle NOT_RUN. Historical browser checks excluded."
+}

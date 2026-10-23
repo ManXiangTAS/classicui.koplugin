@@ -2,11 +2,11 @@
 
 为 KOReader 提供统一的黑白阅读前端：书库、主页、阅读菜单和设置。首测设备为 Kindle Voyage，当前支持 **KOReader v2026.07.1 / v2026.07.2 stable**，固定源码 `9192014d8bd82a91dc1012473be0f238dedfdb54`。不修改 KOReader 核心文件。
 
-**当前版本：0.5.0-test.6，测试版。键盘加入常驻“中 / EN”快捷切换，记忆选择并保留输入内容；桌面检查通过，尚未进行 Kindle 真机验收。**
+**当前版本：0.5.0-test.7，测试版。新增插件内更新、可选自动检查与自动更新；下载校验后在下次启动安装。桌面验证通过，Kindle 真机与真实 GitHub 直连仍待验证。**
 
 ## 下载与安装
 
-从 [测试版发布页](https://github.com/ManXiangTAS/classicui.koplugin/releases/tag/v0.5.0-test.6) 下载 `ClassicUI_0.5.0-test.6_install.zip`。
+从 [测试版发布页](https://github.com/ManXiangTAS/classicui.koplugin/releases/tag/v0.5.0-test.7) 下载 `ClassicUI_0.5.0-test.7_install.zip`。
 
 1. 完全退出 KOReader，升级前备份原插件和 `koreader/settings`。
 2. 将压缩包中的 `einkfrontend.koplugin` 文件夹复制到 `koreader/plugins/`，升级时覆盖同名插件。
@@ -16,6 +16,12 @@
 恢复原生界面：设置 → 维护与恢复 → 前端开关与恢复，可临时进入原生菜单或停用插件。如果界面无法打开，完全退出 KOReader 后移走 `plugins/einkfrontend.koplugin`，保留书籍和设置，再启动。
 
 ## 本版变化
+
+- 设置 → 维护与恢复 → 墨页更新：手动检查、查看说明、下载准备更新和重启安装；可分别选择自动检查、自动更新。默认都关闭，后台只使用已有网络，不自动开启 Wi-Fi或重启。
+- 支持正式版与测试版通道，正确比较 `test.10` 与 `test.9`。下载经 HTTPS、SHA-256、清单与兼容性校验；启动前安装，失败时恢复旧文件，保留配置。详见[更新功能说明](docs/0.5.0-test.7_插件内更新.md)。
+- 旧版本尚无更新器，首次需手动安装本版；之后可在插件内更新。
+
+以下为0.5.0-test.6已加入的功能：
 
 - 键盘上方常驻“中 / EN”，一键切换，深色标出当前语言；英文状态也保留切回中文的入口。切换后记住选择，英文使用原生英文标点与大小写键位。切到英文时保留未选字拼音，已输入文字不变。详见[本版说明](docs/0.5.0-test.6_中英一键切换.md)。
 

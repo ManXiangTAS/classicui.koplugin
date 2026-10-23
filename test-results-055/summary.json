@@ -7,139 +7,7 @@
   "runtime_revision": "v2026.07.1",
   "results": [
     {
-      "tests": [
-        {
-          "name": "Chinese typing shows clickable candidates; selecting a word replaces only preedit",
-          "status": "PASS"
-        },
-        {
-          "name": "Space selects first candidate; Enter retains literal spelling without submitting the dialog",
-          "status": "PASS"
-        },
-        {
-          "name": "Backspace edits preedit; confirmation reads committed text; punctuation follows the chosen word",
-          "status": "PASS"
-        },
-        {
-          "name": "Input edit callbacks can read text without breaking preedit; old candidate callbacks cannot commit a new query",
-          "status": "PASS"
-        },
-        {
-          "name": "Candidate paging clears stale hits and boundary pages stay bounded",
-          "status": "PASS"
-        },
-        {
-          "name": "Separate input boxes never share composition; cursor motion commits before moving",
-          "status": "PASS"
-        },
-        {
-          "name": "Switching Chinese to English keeps quick switch available and reentering Chinese creates fresh state",
-          "status": "PASS"
-        },
-        {
-          "name": "Password and numeric fields do not run either Chinese IME or candidate UI",
-          "status": "PASS"
-        },
-        {
-          "name": "External pinyin plugin and explicit opt-out keep the native layout intact",
-          "status": "PASS"
-        },
-        {
-          "name": "Candidate UI fits viewport, stays above native keys and does not cover dialog buttons",
-          "status": "PASS"
-        },
-        {
-          "name": "Input and stock screensaver settings are scoped; global search finds the new input route",
-          "status": "PASS"
-        },
-        {
-          "name": "Missing or empty stock image directories never change current settings",
-          "status": "PASS"
-        },
-        {
-          "name": "Stock image activation and preview use local artwork; restoration preserves later user changes",
-          "status": "PASS"
-        },
-        {
-          "name": "Settings write failure rolls back stock configuration",
-          "status": "PASS"
-        },
-        {
-          "name": "Final owner detach restores keyboard hooks and closed dialog candidates cannot type",
-          "status": "PASS"
-        }
-      ],
       "variant": "desktop",
-      "device": "NOT_RUN"
-    },
-    {
-      "tests": [
-        {
-          "status": "PASS",
-          "name": "Chinese typing shows clickable candidates; selecting a word replaces only preedit"
-        },
-        {
-          "status": "PASS",
-          "name": "Space selects first candidate; Enter retains literal spelling without submitting the dialog"
-        },
-        {
-          "status": "PASS",
-          "name": "Backspace edits preedit; confirmation reads committed text; punctuation follows the chosen word"
-        },
-        {
-          "status": "PASS",
-          "name": "Input edit callbacks can read text without breaking preedit; old candidate callbacks cannot commit a new query"
-        },
-        {
-          "status": "PASS",
-          "name": "Candidate paging clears stale hits and boundary pages stay bounded"
-        },
-        {
-          "status": "PASS",
-          "name": "Separate input boxes never share composition; cursor motion commits before moving"
-        },
-        {
-          "status": "PASS",
-          "name": "Switching Chinese to English keeps quick switch available and reentering Chinese creates fresh state"
-        },
-        {
-          "status": "PASS",
-          "name": "Password and numeric fields do not run either Chinese IME or candidate UI"
-        },
-        {
-          "status": "PASS",
-          "name": "External pinyin plugin and explicit opt-out keep the native layout intact"
-        },
-        {
-          "status": "PASS",
-          "name": "Candidate UI fits viewport, stays above native keys and does not cover dialog buttons"
-        },
-        {
-          "status": "PASS",
-          "name": "Input and stock screensaver settings are scoped; global search finds the new input route"
-        },
-        {
-          "status": "PASS",
-          "name": "Missing or empty stock image directories never change current settings"
-        },
-        {
-          "status": "PASS",
-          "name": "Stock image activation and preview use local artwork; restoration preserves later user changes"
-        },
-        {
-          "status": "PASS",
-          "name": "Settings write failure rolls back stock configuration"
-        },
-        {
-          "status": "PASS",
-          "name": "Final owner detach restores keyboard hooks and closed dialog candidates cannot type"
-        }
-      ],
-      "variant": "voyage",
-      "device": "NOT_RUN"
-    },
-    {
-      "variant": "landscape",
       "device": "NOT_RUN",
       "tests": [
         {
@@ -203,6 +71,138 @@
           "name": "Final owner detach restores keyboard hooks and closed dialog candidates cannot type"
         }
       ]
+    },
+    {
+      "tests": [
+        {
+          "name": "Chinese typing shows clickable candidates; selecting a word replaces only preedit",
+          "status": "PASS"
+        },
+        {
+          "name": "Space selects first candidate; Enter retains literal spelling without submitting the dialog",
+          "status": "PASS"
+        },
+        {
+          "name": "Backspace edits preedit; confirmation reads committed text; punctuation follows the chosen word",
+          "status": "PASS"
+        },
+        {
+          "name": "Input edit callbacks can read text without breaking preedit; old candidate callbacks cannot commit a new query",
+          "status": "PASS"
+        },
+        {
+          "name": "Candidate paging clears stale hits and boundary pages stay bounded",
+          "status": "PASS"
+        },
+        {
+          "name": "Separate input boxes never share composition; cursor motion commits before moving",
+          "status": "PASS"
+        },
+        {
+          "name": "Switching Chinese to English keeps quick switch available and reentering Chinese creates fresh state",
+          "status": "PASS"
+        },
+        {
+          "name": "Password and numeric fields do not run either Chinese IME or candidate UI",
+          "status": "PASS"
+        },
+        {
+          "name": "External pinyin plugin and explicit opt-out keep the native layout intact",
+          "status": "PASS"
+        },
+        {
+          "name": "Candidate UI fits viewport, stays above native keys and does not cover dialog buttons",
+          "status": "PASS"
+        },
+        {
+          "name": "Input and stock screensaver settings are scoped; global search finds the new input route",
+          "status": "PASS"
+        },
+        {
+          "name": "Missing or empty stock image directories never change current settings",
+          "status": "PASS"
+        },
+        {
+          "name": "Stock image activation and preview use local artwork; restoration preserves later user changes",
+          "status": "PASS"
+        },
+        {
+          "name": "Settings write failure rolls back stock configuration",
+          "status": "PASS"
+        },
+        {
+          "name": "Final owner detach restores keyboard hooks and closed dialog candidates cannot type",
+          "status": "PASS"
+        }
+      ],
+      "variant": "voyage",
+      "device": "NOT_RUN"
+    },
+    {
+      "tests": [
+        {
+          "name": "Chinese typing shows clickable candidates; selecting a word replaces only preedit",
+          "status": "PASS"
+        },
+        {
+          "name": "Space selects first candidate; Enter retains literal spelling without submitting the dialog",
+          "status": "PASS"
+        },
+        {
+          "name": "Backspace edits preedit; confirmation reads committed text; punctuation follows the chosen word",
+          "status": "PASS"
+        },
+        {
+          "name": "Input edit callbacks can read text without breaking preedit; old candidate callbacks cannot commit a new query",
+          "status": "PASS"
+        },
+        {
+          "name": "Candidate paging clears stale hits and boundary pages stay bounded",
+          "status": "PASS"
+        },
+        {
+          "name": "Separate input boxes never share composition; cursor motion commits before moving",
+          "status": "PASS"
+        },
+        {
+          "name": "Switching Chinese to English keeps quick switch available and reentering Chinese creates fresh state",
+          "status": "PASS"
+        },
+        {
+          "name": "Password and numeric fields do not run either Chinese IME or candidate UI",
+          "status": "PASS"
+        },
+        {
+          "name": "External pinyin plugin and explicit opt-out keep the native layout intact",
+          "status": "PASS"
+        },
+        {
+          "name": "Candidate UI fits viewport, stays above native keys and does not cover dialog buttons",
+          "status": "PASS"
+        },
+        {
+          "name": "Input and stock screensaver settings are scoped; global search finds the new input route",
+          "status": "PASS"
+        },
+        {
+          "name": "Missing or empty stock image directories never change current settings",
+          "status": "PASS"
+        },
+        {
+          "name": "Stock image activation and preview use local artwork; restoration preserves later user changes",
+          "status": "PASS"
+        },
+        {
+          "name": "Settings write failure rolls back stock configuration",
+          "status": "PASS"
+        },
+        {
+          "name": "Final owner detach restores keyboard hooks and closed dialog candidates cannot type",
+          "status": "PASS"
+        }
+      ],
+      "variant": "landscape",
+      "device": "NOT_RUN"
     }
   ]
 }

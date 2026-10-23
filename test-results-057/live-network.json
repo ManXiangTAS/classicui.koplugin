@@ -1,0 +1,7 @@
+{
+  "status": "NOT_RUN_ENV_DNS_RESTRICTED",
+  "github_api_direct": "temporary failure in name resolution in the test runtime",
+  "github_metadata": "Actual public release metadata retrieved through the GitHub connector and included as a fixture",
+  "tls": "Real loopback LuaSocket/LuaSec certificate, hostname, redirects and file streams tested separately",
+  "physical_kindle": "NOT_RUN"
+}

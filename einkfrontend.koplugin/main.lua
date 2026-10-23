@@ -1,4 +1,6 @@
 -- Original project code. SPDX-License-Identifier: AGPL-3.0-or-later
+local updateboot=require('einkfrontend/updateboot')
+if updateboot.startup() then return dofile(updateboot.root()..'/main.lua') end
 local WidgetContainer = require("ui/widget/container/widgetcontainer")
 local UIManager = require("ui/uimanager")
 local Dispatcher = require("dispatcher")
@@ -32,7 +34,7 @@ function Plugin:init()
     self.active=Adapter.supported()
     self.adapter=Adapter.new(self.ui)
     self.app=App.new(self,self.adapter)
-    if self.active then require('einkfrontend/pinyin').install(self) end
+    if self.active then require('einkfrontend/pinyin').install(self);require('einkfrontend/updater').attach(self) end
     self:onDispatcherRegisterActions()
     if self.active and self:option("full_takeover",true) then self:installTakeover() end
     self.ui.menu:registerToMainMenu(self) -- Explicit compatibility/recovery entry.
@@ -100,6 +102,7 @@ function Plugin:stopPlugin(transition)
     local notices=require("einkfrontend/notices")
     if transition then notices.handoff(self) end
     self.active=false
+    require('einkfrontend/updater').detach(self)
     if self.app.pagepress then self.app.pagepress:detach(self.app) end
     notices.detach(self,not transition)
     if self.gate then self.gate:restore() end
@@ -144,11 +147,13 @@ function Plugin:onCloseDocument()
     self:stopPlugin(self.ui.tearing_down)
 end
 function Plugin:onSuspend()
+    require('einkfrontend/updater').suspend()
     if self.app and self.app.transfer_server then self.app.transfer_server:stop() end
     if self.app and self.app.pagepress then self.app.pagepress:suspend() end
     if self.app and self.app.home_editor then self.app.home_editor:onSuspend() end
 end
 function Plugin:onResume()
+    if self.active then require('einkfrontend/updater').resume() end
     if self.active and self.app and self.app.pagepress then self.app.pagepress:resume() end
 end
 return Plugin

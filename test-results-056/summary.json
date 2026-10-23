@@ -52,45 +52,46 @@
       "device": "NOT_RUN",
       "tests": [
         {
-          "name": "One tap switches pending pinyin to literal English without losing committed Chinese",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "One tap switches pending pinyin to literal English without losing committed Chinese"
         },
         {
-          "name": "One tap returns from English to Chinese; selected text and cursor position are preserved",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "One tap returns from English to Chinese; selected text and cursor position are preserved"
         },
         {
-          "name": "English mode uses native English punctuation and uppercase keys",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "English mode uses native English punctuation and uppercase keys"
         },
         {
-          "name": "Language choice is persisted and remains selected with native remember-layout disabled",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "Language choice is persisted and remains selected with native remember-layout disabled"
         },
         {
-          "name": "Mode controls remain available without candidates and never overlap candidate targets",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "Mode controls remain available without candidates and never overlap candidate targets"
         },
         {
-          "name": "Repeated switching releases old input wrappers and old language callbacks are inert",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "Repeated switching releases old input wrappers and old language callbacks are inert"
         },
         {
-          "name": "Other language layouts and sensitive input fields retain the native keyboard",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "Other language layouts and sensitive input fields retain the native keyboard"
         },
         {
-          "name": "Switching while editing in the middle keeps all surrounding text",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "Switching while editing in the middle keeps all surrounding text"
         },
         {
-          "name": "Chinese setup registers both languages even if the user previously selected another layout",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "Chinese setup registers both languages even if the user previously selected another layout"
         }
       ],
       "variant": "voyage"
     },
     {
+      "device": "NOT_RUN",
       "tests": [
         {
           "status": "PASS",
@@ -129,8 +130,7 @@
           "name": "Chinese setup registers both languages even if the user previously selected another layout"
         }
       ],
-      "variant": "landscape",
-      "device": "NOT_RUN"
+      "variant": "landscape"
     }
   ]
 }

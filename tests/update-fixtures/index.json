@@ -1,0 +1,46 @@
+{
+  "no_manifest": {
+    "size": 852,
+    "sha256": "f9e95397b0d00c811d631d1b75a8c60f168a9c56bc624d397e40c4603015dab5"
+  },
+  "symlink": {
+    "size": 1471,
+    "sha256": "1be4135ecc0aef5e75987bc8160bdedd4eb3e4ebfeba7d45482368d721ffd086"
+  },
+  "absolute": {
+    "size": 1418,
+    "sha256": "b4ad4437834347f0381f66b0afa9230b557dd5609ebd4831d1347a6758c9156f"
+  },
+  "hash_mismatch": {
+    "size": 1306,
+    "sha256": "cd62648dc52a22fab1c57e3a3717f8e2acdfc2b446eec88b40f7ed51d2f8dec4"
+  },
+  "duplicate_case": {
+    "size": 1454,
+    "sha256": "b0cfeeefb5bd5d36713369575c899a02ebd91420cdee17edad49ef4304b48b0c"
+  },
+  "oversize": {
+    "size": 9605,
+    "sha256": "dcf80afbe96687a68ed89f1adf6825becc7ad2b7d0c5d31706eacc609543ee1f"
+  },
+  "backslash": {
+    "size": 1458,
+    "sha256": "eb1da1d5d3773758abb20bd592f23ee67810a2424a2bbcd0c06898124eac5b60"
+  },
+  "traversal": {
+    "size": 1458,
+    "sha256": "6ff293ad5e2a0a16a7368f8fba9038c8347743aa6b4822ce491c97c2530ce3a7"
+  },
+  "missing": {
+    "size": 1143,
+    "sha256": "c309b64692389ff091cb7d8020c48fa46045bc2d0a0731f9da7ae8a26e605dbc"
+  },
+  "valid": {
+    "size": 1310,
+    "sha256": "0bef7a0d2838ce8b1590a36b17dfea17e1b047163e9ccc3ee1796e5236ae42e6"
+  },
+  "incompatible": {
+    "size": 1302,
+    "sha256": "9bb1cf5119563b6c4633a1d516bce241137a4d5118eced3ef7c41555f96112f7"
+  }
+}

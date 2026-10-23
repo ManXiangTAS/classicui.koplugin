@@ -1,0 +1,292 @@
+{
+  "failures": 0,
+  "checks": 66,
+  "distinct_cases": 22,
+  "runs": 3,
+  "device": "NOT_RUN",
+  "runtime_revision": "v2026.07.1",
+  "results": [
+    {
+      "variant": "desktop",
+      "device": "NOT_RUN",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Semantic versions compare test.10 and test.9 numerically and stable beats prerelease"
+        },
+        {
+          "status": "PASS",
+          "name": "Release selection includes test releases only in the testing channel and skips drafts"
+        },
+        {
+          "status": "PASS",
+          "name": "Only official installer asset URLs with SHA-256 and bounded sizes are accepted"
+        },
+        {
+          "status": "PASS",
+          "name": "All eleven archive fixtures are immutable and invalid packages cannot alter live files"
+        },
+        {
+          "status": "PASS",
+          "name": "Valid package is verified into staging without changing code or user files"
+        },
+        {
+          "status": "PASS",
+          "name": "A rejected incompatible replacement preserves an already prepared valid update"
+        },
+        {
+          "status": "PASS",
+          "name": "Activation installs managed files, prunes obsolete managed files and preserves untracked notes"
+        },
+        {
+          "status": "PASS",
+          "name": "Interrupted activation restores the old tree and recovery can safely run again"
+        },
+        {
+          "status": "PASS",
+          "name": "Insufficient backup space and changed staged files are rejected before live replacement"
+        },
+        {
+          "status": "PASS",
+          "name": "Symlink parents and malicious recovery paths cannot redirect writes outside the plugin"
+        },
+        {
+          "status": "PASS",
+          "name": "Automatic checking and installation default off; preferences enforce install implies check"
+        },
+        {
+          "status": "PASS",
+          "name": "Automatic checks never request Wi-Fi when the device is disconnected"
+        },
+        {
+          "status": "PASS",
+          "name": "Non-modal subprocess checks persist a valid result and leave unrelated pages alone"
+        },
+        {
+          "status": "PASS",
+          "name": "Prepared background download leaves the running tree untouched until startup activation"
+        },
+        {
+          "status": "PASS",
+          "name": "Cancelling a worker prevents concurrent replacement jobs and reaps the child"
+        },
+        {
+          "status": "PASS",
+          "name": "Automatic checks are throttled to a day with one-hour failed-attempt backoff"
+        },
+        {
+          "status": "PASS",
+          "name": "Update entry stays in maintenance; search works and update subpages inherit no More menu"
+        },
+        {
+          "status": "PASS",
+          "name": "GitHub release metadata fixture selects the official versioned install asset"
+        },
+        {
+          "status": "PASS",
+          "name": "Completed installed releases are not offered again from persisted state"
+        },
+        {
+          "status": "PASS",
+          "name": "Incomplete download length removes the temporary archive"
+        },
+        {
+          "status": "PASS",
+          "name": "Cancelling a downloader removes its newly prepared update without touching current code"
+        },
+        {
+          "status": "PASS",
+          "name": "Enabling automatic installation can prepare an already detected release without another check"
+        }
+      ]
+    },
+    {
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Semantic versions compare test.10 and test.9 numerically and stable beats prerelease"
+        },
+        {
+          "status": "PASS",
+          "name": "Release selection includes test releases only in the testing channel and skips drafts"
+        },
+        {
+          "status": "PASS",
+          "name": "Only official installer asset URLs with SHA-256 and bounded sizes are accepted"
+        },
+        {
+          "status": "PASS",
+          "name": "All eleven archive fixtures are immutable and invalid packages cannot alter live files"
+        },
+        {
+          "status": "PASS",
+          "name": "Valid package is verified into staging without changing code or user files"
+        },
+        {
+          "status": "PASS",
+          "name": "A rejected incompatible replacement preserves an already prepared valid update"
+        },
+        {
+          "status": "PASS",
+          "name": "Activation installs managed files, prunes obsolete managed files and preserves untracked notes"
+        },
+        {
+          "status": "PASS",
+          "name": "Interrupted activation restores the old tree and recovery can safely run again"
+        },
+        {
+          "status": "PASS",
+          "name": "Insufficient backup space and changed staged files are rejected before live replacement"
+        },
+        {
+          "status": "PASS",
+          "name": "Symlink parents and malicious recovery paths cannot redirect writes outside the plugin"
+        },
+        {
+          "status": "PASS",
+          "name": "Automatic checking and installation default off; preferences enforce install implies check"
+        },
+        {
+          "status": "PASS",
+          "name": "Automatic checks never request Wi-Fi when the device is disconnected"
+        },
+        {
+          "status": "PASS",
+          "name": "Non-modal subprocess checks persist a valid result and leave unrelated pages alone"
+        },
+        {
+          "status": "PASS",
+          "name": "Prepared background download leaves the running tree untouched until startup activation"
+        },
+        {
+          "status": "PASS",
+          "name": "Cancelling a worker prevents concurrent replacement jobs and reaps the child"
+        },
+        {
+          "status": "PASS",
+          "name": "Automatic checks are throttled to a day with one-hour failed-attempt backoff"
+        },
+        {
+          "status": "PASS",
+          "name": "Update entry stays in maintenance; search works and update subpages inherit no More menu"
+        },
+        {
+          "status": "PASS",
+          "name": "GitHub release metadata fixture selects the official versioned install asset"
+        },
+        {
+          "status": "PASS",
+          "name": "Completed installed releases are not offered again from persisted state"
+        },
+        {
+          "status": "PASS",
+          "name": "Incomplete download length removes the temporary archive"
+        },
+        {
+          "status": "PASS",
+          "name": "Cancelling a downloader removes its newly prepared update without touching current code"
+        },
+        {
+          "status": "PASS",
+          "name": "Enabling automatic installation can prepare an already detected release without another check"
+        }
+      ],
+      "variant": "voyage",
+      "device": "NOT_RUN"
+    },
+    {
+      "device": "NOT_RUN",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Semantic versions compare test.10 and test.9 numerically and stable beats prerelease"
+        },
+        {
+          "status": "PASS",
+          "name": "Release selection includes test releases only in the testing channel and skips drafts"
+        },
+        {
+          "status": "PASS",
+          "name": "Only official installer asset URLs with SHA-256 and bounded sizes are accepted"
+        },
+        {
+          "status": "PASS",
+          "name": "All eleven archive fixtures are immutable and invalid packages cannot alter live files"
+        },
+        {
+          "status": "PASS",
+          "name": "Valid package is verified into staging without changing code or user files"
+        },
+        {
+          "status": "PASS",
+          "name": "A rejected incompatible replacement preserves an already prepared valid update"
+        },
+        {
+          "status": "PASS",
+          "name": "Activation installs managed files, prunes obsolete managed files and preserves untracked notes"
+        },
+        {
+          "status": "PASS",
+          "name": "Interrupted activation restores the old tree and recovery can safely run again"
+        },
+        {
+          "status": "PASS",
+          "name": "Insufficient backup space and changed staged files are rejected before live replacement"
+        },
+        {
+          "status": "PASS",
+          "name": "Symlink parents and malicious recovery paths cannot redirect writes outside the plugin"
+        },
+        {
+          "status": "PASS",
+          "name": "Automatic checking and installation default off; preferences enforce install implies check"
+        },
+        {
+          "status": "PASS",
+          "name": "Automatic checks never request Wi-Fi when the device is disconnected"
+        },
+        {
+          "status": "PASS",
+          "name": "Non-modal subprocess checks persist a valid result and leave unrelated pages alone"
+        },
+        {
+          "status": "PASS",
+          "name": "Prepared background download leaves the running tree untouched until startup activation"
+        },
+        {
+          "status": "PASS",
+          "name": "Cancelling a worker prevents concurrent replacement jobs and reaps the child"
+        },
+        {
+          "status": "PASS",
+          "name": "Automatic checks are throttled to a day with one-hour failed-attempt backoff"
+        },
+        {
+          "status": "PASS",
+          "name": "Update entry stays in maintenance; search works and update subpages inherit no More menu"
+        },
+        {
+          "status": "PASS",
+          "name": "GitHub release metadata fixture selects the official versioned install asset"
+        },
+        {
+          "status": "PASS",
+          "name": "Completed installed releases are not offered again from persisted state"
+        },
+        {
+          "status": "PASS",
+          "name": "Incomplete download length removes the temporary archive"
+        },
+        {
+          "status": "PASS",
+          "name": "Cancelling a downloader removes its newly prepared update without touching current code"
+        },
+        {
+          "status": "PASS",
+          "name": "Enabling automatic installation can prepare an already detected release without another check"
+        }
+      ],
+      "variant": "landscape"
+    }
+  ]
+}

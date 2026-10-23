@@ -1,6 +1,6 @@
 {
   "snapshot_date": "2026-10-23",
-  "software_version": "0.5.0-test.6",
+  "software_version": "0.5.0-test.7",
   "working_name": "墨页 E-Ink Frontend",
   "overall_status": "DEVELOPMENT_PREVIEW_DESKTOP_VERIFIED_DEVICE_PENDING",
   "device": {
@@ -144,13 +144,14 @@
     "epub_reflow": "Explicit opt-in; same-origin local engine; sandboxed previews; configurable layout; ZIP/size/CRC/path/encryption guards; _精排 copy",
     "offline_pinyin_candidates": "HOST_RIME_WORD_MAP; per-input preedit; click/page/space/return; external pinyin plugins yield; no sentence decoding",
     "kindle_stock_screensaver": "READ_ONLY_DEVICE_IMAGES; native KOReader random_image settings with backup/restore; physical suspend NOT_RUN",
-    "quick_input_language": "Always visible Chinese / EN switch for supported non-sensitive zh_CN/en input fields; preserve raw preedit, native English punctuation, persisted default; external input plugins yield"
+    "quick_input_language": "Always visible Chinese / EN switch for supported non-sensitive zh_CN/en input fields; preserve raw preedit, native English punctuation, persisted default; external input plugins yield",
+    "plugin_updater": "Manual GitHub release checks and staged install; opt-in automatic check/install; testing/stable channels; TLS chain+hostname, SHA256, archive manifest, pre-load journaled activation and recovery; preserves settings"
   },
   "verification": {
-    "version": "0.5.0-test.6",
-    "checks": 761,
-    "distinct_cases": 275,
-    "runs": 94,
+    "version": "0.5.0-test.7",
+    "checks": 839,
+    "distinct_cases": 297,
+    "runs": 99,
     "failures": 0,
     "device": "NOT_RUN",
     "reports": [
@@ -160,12 +161,15 @@
       "test-results-053/summary.json",
       "test-results-054/summary.json",
       "test-results-055/summary.json",
-      "test-results-056/summary.json"
+      "test-results-056/summary.json",
+      "test-results-057/summary.json",
+      "test-results-057/tls-summary.json",
+      "test-results-057/boot-summary.json"
     ],
-    "scope": "Listed suites rerun; older browser and network evidence is historical and excluded.",
-    "current_version": "0.5.0-test.6",
-    "summary": "test-results-056/combined-summary.json",
-    "lua_syntax_files": 50,
+    "scope": "Listed suites rerun. TLS uses a real loopback server; direct GitHub DNS unavailable; physical Kindle NOT_RUN. Historical browser checks excluded.",
+    "current_version": "0.5.0-test.7",
+    "summary": "test-results-057/combined-summary.json",
+    "lua_syntax_files": 55,
     "physical_device": "NOT_RUN_AFTER_CHANGES"
   },
   "phase_status": {
@@ -380,7 +384,7 @@
     "new_checks": 51,
     "physical_device": "NOT_RUN"
   },
-  "latest_validation": "test-results-056/combined-summary.json",
+  "latest_validation": "test-results-057/combined-summary.json",
   "historical_validation_051": {
     "version": "0.5.0-test.1",
     "checks": 911,
@@ -405,10 +409,10 @@
     "web": "Real byte-identical uploads, opt-in typography, image/nav/OPF preservation, script/network isolation, ZIP expansion/path/CRC/symlink/XML/CSS rejection, cancel and no partial files"
   },
   "current_validation": {
-    "version": "0.5.0-test.6",
-    "checks": 761,
-    "distinct_cases": 275,
-    "runs": 94,
+    "version": "0.5.0-test.7",
+    "checks": 839,
+    "distinct_cases": 297,
+    "runs": 99,
     "failures": 0,
     "device": "NOT_RUN",
     "reports": [
@@ -418,8 +422,11 @@
       "test-results-053/summary.json",
       "test-results-054/summary.json",
       "test-results-055/summary.json",
-      "test-results-056/summary.json"
+      "test-results-056/summary.json",
+      "test-results-057/summary.json",
+      "test-results-057/tls-summary.json",
+      "test-results-057/boot-summary.json"
     ],
-    "scope": "Listed suites rerun; older browser and network evidence is historical and excluded."
+    "scope": "Listed suites rerun. TLS uses a real loopback server; direct GitHub DNS unavailable; physical Kindle NOT_RUN. Historical browser checks excluded."
   }
 }

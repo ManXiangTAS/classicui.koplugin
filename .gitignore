@@ -16,3 +16,8 @@ release-build/
 !test-results-055/syntax.json
 !test-results-056/combined-summary.json
 !test-results-056/syntax.json
+!test-results-057/combined-summary.json
+!test-results-057/syntax.json
+!test-results-057/tls-summary.json
+!test-results-057/boot-summary.json
+!test-results-057/live-network.json
