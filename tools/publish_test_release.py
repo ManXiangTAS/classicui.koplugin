@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Publish the formal release, its reproducible archives and launch film."""
+"""Publish the formal release, its reproducible archives."""
 from pathlib import Path
 import hashlib,json,os,shutil,subprocess,sys,time,urllib.request,urllib.error
 root=Path(__file__).resolve().parents[1];sys.path.insert(0,str(root/'tests'))
@@ -7,14 +7,8 @@ from build_public_release import VERSION
 repo=os.environ['GITHUB_REPOSITORY'];commit=os.environ['GITHUB_SHA'];token=os.environ['GH_TOKEN']
 assert repo=='ManXiangTAS/classicui.koplugin' and len(commit)==40
 assert 'removed=true' in (root/'einkfrontend.koplugin/einkfrontend/updater.lua').read_text()
-assets=Path(sys.argv[1]);film=assets/f'ClassicUI_{VERSION}_film.mp4'
-if not film.exists():
- try:import PIL,numpy
- except ImportError:subprocess.run([sys.executable,'-m','pip','install','--disable-pip-version-check','-r',str(root/'media/requirements.txt')],check=True)
- if not shutil.which('ffmpeg'):
-  subprocess.run(['sudo','apt-get','update','-qq'],check=True);subprocess.run(['sudo','apt-get','install','-y','ffmpeg'],check=True)
- subprocess.run([sys.executable,str(root/'tools/make_promo.py'),str(film)],cwd=root,check=True,timeout=900)
-files=[assets/f'ClassicUI_{VERSION}_install.zip',assets/f'ClassicUI_{VERSION}_source.zip',film]
+assets=Path(sys.argv[1])
+files=[assets/f'ClassicUI_{VERSION}_install.zip',assets/f'ClassicUI_{VERSION}_source.zip']
 (assets/'SHA256SUMS.txt').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in files));files.append(assets/'SHA256SUMS.txt')
 base='https://api.github.com/repos/'+repo;tag='v'+VERSION
 headers={'Accept':'application/vnd.github+json','Authorization':'Bearer '+token,'X-GitHub-Api-Version':'2022-11-28','User-Agent':'ClassicUI-release'}
@@ -26,6 +20,8 @@ try:release=request(base+'/releases/tags/'+tag)
 except urllib.error.HTTPError as e:
  if e.code!=404:raise
  release=request(base+'/releases','POST',{'tag_name':tag,'target_commitish':commit,'name':'墨页 · ClassicUI '+VERSION,'body':(root/'docs/release-0.6.0.md').read_text(),'draft':True,'prerelease':False})
+if not release['draft']:
+ print('Release already published; retaining its original assets.');sys.exit(0)
 existing={a['name']:a for a in release['assets']}
 for path in files:
  digest='sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()

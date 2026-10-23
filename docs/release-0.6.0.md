@@ -14,4 +14,3 @@
 
 [安装与使用](https://github.com/ManXiangTAS/classicui.koplugin/blob/main/docs/guide.md) · [常见问题](https://github.com/ManXiangTAS/classicui.koplugin/blob/main/docs/troubleshooting.md)
 
-随附《把设备，读成自己的》黑白宣传片，2分28秒，内含原创配乐。演示使用示例书目与统计数据。
