@@ -22,12 +22,22 @@ def request(url,method='GET',data=None,mime='application/json'):
 try:release=request(base+'/releases/tags/'+tag)
 except urllib.error.HTTPError as e:
  if e.code!=404:raise
- release=request(base+'/releases','POST',{'tag_name':tag,'target_commitish':commit,'name':'墨页 · ClassicUI '+VERSION,'body':(root/f'docs/release-{VERSION}.md').read_text(),'draft':True,'prerelease':False})
+ # GitHub may expose a draft against a not-yet-created tag as "untagged-*".
+ # Reuse the matching candidate by name instead of creating another draft.
+ release=None
+ for page in range(1,101):
+  batch=request(base+'/releases?per_page=100&page='+str(page))
+  matches=[r for r in batch if r['draft'] and r.get('name')=='墨页 · ClassicUI '+VERSION]
+  assert len(matches)<=1,'Multiple matching candidates; review them before continuing'
+  if matches:release=matches[0];break
+  if len(batch)<100:break
+ else:raise RuntimeError('Release pagination limit exceeded')
+ if release is None:release=request(base+'/releases','POST',{'tag_name':tag,'target_commitish':commit,'name':'墨页 · ClassicUI '+VERSION,'body':(root/f'docs/release-{VERSION}.md').read_text(),'draft':True,'prerelease':False})
 if not release['draft']:
  print('Release already published; retaining its original assets.');sys.exit(0)
 # A candidate may be rebuilt before approval. Its draft metadata follows the
 # exact source used to build the assets; published versions are never replaced.
-release=request(base+'/releases/'+str(release['id']),'PATCH',{'target_commitish':commit,'body':(root/f'docs/release-{VERSION}.md').read_text()})
+release=request(base+'/releases/'+str(release['id']),'PATCH',{'tag_name':tag,'target_commitish':commit,'body':(root/f'docs/release-{VERSION}.md').read_text()})
 existing={a['name']:a for a in release['assets']}
 for path in files:
  digest='sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()
@@ -44,12 +54,12 @@ for path in files:
 for page in range(1,101):
  batch=request(base+'/releases?per_page=100&page='+str(page))
  for old in batch:
-  if old['tag_name']!=tag and not old['draft']:
+  if old['id']!=release['id'] and not old['draft']:
    assert request(base+'/releases/'+str(old['id']),'PATCH',{'draft':True})['draft'];time.sleep(.3)
  if len(batch)<100:break
 else:raise RuntimeError('Release pagination limit exceeded')
 if publish_confirmed:
- release=request(base+'/releases/'+str(release['id']),'PATCH',{'draft':False,'prerelease':False,'make_latest':'true'})
- assert not release['draft'] and not release['prerelease']
+ release=request(base+'/releases/'+str(release['id']),'PATCH',{'tag_name':tag,'target_commitish':commit,'draft':False,'prerelease':False,'make_latest':'true'})
+ assert not release['draft'] and not release['prerelease'] and release['tag_name']==tag
 else:assert release['draft'],'Candidate must remain a draft until stability is confirmed'
 print(json.dumps({'url':release['html_url'],'draft':release['draft'],'version':VERSION}))

@@ -38,17 +38,20 @@ class ReleasePolicy(unittest.TestCase):
         data = json.loads(req.data) if req.data and req.headers.get('Content-type') == 'application/json' else None
         self.calls.append((method, url, data))
         if '/releases/tags/' in url:
-            if self.release is None:
+            if self.release is None or self.release['tag_name'] != url.rsplit('/', 1)[1]:
                 raise urllib.error.HTTPError(url, 404, 'missing', {}, None)
             return Response(self.release)
         if method == 'POST' and url.endswith('/releases'):
             self.release = {**data, 'id': 2, 'assets': [], 'html_url': 'https://github.com/example/candidate', 'upload_url': 'https://uploads.github.com/example/assets{?name}'}
+            self.release['tag_name'] = 'untagged-candidate'
             return Response(self.release)
         if method == 'GET' and '/releases?' in url:
-            return Response([self.old, self.release])
+            return Response([r for r in [self.old, self.release] if r])
         if method == 'PATCH':
             target = self.old if url.endswith('/1') else self.release
             target.update(data)
+            if target.get('id') == 2 and target['draft']:
+                target['tag_name'] = 'untagged-candidate'
             return Response(target)
         if method == 'DELETE':
             asset_id = int(url.rsplit('/', 1)[1])
@@ -81,12 +84,14 @@ class ReleasePolicy(unittest.TestCase):
         self.assertTrue(self.release['draft'])
         self.assertEqual(len(self.release['assets']), 3)
         self.assertTrue(any(method == 'DELETE' for method, _, _ in self.calls))
+        self.assertEqual(sum(method == 'POST' and url.endswith('/releases') for method, url, _ in self.calls), 1)
 
     def test_only_explicit_confirmation_publishes(self):
         self.run_publisher()
         self.run_publisher(confirmed=True)
         self.assertFalse(self.release['draft'])
         self.assertFalse(self.release['prerelease'])
+        self.assertEqual(self.release['tag_name'], 'v' + self.version)
         self.assertTrue(self.old['draft'])
 
 
