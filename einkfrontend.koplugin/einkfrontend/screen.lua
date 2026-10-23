@@ -362,7 +362,9 @@ function Page:turn(delta)
 end
 
 function Page:onFrontendSwipe(ignored,ges)
+ local rail_swipe=Rail.swipe(self.scroll_track,ges,self.rail_drag)
  self.rail_drag=nil;self.pan=nil;self.list_pan=nil;self.pan_delta=nil;self.dragging_scrollbar=nil
+ if rail_swipe then return true end
     if ges and ges.direction=="south" and ges.pos and ges.pos.y<=self.header_h then
         self.app:safe(function() self.app:showControls() end);return true
     end

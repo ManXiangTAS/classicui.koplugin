@@ -35,6 +35,22 @@ local function drag(w,t,handler,release,value)
  w[handler](w,nil,{pos=pos,start_pos=start,relative={x=0,y=pos.y-start.y}})
  UI:forceRePaint();w[release](w,nil,{pos=pos,relative={x=0,y=pos.y-start.y}});UI:forceRePaint()
 end
+local function stableRail(w,pan,release,swipe,read,maximum)
+ for _,target in ipairs({0,maximum}) do
+  UI:forceRePaint();local t=assert(w.scroll_track)
+  local start={x=t.x+t.w/2,y=t.thumb_y+t.thumb_h/2}
+  local finish={x=start.x,y=target==0 and t.track_y-S(40) or t.track_y+t.track_h+S(40)}
+  w[pan](w,nil,{start_pos=start,pos=finish,relative={y=finish.y-start.y}})
+  assert(read()==target);UI:forceRePaint()
+  w[swipe](w,nil,{pos=start,end_pos=finish,direction=target==0 and 'north' or 'south',distance=math.abs(finish.y-start.y)})
+  assert(read()==target and not w.rail_drag)
+  -- Start the second drag in the rail, then lift elsewhere: no final seek.
+  UI:forceRePaint();t=w.scroll_track;start={x=t.x+t.w/2,y=t.thumb_y+t.thumb_h/2}
+  w[pan](w,nil,{start_pos=start,pos=finish,relative={y=finish.y-start.y}})
+  w[release](w,nil,{pos={x=start.x,y=(t.track_y+t.track_h)/2}})
+  assert(read()==target and not w.rail_drag)
+ end
+end
 FM:showFiles(books);local app=FM.instance.einkfrontend.app
 for _=1,30 do UI:shiftScheduledTasksBy(-require('ui/time').s(.02));UI:_checkTasks() end
 local close={};for _,e in ipairs(UI._window_stack) do if e.widget.text then close[#close+1]=e.widget end end;for _,w in ipairs(close) do UI:close(w) end
@@ -94,6 +110,23 @@ check('Dragging the settings thumb reaches both bounds and does not jump on init
  page:onFrontendPan(nil,{pos=pos,start_pos=pos,relative={y=0}});assert(math.abs(page.scroll_y-page.scroll_max)<=1)
  page:onFrontendPanRelease(nil,{});drag(page,page.scroll_track,'onFrontendPan','onFrontendPanRelease',0);assert(page.scroll_y==0)
  drag(page,page.scroll_track,'onFrontendPan','onFrontendPanRelease',1);assert(page.scroll_y==page.scroll_max and count==0)
+end)
+check('A fast scrollbar drag stops at the bottom instead of becoming a reverse list swipe',function()
+ manySettings();local t=page.scroll_track
+ local start={x=t.x+t.w/2,y=t.thumb_y+t.thumb_h/2}
+ local finish={x=start.x,y=t.track_y+t.track_h+S(40)}
+ page:onFrontendPan(nil,{pos=finish,start_pos=start,relative={y=finish.y-start.y}});UI:forceRePaint()
+ assert(page.scroll_y==page.scroll_max)
+ page:onFrontendSwipe(nil,{direction='south',pos=start,end_pos=finish,distance=finish.y-start.y})
+ assert(page.scroll_y==page.scroll_max and not page.rail_drag)
+end)
+check('Lifting a scrollbar drag does not seek again from a jittery release coordinate',function()
+ manySettings();local t=page.scroll_track
+ local start={x=t.x+t.w/2,y=t.thumb_y+t.thumb_h/2}
+ page:onFrontendPan(nil,{pos={x=start.x,y=t.track_y+t.track_h+S(40)},start_pos=start,relative={y=S(400)}})
+ assert(page.scroll_y==page.scroll_max)
+ page:onFrontendPanRelease(nil,{pos=start})
+ assert(page.scroll_y==page.scroll_max and not page.rail_drag)
 end)
 check('A content swipe crossing the scrollbar stays a content swipe',function()
  page:scrollBy(-page.scroll_y);UI:forceRePaint();local t=page.scroll_track
@@ -197,6 +230,7 @@ check('Home remains a fixed viewport; editor list has its own independent rail',
  app:open('home');UI:forceRePaint();assert(page.scroll_max==0 and not page.scroll_track)
  app:showHomeEditor();local ed=app.home_editor;UI:forceRePaint();railGeometry(ed,ed.scroll_track);shot('home-editor-scroll')
  drag(ed,ed.scroll_track,'onEditorPan','onEditorPanRelease',1);assert(ed.scroll==ed.list_max)
+ stableRail(ed,'onEditorPan','onEditorPanRelease','onEditorSwipe',function() return ed.scroll end,ed.list_max)
  ed:close();app:open('home');UI:forceRePaint();assert(page.scroll_max==0)
 end)
 app:close();Reader:doShowReader(books..'/navigation.epub');app=Reader.instance.einkfrontend.app
@@ -205,16 +239,17 @@ check('Font picker rail is operable and selection rows stay outside its lane',fu
  local font=app.adapter:read('font_face');drag(panel,panel.scroll_track,'onReaderPan','onReaderPanRelease',1)
  assert(panel.list_scroll==panel.list_max and app.adapter:read('font_face')==font)
  local t=panel.scroll_track;panel:onReaderTap(nil,{pos={x=t.x+t.w/2,y=t.y+1}});assert(panel.list_scroll<panel.list_max)
+ stableRail(panel,'onReaderPan','onReaderPanRelease','onReaderSwipe',function() return panel.list_scroll end,panel.list_max)
 end)
 check('Switching font panel tab drops stale rail and dragging state immediately',function()
  local panel=app.reader_panel;panel:setTab('layout');assert(not panel.scroll_track and not panel.rail_drag);UI:forceRePaint();assert(not panel.scroll_track)
  tap(panel,'aa_close');assert(not app.reader_panel)
 end)
-check('Hold-drag events seek the font list and honor the final release position',function()
+check('Hold-drag moves the font list while lifting preserves the last drag position',function()
  app:showReader('fonts');local panel=app.reader_panel;UI:forceRePaint();local t=panel.scroll_track
  local start={x=t.x+t.w/2,y=t.thumb_y+t.thumb_h/2}
- UI:sendEvent(Event:new('Gesture',{ges='hold_pan',start_pos=require('ui/geometry'):new(start),pos=require('ui/geometry'):new(start),relative={y=0}}))
- UI:sendEvent(Event:new('Gesture',{ges='hold_release',pos=require('ui/geometry'):new{x=start.x,y=t.track_y+t.track_h+S(40)}}))
+ UI:sendEvent(Event:new('Gesture',{ges='hold_pan',start_pos=require('ui/geometry'):new(start),pos=require('ui/geometry'):new{x=start.x,y=t.track_y+t.track_h+S(40)},relative={y=t.track_h}}))
+ UI:sendEvent(Event:new('Gesture',{ges='hold_release',pos=require('ui/geometry'):new(start)}))
  assert(panel.list_scroll==panel.list_max and not panel.rail_drag);panel:close()
 end)
 check('Long saved-theme grids also reserve the gutter without covering either column',function()
@@ -233,6 +268,7 @@ check('TOC rail has separate spacing and arrow taps do not jump the document',fu
  local before=Reader.instance.document:getXPointer();local t=nav.scroll_track
  nav:onNavigationTap(nil,{pos={x=t.x+t.w/2,y=t.y+t.h-1}});assert(nav.states.toc.scroll>0 and Reader.instance.document:getXPointer()==before)
  UI:forceRePaint();drag(nav,nav.scroll_track,'onNavigationPan','onNavigationPanRelease',1);assert(nav.states.toc.scroll==nav.scroll_max and Reader.instance.document:getXPointer()==before)
+ stableRail(nav,'onNavigationPan','onNavigationPanRelease','onNavigationSwipe',function() return nav.states.toc.scroll end,nav.scroll_max)
 end)
 check('TOC content swipe crossing into its rail does not become a seek',function()
  local nav=app.navigation;nav:scrollBy(-nav.states.toc.scroll);UI:forceRePaint();local t=nav.scroll_track
@@ -241,7 +277,9 @@ check('TOC content swipe crossing into its rail does not become a seek',function
 end)
 check('Statistics use the same rail; closing via a flashing button leaves no overlay',function()
  app:showBookStatistics();local stats=app.book_statistics;UI:forceRePaint()
- if stats.scroll_max>0 then railGeometry(stats,stats.scroll_track);shot('statistics-scroll');drag(stats,stats.scroll_track,'onBookStatsPan','onBookStatsPanRelease',1);assert(stats.scroll==stats.scroll_max) end
+ if stats.scroll_max>0 then railGeometry(stats,stats.scroll_track);shot('statistics-scroll');drag(stats,stats.scroll_track,'onBookStatsPan','onBookStatsPanRelease',1);assert(stats.scroll==stats.scroll_max)
+  stableRail(stats,'onBookStatsPan','onBookStatsPanRelease','onBookStatsSwipe',function() return stats.scroll end,stats.scroll_max)
+ end
  tap(stats,'book_statistics_close');assert(not app.book_statistics)
 end)
 check('Kindle reopen cycles keep real home/settings/reader buttons operable',function()

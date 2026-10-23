@@ -40,9 +40,16 @@ function R.pan(t,ges,drag)
   local offset=start.y>=t.thumb_y and start.y<t.thumb_y+t.thumb_h and start.y-t.thumb_y or t.thumb_h/2
   drag={offset=offset,track=t}
  end
- return R.position(drag.track,ges.pos,drag.offset),drag
+ drag.value=R.position(drag.track,ges.pos,drag.offset)
+ return drag.value,drag
 end
-function R.release(drag,ges)
- if type(drag)=='table' and ges and ges.pos then return R.position(drag.track,ges.pos,drag.offset) end
+function R.release(drag)
+ -- A lift only ends the drag: do not seek again from noisy release coordinates.
+ if type(drag)=='table' then return drag.value end
+end
+function R.swipe(t,ges,drag)
+ -- A quick pan ends as a swipe in KOReader. Its direction describes the
+ -- finger, which is the reverse of content scrolling; never apply it twice.
+ return type(drag)=='table' or R.contains(t,ges and ges.pos)
 end
 return R

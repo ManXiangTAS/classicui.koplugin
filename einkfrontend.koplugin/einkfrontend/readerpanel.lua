@@ -327,7 +327,9 @@ function Panel:turn(delta)
  UI:setDirty(self,"ui")
 end
 function Panel:onReaderSwipe(_,ges)
+ local rail_swipe=Rail.swipe(self.scroll_track,ges,self.rail_drag)
  self.rail_drag=nil;self.pan=nil;self.list_pan=nil;self.pan_delta=nil;self.dragging_scrollbar=nil
+ if rail_swipe then return true end
  if ges and ges.direction=="south" and ges.pos and ges.pos.y<S(60) then self.app:safe(function() self.app:showControls() end)
  elseif ges and self.list_area and ges.direction=="north" then self:turn(1)
  elseif ges and self.list_area and ges.direction=="south" then self:turn(-1)

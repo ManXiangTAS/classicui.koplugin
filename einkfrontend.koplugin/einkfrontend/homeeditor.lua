@@ -157,7 +157,9 @@ function Editor:onEditorTap(_,ges)
  end;return true
 end
 function Editor:onEditorSwipe(_,ges)
+ local rail_swipe=Rail.swipe(self.scroll_track,ges,self.rail_drag)
  self.rail_drag=nil;self.pan=nil;self.list_pan=nil;self.pan_delta=nil;self.dragging_scrollbar=nil
+ if rail_swipe then return true end
  if not ges then return true end
  local delta=ges.direction=='north' and 1 or ges.direction=='south' and -1 or 0
  if self.full_preview or (ges.pos and self.preview_area and ges.pos.y<self.preview_area.y+self.preview_area.h) then

@@ -108,7 +108,9 @@ function Stats:onBookStatsTap(_,ges)
  return true
 end
 function Stats:onBookStatsSwipe(_,ges)
+ local rail_swipe=Rail.swipe(self.scroll_track,ges,self.rail_drag)
  self.rail_drag=nil;self.pan=nil;self.list_pan=nil;self.pan_delta=nil;self.dragging_scrollbar=nil
+ if rail_swipe then return true end
  if not ges then return true end
  if ges.pos and ges.pos.y<self.panel_y then if ges.direction=="south" then self.app:showControls() end
  elseif ges.direction=="north" then self:scrollBy(self.list_area.h*.7)
