@@ -22,7 +22,7 @@ with zipfile.ZipFile(staged,'w',zipfile.ZIP_DEFLATED) as z:
  for name in ['墨页_0.5.0_安装与使用教程.mp4','墨页_0.5.0_安装与使用教程.html']:
   path=delivery/name
   if path.is_file():z.write(path,prefix+'教程/'+name);manifest['教程/'+name]=digest(path)
- info=json.loads((project/'test-results-059/combined-summary.json').read_text());info.update(source_commit=commit,version=VERSION,history='Complete local Git history; public repository is a sanitized snapshot')
+ info=json.loads((project/'test-results-060/combined-summary.json').read_text());info.update(source_commit=commit,version=VERSION,history='Complete local Git history; public repository is a sanitized snapshot')
  z.writestr(prefix+'BUILD_INFO.json',json.dumps(info,ensure_ascii=False,indent=2));z.writestr(prefix+'MANIFEST_SHA256.json',json.dumps(manifest,ensure_ascii=False,indent=2))
 with zipfile.ZipFile(staged) as z:
  assert z.testzip() is None

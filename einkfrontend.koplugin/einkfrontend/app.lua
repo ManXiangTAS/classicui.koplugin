@@ -56,6 +56,7 @@ function App:fail(err)
 end
 
 function App:open(route,param)
+    if type(route)=="string" and route:match("^plugin_update") then route="about";param=nil end
     if not Context.alive(self) then return end
     self:closeDialogs()
     Overlay.close(self)
@@ -124,6 +125,7 @@ function App:showControls()
 end
 
 function App:go(id,param,replace)
+    if type(id)=="string" and id:match("^plugin_update") then id="about";param=nil end
     if not Context.alive(self) then return end
     self:closeDialogs()
     if id=="home_customize" then return self:showHomeEditor(param) end
@@ -387,8 +389,7 @@ function App:render()
     local m={title="墨页",subtitle="",rows={},page=route.page or 1,route=route}
     local function row(title,note,fn) m.rows[#m.rows+1]={title=title,note=note,callback=fn} end
     local function go(id,param) return function() self:go(id,param) end end
-    if require("einkfrontend/updatesettings").render(self,route,m,row,go) then
-    elseif require("einkfrontend/transfersettings").render(self,route,m,row,go) then
+    if require("einkfrontend/transfersettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/inputsettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/clocksettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/pagepresssettings").render(self,route,m,row,go) then

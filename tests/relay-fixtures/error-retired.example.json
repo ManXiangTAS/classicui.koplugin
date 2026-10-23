@@ -1,8 +1,0 @@
-{
-  "schema": 1,
-  "error": {
-    "code": "PACKAGE_RETIRED",
-    "message": "该安装包已更新，请重新检查版本。",
-    "retryable": true
-  }
-}
