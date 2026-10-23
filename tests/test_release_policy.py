@@ -63,8 +63,8 @@ class ReleasePolicy(unittest.TestCase):
             return Response(asset)
         raise AssertionError((method, url))
 
-    def run_publisher(self, confirmed=False):
-        env = {'GITHUB_REPOSITORY': 'ManXiangTAS/classicui.koplugin', 'GITHUB_SHA': 'a' * 40, 'GH_TOKEN': 'fixture-token'}
+    def run_publisher(self, confirmed=False, subject='', event='push'):
+        env = {'GITHUB_REPOSITORY': 'ManXiangTAS/classicui.koplugin', 'GITHUB_SHA': 'a' * 40, 'GH_TOKEN': 'fixture-token', 'GITHUB_EVENT_NAME': event, 'RELEASE_COMMIT_MESSAGE': subject}
         if confirmed:
             env['RELEASE_PUBLISH_CONFIRMED'] = '1'
         with patch.dict(os.environ, env, clear=True), patch('sys.argv', ['publish', str(self.assets)]), patch('urllib.request.urlopen', self.request), patch('time.sleep'), contextlib.redirect_stdout(io.StringIO()):
@@ -93,6 +93,17 @@ class ReleasePolicy(unittest.TestCase):
         self.assertFalse(self.release['prerelease'])
         self.assertEqual(self.release['tag_name'], 'v' + self.version)
         self.assertTrue(self.old['draft'])
+
+    def test_exact_release_commit_publishes_the_matching_version(self):
+        self.run_publisher(subject='Release ClassicUI ' + self.version)
+        self.assertFalse(self.release['draft'])
+        self.assertEqual(self.release['tag_name'], 'v' + self.version)
+
+    def test_other_versions_and_unrelated_events_do_not_publish(self):
+        self.run_publisher(subject='Release ClassicUI 99.0.0')
+        self.assertTrue(self.release['draft'])
+        self.run_publisher(subject='Release ClassicUI ' + self.version, event='workflow_dispatch')
+        self.assertTrue(self.release['draft'])
 
 
 if __name__ == '__main__':

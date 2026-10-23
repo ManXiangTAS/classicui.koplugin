@@ -37,7 +37,10 @@ function Web.new(app,options)
  return self
 end
 function Web:response(status,body,mime)
- return Base.response(self,status,body,mime):gsub("img%-src blob:;","img-src 'self' blob:; frame-src 'none';")
+ local response=Base.response(self,status,body,mime)
+ local split=assert(response:find('\r\n\r\n',1,true))
+ local headers=response:sub(1,split-1):gsub("img%-src blob:;","img-src 'self' blob:; frame-src 'none';",1)
+ return headers..response:sub(split)
 end
 function Web:stop()
  if self.stopped then return end

@@ -4,7 +4,7 @@
 
 墨页把主页、书库、阅读工具和设置整合到一套方正、扁平的黑白界面里。保留 KOReader 的阅读引擎，让找书、阅读与日常操作保持一致。
 
-[版本发布](https://github.com/ManXiangTAS/classicui.koplugin/releases) · [使用指南](docs/guide.md) · [更新日志](CHANGELOG.md) · [常见问题](docs/troubleshooting.md)
+[下载安装](https://github.com/ManXiangTAS/classicui.koplugin/releases/latest) · [使用指南](docs/guide.md) · [更新日志](CHANGELOG.md) · [常见问题](docs/troubleshooting.md)
 
 <img src="media/screens/home.png" width="300" alt="墨页主页"> <img src="media/screens/library.png" width="300" alt="墨页书库">
 
@@ -18,8 +18,6 @@
 - **日常设置**：分层菜单、中英输入切换，以及按设备能力提供的前光、时区、屏保与翻页键设置。
 
 ## 安装与兼容
-
-0.7.0 正在进行稳定性验证，确认后再公开发布；此前版本已暂时隐藏。
 
 目前适配 **KOReader v2026.07.1 / v2026.07.2**。从 [Releases](https://github.com/ManXiangTAS/classicui.koplugin/releases) 下载安装包，退出 KOReader 后，将 **`einkfrontend.koplugin`** 放入 `koreader/plugins/`，保留目录名称，再重启并启用插件。升级前请备份原插件与设置。
 

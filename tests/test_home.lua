@@ -122,6 +122,10 @@ end)
 check('LAN editor shares the fixed viewport and rejects overcapacity requests without changing revisions',function()
  local editor=app:showHomeEditor();local web=require('einkfrontend/homeweb').new(editor,{ip='127.0.0.1',no_firewall=true});editor.server=web
  local headers={host=web.host,authorization='Bearer '..web.token,['content-type']='application/json'}
+ local pending='POST /api/layout HTTP/1.1\r\nHost: '..web.host..'\r\nContent-Type: application/json\r\nContent-Length: 32768\r\n\r\n'
+ assert(web:parse(pending):find('401 Unauthorized',1,true),'Unauthenticated bodies must be rejected without waiting for them')
+ local foreign=pending:gsub('Host: '..web.host,'Host: evil.example',1)
+ assert(web:parse(foreign):find('403 Forbidden',1,true))
  local r=web:request('GET','/api/layout',headers);local data=require('rapidjson').decode(r:match('\r\n\r\n(.*)'))
  assert(data.fit.fits and data.fit.visible==3 and not data.dirty)
  local config_=Copy(editor.draft);for _,w in ipairs(config_.widgets) do w.enabled=true end

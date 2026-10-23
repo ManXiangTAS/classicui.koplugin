@@ -127,6 +127,13 @@ check('Reflow routes are removed; the upload page cannot frame or connect remote
  assert(req('GET','/polish')==404 and req('GET','/jszip.min.js')==404)
  local r=server:request('GET','/',{host=server.host},'');assert(r:find("frame-src 'none'",1,true) and not r:find('iframe',1,true))
 end)
+check('Security headers never rewrite response bytes or invalidate their Content-Length',function()
+ local body='{"note":"img-src blob:;"}'
+ local response=server:response(200,body)
+ assert(response:match('\r\n\r\n(.*)')==body)
+ assert(tonumber(response:match('Content%-Length: (%d+)'))==#body)
+ assert(response:find("img-src 'self' blob:; frame-src 'none';",1,true))
+end)
 check('Invalid metadata and prices are rejected before file creation',function()
  for _,d in ipairs({{name='a.txt',size=4,title=''},{name='a.txt',size=4,author=3},{name='a.txt',size=4,price='-10'},{name='a.txt',size=4,price='0.001'},{name='a.txt',size=4,command='ls'},{name='../a.txt',size=4,title='x'}}) do assert(req('POST','/api/begin',json.encode(d))==400);assert(not server.store.upload) end
  assert(req('POST','/api/begin',json.encode{name='a.txt',size=4}, {host='evil',authorization=headers.authorization,['content-type']='application/json'})==403)

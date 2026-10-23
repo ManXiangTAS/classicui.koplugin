@@ -147,6 +147,8 @@ function Web:parse(buffer)
   if not k then return self:response(400,'{}') end;k=k:lower();if headers[k] then return self:response(400,'{}') end;headers[k]=v
  end
  if headers['transfer-encoding'] or headers.expect then return self:response(400,'{}') end
+ if headers.host~=self.host or (headers.origin and headers.origin~=self.origin) then return self:response(403,'{}') end
+ if path:sub(1,5)=='/api/' and headers.authorization~='Bearer '..self.token then return self:response(401,'{}') end
  local length=headers['content-length'] or '0'
  if not length:match('^%d+$') or #length>6 then return self:response(400,'{}') end;length=tonumber(length)
  if length>32768 then return self:response(413,'{}') end

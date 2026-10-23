@@ -1,4 +1,4 @@
-name: Prepare release candidate
+name: Build release artifacts
 on:
   push:
     branches: [main]
@@ -40,8 +40,9 @@ jobs:
         run: |
           python3 tests/test_release_policy.py
           python3 tests/build_public_release.py dist
-      - name: Prepare draft assets and hide previous releases
+      - name: Prepare or publish verified release assets
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_PUBLISH_CONFIRMED: ${{ github.event_name == 'workflow_dispatch' && inputs.publish_confirmed && '1' || '0' }}
+          RELEASE_COMMIT_MESSAGE: ${{ github.event.head_commit.message || '' }}
         run: GITHUB_SHA=$(git rev-parse HEAD) python3 tools/publish_test_release.py dist

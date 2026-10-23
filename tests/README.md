@@ -17,3 +17,5 @@ EINK_CHROMIUM=/path/to/chromium python3 tests/run_web.py /path/to/koreader home_
 ```
 
 日志与画面输出到忽略的 `test-results/`，不进入源码与安装包。真实 Kindle 的显示与硬件操作仍需实机检查。
+
+发布流程默认只生成草稿。维护者确认后，可手动运行构建并勾选发布，或使用与当前版本完全一致的提交标题 `Release ClassicUI <版本号>`；普通推送不会公开新版本。发布策略检查：`python3 tests/test_release_policy.py`。

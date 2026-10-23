@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
-"""Prepare a draft; publication requires an explicit maintainer confirmation."""
+"""Prepare a draft; publish only on manual confirmation or a release commit."""
 from pathlib import Path
 import hashlib,json,os,shutil,subprocess,sys,time,urllib.request,urllib.error
 root=Path(__file__).resolve().parents[1];sys.path.insert(0,str(root/'tests'))
 from build_public_release import VERSION
 repo=os.environ['GITHUB_REPOSITORY'];commit=os.environ['GITHUB_SHA'];token=os.environ['GH_TOKEN']
 publish_confirmed=os.environ.get('RELEASE_PUBLISH_CONFIRMED')=='1'
+# An exact, version-matched release commit is an explicit maintainer action.
+# Ordinary fixes, candidate builds and commits for other versions stay drafts.
+subject=(os.environ.get('RELEASE_COMMIT_MESSAGE','').splitlines() or [''])[0]
+if os.environ.get('GITHUB_EVENT_NAME')=='push' and subject=='Release ClassicUI '+VERSION:
+ publish_confirmed=True
 assert repo=='ManXiangTAS/classicui.koplugin' and len(commit)==40
 assert 'removed=true' in (root/'einkfrontend.koplugin/einkfrontend/updater.lua').read_text()
 assets=Path(sys.argv[1])
