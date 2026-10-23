@@ -23,7 +23,6 @@ function Settings.render(app,route,m,row,go)
   m.content_key=nodes
   if route.param=="input" and app.pagepress then row("翻页键",nil,go("pagepress_settings")) end
   if route.param=="input" then row("中文输入法",nil,go("input_method")) end
-  if route.param=="device" and require('device'):isKindle() then row("Kindle 原生屏保",nil,go("stock_screensaver")) end
   if route.param=="device" or route.param=="network" then
    row("时间与日期",nil,go("clock_settings"))
   end
@@ -80,7 +79,6 @@ function Settings.search(app,query)
  add("传书与书库","书库与文件","transfer_settings",nil,"上传 传输 书籍 文件 目录 文件夹 路径 网页 Wi-Fi 重排 EPUB")
  add("时间与日期","设备与系统","clock_settings",nil,"网络同步时间 校时 时区 夏令时 timezone ntp")
  add("中文输入法","触控与按键","input_method",nil,"拼音 中文 汉字 候选词 键盘 pinyin 中英 英文 输入 切换 EN")
- if require('device'):isKindle() then add("Kindle 原生屏保","设备与系统","stock_screensaver",nil,"休眠 图片 壁纸 screensaver") end
  if app.pagepress then add("翻页键","触控与按键","pagepress_settings",nil,"PagePress 压感 按压力度 灵敏度 震动 振动 反馈 翻页 按键 Voyage") end
  add("墨页更新","维护与恢复","plugin_update",nil,"插件 检查更新 下载安装 更新 自动检查 自动更新 更新通道 OTA update")
  add("前端开关与恢复","维护与恢复","frontend",nil,"停用 启动 接管 原生兼容")
@@ -89,21 +87,30 @@ function Settings.search(app,query)
  for _,item in ipairs(require("einkfrontend/registry")) do
   if match(item.title.." "..(item.help or "")) then results[#results+1]={title=item.title,path=item.section=="files" and "维护与恢复 › 原生界面设置" or "阅读 › 排版",route="setting",param=item.id} end
  end
- local budget=2500;local seen={}
+ local budget=2500;local seen={};local deferred={}
  local function walk(nodes,path,depth)
   if type(nodes)~="table" or depth>10 or budget<=0 then return end
   for _,node in ipairs(nodes) do if type(node)=="table" and not seen[node] and budget>0 then
    seen[node]=true;budget=budget-1;local title=Native.text(node)
    if match(title) then results[#results+1]={node=node,path=path} end
    local children=node.sub_item_table
-   if not children and type(node.sub_item_table_func)=="function" then
-    local ok,value=pcall(node.sub_item_table_func);if ok and type(value)=="table" then children=value end
+   if children then walk(children,path.." › "..title,depth+1)
+   elseif type(node.sub_item_table_func)=="function" then
+    deferred[#deferred+1]={node=node,path=path.." › "..title,depth=depth+1}
    end
-   if children then walk(children,path.." › "..title,depth+1) end
   end end
  end
  for _,list in ipairs({app.native.categories,Native.extra_categories,{{"typography","高级排版"}}}) do
   for _,c in ipairs(list) do walk(app.native.catalog.roots[c[1]] or {},c[2],0) end
+ end
+ -- Search registered static choices before potentially huge generated font/file lists.
+ local index=1
+ while index<=#deferred and budget>0 do
+  local entry=deferred[index];index=index+1
+  if entry.depth<=10 then
+   local ok,children=pcall(entry.node.sub_item_table_func)
+   if ok and type(children)=="table" then walk(children,entry.path,entry.depth) end
+  end
  end
  app:go("catalog_search",{query=query,results=results})
 end

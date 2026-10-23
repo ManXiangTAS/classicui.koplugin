@@ -109,13 +109,14 @@ check('Stock image activation and preview use local artwork; restoration preserv
  G_reader_settings:saveSetting('screensaver_type','cover');G_reader_settings:delSetting('screensaver_show_message')
  local kindle={isKindle=function() return true end,supportsScreensaver=function() return true end}
  assert(Stock.activate(G_reader_settings,dir,kindle));assert(Stock.active(G_reader_settings))
- assert(G_reader_settings:isFalse('screensaver_show_message'))
+ assert(not G_reader_settings:has('screensaver_show_message'))
  local screensaver=require('ui/screensaver');screensaver:setup();assert(screensaver.screensaver_type=='random_image' and screensaver.image_file==file and screensaver.show_message==false);screensaver:cleanup()
  local oldpaths=Stock.paths;Stock.paths={dir};local oldis,oldsupport=Device.isKindle,Device.supportsScreensaver
  Device.isKindle=kindle.isKindle;Device.supportsScreensaver=kindle.supportsScreensaver
- app:open('stock_screensaver');local preview
- for _,r in ipairs(app.screen.model.rows) do if r.title=='预览图片' then preview=r.callback end end
- assert(preview);preview();local viewer=UI._window_stack[#UI._window_stack].widget;assert(viewer.title_text=='Kindle 自带屏保');UI:close(viewer)
+ app.native:refresh();local entry=assert(app.native.catalog.entries.screensaver)
+ local wallpaper;for _,item in ipairs(entry.node.sub_item_table) do if item.text==require('gettext')('Wallpaper') then wallpaper=item end end
+ app.native:open({entry.node},'屏保');app.native:select(entry.node);app.native:select(assert(wallpaper))
+ local found=false;for _,r in ipairs(app.screen.model.rows) do found=found or r.title=='使用 Kindle 原生屏保' end;assert(found)
  UI:forceRePaint();Device.screen.bb:writePNG(out..'stock-settings-'..variant..'.png')
  Device.isKindle=oldis;Device.supportsScreensaver=oldsupport;Stock.paths=oldpaths
  G_reader_settings:saveSetting('screensaver_img_background','black');assert(Stock.restore(G_reader_settings))

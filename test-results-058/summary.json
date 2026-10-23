@@ -1,0 +1,136 @@
+{
+  "failures": 0,
+  "checks": 27,
+  "distinct_cases": 9,
+  "runs": 3,
+  "device": "NOT_RUN",
+  "runtime_revision": "v2026.07.1",
+  "results": [
+    {
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Non-Kindle menus have no stock option; device category has no separate stock page"
+        },
+        {
+          "status": "PASS",
+          "name": "Kindle option is scoped to Wallpaper and refresh does not duplicate or mutate native providers"
+        },
+        {
+          "status": "PASS",
+          "name": "Native menu selection enables random stock images and preserves all display preferences"
+        },
+        {
+          "status": "PASS",
+          "name": "Choosing custom random images restores prior folder and clears stock selection"
+        },
+        {
+          "status": "PASS",
+          "name": "Choosing cover exits stock mode; a second activation restores latest custom preferences"
+        },
+        {
+          "status": "PASS",
+          "name": "Missing image directory reports failure without changing wallpaper or closing its page"
+        },
+        {
+          "status": "PASS",
+          "name": "Legacy independent screen settings migrate without retaining hidden display overrides"
+        },
+        {
+          "status": "PASS",
+          "name": "Global settings search finds the same nested Wallpaper choice without independent route"
+        },
+        {
+          "status": "PASS",
+          "name": "Reader gets the same Wallpaper option and switching away preserves display settings"
+        }
+      ],
+      "variant": "desktop",
+      "device": "NOT_RUN"
+    },
+    {
+      "tests": [
+        {
+          "name": "Non-Kindle menus have no stock option; device category has no separate stock page",
+          "status": "PASS"
+        },
+        {
+          "name": "Kindle option is scoped to Wallpaper and refresh does not duplicate or mutate native providers",
+          "status": "PASS"
+        },
+        {
+          "name": "Native menu selection enables random stock images and preserves all display preferences",
+          "status": "PASS"
+        },
+        {
+          "name": "Choosing custom random images restores prior folder and clears stock selection",
+          "status": "PASS"
+        },
+        {
+          "name": "Choosing cover exits stock mode; a second activation restores latest custom preferences",
+          "status": "PASS"
+        },
+        {
+          "name": "Missing image directory reports failure without changing wallpaper or closing its page",
+          "status": "PASS"
+        },
+        {
+          "name": "Legacy independent screen settings migrate without retaining hidden display overrides",
+          "status": "PASS"
+        },
+        {
+          "name": "Global settings search finds the same nested Wallpaper choice without independent route",
+          "status": "PASS"
+        },
+        {
+          "name": "Reader gets the same Wallpaper option and switching away preserves display settings",
+          "status": "PASS"
+        }
+      ],
+      "variant": "voyage",
+      "device": "NOT_RUN"
+    },
+    {
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Non-Kindle menus have no stock option; device category has no separate stock page"
+        },
+        {
+          "status": "PASS",
+          "name": "Kindle option is scoped to Wallpaper and refresh does not duplicate or mutate native providers"
+        },
+        {
+          "status": "PASS",
+          "name": "Native menu selection enables random stock images and preserves all display preferences"
+        },
+        {
+          "status": "PASS",
+          "name": "Choosing custom random images restores prior folder and clears stock selection"
+        },
+        {
+          "status": "PASS",
+          "name": "Choosing cover exits stock mode; a second activation restores latest custom preferences"
+        },
+        {
+          "status": "PASS",
+          "name": "Missing image directory reports failure without changing wallpaper or closing its page"
+        },
+        {
+          "status": "PASS",
+          "name": "Legacy independent screen settings migrate without retaining hidden display overrides"
+        },
+        {
+          "status": "PASS",
+          "name": "Global settings search finds the same nested Wallpaper choice without independent route"
+        },
+        {
+          "status": "PASS",
+          "name": "Reader gets the same Wallpaper option and switching away preserves display settings"
+        }
+      ],
+      "variant": "landscape",
+      "device": "NOT_RUN"
+    }
+  ]
+}

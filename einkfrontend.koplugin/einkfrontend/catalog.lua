@@ -22,7 +22,8 @@ function Catalog:refresh()
     -- The native sorter mutates input tables; preserve a copy for the new renderer.
     local interceptor=function(sorter,prefix,items,order)
         capture=copy(items);menu_order=copy(order)
-        local safe,safe_order=copy(items),copy(order)
+        if capture.screensaver then require('einkfrontend/stockscreensaver').extendMenu(capture.screensaver) end
+        local safe,safe_order=copy(capture),copy(order)
         -- A user may remove a formerly valid parent from the active menu order.
         for id,value in pairs(sorter:readMSSettings(prefix) or {}) do safe_order[id]=copy(value) end
         local reachable={}
