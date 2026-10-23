@@ -47,6 +47,7 @@ function Page:_layout()
     self.info_h = Screen:scaleBySize(self.model and self.model.library and 52 or (self.model and self.model.toolbar and 126 or 52))
     self.row_h = Screen:scaleBySize(self.model and self.model.rich and 100 or 70)
     local height=self.dimen.h-self.header_h-self.footer_h-self.info_h
+    self.viewport_h=height
     self.list_capacity = math.max(1, math.floor(height/self.row_h))
     self.grid_columns=math.max(2,math.min(5,math.floor(self.dimen.w/Screen:scaleBySize(165))))
     self.grid_rows=math.max(1,math.floor(height/Screen:scaleBySize(240)))
@@ -325,7 +326,10 @@ end
 
 function Page:onFrontendTap(ignored,ges)
     if ges and ges.pos then
-        local value=Rail.tap(self.scroll_track,ges.pos,self.viewport_h*.7)
+        local value
+        if self.model.settings and self.scroll_track then
+            value=Rail.tap(self.scroll_track,ges.pos,self.viewport_h*.7)
+        end
         if value then self:scrollBy(value-self.scroll_y) else Paint.activate(self,ges.pos) end
     end
     return true

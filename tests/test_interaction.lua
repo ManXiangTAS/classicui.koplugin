@@ -38,6 +38,26 @@ end
 FM:showFiles(books);local app=FM.instance.einkfrontend.app
 for _=1,30 do UI:shiftScheduledTasksBy(-require('ui/time').s(.02));UI:_checkTasks() end
 local close={};for _,e in ipairs(UI._window_stack) do if e.widget.text then close[#close+1]=e.widget end end;for _,w in ipairs(close) do UI:close(w) end
+check('Fresh library buttons work before visiting home or settings, including after reopening',function()
+ for cycle=1,3 do
+  app:close();app:open('library');local fresh=app.screen
+  assert(fresh.model.library and not fresh.model.home and not fresh.model.settings)
+  for _,id in ipairs({'library_more','library_filter','library_sort'}) do
+   tap(fresh,id);assert(app.library_popup);app.library_popup:close()
+  end
+  assert(fresh.viewport_h==fresh.dimen.h-fresh.header_h-fresh.footer_h-fresh.info_h)
+ end
+end)
+check('Every layout initializes its viewport and replaces the previous layout height',function()
+ local Page=require('einkfrontend/screen')
+ local fresh=Page:new{app=app}
+ assert(fresh.viewport_h==fresh.dimen.h-fresh.header_h-fresh.footer_h-fresh.info_h)
+ for _,model in ipairs({{home=true},{settings=true,subtitle='test'},{library=true,library_root=true},
+  {library=true,rich=true},{toolbar={}},{grid=true},{}}) do
+  model.rows={};model.route={};fresh:setModel(model)
+  assert(fresh.viewport_h==fresh.dimen.h-fresh.header_h-fresh.footer_h-fresh.info_h)
+ end
+end)
 app:open('settings');local page=app.screen
 check('Real settings More flashes only its rectangle and restores before the action',function()
  local hit=assert(find(page,'settings_more'));local pos=center(hit);local px,py=math.floor(hit.x+S(5)),math.floor(hit.y+S(5))
