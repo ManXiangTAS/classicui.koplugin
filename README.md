@@ -46,9 +46,6 @@
 
 恢复原生界面：**设置 → 维护与恢复 → 前端开关与恢复**。更多操作见[使用指南](docs/guide.md)。
 
-## 宣传片
-
-[观看或下载《把设备，读成自己的》](https://github.com/ManXiangTAS/classicui.koplugin/releases/download/v0.6.0/ClassicUI_0.6.0_film.mp4)：黑白动效、原创配乐、2 分 28 秒。
 
 ## 我们选择的方向
 
