@@ -1,6 +1,6 @@
 {
   "snapshot_date": "2026-10-23",
-  "software_version": "0.5.0-test.8",
+  "software_version": "0.5.0-test.9",
   "working_name": "墨页 E-Ink Frontend",
   "overall_status": "DEVELOPMENT_PREVIEW_DESKTOP_VERIFIED_DEVICE_PENDING",
   "device": {
@@ -145,24 +145,26 @@
     "offline_pinyin_candidates": "HOST_RIME_WORD_MAP; per-input preedit; click/page/space/return; external pinyin plugins yield; no sentence decoding",
     "kindle_stock_screensaver": "READ_ONLY_DEVICE_IMAGES; unified Sleep screen > Wallpaper radio option; random_image + auto path; display preferences preserved; legacy backup/restore retained; physical suspend NOT_RUN",
     "quick_input_language": "Always visible Chinese / EN switch for supported non-sensitive zh_CN/en input fields; preserve raw preedit, native English punctuation, persisted default; external input plugins yield",
-    "plugin_updater": "Manual GitHub release checks and staged install; opt-in automatic check/install; testing/stable channels; TLS chain+hostname, SHA256, archive manifest, pre-load journaled activation and recovery; preserves settings"
+    "plugin_updater": "Default relay 1.0.1 query BASE; direct/custom source; strict manifest and origin/path/TLS checks; source-scoped state; bounded 410 refresh; Retry-After; existing journaled safe installation retained"
   },
   "verification": {
-    "version": "0.5.0-test.8",
-    "checks": 99,
-    "distinct_cases": 33,
-    "runs": 9,
+    "version": "0.5.0-test.9",
+    "checks": 158,
+    "distinct_cases": 66,
+    "runs": 11,
     "failures": 0,
     "device": "NOT_RUN",
     "reports": [
-      "test-results-058/summary.json",
-      "test-results-055/summary.json",
+      "test-results-059/summary.json",
+      "test-results-057/summary.json",
+      "test-results-057/tls-summary.json",
+      "test-results-059/relay-tls-summary.json",
       "test-results-053/summary.json"
     ],
-    "scope": "Only wallpaper integration, input/screensaver and settings More suites rerun. Kindle capability and artwork paths simulated using actual KOReader widgets/renderer. Other historical suites are excluded. No GitHub direct-download test required.",
-    "current_version": "0.5.0-test.8",
-    "summary": "test-results-058/combined-summary.json",
-    "lua_syntax_files": 55,
+    "scope": "Only relay protocol/UI, existing updater, direct TLS and settings popup suites rerun. TLS tests use actual local HTTPS servers and CA validation; public query relay observed HTTP 403 HTML. Other historical suites excluded.",
+    "current_version": "0.5.0-test.9",
+    "summary": "test-results-059/combined-summary.json",
+    "lua_syntax_files": 56,
     "physical_device": "NOT_RUN_AFTER_CHANGES"
   },
   "phase_status": {
@@ -377,7 +379,7 @@
     "new_checks": 51,
     "physical_device": "NOT_RUN"
   },
-  "latest_validation": "test-results-058/combined-summary.json",
+  "latest_validation": "test-results-059/combined-summary.json",
   "historical_validation_051": {
     "version": "0.5.0-test.1",
     "checks": 911,
@@ -402,18 +404,20 @@
     "web": "Real byte-identical uploads, opt-in typography, image/nav/OPF preservation, script/network isolation, ZIP expansion/path/CRC/symlink/XML/CSS rejection, cancel and no partial files"
   },
   "current_validation": {
-    "version": "0.5.0-test.8",
-    "checks": 99,
-    "distinct_cases": 33,
-    "runs": 9,
+    "version": "0.5.0-test.9",
+    "checks": 158,
+    "distinct_cases": 66,
+    "runs": 11,
     "failures": 0,
     "device": "NOT_RUN",
     "reports": [
-      "test-results-058/summary.json",
-      "test-results-055/summary.json",
+      "test-results-059/summary.json",
+      "test-results-057/summary.json",
+      "test-results-057/tls-summary.json",
+      "test-results-059/relay-tls-summary.json",
       "test-results-053/summary.json"
     ],
-    "scope": "Only wallpaper integration, input/screensaver and settings More suites rerun. Kindle capability and artwork paths simulated using actual KOReader widgets/renderer. Other historical suites are excluded. No GitHub direct-download test required."
+    "scope": "Only relay protocol/UI, existing updater, direct TLS and settings popup suites rerun. TLS tests use actual local HTTPS servers and CA validation; public query relay observed HTTP 403 HTML. Other historical suites excluded."
   },
   "historical_validation_057": {
     "version": "0.5.0-test.7",
@@ -435,5 +439,27 @@
       "test-results-057/boot-summary.json"
     ],
     "scope": "Listed suites rerun. TLS uses a real loopback server; direct GitHub DNS unavailable; physical Kindle NOT_RUN. Historical browser checks excluded."
+  },
+  "historical_validation_058": {
+    "version": "0.5.0-test.8",
+    "checks": 99,
+    "distinct_cases": 33,
+    "runs": 9,
+    "failures": 0,
+    "device": "NOT_RUN",
+    "reports": [
+      "test-results-058/summary.json",
+      "test-results-055/summary.json",
+      "test-results-053/summary.json"
+    ],
+    "scope": "Only wallpaper integration, input/screensaver and settings More suites rerun. Kindle capability and artwork paths simulated using actual KOReader widgets/renderer. Other historical suites are excluded. No GitHub direct-download test required."
+  },
+  "update_relay": {
+    "schema": 1,
+    "server_protocol": "1.0.1",
+    "default_base": "https://www.2001330.xyz/index.php?classicui_relay=",
+    "public_probe": "HTTP_403_HTML_NOT_VERIFIED",
+    "local_https": "PASS",
+    "physical_device": "NOT_RUN"
   }
 }

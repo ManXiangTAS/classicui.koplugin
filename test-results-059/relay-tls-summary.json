@@ -1,0 +1,8 @@
+{
+  "device": "NOT_RUN",
+  "checks": 11,
+  "distinct_cases": 11,
+  "runs": 1,
+  "failures": 0,
+  "scope": "Real local LuaSec HTTPS query relay, ZIP staging and bounded 410 recovery; no public-site success claimed"
+}

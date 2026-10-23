@@ -7,8 +7,6 @@
   "runtime_revision": "v2026.07.1",
   "results": [
     {
-      "variant": "desktop",
-      "device": "NOT_RUN",
       "tests": [
         {
           "status": "PASS",
@@ -98,7 +96,9 @@
           "status": "PASS",
           "name": "Enabling automatic installation can prepare an already detected release without another check"
         }
-      ]
+      ],
+      "variant": "desktop",
+      "device": "NOT_RUN"
     },
     {
       "tests": [
@@ -195,6 +195,7 @@
       "device": "NOT_RUN"
     },
     {
+      "variant": "landscape",
       "device": "NOT_RUN",
       "tests": [
         {
@@ -285,8 +286,7 @@
           "status": "PASS",
           "name": "Enabling automatic installation can prepare an already detected release without another check"
         }
-      ],
-      "variant": "landscape"
+      ]
     }
   ]
 }

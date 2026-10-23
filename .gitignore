@@ -23,3 +23,7 @@ release-build/
 !test-results-057/live-network.json
 !test-results-058/combined-summary.json
 !test-results-058/syntax.json
+!test-results-059/combined-summary.json
+!test-results-059/syntax.json
+!test-results-059/relay-tls-summary.json
+!test-results-059/live-relay.json

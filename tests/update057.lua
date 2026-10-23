@@ -29,6 +29,8 @@ end
 local function typecode(box,s) for c in s:gmatch('.') do box:addChars(c) end end
 local function close(d) UI:close(d);ticks() end
 local B=require('einkfrontend/updateboot');local C=require('einkfrontend/updatecore');local U=require('einkfrontend/updater')
+-- Keep the release fixture baseline independent of the installed plugin version.
+U.current='0.5.0-test.7';U.set('source','github')
 local fixtures=root..'/tests/update-fixtures/';local index=require('json').decode(B.read(fixtures..'index.json'))
 local function release(name)
  local data=index[name or 'valid'];return {version='0.5.0-test.8',tag='v0.5.0-test.8',size=data.size,sha256=data.sha256,url='https://github.com/'..C.repo..'/releases/download/v0.5.0-test.8/ClassicUI_0.5.0-test.8_install.zip',notes='测试更新说明'}

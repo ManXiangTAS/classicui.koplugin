@@ -7,7 +7,6 @@
   "runtime_revision": "v2026.07.1",
   "results": [
     {
-      "device": "NOT_RUN",
       "variant": "desktop",
       "tests": [
         {
@@ -53,45 +52,47 @@
         "settings-after-desktop.png",
         "settings-search-results-desktop.png",
         "reader-settings-more-popup-desktop.png"
-      ]
+      ],
+      "device": "NOT_RUN"
     },
     {
+      "variant": "voyage",
       "tests": [
         {
-          "name": "Only the settings root has More; subpages keep Back Close and optional Help",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "Only the settings root has More; subpages keep Back Close and optional Help"
         },
         {
-          "name": "More opens an anchored two-row popup without replacing the settings page",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "More opens an anchored two-row popup without replacing the settings page"
         },
         {
-          "name": "An outside tap closes without opening the underlying row and restores identical pixels",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "An outside tap closes without opening the underlying row and restores identical pixels"
         },
         {
-          "name": "Tapping More again dismisses the popup without reopening or activating a shortcut",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "Tapping More again dismisses the popup without reopening or activating a shortcut"
         },
         {
-          "name": "Search closes the popup and searches all settings",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "Search closes the popup and searches all settings"
         },
         {
-          "name": "Restart asks for confirmation; cancel does nothing; accept flushes before restart",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "Restart asks for confirmation; cancel does nothing; accept flushes before restart"
         },
         {
-          "name": "Repeated opens deduplicate; Back closes; rotation reaches the underlying page",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "Repeated opens deduplicate; Back closes; rotation reaches the underlying page"
         },
         {
-          "name": "Navigation suspend and close discard the menu and clear its active button",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "Navigation suspend and close discard the menu and clear its active button"
         },
         {
-          "name": "Library Home and reading panels do not acquire the settings More menu",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "Library Home and reading panels do not acquire the settings More menu"
         }
       ],
       "frames": [
@@ -101,11 +102,9 @@
         "settings-search-results-voyage.png",
         "reader-settings-more-popup-voyage.png"
       ],
-      "device": "NOT_RUN",
-      "variant": "voyage"
+      "device": "NOT_RUN"
     },
     {
-      "variant": "landscape",
       "tests": [
         {
           "name": "Only the settings root has More; subpages keep Back Close and optional Help",
@@ -151,7 +150,8 @@
         "settings-search-results-landscape.png",
         "reader-settings-more-popup-landscape.png"
       ],
-      "device": "NOT_RUN"
+      "device": "NOT_RUN",
+      "variant": "landscape"
     }
   ]
 }

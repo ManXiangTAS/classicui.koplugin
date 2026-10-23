@@ -2,11 +2,11 @@
 
 为 KOReader 提供统一的黑白阅读前端：书库、主页、阅读菜单和设置。首测设备为 Kindle Voyage，当前支持 **KOReader v2026.07.1 / v2026.07.2 stable**，固定源码 `9192014d8bd82a91dc1012473be0f238dedfdb54`。不修改 KOReader 核心文件。
 
-**当前版本：0.5.0-test.8，测试版。Kindle 原生屏保已并入「屏保 → 壁纸」，使用随机图片模式并自动设置设备图片目录，保留现有显示偏好。**
+**当前版本：0.5.0-test.9，测试版。更新器默认接入墨页 WordPress 查询式中转，支持 GitHub 直连、自定义地址、旧包淘汰后的有界重试及服务器等待时间。本地 HTTPS 联调通过，线上入口在当前环境返回 403，真机待验收。**
 
 ## 下载与安装
 
-从 [测试版发布页](https://github.com/ManXiangTAS/classicui.koplugin/releases/tag/v0.5.0-test.8) 下载 `ClassicUI_0.5.0-test.8_install.zip`。
+从 [测试版发布页](https://github.com/ManXiangTAS/classicui.koplugin/releases/tag/v0.5.0-test.9) 下载 `ClassicUI_0.5.0-test.9_install.zip`。
 
 1. 完全退出 KOReader，升级前备份原插件和 `koreader/settings`。
 2. 将压缩包中的 `einkfrontend.koplugin` 文件夹复制到 `koreader/plugins/`，升级时覆盖同名插件。
@@ -17,10 +17,17 @@
 
 ## 本版变化
 
+- 设置 → 维护与恢复 → 墨页更新 → 更新源，提供墨页中转、GitHub 直连和自定义中转地址；搜索“中转”可找到入口。
+- 默认使用 `https://www.2001330.xyz/index.php?classicui_relay=`，保留查询前缀，检查版本使用 `&channel=`，下载同样经过中转。不使用旧的 `classicui-updates` 地址。
+- 旧包返回 410 后最多刷新清单、重试下载一次；区分暂无发布、缓存尚未就绪、缓存过期和 HTML 错误，遵守 Retry-After，切换源后隔离原缓存和错误。
+- **首次需手动安装 test.9**，此前客户端不支持中转。自动检查/安装仍默认关闭，保留已保存的用户开关。详见[中转更新源说明](docs/0.5.0-test.9_中转更新源.md)。
+
+以下为0.5.0-test.8已加入的功能：
+
 - 「设置 → 设备与系统 → 屏保 → 壁纸」增加“使用 Kindle 原生屏保”，移除原来的独立入口。只调用 KOReader 随机图片模式并自动检测原生图片目录；保留填充、旋转、拉伸、循环顺序和休眠文字。
 - 与其他壁纸单选互斥，切回自定义随机图片时恢复之前的目录；兼容旧版屏保备份。找不到图片时保留当前设置。详见[屏保壁纸整合说明](docs/0.5.0-test.8_屏保壁纸整合.md)。
 - 设置搜索优先扫描现有菜单项，再展开较大的动态列表，避免深层设置被搜索额度遗漏。
-- 已安装 test.7 可通过「设置 → 维护与恢复 → 墨页更新」升级，选择测试版通道。
+- test.7 的插件内更新功能保留；test.9 首次接入中转需手动覆盖安装。
 
 以下为0.5.0-test.7已加入的功能：
 

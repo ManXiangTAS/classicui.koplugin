@@ -1,6 +1,6 @@
 {
+  "checks": 9,
   "failures": 0,
   "scope": "Real loopback LuaSec TLS; no live GitHub connection; test CA and endpoints only",
-  "device": "NOT_RUN",
-  "checks": 9
+  "device": "NOT_RUN"
 }
