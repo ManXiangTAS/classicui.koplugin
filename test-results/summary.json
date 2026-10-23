@@ -19,6 +19,7 @@
   "results": [
     {
       "variant": "desktop",
+      "mode": "write",
       "width": 600,
       "height": 800,
       "tests": [
@@ -99,11 +100,13 @@
           "status": "PASS"
         }
       ],
-      "mode": "write",
-      "seconds": 0.817
+      "seconds": 0.767
     },
     {
+      "width": 600,
       "height": 800,
+      "mode": "restart",
+      "variant": "desktop",
       "tests": [
         {
           "status": "PASS",
@@ -138,14 +141,13 @@
           "name": "new-process persistence font_kerning"
         }
       ],
-      "mode": "restart",
-      "variant": "desktop",
-      "width": 600,
-      "seconds": 0.367
+      "seconds": 0.316
     },
     {
-      "height": 800,
+      "mode": "faults",
       "variant": "desktop",
+      "width": 600,
+      "height": 800,
       "tests": [
         {
           "name": "persistence failure rolls back runtime value",
@@ -160,64 +162,61 @@
           "status": "PASS"
         }
       ],
-      "mode": "faults",
-      "width": 600,
-      "seconds": 0.316
+      "seconds": 0.265
     },
     {
+      "width": 600,
       "height": 800,
-      "variant": "desktop",
       "tests": [
         {
-          "name": "asynchronous library scan extracts metadata",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "asynchronous library scan extracts metadata"
         },
         {
-          "name": "cover extraction and missing-cover fallback",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "cover extraction and missing-cover fallback"
         },
         {
-          "name": "author, series, search and list filters",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "author, series, search and list filters"
         },
         {
-          "name": "native collection create, membership, persistence and removal",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "native collection create, membership, persistence and removal"
         },
         {
-          "name": "book detail and returning keep page position",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "book detail and returning keep page position"
         },
         {
-          "name": "series metadata edit, native readback and reset",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "series metadata edit, native readback and reset"
         },
         {
-          "name": "collection persistence failure restores membership",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "collection persistence failure restores membership"
         },
         {
-          "name": "text input control submits and returns to own page",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "text input control submits and returns to own page"
         },
         {
-          "name": "native directory picker confirms without duplicate close",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "native directory picker confirms without duplicate close"
         },
         {
-          "name": "closing a scan cancels scheduled work and returns native host",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "closing a scan cancels scheduled work and returns native host"
         }
       ],
       "mode": "library",
-      "width": 600,
-      "seconds": 0.567
+      "variant": "desktop",
+      "seconds": 0.516
     },
     {
-      "variant": "desktop",
-      "width": 600,
-      "mode": "references",
       "height": 800,
+      "variant": "desktop",
+      "mode": "references",
       "tests": [
         {
           "name": "zero percent sidecar remains unread; finished and hold have explicit precedence",
@@ -264,7 +263,8 @@
           "status": "PASS"
         }
       ],
-      "seconds": 0.516
+      "width": 600,
+      "seconds": 0.517
     },
     {
       "width": 600,
@@ -277,10 +277,12 @@
         }
       ],
       "variant": "desktop",
-      "seconds": 0.265
+      "seconds": 0.266
     },
     {
       "variant": "desktop",
+      "width": 600,
+      "height": 800,
       "tests": [
         {
           "name": "reader control action ShowToc",
@@ -316,34 +318,32 @@
         }
       ],
       "mode": "reader_actions",
-      "width": 600,
-      "height": 800,
-      "seconds": 0.466
+      "seconds": 0.417
     },
     {
-      "variant": "desktop",
+      "height": 800,
       "tests": [
         {
           "status": "PASS",
           "name": "PDF excludes EPUB typography and retains native reader"
         }
       ],
+      "variant": "desktop",
       "mode": "pdf",
-      "height": 800,
       "width": 600,
       "seconds": 0.316
     },
     {
-      "width": 600,
-      "height": 800,
-      "mode": "embedded",
+      "variant": "desktop",
       "tests": [
         {
           "name": "embedded-font availability and real toggle persistence",
           "status": "PASS"
         }
       ],
-      "variant": "desktop",
+      "width": 600,
+      "height": 800,
+      "mode": "embedded",
       "seconds": 0.316
     },
     {
@@ -357,26 +357,26 @@
         }
       ],
       "mode": "embedded_restart",
-      "seconds": 0.316
+      "seconds": 0.265
     },
     {
-      "tests": [
-        {
-          "status": "PASS",
-          "name": "startup reaches own frontend without native menu"
-        }
-      ],
       "variant": "desktop",
       "mode": "auto_start",
-      "height": 800,
       "width": 600,
-      "seconds": 0.466
+      "height": 800,
+      "tests": [
+        {
+          "name": "startup reaches own frontend without native menu",
+          "status": "PASS"
+        }
+      ],
+      "seconds": 0.416
     },
     {
       "width": 600,
       "height": 800,
-      "mode": "stress_flow",
       "variant": "desktop",
+      "mode": "stress_flow",
       "tests": [
         {
           "name": "120-book scan yields, finishes, paginates and keeps detail position",
@@ -391,50 +391,50 @@
           "status": "PASS"
         }
       ],
-      "seconds": 2.976
+      "seconds": 2.024
     },
     {
+      "variant": "desktop",
+      "mode": "disable",
+      "width": 600,
+      "height": 800,
+      "tests": [
+        {
+          "name": "disabling plugin removes UI and reader zone",
+          "status": "PASS"
+        }
+      ],
+      "seconds": 0.265
+    },
+    {
+      "width": 600,
+      "height": 800,
+      "mode": "native_restart",
+      "tests": [
+        {
+          "name": "disabled plugin stays disabled after new process",
+          "status": "PASS"
+        }
+      ],
+      "variant": "desktop",
+      "seconds": 0.265
+    },
+    {
+      "height": 800,
       "tests": [
         {
           "status": "PASS",
-          "name": "disabling plugin removes UI and reader zone"
+          "name": "disabled plugin stays disabled after new process"
         }
       ],
       "variant": "desktop",
-      "width": 600,
-      "height": 800,
-      "mode": "disable",
-      "seconds": 0.265
-    },
-    {
-      "variant": "desktop",
-      "tests": [
-        {
-          "name": "disabled plugin stays disabled after new process",
-          "status": "PASS"
-        }
-      ],
-      "mode": "native_restart",
-      "width": 600,
-      "height": 800,
-      "seconds": 0.265
-    },
-    {
-      "variant": "desktop",
-      "tests": [
-        {
-          "name": "disabled plugin stays disabled after new process",
-          "status": "PASS"
-        }
-      ],
-      "width": 600,
-      "height": 800,
       "mode": "uninstalled",
-      "seconds": 0.215
+      "width": 600,
+      "seconds": 0.265
     },
     {
-      "variant": "voyage_layout",
       "mode": "write",
+      "variant": "voyage_layout",
       "tests": [
         {
           "status": "PASS",
@@ -515,10 +515,9 @@
       ],
       "width": 1072,
       "height": 1448,
-      "seconds": 0.867
+      "seconds": 0.818
     },
     {
-      "variant": "voyage_layout",
       "tests": [
         {
           "status": "PASS",
@@ -553,61 +552,64 @@
           "name": "new-process persistence font_kerning"
         }
       ],
+      "variant": "voyage_layout",
       "width": 1072,
-      "mode": "restart",
       "height": 1448,
-      "seconds": 0.315
+      "mode": "restart",
+      "seconds": 0.316
     },
     {
       "width": 1072,
       "height": 1448,
       "mode": "library",
+      "variant": "voyage_layout",
       "tests": [
         {
-          "name": "asynchronous library scan extracts metadata",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "asynchronous library scan extracts metadata"
         },
         {
-          "name": "cover extraction and missing-cover fallback",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "cover extraction and missing-cover fallback"
         },
         {
-          "name": "author, series, search and list filters",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "author, series, search and list filters"
         },
         {
-          "name": "native collection create, membership, persistence and removal",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "native collection create, membership, persistence and removal"
         },
         {
-          "name": "book detail and returning keep page position",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "book detail and returning keep page position"
         },
         {
-          "name": "series metadata edit, native readback and reset",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "series metadata edit, native readback and reset"
         },
         {
-          "name": "collection persistence failure restores membership",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "collection persistence failure restores membership"
         },
         {
-          "name": "text input control submits and returns to own page",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "text input control submits and returns to own page"
         },
         {
-          "name": "native directory picker confirms without duplicate close",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "native directory picker confirms without duplicate close"
         },
         {
-          "name": "closing a scan cancels scheduled work and returns native host",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "closing a scan cancels scheduled work and returns native host"
         }
       ],
-      "variant": "voyage_layout",
       "seconds": 0.667
     },
     {
+      "mode": "references",
+      "variant": "voyage_layout",
       "height": 1448,
       "tests": [
         {
@@ -655,42 +657,38 @@
           "status": "PASS"
         }
       ],
-      "variant": "voyage_layout",
-      "mode": "references",
       "width": 1072,
-      "seconds": 0.617
+      "seconds": 0.569
     },
     {
-      "mode": "references_restart",
+      "width": 1072,
       "height": 1448,
       "variant": "voyage_layout",
       "tests": [
         {
-          "name": "new process restores per-tab destination layout sort and combined filter",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "new process restores per-tab destination layout sort and combined filter"
         }
       ],
-      "width": 1072,
+      "mode": "references_restart",
       "seconds": 0.265
     },
     {
-      "variant": "voyage_layout",
-      "mode": "auto_start",
-      "width": 1072,
-      "height": 1448,
       "tests": [
         {
           "name": "startup reaches own frontend without native menu",
           "status": "PASS"
         }
       ],
-      "seconds": 0.568
+      "mode": "auto_start",
+      "variant": "voyage_layout",
+      "height": 1448,
+      "width": 1072,
+      "seconds": 0.517
     },
     {
       "width": 1448,
-      "mode": "library",
       "height": 1072,
-      "variant": "landscape",
       "tests": [
         {
           "name": "asynchronous library scan extracts metadata",
@@ -733,63 +731,67 @@
           "status": "PASS"
         }
       ],
-      "seconds": 0.718
+      "mode": "library",
+      "variant": "landscape",
+      "seconds": 0.817
     },
     {
-      "width": 1448,
+      "variant": "landscape",
       "height": 1072,
       "tests": [
         {
-          "name": "zero percent sidecar remains unread; finished and hold have explicit precedence",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "zero percent sidecar remains unread; finished and hold have explicit precedence"
         },
         {
-          "name": "combined status search author and collection filters share counts",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "combined status search author and collection filters share counts"
         },
         {
-          "name": "recent reading sort uses history not file modification time and handles missing history",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "recent reading sort uses history not file modification time and handles missing history"
         },
         {
-          "name": "each library tab keeps its own layout sort and nested destination",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "each library tab keeps its own layout sort and nested destination"
         },
         {
-          "name": "filter checkbox real tap preserves author context and applies across tabs",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "filter checkbox real tap preserves author context and applies across tabs"
         },
         {
-          "name": "search setting result opens own setting with a plain inert title",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "search setting result opens own setting with a plain inert title"
         },
         {
-          "name": "optional Kindle library absence is safe and visible",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "optional Kindle library absence is safe and visible"
         },
         {
-          "name": "PocketBook device panel opens by top swipe and leaves underlying route intact",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "PocketBook device panel opens by top swipe and leaves underlying route intact"
         },
         {
-          "name": "device panel night toggle changes live screen and persisted setting",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "device panel night toggle changes live screen and persisted setting"
         },
         {
-          "name": "upward swipe dismisses device controls and ordinary library swipe still paginates",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "upward swipe dismisses device controls and ordinary library swipe still paginates"
         },
         {
-          "name": "frontlight slider uses device bounds and rejects invalid input without changing intensity",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "frontlight slider uses device bounds and rejects invalid input without changing intensity"
         }
       ],
-      "variant": "landscape",
+      "width": 1448,
       "mode": "references",
       "seconds": 0.567
     },
     {
+      "width": 1448,
       "height": 1072,
+      "mode": "references_restart",
       "tests": [
         {
           "name": "new process restores per-tab destination layout sort and combined filter",
@@ -797,22 +799,20 @@
         }
       ],
       "variant": "landscape",
-      "mode": "references_restart",
-      "width": 1448,
-      "seconds": 0.266
+      "seconds": 0.215
     },
     {
       "mode": "auto_start",
-      "variant": "landscape",
       "width": 1448,
-      "height": 1072,
       "tests": [
         {
-          "status": "PASS",
-          "name": "startup reaches own frontend without native menu"
+          "name": "startup reaches own frontend without native menu",
+          "status": "PASS"
         }
       ],
-      "seconds": 0.617
+      "height": 1072,
+      "variant": "landscape",
+      "seconds": 0.466
     }
   ]
 }

@@ -7,154 +7,6 @@
   "runtime_revision": "v2026.07.1",
   "results": [
     {
-      "matrix": [
-        {
-          "route": "settings",
-          "settings_more": true,
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "home",
-          "settings_more": false,
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "library",
-          "settings_more": false,
-          "library_menu": true,
-          "reader": false
-        },
-        {
-          "route": "frontend",
-          "settings_more": false,
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "about",
-          "settings_more": false,
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "clock_settings",
-          "settings_more": false,
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "clock_zones",
-          "settings_more": false,
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "clock_zone_list",
-          "settings_more": false,
-          "param": "Shanghai",
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "transfer_settings",
-          "settings_more": false,
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "catalog_category",
-          "settings_more": false,
-          "param": "reading",
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "catalog_category",
-          "settings_more": false,
-          "param": "display",
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "catalog_category",
-          "settings_more": false,
-          "param": "input",
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "catalog_category",
-          "settings_more": false,
-          "param": "library",
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "catalog_category",
-          "settings_more": false,
-          "param": "lookup",
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "catalog_category",
-          "settings_more": false,
-          "param": "network",
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "catalog_category",
-          "settings_more": false,
-          "param": "plugins",
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "catalog_category",
-          "settings_more": false,
-          "param": "device",
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "catalog_category",
-          "settings_more": false,
-          "param": "misc",
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "catalog_category",
-          "settings_more": false,
-          "param": "maintenance",
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "catalog_category",
-          "settings_more": false,
-          "param": "compatibility",
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "catalog_category",
-          "settings_more": false,
-          "param": "diagnostics",
-          "library_menu": false,
-          "reader": false
-        },
-        {
-          "route": "catalog_category",
-          "settings_more": false,
-          "param": "power",
-          "library_menu": false,
-          "reader": false
-        }
-      ],
       "device": "NOT_RUN",
       "variant": "desktop",
       "tests": [
@@ -225,6 +77,154 @@
         {
           "status": "PASS",
           "name": "Disabling the frontend closes owned dialogs and prevents stale callbacks and menus from reopening it"
+        }
+      ],
+      "matrix": [
+        {
+          "route": "settings",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": true
+        },
+        {
+          "route": "home",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "library",
+          "library_menu": true,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "frontend",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "about",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "clock_settings",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "clock_zones",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "clock_zone_list",
+          "param": "Shanghai",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "transfer_settings",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "catalog_category",
+          "param": "reading",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "catalog_category",
+          "param": "display",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "catalog_category",
+          "param": "input",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "catalog_category",
+          "param": "library",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "catalog_category",
+          "param": "lookup",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "catalog_category",
+          "param": "network",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "catalog_category",
+          "param": "plugins",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "catalog_category",
+          "param": "device",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "catalog_category",
+          "param": "misc",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "catalog_category",
+          "param": "maintenance",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "catalog_category",
+          "param": "compatibility",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "catalog_category",
+          "param": "diagnostics",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
+        },
+        {
+          "route": "catalog_category",
+          "param": "power",
+          "library_menu": false,
+          "reader": false,
+          "settings_more": false
         }
       ]
     },
@@ -302,225 +302,155 @@
       ],
       "matrix": [
         {
+          "library_menu": false,
           "reader": false,
           "settings_more": true,
-          "library_menu": false,
           "route": "settings"
         },
         {
+          "library_menu": false,
           "reader": false,
           "settings_more": false,
-          "library_menu": false,
           "route": "home"
         },
         {
+          "library_menu": true,
           "reader": false,
           "settings_more": false,
-          "library_menu": true,
           "route": "library"
         },
         {
+          "library_menu": false,
           "reader": false,
           "settings_more": false,
-          "library_menu": false,
           "route": "frontend"
         },
         {
+          "library_menu": false,
           "reader": false,
           "settings_more": false,
-          "library_menu": false,
           "route": "about"
         },
         {
+          "library_menu": false,
           "reader": false,
           "settings_more": false,
-          "library_menu": false,
           "route": "clock_settings"
         },
         {
+          "library_menu": false,
           "reader": false,
           "settings_more": false,
-          "library_menu": false,
           "route": "clock_zones"
         },
         {
-          "reader": false,
-          "settings_more": false,
           "param": "Shanghai",
           "library_menu": false,
+          "reader": false,
+          "settings_more": false,
           "route": "clock_zone_list"
         },
         {
+          "library_menu": false,
           "reader": false,
           "settings_more": false,
-          "library_menu": false,
           "route": "transfer_settings"
         },
         {
-          "reader": false,
-          "settings_more": false,
           "param": "reading",
           "library_menu": false,
+          "reader": false,
+          "settings_more": false,
           "route": "catalog_category"
         },
         {
-          "reader": false,
-          "settings_more": false,
           "param": "display",
           "library_menu": false,
+          "reader": false,
+          "settings_more": false,
           "route": "catalog_category"
         },
         {
-          "reader": false,
-          "settings_more": false,
           "param": "input",
           "library_menu": false,
+          "reader": false,
+          "settings_more": false,
           "route": "catalog_category"
         },
         {
-          "reader": false,
-          "settings_more": false,
           "param": "library",
           "library_menu": false,
+          "reader": false,
+          "settings_more": false,
           "route": "catalog_category"
         },
         {
-          "reader": false,
-          "settings_more": false,
           "param": "lookup",
           "library_menu": false,
+          "reader": false,
+          "settings_more": false,
           "route": "catalog_category"
         },
         {
-          "reader": false,
-          "settings_more": false,
           "param": "network",
           "library_menu": false,
+          "reader": false,
+          "settings_more": false,
           "route": "catalog_category"
         },
         {
-          "reader": false,
-          "settings_more": false,
           "param": "plugins",
           "library_menu": false,
+          "reader": false,
+          "settings_more": false,
           "route": "catalog_category"
         },
         {
-          "reader": false,
-          "settings_more": false,
           "param": "device",
           "library_menu": false,
+          "reader": false,
+          "settings_more": false,
           "route": "catalog_category"
         },
         {
-          "reader": false,
-          "settings_more": false,
           "param": "misc",
           "library_menu": false,
+          "reader": false,
+          "settings_more": false,
           "route": "catalog_category"
         },
         {
-          "reader": false,
-          "settings_more": false,
           "param": "maintenance",
           "library_menu": false,
+          "reader": false,
+          "settings_more": false,
           "route": "catalog_category"
         },
         {
-          "reader": false,
-          "settings_more": false,
           "param": "compatibility",
           "library_menu": false,
+          "reader": false,
+          "settings_more": false,
           "route": "catalog_category"
         },
         {
-          "reader": false,
-          "settings_more": false,
           "param": "diagnostics",
           "library_menu": false,
+          "reader": false,
+          "settings_more": false,
           "route": "catalog_category"
         },
         {
-          "reader": false,
-          "settings_more": false,
           "param": "power",
           "library_menu": false,
+          "reader": false,
+          "settings_more": false,
           "route": "catalog_category"
         }
       ],
       "device": "NOT_RUN"
     },
     {
-      "tests": [
-        {
-          "name": "Menu scope matrix covers the settings root every category details library and Home",
-          "status": "PASS"
-        },
-        {
-          "name": "Invalid menu kind and reader-only actions cannot open unrelated settings in file manager",
-          "status": "PASS"
-        },
-        {
-          "name": "Collection search keeps its scoped magnifier without inheriting the settings More menu",
-          "status": "PASS"
-        },
-        {
-          "name": "Collection management appears only on the collection tab; library menu does not gain settings shortcuts",
-          "status": "PASS"
-        },
-        {
-          "name": "Header popups close when route or library tab changes and old row hit areas are cleared immediately",
-          "status": "PASS"
-        },
-        {
-          "name": "Confirmations cannot act after navigation or after cancel and cannot execute twice",
-          "status": "PASS"
-        },
-        {
-          "name": "Continuous scrollbar dragging remains responsive between repaints while row hits are invalidated",
-          "status": "PASS"
-        },
-        {
-          "name": "Text inputs reject stale callbacks but preserve retry on validation failure",
-          "status": "PASS"
-        },
-        {
-          "name": "File chooser confirmation cannot change the root after its source page closes",
-          "status": "PASS"
-        },
-        {
-          "name": "Mobile editor firewall rules precede terminal rules and partial setup rolls back",
-          "status": "PASS"
-        },
-        {
-          "name": "Mobile sessions reject expired closed-editor and stopped requests without changing layout",
-          "status": "PASS"
-        },
-        {
-          "name": "Font layout and theme entries remain distinct and have no recursive More fallback",
-          "status": "PASS"
-        },
-        {
-          "name": "Theme management More has a disjoint hit area and never applies a theme on edge taps",
-          "status": "PASS"
-        },
-        {
-          "name": "Hardware Back and on-screen Back follow the same actual parent and close top-level panels",
-          "status": "PASS"
-        },
-        {
-          "name": "Reader tab and navigation switches discard old control hits before the next repaint",
-          "status": "PASS"
-        },
-        {
-          "name": "A prompt from a closed reader panel cannot save a theme into a different context",
-          "status": "PASS"
-        },
-        {
-          "name": "Disabling the frontend closes owned dialogs and prevents stale callbacks and menus from reopening it",
-          "status": "PASS"
-        }
-      ],
       "matrix": [
         {
           "library_menu": false,
@@ -670,7 +600,77 @@
         }
       ],
       "device": "NOT_RUN",
-      "variant": "landscape"
+      "variant": "landscape",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Menu scope matrix covers the settings root every category details library and Home"
+        },
+        {
+          "status": "PASS",
+          "name": "Invalid menu kind and reader-only actions cannot open unrelated settings in file manager"
+        },
+        {
+          "status": "PASS",
+          "name": "Collection search keeps its scoped magnifier without inheriting the settings More menu"
+        },
+        {
+          "status": "PASS",
+          "name": "Collection management appears only on the collection tab; library menu does not gain settings shortcuts"
+        },
+        {
+          "status": "PASS",
+          "name": "Header popups close when route or library tab changes and old row hit areas are cleared immediately"
+        },
+        {
+          "status": "PASS",
+          "name": "Confirmations cannot act after navigation or after cancel and cannot execute twice"
+        },
+        {
+          "status": "PASS",
+          "name": "Continuous scrollbar dragging remains responsive between repaints while row hits are invalidated"
+        },
+        {
+          "status": "PASS",
+          "name": "Text inputs reject stale callbacks but preserve retry on validation failure"
+        },
+        {
+          "status": "PASS",
+          "name": "File chooser confirmation cannot change the root after its source page closes"
+        },
+        {
+          "status": "PASS",
+          "name": "Mobile editor firewall rules precede terminal rules and partial setup rolls back"
+        },
+        {
+          "status": "PASS",
+          "name": "Mobile sessions reject expired closed-editor and stopped requests without changing layout"
+        },
+        {
+          "status": "PASS",
+          "name": "Font layout and theme entries remain distinct and have no recursive More fallback"
+        },
+        {
+          "status": "PASS",
+          "name": "Theme management More has a disjoint hit area and never applies a theme on edge taps"
+        },
+        {
+          "status": "PASS",
+          "name": "Hardware Back and on-screen Back follow the same actual parent and close top-level panels"
+        },
+        {
+          "status": "PASS",
+          "name": "Reader tab and navigation switches discard old control hits before the next repaint"
+        },
+        {
+          "status": "PASS",
+          "name": "A prompt from a closed reader panel cannot save a theme into a different context"
+        },
+        {
+          "status": "PASS",
+          "name": "Disabling the frontend closes owned dialogs and prevents stale callbacks and menus from reopening it"
+        }
+      ]
     }
   ]
 }

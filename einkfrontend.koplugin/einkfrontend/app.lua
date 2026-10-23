@@ -680,7 +680,7 @@ function App:render()
         end)
         row("停用墨页并重启后保持","恢复原生入口；重新启用请用原生插件管理器",function() self.plugin:disableFrontend() end)
     elseif route.id=="about" then
-        m.title="关于与兼容性";m.subtitle="ClassicUI · 墨页 · 0.5.0-test.5"
+        m.title="关于与兼容性";m.subtitle="ClassicUI · 墨页 · 0.5.0-test.6"
         local _,revision=require("einkfrontend/adapter").supported()
         row("KOReader "..revision,"固定源码：9192014d8bd82a91dc1012473be0f238dedfdb54")
         row("首测目标：Kindle Voyage","桌面软件验证与真机验收分别记录；未宣称真机通过")

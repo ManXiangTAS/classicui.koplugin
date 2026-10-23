@@ -47,11 +47,21 @@ function Bar:paintTo(bb,x,y)
  self.dimen.x=x;self.dimen.y=y;self.hits={}
  local state=self.state;local revision=state.revision;local w,h=self.dimen.w,self.dimen.h
  bb:paintRect(x,y,w,h,P.BB.COLOR_WHITE);P.rule(bb,x,y,w)
+ local mode_w=S(104);local content_w=w-mode_w
+ for i,mode in ipairs({'zh_CN','en'}) do
+  local px=x+content_w+(i-1)*mode_w/2;local selected=state.language==mode
+  if selected then bb:paintRect(px,y+S(4),mode_w/2,h-S(8),P.BB.COLOR_BLACK) end
+  P.label(bb,mode=='zh_CN' and '中' or 'EN',px,y,mode_w/2,h,16,true,'center',selected and P.BB.COLOR_WHITE or P.BB.COLOR_BLACK)
+  self.hits[#self.hits+1]={x=px,y=y,w=mode_w/2,h=h,id='pinyin_language_'..mode,callback=function()
+   if state:live() and state.revision==revision then state:chooseLanguage(mode) end
+  end}
+ end
  if #state.candidates==0 then
-  P.label(bb,state.code=='' and '拼音输入 · 空格选字 · 回车保留字母' or '无候选 · 回车保留字母',x+S(12),y,w-S(24),h,14,false)
+  local hint=state.language=='en' and '英文输入' or state.code=='' and '拼音输入 · 空格选字' or '无候选 · 回车保留字母'
+  P.label(bb,hint,x+S(12),y,content_w-S(24),h,14,false)
   return
  end
- local aw=S(44);local cw=(w-2*aw)/4;local offset=state.page*4
+ local aw=S(44);local cw=(content_w-2*aw)/4;local offset=state.page*4
  P.button(self,bb,'‹',x,y,aw,h,function() state:pageBy(-1) end,{align='center',disabled=state.page==0,id='pinyin_prev'})
  for i=1,4 do
   local value=state.candidates[offset+i]
@@ -59,7 +69,7 @@ function Bar:paintTo(bb,x,y)
    P.button(self,bb,value,x+aw+(i-1)*cw,y,cw,h,function() if state:live() and state.revision==revision then state:commit(value) end end,{align='center',size=18,id='pinyin_'..i})
   end
  end
- P.button(self,bb,'›',x+w-aw,y,aw,h,function() state:pageBy(1) end,{align='center',disabled=offset+4>=#state.candidates,id='pinyin_next'})
+ P.button(self,bb,'›',x+content_w-aw,y,aw,h,function() state:pageBy(1) end,{align='center',disabled=offset+4>=#state.candidates,id='pinyin_next'})
 end
 function Bar:onPinyinTap(_,ges)
  if not self.state:live() then return true end
@@ -67,6 +77,15 @@ function Bar:onPinyinTap(_,ges)
 end
 local State={};State.__index=State
 function State:live() return not self.closed and self.keyboard._eink_pinyin==self and self.keyboard.visible and next(M.owners)~=nil end
+function State:chooseLanguage(language)
+ if not self:live() or (language~='zh_CN' and language~='en') or language==self.language then return end
+ -- Explicit English switching retains unfinished Latin letters verbatim.
+ -- A word already selected from candidates is never rewritten.
+ self:commit(nil,true)
+ self.keyboard:setKeyboardLayout(language)
+ G_reader_settings:saveSetting('keyboard_layout_default',language)
+ G_reader_settings:flush()
+end
 function State:refresh()
  self.revision=(self.revision or 0)+1
  self.page=0;self.candidates=self.code~='' and M.lookup(self.code) or {}
@@ -110,7 +129,7 @@ function M.attach(keyboard)
  if not box then return end
  if keyboard.uwrap_func then keyboard.uwrap_func();keyboard.uwrap_func=nil end
  if box.readonly or box.input_type=='number' or box.input_type=='literal' or box.is_password_type or box.text_type=='password' then return end
- local state=setmetatable({keyboard=keyboard,box=box,code='',candidates={},page=0,wrappers={},add=box.addChars},State)
+ local state=setmetatable({keyboard=keyboard,box=box,language=keyboard:getKeyboardLayout(),code='',candidates={},page=0,wrappers={},add=box.addChars},State)
  keyboard._eink_pinyin=state;M.states[keyboard]=state
  local function wrap(name,fn,before)
   if type(box[name])=='function' then state.wrappers[#state.wrappers+1]=util.wrapMethod(box,name,fn,before) end
@@ -118,7 +137,7 @@ function M.attach(keyboard)
  wrap('addChars',function(input,text)
   if state.closed or input.readonly then return state.add(input,text) end
   if not state:valid() then state.code='';state:refresh() end
-  if type(text)=='string' and text:match('^[a-z]$') and #state.code<64 and not keyboard.symbolmode then
+  if state.language=='zh_CN' and type(text)=='string' and text:match('^[a-z]$') and #state.code<64 and not keyboard.symbolmode then
    state:write(text);state.code=state.code..text;state.finish=input.charpos;state:refresh()
   elseif text==' ' and state.code~='' then state:commit()
   elseif text=='\n' and state.code~='' then state:commit(nil,true)
@@ -151,7 +170,8 @@ function M.install(owner)
  local init,addKeys=VK.init,VK.addKeys;M.init_original=init;M.keys_original=addKeys
  M.init_wrapper=function(keyboard,...)
   init(keyboard,...)
-  if next(M.owners) and M.enabled() and keyboard:getKeyboardLayout()=='zh_CN' then M.attach(keyboard) end
+  local language=keyboard:getKeyboardLayout()
+  if next(M.owners) and M.enabled() and (language=='zh_CN' or language=='en') then M.attach(keyboard) end
  end
  M.keys_wrapper=function(keyboard,...)
   addKeys(keyboard,...);M.decorate(keyboard)
