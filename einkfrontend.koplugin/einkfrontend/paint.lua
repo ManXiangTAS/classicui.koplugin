@@ -113,11 +113,11 @@ function P.find(widget,pos,hold)
   end
  end
 end
--- Kindle feedback is suspended pending a physical-device crash trace. A visual
--- effect must never prevent the action or escape the frontend error boundary.
+-- A visual effect must never prevent the action or escape the frontend error
+-- boundary. Kindle uses the same protected feedback path as other devices.
 local function feedback(widget,hit,UI)
  local owner=widget.app or widget
- if Device:isKindle() or owner._eink_feedback_failed or hit.feedback==false
+ if owner._eink_feedback_failed or hit.feedback==false
   or (type(hit.id)=="string" and hit.id:match("_slider$"))
   or G_reader_settings:isFalse("flash_ui") then return end
  local screen=Device.screen

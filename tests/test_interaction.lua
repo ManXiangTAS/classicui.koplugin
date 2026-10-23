@@ -116,18 +116,36 @@ check('A feedback error restores the framebuffer and still runs the action once'
  assert(P.activate(w,{x=1,y=1}) and called==2)
  UI.yieldToEPDC=yield;UI:forceRePaint()
 end)
-check('Kindle buttons bypass framebuffer feedback with flash_ui on and off',function()
+check('Kindle feedback inverts and restores before the action, respecting flash_ui',function()
  local isKindle,invert,yield=Device.isKindle,UI.widgetInvert,UI.yieldToEPDC
  Device.isKindle=function() return true end
- UI.widgetInvert=function() error('Kindle must not invert for feedback') end
- UI.yieldToEPDC=function() error('Kindle must not yield for feedback') end
+ UI:forceRePaint();local before=Device.screen.bb:getPixel(5,5):getColor8().a
+ local inversions,yields=0,0
+ UI.widgetInvert=function(self,...) inversions=inversions+1;return invert(self,...) end
  local called=0;local w={hits={{x=0,y=0,w=20,h=20,callback=function() called=called+1 end}}}
- for _,flash in ipairs({true,false}) do
-  G_reader_settings:saveSetting('flash_ui',flash)
-  assert(P.activate(w,{x=1,y=1}))
+ UI.yieldToEPDC=function()
+  yields=yields+1;assert(called==0 and inversions==1)
+  assert(Device.screen.bb:getPixel(5,5):getColor8().a==255-before)
  end
- assert(called==2 and not w._eink_feedback_failed)
+ w.hits[1].callback=function()
+  assert(Device.screen.bb:getPixel(5,5):getColor8().a==before)
+  called=called+1
+ end
+ G_reader_settings:saveSetting('flash_ui',true);assert(P.activate(w,{x=1,y=1}))
+ assert(called==1 and inversions==2 and yields==1 and not w._eink_feedback_failed)
+ G_reader_settings:saveSetting('flash_ui',false);assert(P.activate(w,{x=1,y=1}))
+ assert(called==2 and inversions==2 and yields==1 and not w._eink_feedback_failed)
  G_reader_settings:delSetting('flash_ui');Device.isKindle=isKindle;UI.widgetInvert=invert;UI.yieldToEPDC=yield
+end)
+check('A Kindle feedback failure restores pixels and still executes the action once',function()
+ local isKindle,yield=Device.isKindle,UI.yieldToEPDC
+ Device.isKindle=function() return true end
+ UI:forceRePaint();local before=Device.screen.bb:getPixel(5,5):getColor8().a
+ UI.yieldToEPDC=function() error('Kindle feedback fixture') end
+ local called=0;local w={hits={{x=0,y=0,w=20,h=20,callback=function() called=called+1 end}}}
+ assert(P.activate(w,{x=1,y=1}) and called==1 and w._eink_feedback_failed)
+ assert(Device.screen.bb:getPixel(5,5):getColor8().a==before)
+ Device.isKindle=isKindle;UI.yieldToEPDC=yield;UI:forceRePaint()
 end)
 check('Failure before the highlight cannot discard the button action',function()
  local paint=UI.forceRePaint;local calls,actions=0,0
