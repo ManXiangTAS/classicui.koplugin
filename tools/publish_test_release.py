@@ -15,7 +15,7 @@ def request(url,method='GET',data=None,mime='application/json'):
 try:release=request(base+'/releases/tags/'+tag)
 except urllib.error.HTTPError as e:
  if e.code!=404:raise
- release=request(base+'/releases','POST',{'tag_name':tag,'target_commitish':commit,'name':'ClassicUI · 墨页 '+VERSION,'body':(root/'docs/0.5.0-test.4_菜单与边界复查.md').read_text(),'draft':True,'prerelease':True})
+ release=request(base+'/releases','POST',{'tag_name':tag,'target_commitish':commit,'name':'ClassicUI · 墨页 '+VERSION,'body':(root/'docs/0.5.0-test.5_输入法与原生屏保.md').read_text(),'draft':True,'prerelease':True})
 assets=Path(sys.argv[1]);files=[assets/f'ClassicUI_{VERSION}_install.zip',assets/f'ClassicUI_{VERSION}_source.zip',assets/'SHA256SUMS.txt']
 existing={a['name']:a for a in release['assets']}
 for path in files:

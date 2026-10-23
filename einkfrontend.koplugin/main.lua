@@ -32,6 +32,7 @@ function Plugin:init()
     self.active=Adapter.supported()
     self.adapter=Adapter.new(self.ui)
     self.app=App.new(self,self.adapter)
+    if self.active then require('einkfrontend/pinyin').install(self) end
     self:onDispatcherRegisterActions()
     if self.active and self:option("full_takeover",true) then self:installTakeover() end
     self.ui.menu:registerToMainMenu(self) -- Explicit compatibility/recovery entry.
@@ -106,6 +107,7 @@ function Plugin:stopPlugin(transition)
     if self.pending_open then UIManager:unschedule(self.pending_open);self.pending_open=nil end
     if self.zones then self.ui:unRegisterTouchZones(self.zones);self.zones=nil end
     self.app:close()
+    require('einkfrontend/pinyin').detach(self)
     return true
 end
 

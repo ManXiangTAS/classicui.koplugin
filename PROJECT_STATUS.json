@@ -1,13 +1,13 @@
 {
   "snapshot_date": "2026-10-23",
-  "software_version": "0.5.0-test.4",
+  "software_version": "0.5.0-test.5",
   "working_name": "墨页 E-Ink Frontend",
   "overall_status": "DEVELOPMENT_PREVIEW_DESKTOP_VERIFIED_DEVICE_PENDING",
   "device": {
     "primary": "Kindle Voyage",
     "firmware": "5.13.6 (Voyage, user confirmed)",
     "physical_test": "NOT_RUN",
-    "user_feedback": "Voyage 5.13.6: pressure settings showed driver lock error. Bounded retry and stale error cleanup implemented; physical retest pending."
+    "user_feedback": "User previously confirmed PagePress useful; current input method and stock-image screensaver changes remain untested on physical Kindle."
   },
   "target_koreader": {
     "user_string": "0702",
@@ -141,28 +141,29 @@
     ],
     "lan_book_transfer": "Temporary authenticated IPv4 HTTP; chunked disk writes; safe filenames; no overwrite; automatic scan; 30 minute session",
     "transfer_setup": "First automatic launch wizard; ManualBook default; path can be changed and library root follows",
-    "epub_reflow": "Explicit opt-in; same-origin local engine; sandboxed previews; configurable layout; ZIP/size/CRC/path/encryption guards; _精排 copy"
+    "epub_reflow": "Explicit opt-in; same-origin local engine; sandboxed previews; configurable layout; ZIP/size/CRC/path/encryption guards; _精排 copy",
+    "offline_pinyin_candidates": "HOST_RIME_WORD_MAP; per-input preedit; click/page/space/return; external pinyin plugins yield; no sentence decoding",
+    "kindle_stock_screensaver": "READ_ONLY_DEVICE_IMAGES; native KOReader random_image settings with backup/restore; physical suspend NOT_RUN"
   },
   "verification": {
-    "version": "0.5.0-test.4",
-    "checks": 760,
-    "distinct_cases": 286,
-    "runs": 92,
+    "version": "0.5.0-test.5",
+    "checks": 734,
+    "distinct_cases": 266,
+    "runs": 91,
     "failures": 0,
     "device": "NOT_RUN",
     "reports": [
       "test-results/summary.json",
       "test-results-030/summary.json",
-      "test-results-046/summary.json",
       "test-results-051/summary.json",
       "test-results-053/summary.json",
       "test-results-054/summary.json",
-      "test-results-054/network-summary.json"
+      "test-results-055/summary.json"
     ],
-    "scope": "Each listed suite rerun; network server/browser grouped as one logical run; no historical checks added again.",
-    "current_version": "0.5.0-test.4",
-    "summary": "test-results-054/combined-summary.json",
-    "lua_syntax_files": 47,
+    "scope": "Listed suites rerun on current implementation; browser/network evidence from earlier releases is historical and excluded.",
+    "current_version": "0.5.0-test.5",
+    "summary": "test-results-055/combined-summary.json",
+    "lua_syntax_files": 50,
     "physical_device": "NOT_RUN_AFTER_CHANGES"
   },
   "phase_status": {
@@ -182,7 +183,7 @@
     "千本/万本性能与增量索引",
     "更多版本与机型适配"
   ],
-  "next_action": "Collect Voyage 5.13.6 and Basic 2022 device validation for Wi-Fi, firewall, sleep cleanup and EPUB rendering. Repository visibility remains private; connection lacks visibility mutation.",
+  "next_action": "Collect Kindle Voyage 5.13.6 / Basic 2022 physical input latency, stock-image screensaver, sleep/resume, Wi-Fi and EPUB rendering validation. Repository is public.",
   "unattended_after_turn": false,
   "reference_scope": {
     "pinned_repositories": 10,
@@ -256,29 +257,6 @@
     "home_replaced_legacy_cases": "Old scroll-based home_widgets modes replaced by 14 fixed-home cases, repeated at three geometries",
     "physical_feedback": "User reports PagePress useful; new home still pending device retest",
     "runtime": "Official KOReader v2026.07.1, same source as v2026.07.2; SDL3 dummy; Chromium and actual LuaSocket HTTP"
-  },
-  "current_validation": {
-    "version": "0.5.0-test.1",
-    "checks": 911,
-    "distinct_cases": 361,
-    "runs": 101,
-    "failures": 0,
-    "suites": {
-      "test-results": 143,
-      "test-results-030": 408,
-      "test-results-043": 42,
-      "test-results-046": 54,
-      "test-results-048": 96,
-      "test-results-049": 42,
-      "test-results-050": 12,
-      "test-results-051": 60,
-      "home_web_http": 17,
-      "transfer_web_http": 37
-    },
-    "device": "NOT_RUN_AFTER_CHANGES",
-    "runtime": "Official KOReader v2026.07.1, same source as v2026.07.2; SDL3 dummy; Chromium and actual LuaSocket HTTP",
-    "transfer": "Safe scoped paths, chunk order, duplicate preservation, persistent destination, wizard, scoped More search, restart callback, cleanup failure retry, idle/expiry/suspend/root switch/firewall rollback verified",
-    "web": "Real byte-identical uploads, opt-in typography, image/nav/OPF preservation, script/network isolation, ZIP expansion/path/CRC/symlink/XML/CSS rejection, cancel and no partial files"
   },
   "native_control_style": {
     "common_renderers": 2,
@@ -399,5 +377,46 @@
     ],
     "new_checks": 51,
     "physical_device": "NOT_RUN"
+  },
+  "latest_validation": "test-results-055/combined-summary.json",
+  "historical_validation_051": {
+    "version": "0.5.0-test.1",
+    "checks": 911,
+    "distinct_cases": 361,
+    "runs": 101,
+    "failures": 0,
+    "suites": {
+      "test-results": 143,
+      "test-results-030": 408,
+      "test-results-043": 42,
+      "test-results-046": 54,
+      "test-results-048": 96,
+      "test-results-049": 42,
+      "test-results-050": 12,
+      "test-results-051": 60,
+      "home_web_http": 17,
+      "transfer_web_http": 37
+    },
+    "device": "NOT_RUN_AFTER_CHANGES",
+    "runtime": "Official KOReader v2026.07.1, same source as v2026.07.2; SDL3 dummy; Chromium and actual LuaSocket HTTP",
+    "transfer": "Safe scoped paths, chunk order, duplicate preservation, persistent destination, wizard, scoped More search, restart callback, cleanup failure retry, idle/expiry/suspend/root switch/firewall rollback verified",
+    "web": "Real byte-identical uploads, opt-in typography, image/nav/OPF preservation, script/network isolation, ZIP expansion/path/CRC/symlink/XML/CSS rejection, cancel and no partial files"
+  },
+  "current_validation": {
+    "version": "0.5.0-test.5",
+    "checks": 734,
+    "distinct_cases": 266,
+    "runs": 91,
+    "failures": 0,
+    "device": "NOT_RUN",
+    "reports": [
+      "test-results/summary.json",
+      "test-results-030/summary.json",
+      "test-results-051/summary.json",
+      "test-results-053/summary.json",
+      "test-results-054/summary.json",
+      "test-results-055/summary.json"
+    ],
+    "scope": "Listed suites rerun on current implementation; browser/network evidence from earlier releases is historical and excluded."
   }
 }

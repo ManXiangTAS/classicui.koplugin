@@ -36,7 +36,7 @@ function T.render(app,route,m,row,go)
  end) end)
  row('输入或新建目录',T.path(app),function() app.adapter:promptText('传书与书库目录',T.path(app),function(path)
   return app:userAction(function() T.configure(app,path);app:open('transfer_settings') end)
- end,{keep_on_error=true}) end)
+ end,{keep_on_error=true,input_type='literal'}) end)
  if route.id=='transfer_setup' then
   row('保留当前书库，稍后设置',nil,function()
    local c=T.config();c.wizard_seen=true;G_reader_settings:saveSetting('eink_transfer',c);G_reader_settings:flush();app:open('library')

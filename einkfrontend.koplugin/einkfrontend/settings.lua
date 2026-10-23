@@ -22,6 +22,8 @@ function Settings.render(app,route,m,row,go)
   local nodes=app.native.catalog.roots[route.param] or {}
   m.content_key=nodes
   if route.param=="input" and app.pagepress then row("翻页键",nil,go("pagepress_settings")) end
+  if route.param=="input" then row("中文输入法",nil,go("input_method")) end
+  if route.param=="device" and require('device'):isKindle() then row("Kindle 原生屏保",nil,go("stock_screensaver")) end
   if route.param=="device" or route.param=="network" then
    row("时间与日期",nil,go("clock_settings"))
   end
@@ -76,6 +78,8 @@ function Settings.search(app,query)
  end
  add("传书与书库","书库与文件","transfer_settings",nil,"上传 传输 书籍 文件 目录 文件夹 路径 网页 Wi-Fi 重排 EPUB")
  add("时间与日期","设备与系统","clock_settings",nil,"网络同步时间 校时 时区 夏令时 timezone ntp")
+ add("中文输入法","触控与按键","input_method",nil,"拼音 中文 汉字 候选词 键盘 pinyin")
+ if require('device'):isKindle() then add("Kindle 原生屏保","设备与系统","stock_screensaver",nil,"休眠 图片 壁纸 screensaver") end
  if app.pagepress then add("翻页键","触控与按键","pagepress_settings",nil,"PagePress 压感 按压力度 灵敏度 震动 振动 反馈 翻页 按键 Voyage") end
  add("前端开关与恢复","维护与恢复","frontend",nil,"停用 启动 接管 原生兼容")
  for _,c in ipairs(Native.extra_categories) do add(c[2],"维护与恢复","catalog_category",c[1]) end

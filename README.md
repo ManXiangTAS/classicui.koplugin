@@ -2,11 +2,11 @@
 
 为 KOReader 提供统一的黑白阅读前端：书库、主页、阅读菜单和设置。首测设备为 Kindle Voyage，当前支持 **KOReader v2026.07.1 / v2026.07.2 stable**，固定源码 `9192014d8bd82a91dc1012473be0f238dedfdb54`。不修改 KOReader 核心文件。
 
-**当前版本：0.5.0-test.4，测试版。菜单范围、点击区域、返回层级及会话边界复查通过，修改后尚未进行 Voyage 真机验收。**
+**当前版本：0.5.0-test.5，测试版。加入离线拼音候选栏与 Kindle 自带屏保图片选项，桌面检查通过，尚未进行 Kindle 真机验收。**
 
 ## 下载与安装
 
-从 [测试版发布页](https://github.com/ManXiangTAS/classicui.koplugin/releases/tag/v0.5.0-test.4) 下载 `ClassicUI_0.5.0-test.4_install.zip`。
+从 [测试版发布页](https://github.com/ManXiangTAS/classicui.koplugin/releases/tag/v0.5.0-test.5) 下载 `ClassicUI_0.5.0-test.5_install.zip`。
 
 1. 完全退出 KOReader，升级前备份原插件和 `koreader/settings`。
 2. 将压缩包中的 `einkfrontend.koplugin` 文件夹复制到 `koreader/plugins/`，升级时覆盖同名插件。
@@ -16,6 +16,12 @@
 恢复原生界面：设置 → 维护与恢复 → 前端开关与恢复，可临时进入原生菜单或停用插件。如果界面无法打开，完全退出 KOReader 后移走 `plugins/einkfrontend.koplugin`，保留书籍和设置，再启动。
 
 ## 本版变化
+
+- 新增离线拼音候选栏：点选、翻页、空格选字与回车保留字母；数字、密码与显式路径框直接输入。检测到启用的外部拼音插件时让位。
+- 设置 → 设备与系统 → Kindle 原生屏保：读取设备自带图片，可预览、手动指定目录并恢复旧屏保。不附带亚马逊图片，不修改系统分区。
+- 设置 → 触控与按键 → 中文输入法，可切换中文键盘、开关候选栏和试输入。使用现有字词库，暂不支持整句联想与双拼。详见[本版说明](docs/0.5.0-test.5_输入法与原生屏保.md)。
+
+以下为0.5.0-test.4已加入的修复：
 
 - 菜单显示和打开共用明确的页面条件，切换时清理无效菜单与旧点击区域；修复主题更多的点击重叠、返回层级和过期输入/确认回调。收藏管理恢复局部搜索放大镜。手机编辑修复防火墙规则位置及过期请求边界。详见[复查与修复说明](docs/0.5.0-test.4_菜单与边界复查.md)。
 

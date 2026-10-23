@@ -215,7 +215,7 @@ function Adapter:promptText(title,initial,callback,options)
     local dialog;local resolved=false
     local valid=self.app and self.app:dialogGuard() or function() return true end
     options=options or {}
-    dialog=InputDialog:new{title=title,input=initial or "",radius=0,allow_newline=options.multiline or false,
+    dialog=InputDialog:new{title=title,input=initial or "",radius=0,allow_newline=options.multiline or false,input_type=options.input_type,
         text_height=options.multiline and require("device").screen:scaleBySize(120) or nil,
         buttons={{{text="取消",callback=function() resolved=true;UIManager:close(dialog) end},
             {text="确定",callback=function()

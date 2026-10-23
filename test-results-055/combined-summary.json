@@ -1,0 +1,17 @@
+{
+  "version": "0.5.0-test.5",
+  "checks": 734,
+  "distinct_cases": 266,
+  "runs": 91,
+  "failures": 0,
+  "device": "NOT_RUN",
+  "reports": [
+    "test-results/summary.json",
+    "test-results-030/summary.json",
+    "test-results-051/summary.json",
+    "test-results-053/summary.json",
+    "test-results-054/summary.json",
+    "test-results-055/summary.json"
+  ],
+  "scope": "Listed suites rerun on current implementation; browser/network evidence from earlier releases is historical and excluded."
+}
