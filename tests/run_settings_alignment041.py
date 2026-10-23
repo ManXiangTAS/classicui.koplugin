@@ -32,7 +32,9 @@ for variant,w,h,dpi in [('desktop',600,800,160),('voyage_layout',1072,1448,300),
   image=Image.open(output/frame['file']).convert('L');scale=frame['scale'];S=lambda n:int(math.ceil(n*scale-1e-8))
   width,height=frame['width'],frame['height'];header=frame['header'];top=frame['top'];rowh=frame['row_h'];scroll=frame['scroll']
   measured=[];title_x=S(20) if frame['root'] else S(48)
-  for label,box in [('title',(title_x,0,width-S(112),header-S(4))),('search',(width-S(106),0,width-S(53),header-S(4))),('close',(width-S(53),0,width,header-S(4)))]:
+  header_boxes=[('title',(title_x,0,width-S(112 if frame['root'] else 59),header-S(4))),('close',(width-S(53),0,width,header-S(4)))]
+  if frame['root']:header_boxes.append(('more',(width-S(106),0,width-S(53),header-S(4))))
+  for label,box in header_boxes:
    b=bounds(image,box);delta=center(b)[1]-header/2;assert abs(delta)<=1,(frame['file'],label,delta);count+=1;measured.append({'element':label,'offset_y':delta})
   if not frame['root']:
    b=bounds(image,(0,0,S(46),header-S(4)));delta=center(b)[1]-header/2;assert abs(delta)<=1;count+=1

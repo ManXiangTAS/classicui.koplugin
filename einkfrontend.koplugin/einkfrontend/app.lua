@@ -159,14 +159,12 @@ function App:change(item,value)
 end
 
 function App:showSettingsMore()
- local dialog
- dialog=require('ui/widget/buttondialog'):new{title='更多',buttons={
-  {{text='搜索',callback=function() UIManager:close(dialog);self:searchCurrent() end}},
-  {{text='重启 KOReader',callback=function() UIManager:close(dialog);self:confirm('保存设置并重启 KOReader？',function()
-   UIManager:flushSettings();UIManager:restartKOReader()
-  end) end}},
- }};UIManager:show(dialog)
- return dialog
+ if not self.screen or not self.screen.model or self.screen.model.route.id~='settings' then return end
+ local popup=Overlay.present(self,'settings_popup',function()
+  return require('einkfrontend/settingspopup'):new{app=self}
+ end)
+ UIManager:setDirty(self.screen,'ui')
+ return popup
 end
 
 function App:scanLibrary(path)
@@ -374,6 +372,7 @@ end
 function App:render()
     if not self.screen then return end
     local route=self.stack[#self.stack]
+    if self.settings_popup and route.id~='settings' then self.settings_popup:close() end
     if route.id=="library" then route.id="books";route.param={} end
     if self.screen.model and self.screen.model.route==route then route.page=self.screen.model.page end
     local m={title="墨页",subtitle="",rows={},page=route.page or 1,route=route}

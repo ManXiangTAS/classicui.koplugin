@@ -77,12 +77,12 @@ check('Configured destination persists and synchronizes the library without movi
 end)
 check('Settings header uses More and its two shortcuts preserve scoped search and restart',function()
  app:open('settings');UI:forceRePaint();hit(app.screen,'settings_more');shot('settings-more-entry')
- local dialog=app:showSettingsMore();assert(#dialog.buttons==2 and dialog.buttons[1][1].text=='搜索' and dialog.buttons[2][1].text=='重启 KOReader');UI:close(dialog)
- local oldSearch=app.searchCurrent;local searched=false;app.searchCurrent=function() searched=true end
- dialog=app:showSettingsMore();dialog.buttons[1][1].callback();assert(searched);app.searchCurrent=oldSearch
+ local dialog=app:showSettingsMore();assert(#dialog.rows==2 and dialog.rows[1].text=='搜索' and dialog.rows[2].text=='重启 KOReader');UI:close(dialog)
+ local oldSearch=app.searchSettings;local searched=false;app.searchSettings=function() searched=true end
+ dialog=app:showSettingsMore();dialog.rows[1].callback();assert(searched);app.searchSettings=oldSearch
  local oldConfirm,oldFlush,oldRestart=app.confirm,UI.flushSettings,UI.restartKOReader;local flushed,restarted=false,false
  app.confirm=function(_,text,fn) assert(text:find('重启',1,true));fn() end;UI.flushSettings=function() flushed=true end;UI.restartKOReader=function() assert(flushed);restarted=true end
- dialog=app:showSettingsMore();dialog.buttons[2][1].callback();assert(restarted);app.confirm=oldConfirm;UI.flushSettings=oldFlush;UI.restartKOReader=oldRestart
+ dialog=app:showSettingsMore();dialog.rows[2].callback();assert(restarted);app.confirm=oldConfirm;UI.flushSettings=oldFlush;UI.restartKOReader=oldRestart
 end)
 check('Transfer settings are discoverable from both categories and global search',function()
  for _,category in ipairs({'library','network'}) do app:open('catalog_category',category);row('传书与书库').callback();assert(app.screen.model.title=='传书与书库') end

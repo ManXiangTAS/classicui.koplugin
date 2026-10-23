@@ -109,17 +109,23 @@ function Page:_paintSettings(bb,x,y)
         Paint.inkIcon(bb,"chevron.left",x,y,S(46),self.header_h,S(24))
         self.hits[#self.hits+1]={x=x,y=y,w=S(46),h=self.header_h,callback=function() self.app:back() end,id="settings_back"}
     end
-    local tx=self.model.route.id=="settings" and S(20) or S(48)
-    local title=Paint.inkLabel(bb,self.model.title,x+tx,y,w-tx-S(self.model.help and 160 or 112),self.header_h,Paint.style.title,true,nil,"left")
-    local search=Paint.inkIcon(bb,"more",x+w-S(106),y,S(53),self.header_h,S(25))
+    local root=self.model.route.id=="settings"
+    local tx=root and S(20) or S(48)
+    local reserved=(root and 112 or 59)+(self.model.help and 48 or 0)
+    local title=Paint.inkLabel(bb,self.model.title,x+tx,y,w-tx-S(reserved),self.header_h,Paint.style.title,true,nil,"left")
     local close=Paint.inkIcon(bb,"close",x+w-S(53),y,S(53),self.header_h,S(25))
-    self.header_ink={title=title,search=search,close=close}
+    self.header_ink={title=title,close=close};self.settings_more_anchor=nil
+    if root then
+        self.header_ink.more=Paint.inkIcon(bb,"more",x+w-S(106),y,S(53),self.header_h,S(25))
+        if self.app.settings_popup then bb:invertRect(x+w-S(106),y,S(53),self.header_h-S(2)) end
+        local hit={x=x+w-S(106),y=y,w=S(53),h=self.header_h,callback=function() self.app:showSettingsMore() end,id="settings_more"}
+        self.hits[#self.hits+1]=hit;self.settings_more_anchor=hit
+    end
     if self.model.help then
-        local hx=math.min(x+w-S(153),title.x+title.w+S(12))
+        local hx=math.min(x+w-S(root and 153 or 100),title.x+title.w+S(12))
         self.header_ink.info=Paint.inkIcon(bb,'info',hx,y,S(40),self.header_h,S(20))
         self.hits[#self.hits+1]={x=hx,y=y,w=S(40),h=self.header_h,callback=self.model.help,id='settings_help'}
     end
-    self.hits[#self.hits+1]={x=x+w-S(106),y=y,w=S(53),h=self.header_h,callback=function() self.app:showSettingsMore() end,id="settings_more"}
     self.hits[#self.hits+1]={x=x+w-S(53),y=y,w=S(53),h=self.header_h,callback=function() self.app:dismiss() end,id="settings_close"}
 
     Paint.rule(bb,x,y+self.header_h-S(1.5),w,2)
@@ -417,6 +423,7 @@ function Page:onShow()
 end
 function Page:onCloseWidget()
     if self.clock_tick then UIManager:unschedule(self.clock_tick);self.clock_tick=nil end
+    if self.app.screen==self and self.app.settings_popup then self.app.settings_popup:close() end
     if self.app.screen==self then self.app.screen=nil end
 end
 return Page
