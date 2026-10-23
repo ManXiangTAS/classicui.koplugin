@@ -2,7 +2,7 @@
 """Build deterministic manual-install and source archives for ClassicUI."""
 from pathlib import Path
 import hashlib,json,re,sys,zipfile
-PROJECT=Path(__file__).resolve().parents[1];VERSION='0.6.0'
+PROJECT=Path(__file__).resolve().parents[1];VERSION='0.6.1'
 def sha(data):return hashlib.sha256(data).hexdigest()
 def public_paths():
  files=[]
@@ -12,8 +12,8 @@ def public_paths():
  for name in ['README.md','CHANGELOG.md','NOTICE.md','COPYING','.gitignore']:files.append(PROJECT/name)
  files.extend((PROJECT/'.github/workflows').glob('*.yml'));return sorted(set(files))
 def inputs():
- plugin=PROJECT/'einkfrontend.koplugin';assert (plugin/'einkfrontend/version.lua').read_text().strip()=="return '0.6.0'"
- assert 'version = "0.6.0"' in (plugin/'_meta.lua').read_text()
+ plugin=PROJECT/'einkfrontend.koplugin';assert (plugin/'einkfrontend/version.lua').read_text().strip()==f"return '{VERSION}'"
+ assert f'version = "{VERSION}"' in (plugin/'_meta.lua').read_text()
  assert 'removed=true' in (plugin/'einkfrontend/updater.lua').read_text()
  assert not any((plugin/'resources'/name).exists() for name in ['epub-polish.html','jszip.min.js'])
  from xml.etree import ElementTree as ET

@@ -87,11 +87,42 @@ check('Disabled hits do not flash; explicit flash_ui off still executes exactly 
  assert(P.activate(w,{x=1,y=1}) and count==before+1)
  G_reader_settings:delSetting('flash_ui');UI.yieldToEPDC=yield
 end)
-check('Framebuffer is restored even when feedback rendering fails',function()
+check('A feedback error restores the framebuffer and still runs the action once',function()
  UI:forceRePaint();local before=Device.screen.bb:getPixel(5,5):getColor8().a
  local yield=UI.yieldToEPDC;UI.yieldToEPDC=function() error('fixture') end
- local called=false;local ok=pcall(P.activate,{hits={{x=0,y=0,w=20,h=20,callback=function() called=true end}}},{x=1,y=1})
- UI.yieldToEPDC=yield;assert(not ok and not called and Device.screen.bb:getPixel(5,5):getColor8().a==before);UI:forceRePaint()
+ local called=0;local w={hits={{x=0,y=0,w=20,h=20,callback=function() called=called+1 end}}}
+ local ok=pcall(P.activate,w,{x=1,y=1})
+ assert(ok and called==1 and w._eink_feedback_failed and Device.screen.bb:getPixel(5,5):getColor8().a==before)
+ assert(P.activate(w,{x=1,y=1}) and called==2)
+ UI.yieldToEPDC=yield;UI:forceRePaint()
+end)
+check('Kindle buttons bypass framebuffer feedback with flash_ui on and off',function()
+ local isKindle,invert,yield=Device.isKindle,UI.widgetInvert,UI.yieldToEPDC
+ Device.isKindle=function() return true end
+ UI.widgetInvert=function() error('Kindle must not invert for feedback') end
+ UI.yieldToEPDC=function() error('Kindle must not yield for feedback') end
+ local called=0;local w={hits={{x=0,y=0,w=20,h=20,callback=function() called=called+1 end}}}
+ for _,flash in ipairs({true,false}) do
+  G_reader_settings:saveSetting('flash_ui',flash)
+  assert(P.activate(w,{x=1,y=1}))
+ end
+ assert(called==2 and not w._eink_feedback_failed)
+ G_reader_settings:delSetting('flash_ui');Device.isKindle=isKindle;UI.widgetInvert=invert;UI.yieldToEPDC=yield
+end)
+check('Failure before the highlight cannot discard the button action',function()
+ local paint=UI.forceRePaint;local calls,actions=0,0
+ UI.forceRePaint=function(self) calls=calls+1;if calls==1 then error('pre-highlight paint fixture') end;return paint(self) end
+ local w={hits={{x=0,y=0,w=20,h=20,callback=function() actions=actions+1 end}}}
+ assert(P.activate(w,{x=1,y=1}) and actions==1 and w._eink_feedback_failed)
+ UI.forceRePaint=paint
+end)
+check('Post-action paint errors are contained by the frontend error boundary',function()
+ local paint=UI.forceRePaint;local captured,actions
+ local fake={safe=function(_,fn) local ok,err=pcall(fn);assert(not ok);captured=err end}
+ local w=require('ui/widget/container/widgetcontainer'):new{app=fake,hits={{x=0,y=0,w=20,h=20,feedback=false,callback=function() actions=true;UI.forceRePaint=function() error('post-action paint fixture') end end}}}
+ UI:show(w)
+ assert(P.activate(w,{x=1,y=1}) and actions and tostring(captured):find('post%-action paint fixture'))
+ UI.forceRePaint=paint;UI:close(w);UI:forceRePaint()
 end)
 check('Changing route discards old rail and row hits before the next paint',function()
  manySettings();app:open('settings');assert(not page.scroll_track and not next(page.hits));UI:forceRePaint()
@@ -146,6 +177,19 @@ check('Statistics use the same rail; closing via a flashing button leaves no ove
  app:showBookStatistics();local stats=app.book_statistics;UI:forceRePaint()
  if stats.scroll_max>0 then railGeometry(stats,stats.scroll_track);shot('statistics-scroll');drag(stats,stats.scroll_track,'onBookStatsPan','onBookStatsPanRelease',1);assert(stats.scroll==stats.scroll_max) end
  tap(stats,'book_statistics_close');assert(not app.book_statistics)
+end)
+check('Kindle reopen cycles keep real home/settings/reader buttons operable',function()
+ local isKindle=Device.isKindle;Device.isKindle=function() return true end
+ for cycle=1,3 do
+  app:close();Reader.instance:onClose()
+  FM:showFiles(books);app=FM.instance.einkfrontend.app;app:open('settings')
+  tap(app.screen,'settings_more');assert(app.settings_popup);tap(app.settings_popup,'settings_popup_search')
+  local dialog=UI._window_stack[#UI._window_stack].widget;UI:close(dialog)
+  app:close();FM.instance:onClose()
+  Reader:doShowReader(books..'/navigation.epub');app=Reader.instance.einkfrontend.app
+  app:showReader('fonts');tap(app.reader_panel,'aa_close');assert(not app.reader_panel and app.plugin.active)
+ end
+ Device.isKindle=isKindle
 end)
 app:close();Reader.instance:onClose()
 local f=assert(io.open(out..'interaction-'..variant..'.json','w'));f:write(require('json').encode(report));f:close();os.exit(0)

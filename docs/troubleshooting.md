@@ -1,5 +1,7 @@
 # 常见问题
 
+**0.6.0 点击按钮后退出**：完全退出 KOReader，手动覆盖安装 0.6.1 再重新启动。该版本暂时停用 Kindle 自绘按钮反色反馈。若仍退出，请提供 `koreader/crash.log`、设备型号和 KOReader 版本；目前尚未确认报告设备的实际根因。
+
 **插件没有出现**：确认目录为 `koreader/plugins/einkfrontend.koplugin/`，`main.lua` 就在这个目录里，没有多套一层目录；安装后重启 KOReader。
 
 **同时启用了 SimpleUI 或其他前端**：同时接管相同入口可能冲突，请择一启用，再重启。部分第三方插件拥有自己的界面，仍会显示原生窗口。

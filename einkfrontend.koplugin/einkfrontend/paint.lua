@@ -113,33 +113,51 @@ function P.find(widget,pos,hold)
   end
  end
 end
--- Match native Button's e-ink feedback: fence only the pressed rectangle,
--- restore it before invoking the action. No timers may outlive their page.
+-- Kindle feedback is suspended pending a physical-device crash trace. A visual
+-- effect must never prevent the action or escape the frontend error boundary.
+local function feedback(widget,hit,UI)
+ local owner=widget.app or widget
+ if Device:isKindle() or owner._eink_feedback_failed or hit.feedback==false
+  or (type(hit.id)=="string" and hit.id:match("_slider$"))
+  or G_reader_settings:isFalse("flash_ui") then return end
+ local screen=Device.screen
+ local x,y,w,h,region,inverted
+ local ok,err=pcall(function()
+  x=math.max(0,math.ceil(hit.x));y=math.max(0,math.ceil(hit.y))
+  w=math.min(screen:getWidth(),math.floor(hit.x+hit.w))-x
+  h=math.min(screen:getHeight(),math.floor(hit.y+hit.h))-y
+  if w<=0 or h<=0 then return end
+  region=require("ui/geometry"):new{x=x,y=y,w=w,h=h}
+  UI:forceRePaint()
+  UI:widgetInvert(widget,x,y,w,h);inverted=true
+  UI:setDirty(nil,"fast",region)
+  UI:forceRePaint();UI:yieldToEPDC()
+ end)
+ -- Undo before the action can replace/close the page, including on failure.
+ local restored,restore_err=pcall(function()
+  if inverted then UI:widgetInvert(widget,x,y,w,h) end
+  if region then UI:setDirty(nil,"ui",region) end
+ end)
+ if not ok or not restored then
+  owner._eink_feedback_failed=true
+  require("logger").warn("EInkFrontend: click feedback disabled:",ok and restore_err or err)
+  -- If even undo failed, redraw the owning page instead of retrying inversion.
+  if not restored then pcall(UI.setDirty,UI,widget,"ui") end
+ end
+end
 function P.activate(widget,pos,hold)
  if not pos then return false end
  local fn,hit=P.find(widget,pos,hold)
  if not fn then return false end
- local UI=require("ui/uimanager");local screen=Device.screen
+ local UI=require("ui/uimanager")
  if widget.app and not UI:isWidgetShown(widget) then return false end
- if hit.feedback~=false and not (hit.id and hit.id:match("_slider$"))
-  and not G_reader_settings:isFalse("flash_ui") then
-  local x=math.max(0,math.ceil(hit.x));local y=math.max(0,math.ceil(hit.y))
-  local w=math.min(screen:getWidth(),math.floor(hit.x+hit.w))-x
-  local h=math.min(screen:getHeight(),math.floor(hit.y+hit.h))-y
-  if w>0 and h>0 then
-   local region=require("ui/geometry"):new{x=x,y=y,w=w,h=h}
-   -- Drain earlier paints before touching the framebuffer, so they cannot
-   -- overwrite the highlight or make restoring it invert the new page.
-   UI:forceRePaint()
-   screen.bb:invertRect(x,y,w,h);UI:setDirty(nil,"fast",region)
-   local ok,err=pcall(function() UI:forceRePaint();UI:yieldToEPDC() end)
-   screen.bb:invertRect(x,y,w,h);UI:setDirty(nil,"ui",region)
-   if not ok then error(err,0) end
-  end
+ local action=function()
+  feedback(widget,hit,UI)
+  fn(pos)
+  UI:forceRePaint()
  end
- local action=function() fn(pos) end
+ -- Include the final repaint in the same boundary as the callback.
  if widget.app then widget.app:safe(action) else action() end
- UI:forceRePaint()
  return true
 end
 return P

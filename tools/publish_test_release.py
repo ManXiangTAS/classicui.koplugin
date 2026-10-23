@@ -19,7 +19,7 @@ def request(url,method='GET',data=None,mime='application/json'):
 try:release=request(base+'/releases/tags/'+tag)
 except urllib.error.HTTPError as e:
  if e.code!=404:raise
- release=request(base+'/releases','POST',{'tag_name':tag,'target_commitish':commit,'name':'墨页 · ClassicUI '+VERSION,'body':(root/'docs/release-0.6.0.md').read_text(),'draft':True,'prerelease':False})
+ release=request(base+'/releases','POST',{'tag_name':tag,'target_commitish':commit,'name':'墨页 · ClassicUI '+VERSION,'body':(root/f'docs/release-{VERSION}.md').read_text(),'draft':True,'prerelease':False})
 if not release['draft']:
  print('Release already published; retaining its original assets.');sys.exit(0)
 existing={a['name']:a for a in release['assets']}
