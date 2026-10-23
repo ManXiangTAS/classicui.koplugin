@@ -67,7 +67,7 @@ function Editor:rows()
  local rows={};local needle=self.query:lower()
  for _,widget in ipairs(self.draft.widgets) do
   local def=Layout.by_id[widget.id]
-  local keywords=({weekly='七天 柱图 一周',streak='连续 天数',stats_table='统计 数据 表格',heatmap='热力值 日历',daily_goal='每日 目标 分钟',daypart='时段 分布 时间',currently='当前 最近 阅读',quote='名言 语录'})[widget.id] or ''
+  local keywords=({weekly='七天 柱图 一周',streak='连续 天数',stats_table='统计 数据 表格',heatmap='热力值 日历',daily_goal='每日 目标 分钟',daypart='时段 分布 时间',currently='当前 最近 阅读',quote='名言 语录',reading_return='回本 设备 金额 价格 投入 价值 环形 进度'})[widget.id] or ''
   if (def.name..' '..keywords..' '..widget.id):lower():find(needle,1,true) then rows[#rows+1]=widget end
  end
  return rows
@@ -80,6 +80,7 @@ function Editor:options()
  elseif id=='heatmap' then add('热力图：'..self.draft.heatmap_weeks..'周',function() self:change(function(c) c.heatmap_weeks=({[6]=12,[12]=24,[24]=6})[c.heatmap_weeks] end) end)
  elseif id=='daily_goal' then add('目标：'..self.draft.daily_goal_minutes..'分钟',function()
   self.app.adapter:promptText('每日目标（分钟）',tostring(self.draft.daily_goal_minutes),function(text) if self.closed then return end;return self:change(function(c) c.daily_goal_minutes=tonumber(text) end) end,{keep_on_error=true}) end)
+ elseif id=='reading_return' then add('购机投入',function() require('einkfrontend/bookvalue').promptInvestment(self.app,function() if not self.closed then self:refreshPreview() end end) end)
  elseif id=='quote' then add('编辑名言',function() self.app.adapter:promptText('名言（每行正文｜出处）',self.draft.quote_text,function(text) if self.closed then return end;return self:change(function(c) c.quote_text=text;c.quote_index=1 end) end,{multiline=true,keep_on_error=true}) end)
  end
  add('恢复布局',function() self.app:confirm('恢复默认布局？将保留名言内容。',function() self:change(function(c) c.widgets=Layout.defaults().widgets;c.spacing='standard' end) end) end)

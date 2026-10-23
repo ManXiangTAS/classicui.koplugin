@@ -1,1 +1,1 @@
-return '0.5.0-test.11'
+return '0.6.0'

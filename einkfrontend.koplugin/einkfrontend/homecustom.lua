@@ -36,7 +36,10 @@ function Editor.render(app,route,model,row,go)
   row("下移",index==#config.widgets and "已在最后" or "移到后一个部件之后",index<#config.widgets and function()
    local ok,why=layout:move(id,1);if not ok then app:message(why) end;app:render()
   end or nil)
-  if id=="heatmap" then
+  if id=="reading_return" then
+   row("购机投入",nil,function() require('einkfrontend/bookvalue').promptInvestment(app) end)
+   row("查看阅读回报",nil,go("reading_return"))
+  elseif id=="heatmap" then
    row("显示范围："..config.heatmap_weeks.." 周","轻点切换6、12或24周；深色表示阅读更久",function()
     save(function(c) c.heatmap_weeks=({[6]=12,[12]=24,[24]=6})[c.heatmap_weeks] end)
    end)

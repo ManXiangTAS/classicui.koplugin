@@ -27,7 +27,7 @@ end
 function Store:checkRoot() assert(Store.directory(self.root,false)==self.root,'书籍文件夹已变化') end
 function Store:abort()
  if self.file then pcall(self.file.close,self.file);self.file=nil end
- self.upload=nil
+ self.upload=nil;self.digest=nil
  if self.temp and lfs.symlinkattributes(self.temp) then
   if not os.remove(self.temp) then return false end
  end
@@ -44,13 +44,13 @@ function Store:begin(name,size,id)
  local ffi=require('ffi');local C=ffi.C
  local path=self.root..'/.moye-upload-'..id..'.part'
  local fd=C.open(path,bit.bor(1,64,128),ffi.cast("unsigned int",384));assert(fd>=0,'无法创建临时文件，请检查空间与目录权限');C.close(fd)
- self.temp=path;self.file=assert(io.open(path,'wb'));self.upload={name=name,size=size,received=0,id=id};return self.upload
+ self.temp=path;self.file=assert(io.open(path,'wb'));self.upload={name=name,size=size,received=0,id=id};self.digest=require("ffi/sha2").sha256();return self.upload
 end
 function Store:append(id,offset,body)
  local u=assert(self.upload,'没有正在接收的书籍');assert(id==u.id,'上传标识已过期')
  assert(type(offset)=='number' and offset==u.received,'上传位置不一致，请重试')
  assert(#body>0 and #body<=Store.chunk and u.received+#body<=u.size,'分块大小无效')
- self:checkRoot();assert(self.file:write(body),'写入失败，请检查剩余空间');assert(self.file:flush(),'写入失败');u.received=u.received+#body;return u.received
+ self:checkRoot();assert(self.file:write(body),'写入失败，请检查剩余空间');assert(self.file:flush(),'写入失败');self.digest(body);u.received=u.received+#body;return u.received
 end
 function Store:finish(id)
  self:checkRoot();local u=assert(self.upload,'没有正在接收的书籍');assert(id==u.id and u.received==u.size,'书籍尚未传输完成')
@@ -71,6 +71,6 @@ function Store:finish(id)
  if not ok then os.remove(target);error('无法完成书籍保存：'..tostring(why)) end
  self.temp=nil;self.upload=nil
  if not util.fsyncDirectory(self.root) then require('logger').warn('Transfer directory sync unavailable') end
- return name
+ local digest=self.digest();self.digest=nil;return name,digest
 end
 return Store

@@ -22,7 +22,7 @@ end
 function Library:save()
     self.settings:saveSetting("root",self.root)
     self.settings:saveSetting("books",self.books)
-    self.settings:flush()
+    assert(self.settings:flush()~=false,"书库保存失败")
 end
 
 function Library:cancel()
@@ -43,8 +43,10 @@ function Library:status(book)
     local percent=data:readSetting("percent_finished")
     if type(percent)~="number" or percent~=percent then percent=nil end
     if percent then percent=math.max(0,math.min(1,percent)) end
+    if summary and summary.status=="new" then return "未读",nil end
     if summary and summary.status=="complete" then return "已完成",1 end
     if summary and summary.status=="abandoned" then return "搁置",percent end
+    if summary and summary.status=="reading" then return "在读",percent end
     if percent and percent>0 then return "在读",percent end
     return "未读",nil
 end
@@ -392,6 +394,55 @@ function Library:setMetadata(book,key,value)
         self.ui.doc_settings:getCustomMetadataFile(true)
     end
     self:save()
+end
+
+-- One verified native metadata transaction, shared by uploads and on-device edits.
+function Library:editDetails(book,changes)
+    local Copy=require("einkfrontend/catalog").copy
+    for key,value in pairs(changes) do
+        assert(key=="title" or key=="authors","未知书籍信息")
+        assert(type(value)=="string" and #value<=600 and not value:find("[%c]"),"书籍信息过长或包含控制字符")
+        if key=="title" then assert(value:match("%S"),"书名不能为空") end
+    end
+    local info=BookInfo:new{ui=self.ui};local path=DocSettings:findCustomMetadataFile(book.file)
+    local settings=DocSettings.openSettingsFile(path);local before=Copy(settings.data);local oldbook=Copy(book)
+    local oldlibrary=Copy(self.settings.data)
+    local ok,why=pcall(function()
+        if not settings:has("doc_props") then
+            local props=Copy(info:getDocProps(book.file,nil,false) or {});props.display_title=nil;settings:saveSetting("doc_props",props)
+        end
+        local custom=Copy(settings:readSetting("custom_props") or {})
+        for key,value in pairs(changes) do custom[key]=value end
+        settings:saveSetting("custom_props",custom);assert(settings:flushCustomMetadata(book.file),"书籍信息保存失败")
+        local saved=DocSettings.openSettingsFile(assert(DocSettings:findCustomMetadataFile(book.file))):readSetting("custom_props")
+        for key,value in pairs(changes) do assert(saved[key]==value,"书籍信息未能保存");book[key]=value end
+        self:save()
+    end)
+    if not ok then
+        settings.data=before;pcall(settings.flushCustomMetadata,settings,book.file)
+        for key in pairs(book) do book[key]=nil end;for key,v in pairs(oldbook) do book[key]=v end
+        self.settings.data=oldlibrary;pcall(self.settings.flush,self.settings);error(why,0)
+    end
+    require("ui/widget/booklist").resetBookInfoCache(book.file)
+    self.ui:handleEvent(require("ui/event"):new("InvalidateMetadataCache",book.file))
+    if self.ui.document and self.ui.document.file==book.file then
+        for key,value in pairs(changes) do self.ui.doc_props[key]=value end
+        if changes.title then self.ui.doc_props.display_title=changes.title end
+        self.ui.doc_settings:getCustomMetadataFile(true)
+    end
+end
+
+function Library:setReadStatus(book,status)
+    assert(({new=true,reading=true,complete=true,abandoned=true})[status],"阅读状态无效")
+    local doc=self.ui.document and self.ui.document.file==book.file and self.ui.doc_settings or DocSettings:open(book.file)
+    local Copy=require('einkfrontend/catalog').copy;local old=Copy(doc:readSetting('summary'))
+    local summary=Copy(old or {});summary.status=status
+    local ok,why=pcall(function()
+        doc:saveSetting('summary',summary);assert(doc:flush()~=false,'阅读状态保存失败')
+        assert(DocSettings:open(book.file):readSetting('summary').status==status,'阅读状态未能保存')
+    end)
+    if not ok then doc:saveSetting('summary',old);pcall(doc.flush,doc);error(why,0) end
+    require('ui/widget/booklist').resetBookInfoCache(book.file)
 end
 
 return Library

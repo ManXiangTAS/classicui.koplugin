@@ -47,7 +47,7 @@ function T.render(app,route,m,row,go)
   row('重新扫描书库',nil,function() app:scanLibrary(T.path(app)) end)
   row('重新运行传书向导',nil,function() T.wizard(app,true) end)
  end
- m.help=function() app:message('手机或电脑与 Kindle 连接同一 Wi-Fi，开启网页传书后扫码。接收目录同时作为墨页书库目录，修改后保留原有书籍文件。\nEPUB 重排在发送网页上手动勾选，支持高级设置和前后预览。关闭传书、休眠或退出后地址失效；30分钟后自动结束。') end
+ m.help=function() app:message('手机或电脑与 Kindle 连接同一 Wi-Fi，开启网页传书后扫码。接收目录同时作为墨页书库目录，修改后保留原有书籍文件。\n发送前可修改书名、作者，填写本书价格。关闭传书、休眠或退出后地址失效；30分钟后自动结束。') end
  return true
 end
 return T

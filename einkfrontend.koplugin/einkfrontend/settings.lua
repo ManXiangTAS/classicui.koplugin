@@ -75,7 +75,8 @@ function Settings.search(app,query)
  local function add(title,path,route,param,keywords)
   if match(title.." "..(keywords or "")) then results[#results+1]={title=title,path=path,route=route,param=param} end
  end
- add("传书与书库","书库与文件","transfer_settings",nil,"上传 传输 书籍 文件 目录 文件夹 路径 网页 Wi-Fi 重排 EPUB")
+ add("传书与书库","书库与文件","transfer_settings",nil,"上传 传输 书籍 文件 目录 文件夹 路径 网页 Wi-Fi EPUB")
+ add("阅读回报","主页","reading_return",nil,"回本 购机 设备 投入 金额 价值 价格")
  add("时间与日期","设备与系统","clock_settings",nil,"网络同步时间 校时 时区 夏令时 timezone ntp")
  add("中文输入法","触控与按键","input_method",nil,"拼音 中文 汉字 候选词 键盘 pinyin 中英 英文 输入 切换 EN")
  if app.pagepress then add("翻页键","触控与按键","pagepress_settings",nil,"PagePress 压感 按压力度 灵敏度 震动 振动 反馈 翻页 按键 Voyage") end

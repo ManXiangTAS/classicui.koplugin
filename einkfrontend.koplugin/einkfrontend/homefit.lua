@@ -14,7 +14,7 @@ function Fit.plan(config,width,height)
   local mins={currently=144,reading_stats=narrow and 136 or 100,
    overview=narrow and 176 or 132,recent=narrow and (Layout.shelfCount(config,'recent')==5 and 316 or 228) or 160,
    tbr=narrow and (Layout.shelfCount(config,'tbr')==5 and 316 or 228) or 160,
-   quote=120,clock=96,heatmap=156,stats_table=204,weekly=154,streak=150,daypart=198,daily_goal=138}
+   quote=120,clock=96,heatmap=156,stats_table=204,weekly=154,streak=150,daypart=198,daily_goal=138,reading_return=narrow and 226 or 208}
   local minimum=S(mins[widget.id]);local preferred=S(Layout.by_id[widget.id].height)
   if widget.id=='recent' or widget.id=='tbr' then preferred=narrow and S(Layout.shelfCount(config,widget.id)==5 and 380 or 280) or S(208) end
   return minimum,math.max(minimum,preferred)

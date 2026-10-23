@@ -1,0 +1,9 @@
+# 第三方素材与开源声明
+
+墨页代码使用 AGPL-3.0-or-later，完整许可见 COPYING。软件不隶属于 Amazon、Kindle、KOReader 或 SimpleUI。
+
+- Material Symbols Sharp 图标：Google，Apache-2.0，许可位于插件资源图标目录。
+- 时区数据：IANA tz database，许可位于插件资源时区目录。
+- 宣传片字体：Noto Sans CJK SC 的字符子集，遵循 SIL Open Font License，见 media/fonts/LICENSE。子集仅用于宣传片，未替换 KOReader 字体。
+- 网页传书的三个文档图形：取自用户提供的 Amazon Send to Kindle 页面快照，原始素材版权归 Amazon 或相应权利人所有，单独保留原权利；不适用本项目代码许可。使用来源：`m.media-amazon.com/images/G/01/pdocs-client/stk/drag-n-drop/{ImageDocument,TextDocument,PDFDocument}.svg`。未包含账户、个人资料、购物导航或远端脚本。
+- 宣传片音乐与动效为本项目原创，演示书籍和统计为示例内容。

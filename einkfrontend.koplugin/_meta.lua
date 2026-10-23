@@ -1,5 +1,5 @@
 return {
-    version = "0.5.0-test.11",
-    fullname = "墨页前端（开发预览）",
-    description = "0.5.0-test.11：移除插件在线更新及中转，停用旧更新设置并清理暂存。仅支持手动安装。保留书库、主页、输入法、原生图片屏保、网页传书、EPUB重排、阅读主题和Voyage翻页键。支持KOReader 2026.07.1 / 2026.07.2。",
+    version = "0.6.0",
+    fullname = "墨页 · ClassicUI",
+    description = "为电子墨水屏设计的 KOReader 阅读前端。自定义主页、阅读回报、独立书库、阅读主题、目录与标注、分层设置、中英输入和网页传书。支持 KOReader v2026.07.1 / v2026.07.2。",
 }

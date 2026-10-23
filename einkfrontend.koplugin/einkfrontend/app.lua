@@ -16,11 +16,12 @@ function App.new(plugin, adapter)
     local browser=Browser.new(library.settings)
     local tab=browser.tabs[browser.active]
     local self=setmetatable({plugin=plugin,adapter=adapter,library=library,browser=browser,
-        stack={},status="墨页 · 开发预览",library_layout=tab.layout,library_sort=tab.sort},App)
+        stack={},status="墨页",library_layout=tab.layout,library_sort=tab.sort},App)
     adapter.app=self;self.dialogs=setmetatable({},{__mode='k'})
     self.native=require("einkfrontend/native").new(self)
     self.themes=require("einkfrontend/themes").new()
     self.home_layout=require("einkfrontend/homelayout").new()
+    self.book_value=require("einkfrontend/bookvalue").new(library)
     if plugin.active then self.clock=require("einkfrontend/clock").new(self) end
     if plugin.active then self.typography=require("einkfrontend/typography").new(adapter) end
     if plugin.active then self.pagepress=require("einkfrontend/pagepress").attach(self) end
@@ -141,7 +142,7 @@ function App:go(id,param,replace)
         self.library_layout=self.browser.tabs[tab].layout;self.library_sort=self.browser.tabs[tab].sort
     end
     self.screen.focus_index=1
-    self.status="墨页 · 开发预览"
+    self.status="墨页"
     self:render()
 end
 
@@ -393,6 +394,7 @@ function App:render()
     elseif require("einkfrontend/inputsettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/clocksettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/pagepresssettings").render(self,route,m,row,go) then
+    elseif require("einkfrontend/bookvalue").render(self,route,m,row,go) then
     elseif require("einkfrontend/homecustom").render(self,route,m,row,go) then
     elseif require("einkfrontend/settings").render(self,route,m,row,go) then
     elseif route.id=="home" then
@@ -490,7 +492,7 @@ function App:render()
         row("设备快捷控制","从顶部下拉也可打开",function() self:showControls() end)
         row("返回正文","关闭控制页",function() self:close() end)
     elseif route.id=="recent" then
-        m.title="最近阅读";m.subtitle="最多显示最近 5 本；完整书库当前为开发预览"
+        m.title="最近阅读";m.subtitle="最近打开的书籍"
         for _,book in ipairs(self.adapter:recent()) do
             local file=book.file
             row(book.title,"继续阅读",function() self:openRecentBook(file) end)
@@ -589,7 +591,20 @@ function App:render()
         m.title=book.title;m.subtitle=book.authors..(book.series~="" and (" · "..book.series) or "")
         row("开始阅读","打开书籍并关闭书库界面",function() self:openLibraryBook(book) end)
         local status,percent=self.library:status(book)
-        row("阅读状态："..status,percent and (math.floor(percent*100).."%") or "尚无进度记录")
+        row("阅读状态："..status,percent and (math.floor(percent*100).."%") or "尚无进度记录",function() self:chooseReadStatus(book) end)
+        row("书名与作者",nil,function()
+            self.adapter:promptText("书名",book.title,function(title)
+                self.adapter:promptText("作者",book.authors=="作者未知" and "" or book.authors,function(author)
+                    return self:userAction(function() self.library:editDetails(book,{title=title,authors=author});self:render() end)
+                end,{keep_on_error=true})
+            end)
+        end)
+        local value=require('einkfrontend/bookvalue');local price=self.book_value:price(book.file)
+        row("本书价格",price~=nil and "¥"..value.money(price) or "未填写",function()
+            self.adapter:promptText("本书价格（元，留空清除）",value.money(self.book_value:price(book.file)),function(text)
+                return self:userAction(function() self.book_value:setPrice(book.file,text);self:render() end)
+            end,{keep_on_error=true})
+        end)
         row("加入或移出收藏","管理本书的收藏归属",go("book_collections",book))
         row("系列："..(book.series~="" and book.series or "未设置"),"修改本机显示，不改动书籍原文件",function()
             self.adapter:promptText("系列名称",book.series,function(text) return self:userAction(function()
@@ -681,20 +696,14 @@ function App:render()
             if self.plugin.gate then self.plugin.gate:openNative() else self.plugin.ui.menu:onShowMenu() end
         end)
         row("停用墨页并重启后保持","恢复原生入口；重新启用请用原生插件管理器",function() self.plugin:disableFrontend() end)
-    elseif route.id=="about" then
-        m.title="关于与兼容性";m.subtitle="ClassicUI · 墨页 · "..require("einkfrontend/version")
+    elseif route.id=="about" or route.id=="progress" then
+        m.title="关于墨页";m.subtitle="ClassicUI · 墨页 · "..require("einkfrontend/version")
         local _,revision=require("einkfrontend/adapter").supported()
-        row("KOReader "..revision,"固定源码：9192014d8bd82a91dc1012473be0f238dedfdb54")
-        row("首测目标：Kindle Voyage","桌面软件验证与真机验收分别记录；未宣称真机通过")
-        row("原创方正扁平界面","黑白 / 方正布局 / 设置纵向滚动")
-        row("开发阶段","设置、底部 Aa 与主题已集成；等待 Voyage 实测")
-        row("开发目标与进度","查看当前范围和后续工作",go("progress"))
-    elseif route.id=="progress" then
-        m.title="目标与进度";m.subtitle="以实际运行证据推进；完整清单见随包执行目标"
-        row("本轮：新版设置与接管","十类设置、插件杂项兜底、即时切换与原生兼容入口")
-        row("书库：已接入基础","封面墙 / 列表 / 作者 / 系列 / 收藏 / 搜索与排序")
-        row("阅读：底部 Aa 与命名主题","13项排版快照、本书应用与命名主题")
-        row("发布前：Voyage 验收","PagePress、残影、休眠、禁用与升级验证")
+        row("为阅读，整理每一处界面","主页、书库、阅读工具与分层设置")
+        row("墨页 "..require("einkfrontend/version"),"开源阅读前端 · AGPL-3.0-or-later")
+        row("KOReader "..revision,"支持 v2026.07.1 / v2026.07.2")
+        row("项目主页","github.com/ManXiangTAS/classicui.koplugin")
+        row("兼容与恢复","可从维护与恢复中切回原生界面")
     else error("Unknown route: "..tostring(route.id)) end
     local tab=Browser.tab(route)
     if tab then
@@ -757,6 +766,18 @@ function App:confirm(text,fn)
     self:trackDialog(box)
     UIManager:show(box);return box
 end
+function App:chooseReadStatus(book)
+    local valid=self:dialogGuard();local buttons={};local box
+    for _,entry in ipairs({{'未读','new'},{'在读','reading'},{'已完成','complete'},{'搁置','abandoned'}}) do
+        local item=entry
+        buttons[#buttons+1]={{text=item[1],callback=function()
+            if not valid() or not UIManager:isWidgetShown(box) then return end
+            UIManager:close(box);self:userAction(function() self.library:setReadStatus(book,item[2]);self:render() end)
+        end}}
+    end
+    box=require('ui/widget/buttondialog'):new{title='阅读状态',buttons=buttons};self:trackDialog(box);UIManager:show(box)
+end
+
 function App:message(text) UIManager:show(InfoMessage:new{text=tostring(text)}) end
 function App:showReader(tab)
     if not Context.allowed(self,'reader_panel') then return end
@@ -799,7 +820,7 @@ function App:searchCurrent()
             if route.id=="clock_zone_list" then route.param=query;route.scroll_y=0;self:render() else self:go("clock_zone_list",query) end
         end)
     end
-    local local_routes={collection_manager=true,collection_manage=true,collection_members=true,book_collections=true,book=true,home_widget=true}
+    local local_routes={collection_manager=true,collection_manage=true,collection_members=true,book_collections=true,book=true,home_widget=true,reading_return=true}
     if local_routes[route.id] then
         return self.adapter:promptText(route.id=="collection_members" and "搜索收藏中的书籍" or "搜索当前页面",route.search_query or "",function(query)
             if not self.screen then return end;route.search_query=query;route.scroll_y=0;self:render()

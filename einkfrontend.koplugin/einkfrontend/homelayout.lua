@@ -18,6 +18,7 @@ Layout.registry={
  {id="streak",name="阅读天数",height=214,enabled=false,stats=true},
  {id="daypart",name="阅读时段分布",height=244,enabled=false,stats=true},
  {id="daily_goal",name="每日阅读目标",height=188,enabled=false,stats=true},
+ {id="reading_return",name="阅读回报",height=244,enabled=false},
 }
 Layout.by_id={};for _,def in ipairs(Layout.registry) do Layout.by_id[def.id]=def end
 function Layout.defaults()
@@ -72,6 +73,12 @@ function Layout.new()
    config.version=2;config.heatmap_weeks=12;config.daily_goal_minutes=30
    for i=8,#Layout.registry do config.widgets[#config.widgets+1]={id=Layout.registry[i].id,enabled=false,span=2} end
   end
+ end
+ -- Migrate complete v2 layouts without resetting user choices.
+ if type(config)=="table" and config.version==2 and type(config.widgets)=="table" and #config.widgets==13 then
+  local seen={};for _,w in ipairs(config.widgets) do if type(w)=="table" then seen[w.id]=true end end
+  local complete=true;for i=1,13 do if not seen[Layout.registry[i].id] then complete=false end end
+  if complete then config.widgets[#config.widgets+1]={id="reading_return",enabled=false,span=2} end
  end
  local ok,why=pcall(Layout.validate,config)
  return setmetatable({settings=settings,config=ok and config or Layout.defaults(),error=not ok and tostring(why) or nil},Layout)

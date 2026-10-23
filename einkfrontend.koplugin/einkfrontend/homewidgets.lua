@@ -46,7 +46,10 @@ function Widgets.paint(page,bb,frame,x,y,top,viewh)
   local hy=math.max(0,fy+cy);local hh=math.min(viewh,fy+cy+ch)-hy
   if hh>0 then page.hits[#page.hits+1]={x=x+frame.x+left,y=top+hy,w=cw,h=hh,callback=fn,id=id} end
  end
- if frame.id=="currently" then
+ if frame.id=="reading_return" then
+  require('einkfrontend/returnwidget').paint(cell,w,h,model.reading_return)
+  hit('home_reading_return',0,0,w,h,function() app:go('reading_return') end)
+ elseif frame.id=="currently" then
   if model.book then
    local book=model.book;local narrow=w<S(300);local compact=h<S(208)
    local cw=math.min(S(126),w*(narrow and .28 or .24));local ch=math.min(h-S(24),math.floor(cw*1.45))

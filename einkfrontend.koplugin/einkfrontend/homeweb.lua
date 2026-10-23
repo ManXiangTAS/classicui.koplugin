@@ -24,8 +24,9 @@ local topkeys={version=true,spacing=true,recent_count=true,tbr_count=true,quote_
 function Web.validate(config)
  assert(type(config)=='table','配置格式不正确')
  for key in pairs(config) do assert(topkeys[key],'未知配置字段') end
- assert(type(config.widgets)=='table' and #config.widgets==13,'部件数量不正确')
- local count=0;for key in pairs(config.widgets) do assert(type(key)=='number' and key%1==0 and key>=1 and key<=13,'部件索引不正确');count=count+1 end;assert(count==13,'部件数量不正确')
+ local expected=#require('einkfrontend/homelayout').registry
+ assert(type(config.widgets)=='table' and #config.widgets==expected,'部件数量不正确')
+ local count=0;for key in pairs(config.widgets) do assert(type(key)=='number' and key%1==0 and key>=1 and key<=expected,'部件索引不正确');count=count+1 end;assert(count==expected,'部件数量不正确')
  for _,w in ipairs(config.widgets) do
   assert(type(w)=='table','部件格式不正确')
   for key in pairs(w) do assert(key=='id' or key=='enabled' or key=='span','未知部件字段') end

@@ -17,6 +17,10 @@ end
 function Home.model(app)
  local out={completed=0,total=#app.library.books}
  local layout=app.home_layout
+ if layout and layout:enabled('reading_return') then
+  local ok,value=pcall(app.book_value.summary,app.book_value)
+  if ok then out.reading_return=value else out.reading_return_error=true end
+ end
  local function enabled(id) return not layout or layout:enabled(id) end
  local current=enabled("currently") or enabled("reading_stats")
  local overview=enabled("overview")
