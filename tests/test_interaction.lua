@@ -149,26 +149,46 @@ check('A feedback error restores the framebuffer and still runs the action once'
  assert(P.activate(w,{x=1,y=1}) and called==2)
  UI.yieldToEPDC=yield;UI:forceRePaint()
 end)
-check('Kindle feedback inverts and restores before the action, respecting flash_ui',function()
- local isKindle,invert,yield=Device.isKindle,UI.widgetInvert,UI.yieldToEPDC
+check('Kindle waits for the prior frame and visible highlight before restoring and acting',function()
+ local isKindle,invert,yield,wait=Device.isKindle,UI.widgetInvert,UI.yieldToEPDC,UI.waitForVSync
  Device.isKindle=function() return true end
  UI:forceRePaint();local before=Device.screen.bb:getPixel(5,5):getColor8().a
- local inversions,yields=0,0
+ local inversions,yields,fences=0,0,0
  UI.widgetInvert=function(self,...) inversions=inversions+1;return invert(self,...) end
  local called=0;local w={hits={{x=0,y=0,w=20,h=20,callback=function() called=called+1 end}}}
  UI.yieldToEPDC=function()
   yields=yields+1;assert(called==0 and inversions==1)
   assert(Device.screen.bb:getPixel(5,5):getColor8().a==255-before)
  end
+ UI.waitForVSync=function()
+  fences=fences+1;assert(called==0)
+  if fences==1 then assert(inversions==0)
+  elseif fences==2 then
+   assert(inversions==1 and Device.screen.bb:getPixel(5,5):getColor8().a==255-before)
+  else error('unexpected feedback wait') end
+ end
  w.hits[1].callback=function()
-  assert(Device.screen.bb:getPixel(5,5):getColor8().a==before)
+  assert(fences==2 and Device.screen.bb:getPixel(5,5):getColor8().a==before)
   called=called+1
  end
  G_reader_settings:saveSetting('flash_ui',true);assert(P.activate(w,{x=1,y=1}))
- assert(called==1 and inversions==2 and yields==1 and not w._eink_feedback_failed)
+ assert(called==1 and inversions==2 and yields==1 and fences==2 and not w._eink_feedback_failed)
  G_reader_settings:saveSetting('flash_ui',false);assert(P.activate(w,{x=1,y=1}))
- assert(called==2 and inversions==2 and yields==1 and not w._eink_feedback_failed)
- G_reader_settings:delSetting('flash_ui');Device.isKindle=isKindle;UI.widgetInvert=invert;UI.yieldToEPDC=yield
+ assert(called==2 and inversions==2 and yields==1 and fences==2 and not w._eink_feedback_failed)
+ G_reader_settings:delSetting('flash_ui');Device.isKindle=isKindle;UI.widgetInvert=invert;UI.yieldToEPDC=yield;UI.waitForVSync=wait
+end)
+check('Kindle refresh wait failures restore the pixels and still execute the button once',function()
+ local isKindle,wait=Device.isKindle,UI.waitForVSync;Device.isKindle=function() return true end
+ for _,fail_at in ipairs({1,2}) do
+  UI:forceRePaint();local before=Device.screen.bb:getPixel(5,5):getColor8().a
+  local fences,called=0,0
+  UI.waitForVSync=function() fences=fences+1;if fences==fail_at then error('refresh wait fixture') end end
+  local w={hits={{x=0,y=0,w=20,h=20,callback=function()
+   assert(Device.screen.bb:getPixel(5,5):getColor8().a==before);called=called+1
+  end}}}
+  assert(P.activate(w,{x=1,y=1}) and called==1 and w._eink_feedback_failed)
+ end
+ Device.isKindle=isKindle;UI.waitForVSync=wait
 end)
 check('A Kindle feedback failure restores pixels and still executes the action once',function()
  local isKindle,yield=Device.isKindle,UI.yieldToEPDC

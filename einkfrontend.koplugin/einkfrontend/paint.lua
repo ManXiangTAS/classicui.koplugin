@@ -131,6 +131,9 @@ local function feedback(widget,hit,UI)
   if w<=0 or h<=0 then return end
   region=require("ui/geometry"):new{x=x,y=y,w=w,h=h}
   UI:forceRePaint()
+  -- Finish the previous frame before changing its buffer. On Kindle, a short
+  -- yield alone can let the EPDC read the restored pixels instead of the flash.
+  if Device:isKindle() then UI:waitForVSync() end
   if circle then
    snapshot=P.BB.new(w,h,screen.bb:getType());snapshot:blitFrom(screen.bb,0,0,x,y,w,h)
    for py=y,y+h-1 do
@@ -141,6 +144,9 @@ local function feedback(widget,hit,UI)
   else UI:widgetInvert(widget,x,y,w,h);inverted=true end
   UI:setDirty(nil,"fast",region)
   UI:forceRePaint();UI:yieldToEPDC()
+  -- Keep the highlighted buffer intact until its fast update completes. This
+  -- uses the device's completion marker rather than an arbitrary fixed delay.
+  if Device:isKindle() then UI:waitForVSync() end
  end)
  -- Undo before the action can replace/close the page, including on failure.
  local restored,restore_err=pcall(function()
