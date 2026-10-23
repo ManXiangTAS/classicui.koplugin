@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+test-results*/**
+!test-results*/
+!test-results*/summary.json
+!test-results-052/combined-summary.json
+!test-results-052/syntax.json
+dist/
+release-build/

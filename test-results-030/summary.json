@@ -1,0 +1,2199 @@
+{
+  "version": "0.3.14-dev",
+  "runs": 54,
+  "checks": 408,
+  "distinct_cases": 136,
+  "failures": 0,
+  "fixtures_unchanged": true,
+  "device": "NOT_RUN",
+  "backend": "real KOReader v2026.07.1, SDL3 dummy, crengine/MuPDF",
+  "results": [
+    {
+      "audits": [
+        {
+          "missing": {},
+          "static_action_nodes": 730
+        },
+        {
+          "missing": {},
+          "static_action_nodes": 733
+        },
+        {
+          "missing": {},
+          "static_action_nodes": 734
+        }
+      ],
+      "device": "NOT_RUN",
+      "variant": "desktop",
+      "mode": "catalog",
+      "tests": [
+        {
+          "name": "FileManager ShowMenu and keyboard route to the new settings without a native menu",
+          "status": "PASS"
+        },
+        {
+          "name": "Default entry opens Kobo library with two shell destinations and no native exit header",
+          "status": "PASS"
+        },
+        {
+          "name": "Kobo filter and sort popovers operate in place and preserve the shell",
+          "status": "PASS"
+        },
+        {
+          "name": "Closing settings restores the exact author destination and library view",
+          "status": "PASS"
+        },
+        {
+          "name": "Back from root settings and library never reveals the native file manager",
+          "status": "PASS"
+        },
+        {
+          "name": "Top tap is inert and top swipe alone opens device controls with an independent settings action",
+          "status": "PASS"
+        },
+        {
+          "name": "Closing a native plugin callback returns to the replacement library",
+          "status": "PASS"
+        },
+        {
+          "name": "Every static registered FileManager action remains reachable in a category",
+          "status": "PASS"
+        },
+        {
+          "name": "Missing plugin parent and missing target category automatically fall back to Misc",
+          "status": "PASS"
+        },
+        {
+          "name": "Lazy plugin branch opens in the replacement page using a real TouchMenu receiver",
+          "status": "PASS"
+        },
+        {
+          "name": "Plugin hold, disabled state and parent navigation preserve native contracts",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkbox-only callbacks retain their separate hit target and native selection semantics",
+          "status": "PASS"
+        },
+        {
+          "name": "Holding a control without a hold action never executes its tap callback",
+          "status": "PASS"
+        },
+        {
+          "name": "Full takeover can be switched off and on immediately through recovery settings",
+          "status": "PASS"
+        },
+        {
+          "name": "Late registered plugins appear after catalog refresh",
+          "status": "PASS"
+        },
+        {
+          "name": "Search indexes native descriptions without evaluating lazy branches",
+          "status": "PASS"
+        },
+        {
+          "name": "Native compatibility session closes back to active interception",
+          "status": "PASS"
+        },
+        {
+          "name": "Routing exception restores native methods and disables session interception",
+          "status": "PASS"
+        }
+      ],
+      "seconds": 0.818
+    },
+    {
+      "tests": [
+        {
+          "name": "Reader compound menu and Aa open one bottom panel while upward swipe opens book statistics",
+          "status": "PASS"
+        },
+        {
+          "name": "Reader top tap opens a reading bar and dismissing settings returns to the same document",
+          "status": "PASS"
+        },
+        {
+          "name": "Every static registered EPUB action remains reachable after menu partitioning",
+          "status": "PASS"
+        },
+        {
+          "name": "Bottom Aa exposes the complete advanced native typography category",
+          "status": "PASS"
+        },
+        {
+          "name": "Bottom font, layout and themes render without turning the underlying document",
+          "status": "PASS"
+        },
+        {
+          "name": "Multi-field typography applies actual font, spacing and four margins and verifies disk values",
+          "status": "PASS"
+        },
+        {
+          "name": "Named theme snapshots persist independently and reject empty or duplicate names",
+          "status": "PASS"
+        },
+        {
+          "name": "Editing a book does not modify the theme, and applying the theme restores the full snapshot",
+          "status": "PASS"
+        },
+        {
+          "name": "Missing-font and invalid-margin themes reject the transaction before changing the book",
+          "status": "PASS"
+        },
+        {
+          "name": "Theme rename update and delete keep independent book values",
+          "status": "PASS"
+        },
+        {
+          "name": "Theme file write failure preserves both the old in-memory and on-disk library",
+          "status": "PASS"
+        },
+        {
+          "name": "Book save failure restores the live typography and inheritance metadata",
+          "status": "PASS"
+        },
+        {
+          "name": "Restoring inheritance keeps reading progress and cleans cached override keys before flush",
+          "status": "PASS"
+        },
+        {
+          "name": "Editing one inherited field preserves inheritance for all other managed fields",
+          "status": "PASS"
+        },
+        {
+          "name": "Defaults save and later inherited font changes do not overwrite an explicit spacing value",
+          "status": "PASS"
+        }
+      ],
+      "audits": [
+        {
+          "missing": {},
+          "static_action_nodes": 1581
+        }
+      ],
+      "device": "NOT_RUN",
+      "variant": "desktop",
+      "mode": "typography",
+      "seconds": 0.767
+    },
+    {
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "desktop",
+      "mode": "restart",
+      "tests": [
+        {
+          "name": "Theme and applied document values survive a fresh KOReader process",
+          "status": "PASS"
+        },
+        {
+          "name": "Explicit inheritance follows a changed global default after process restart",
+          "status": "PASS"
+        }
+      ],
+      "seconds": 0.315
+    },
+    {
+      "variant": "desktop",
+      "mode": "pdf",
+      "device": "NOT_RUN",
+      "tests": [
+        {
+          "name": "PDF menu capture preserves every static action and filters unsupported typography",
+          "status": "PASS"
+        },
+        {
+          "name": "Advanced PDF configuration opens only in an explicit compatibility session",
+          "status": "PASS"
+        }
+      ],
+      "audits": [
+        {
+          "missing": {},
+          "static_action_nodes": 1354
+        }
+      ],
+      "seconds": 0.315
+    },
+    {
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "desktop",
+      "mode": "library_navigation",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Holding a book opens its details and Back returns to the Kobo library"
+        },
+        {
+          "status": "PASS",
+          "name": "Tapping a book cover opens the actual reader directly"
+        },
+        {
+          "status": "PASS",
+          "name": "Native reader Home returns to the plugin library even when automatic startup is disabled"
+        }
+      ],
+      "seconds": 0.516
+    },
+    {
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "desktop",
+      "mode": "style_navigation",
+      "tests": [
+        {
+          "name": "Settings use a fixed bold header and a scroll viewport with no pagination footer",
+          "status": "PASS"
+        },
+        {
+          "name": "Vertical swipe moves settings content continuously while the header remains fixed",
+          "status": "PASS"
+        },
+        {
+          "name": "Partial-row pan preserves native tap hold and disabled-state callbacks",
+          "status": "PASS"
+        },
+        {
+          "name": "Scrollbar reaches the final native setting and clamps at both ends",
+          "status": "PASS"
+        },
+        {
+          "name": "Returning from a native submenu restores its parent scroll position",
+          "status": "PASS"
+        },
+        {
+          "name": "Quick-control labels are larger black text centered below their actual icons",
+          "status": "PASS"
+        },
+        {
+          "name": "Reading top tap opens chrome without creating native menus or moving the document",
+          "status": "PASS"
+        },
+        {
+          "name": "Top reading bar opens Aa and book statistics while Settings stays in quick controls",
+          "status": "PASS"
+        },
+        {
+          "name": "Top-bar navigation uses native document data and search keeps its feature window",
+          "status": "PASS"
+        },
+        {
+          "name": "Top bar and quick controls switch cleanly and font lists scroll without footer pages",
+          "status": "PASS"
+        },
+        {
+          "name": "Reading top-bar return goes to the plugin library even with automatic startup disabled",
+          "status": "PASS"
+        }
+      ],
+      "seconds": 1.018
+    },
+    {
+      "device": "NOT_RUN",
+      "variant": "desktop",
+      "mode": "fixes033",
+      "tests": [
+        {
+          "name": "Settings icons and text share measured vertical centers and the title has no breadcrumb target",
+          "status": "PASS"
+        },
+        {
+          "name": "Settings is a standalone quick action with its own centered icon and label",
+          "status": "PASS"
+        },
+        {
+          "name": "Native opening notices retain delay timeout dismissability and callback while restyled",
+          "status": "PASS"
+        },
+        {
+          "name": "Native toast masks history and input propagation remain intact with the shared style",
+          "status": "PASS"
+        },
+        {
+          "name": "Notice style hooks restore on takeover disable and preserve another live owner",
+          "status": "PASS"
+        },
+        {
+          "name": "Notice hooks coexist with a later wrapper through disable and re-enable",
+          "status": "PASS"
+        },
+        {
+          "name": "Repeated gestures reuse one visible panel even after losing a cached reference",
+          "status": "PASS"
+        },
+        {
+          "name": "Shrinking Aa to layout redraws the document where the taller panel used to be",
+          "status": "PASS"
+        },
+        {
+          "name": "Font contrast and quarter-step weight controls apply live engine settings and persist",
+          "status": "PASS"
+        },
+        {
+          "name": "Thirteen-field themes restore all new typography values and independent table snapshots",
+          "status": "PASS"
+        },
+        {
+          "name": "Invalid contrast weight and word-spacing values reject the transaction without partial changes",
+          "status": "PASS"
+        },
+        {
+          "name": "Legacy seven-field themes preserve new adjustments until explicitly updated",
+          "status": "PASS"
+        },
+        {
+          "name": "New typography fields roll back together when a document save fails",
+          "status": "PASS"
+        },
+        {
+          "name": "Separated Aa spacing options expose word spacing without a nested More action",
+          "status": "PASS"
+        },
+        {
+          "name": "New typography defaults and inheritance clean all newly managed sidecar keys",
+          "status": "PASS"
+        },
+        {
+          "name": "New inherited typography fields save intent before a later process reads changed defaults",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "seconds": 0.767
+    },
+    {
+      "variant": "desktop",
+      "mode": "fixes033_restart",
+      "device": "NOT_RUN",
+      "audits": {},
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "New contrast weight spacing and embedded-font theme data survive a fresh process"
+        },
+        {
+          "status": "PASS",
+          "name": "Contrast weight and word spacing inherit changed defaults across process restart"
+        }
+      ],
+      "seconds": 0.315
+    },
+    {
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Reading footer contains exactly Theme Font Layout in the requested order"
+        },
+        {
+          "status": "PASS",
+          "name": "Native TOC entry opens a non-fullscreen scrolling sheet over the actual book"
+        },
+        {
+          "status": "PASS",
+          "name": "Nested TOC expands and collapses through its real hit target without changing native data"
+        },
+        {
+          "status": "PASS",
+          "name": "TOC search finds nested entries even below a collapsed parent"
+        },
+        {
+          "status": "PASS",
+          "name": "TOC scrolling and PagePress move the sheet rather than the underlying document"
+        },
+        {
+          "status": "PASS",
+          "name": "TOC chapter selection jumps using real xpointers and preserves a back location"
+        },
+        {
+          "status": "PASS",
+          "name": "Page bookmarks are added by the custom sheet and saved in the native sidecar"
+        },
+        {
+          "status": "PASS",
+          "name": "Independent bookmark and annotation views filter native items without modifying their stored order"
+        },
+        {
+          "status": "PASS",
+          "name": "Annotation details use a scrollable sheet and edits persist through the native annotation path"
+        },
+        {
+          "status": "PASS",
+          "name": "Excerpt editing and note removal keep highlight identity and annotation count"
+        },
+        {
+          "status": "PASS",
+          "name": "Long annotation text scrolls within the sheet without moving the reader or losing content"
+        },
+        {
+          "status": "PASS",
+          "name": "Filtered sorted delete confirmation removes the selected annotation and no other item"
+        },
+        {
+          "status": "PASS",
+          "name": "Native annotation detail entry is intercepted and Back restores its new list"
+        },
+        {
+          "status": "PASS",
+          "name": "Navigation panels participate in overlay mutual exclusion and close outside without flipping a page"
+        },
+        {
+          "status": "PASS",
+          "name": "Explicit native management remains available and disabling takeover restores native TOC"
+        }
+      ],
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "desktop",
+      "mode": "navigation034",
+      "seconds": 0.666
+    },
+    {
+      "tests": [
+        {
+          "name": "Custom bookmark notes and excerpts survive a new real reader process",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "desktop",
+      "mode": "navigation034_restart",
+      "seconds": 0.315
+    },
+    {
+      "device": "NOT_RUN",
+      "variant": "desktop",
+      "tests": [
+        {
+          "name": "PDF contents and bookmark sheet use page numbers and preserve the same three footer entries",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "mode": "navigation034_pdf",
+      "seconds": 0.265
+    },
+    {
+      "device": "NOT_RUN",
+      "variant": "desktop",
+      "mode": "home034",
+      "tests": [
+        {
+          "name": "Library shell has live time battery status and exactly Library Home navigation",
+          "status": "PASS"
+        },
+        {
+          "name": "Home reads native history and completion data rather than using example books or figures",
+          "status": "PASS"
+        },
+        {
+          "name": "Home and library keep the exact nested library destination and settings close returns to Home",
+          "status": "PASS"
+        },
+        {
+          "name": "Home scroll and clock lifecycle preserve the shell and do not create duplicate tasks",
+          "status": "PASS"
+        },
+        {
+          "name": "Home chapter snapshot comes from actual current chapter and native reading progress",
+          "status": "PASS"
+        },
+        {
+          "name": "Closing the real reader captures chapter details for the next Home without a manual snapshot",
+          "status": "PASS"
+        },
+        {
+          "name": "Home reads real statistics schema in read-only mode and computes defined session averages",
+          "status": "PASS"
+        },
+        {
+          "name": "Missing statistics data displays unavailable values without creating a database",
+          "status": "PASS"
+        },
+        {
+          "name": "An empty native history renders an honest Home placeholder",
+          "status": "PASS"
+        },
+        {
+          "name": "Home continue-reading hit opens the actual recent book",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "seconds": 0.617
+    },
+    {
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Home renders a real cached cover repeatedly without freeing or altering the shared source"
+        },
+        {
+          "status": "PASS",
+          "name": "Forty Home Library cycles preserve both page images and the shared cached cover bytes"
+        },
+        {
+          "status": "PASS",
+          "name": "Only the cover cache releases originals during eviction and closed caches reload cleanly"
+        },
+        {
+          "status": "PASS",
+          "name": "Home book opens and the top return action restores Home and its saved scroll position"
+        },
+        {
+          "status": "PASS",
+          "name": "Nested library source restores category layout and second-page position after reading"
+        },
+        {
+          "status": "PASS",
+          "name": "Native reader Home return also restores a matching Home source with auto startup disabled"
+        },
+        {
+          "status": "PASS",
+          "name": "An unrelated directly opened book does not inherit a previous book Home destination"
+        },
+        {
+          "status": "PASS",
+          "name": "Home origin is serialized with book identity for a fresh reader process"
+        }
+      ],
+      "audits": {},
+      "mode": "regression035",
+      "device": "NOT_RUN",
+      "variant": "desktop",
+      "seconds": 3.323
+    },
+    {
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "desktop",
+      "mode": "regression035_restart",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "A fresh process reads the saved Home provenance and restores it through native return"
+        }
+      ],
+      "seconds": 0.365
+    },
+    {
+      "variant": "desktop",
+      "mode": "regression036",
+      "audits": {},
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Home and Library status remove duplicate search and menu actions but retain live battery"
+        },
+        {
+          "status": "PASS",
+          "name": "Dropdown battery is legible in the file manager without colliding with actions"
+        },
+        {
+          "status": "PASS",
+          "name": "Reading dropdown retains the battery without an origin shortcut"
+        },
+        {
+          "status": "PASS",
+          "name": "TOC has no bookmark annotation tabs and uses an input box plus a distinct locate button"
+        },
+        {
+          "status": "PASS",
+          "name": "Reader bar shares bookmark annotation navigation and exposes statistics without redundant actions"
+        },
+        {
+          "status": "PASS",
+          "name": "Book statistics use the actual current document and never include another book's time"
+        },
+        {
+          "status": "PASS",
+          "name": "Opening statistics flushes native pending page turns once and leaves the book position intact"
+        },
+        {
+          "status": "PASS",
+          "name": "Statistics scrolls and PagePress without moving the underlying book"
+        },
+        {
+          "status": "PASS",
+          "name": "Disabled statistics retain historic data and a missing database is not created"
+        },
+        {
+          "status": "PASS",
+          "name": "A statistics identity mismatch cannot display another document's figures"
+        },
+        {
+          "status": "PASS",
+          "name": "Statistics and other transient panels remain mutually exclusive during repeated transitions"
+        },
+        {
+          "status": "PASS",
+          "name": "PDF uses the same current-book statistics sheet and keeps the three Aa entries"
+        }
+      ],
+      "device": "NOT_RUN",
+      "seconds": 0.716
+    },
+    {
+      "tests": [
+        {
+          "name": "Only the Collections overflow offers management and opens an actual manager",
+          "status": "PASS"
+        },
+        {
+          "name": "To Be Read is displayed in Chinese without renaming or changing native membership",
+          "status": "PASS"
+        },
+        {
+          "name": "Collection members can be added and removed through the scrolling manager and saved natively",
+          "status": "PASS"
+        },
+        {
+          "name": "Existing members outside the indexed library remain available for removal",
+          "status": "PASS"
+        },
+        {
+          "name": "Rename preserves native settings membership defaults and saved collection destinations",
+          "status": "PASS"
+        },
+        {
+          "name": "Invalid duplicate names and silent save failures preserve both disk and live collections",
+          "status": "PASS"
+        },
+        {
+          "name": "Deleting a collection requires confirmation and preserves files while default Favorites stay protected",
+          "status": "PASS"
+        },
+        {
+          "name": "Home refresh immediately reloads changed native statistics without resetting scroll or browser state",
+          "status": "PASS"
+        },
+        {
+          "name": "One bookmark action provides both bookmark and annotation tabs without a second toolbar icon",
+          "status": "PASS"
+        },
+        {
+          "name": "Book refresh flushes pending native reading records exactly once without moving the document",
+          "status": "PASS"
+        },
+        {
+          "name": "Home and book statistics no longer render the thirty-minute explanatory notice",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "desktop",
+      "mode": "regression037",
+      "seconds": 0.766
+    },
+    {
+      "tests": [
+        {
+          "name": "Collection rename default and membership changes survive a fresh KOReader process",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "desktop",
+      "mode": "regression037_restart",
+      "seconds": 0.215
+    },
+    {
+      "device": "NOT_RUN",
+      "variant": "desktop",
+      "mode": "notice_transitions",
+      "tests": [
+        {
+          "name": "Actual Library to PDF opening notice is styled during the host ownership gap",
+          "status": "PASS"
+        },
+        {
+          "name": "Actual reader switch keeps native opening text lifecycle and style until the next reader owns it",
+          "status": "PASS"
+        },
+        {
+          "name": "Seamless native reload preserves the invisible opening notice instead of flashing it",
+          "status": "PASS"
+        },
+        {
+          "name": "An abandoned reader switch releases all transition ownership and restores native methods",
+          "status": "PASS"
+        },
+        {
+          "name": "Explicit disable cancels a pending handoff immediately and cannot reinstall styling later",
+          "status": "PASS"
+        },
+        {
+          "name": "Fixed-height reports and explicit fonts retain their requested layout",
+          "status": "PASS"
+        },
+        {
+          "name": "The native delayed notification callback is still invoked exactly once after style handoff",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "seconds": 0.466
+    },
+    {
+      "tests": [
+        {
+          "name": "FileManager ShowMenu and keyboard route to the new settings without a native menu",
+          "status": "PASS"
+        },
+        {
+          "name": "Default entry opens Kobo library with two shell destinations and no native exit header",
+          "status": "PASS"
+        },
+        {
+          "name": "Kobo filter and sort popovers operate in place and preserve the shell",
+          "status": "PASS"
+        },
+        {
+          "name": "Closing settings restores the exact author destination and library view",
+          "status": "PASS"
+        },
+        {
+          "name": "Back from root settings and library never reveals the native file manager",
+          "status": "PASS"
+        },
+        {
+          "name": "Top tap is inert and top swipe alone opens device controls with an independent settings action",
+          "status": "PASS"
+        },
+        {
+          "name": "Closing a native plugin callback returns to the replacement library",
+          "status": "PASS"
+        },
+        {
+          "name": "Every static registered FileManager action remains reachable in a category",
+          "status": "PASS"
+        },
+        {
+          "name": "Missing plugin parent and missing target category automatically fall back to Misc",
+          "status": "PASS"
+        },
+        {
+          "name": "Lazy plugin branch opens in the replacement page using a real TouchMenu receiver",
+          "status": "PASS"
+        },
+        {
+          "name": "Plugin hold, disabled state and parent navigation preserve native contracts",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkbox-only callbacks retain their separate hit target and native selection semantics",
+          "status": "PASS"
+        },
+        {
+          "name": "Holding a control without a hold action never executes its tap callback",
+          "status": "PASS"
+        },
+        {
+          "name": "Full takeover can be switched off and on immediately through recovery settings",
+          "status": "PASS"
+        },
+        {
+          "name": "Late registered plugins appear after catalog refresh",
+          "status": "PASS"
+        },
+        {
+          "name": "Search indexes native descriptions without evaluating lazy branches",
+          "status": "PASS"
+        },
+        {
+          "name": "Native compatibility session closes back to active interception",
+          "status": "PASS"
+        },
+        {
+          "name": "Routing exception restores native methods and disables session interception",
+          "status": "PASS"
+        }
+      ],
+      "audits": [
+        {
+          "missing": {},
+          "static_action_nodes": 730
+        },
+        {
+          "missing": {},
+          "static_action_nodes": 733
+        },
+        {
+          "missing": {},
+          "static_action_nodes": 734
+        }
+      ],
+      "device": "NOT_RUN",
+      "variant": "voyage_layout",
+      "mode": "catalog",
+      "seconds": 1.067
+    },
+    {
+      "variant": "voyage_layout",
+      "device": "NOT_RUN",
+      "tests": [
+        {
+          "name": "Reader compound menu and Aa open one bottom panel while upward swipe opens book statistics",
+          "status": "PASS"
+        },
+        {
+          "name": "Reader top tap opens a reading bar and dismissing settings returns to the same document",
+          "status": "PASS"
+        },
+        {
+          "name": "Every static registered EPUB action remains reachable after menu partitioning",
+          "status": "PASS"
+        },
+        {
+          "name": "Bottom Aa exposes the complete advanced native typography category",
+          "status": "PASS"
+        },
+        {
+          "name": "Bottom font, layout and themes render without turning the underlying document",
+          "status": "PASS"
+        },
+        {
+          "name": "Multi-field typography applies actual font, spacing and four margins and verifies disk values",
+          "status": "PASS"
+        },
+        {
+          "name": "Named theme snapshots persist independently and reject empty or duplicate names",
+          "status": "PASS"
+        },
+        {
+          "name": "Editing a book does not modify the theme, and applying the theme restores the full snapshot",
+          "status": "PASS"
+        },
+        {
+          "name": "Missing-font and invalid-margin themes reject the transaction before changing the book",
+          "status": "PASS"
+        },
+        {
+          "name": "Theme rename update and delete keep independent book values",
+          "status": "PASS"
+        },
+        {
+          "name": "Theme file write failure preserves both the old in-memory and on-disk library",
+          "status": "PASS"
+        },
+        {
+          "name": "Book save failure restores the live typography and inheritance metadata",
+          "status": "PASS"
+        },
+        {
+          "name": "Restoring inheritance keeps reading progress and cleans cached override keys before flush",
+          "status": "PASS"
+        },
+        {
+          "name": "Editing one inherited field preserves inheritance for all other managed fields",
+          "status": "PASS"
+        },
+        {
+          "name": "Defaults save and later inherited font changes do not overwrite an explicit spacing value",
+          "status": "PASS"
+        }
+      ],
+      "audits": [
+        {
+          "static_action_nodes": 1581,
+          "missing": {}
+        }
+      ],
+      "mode": "typography",
+      "seconds": 0.967
+    },
+    {
+      "device": "NOT_RUN",
+      "variant": "voyage_layout",
+      "mode": "restart",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Theme and applied document values survive a fresh KOReader process"
+        },
+        {
+          "status": "PASS",
+          "name": "Explicit inheritance follows a changed global default after process restart"
+        }
+      ],
+      "audits": {},
+      "seconds": 0.315
+    },
+    {
+      "tests": [
+        {
+          "name": "PDF menu capture preserves every static action and filters unsupported typography",
+          "status": "PASS"
+        },
+        {
+          "name": "Advanced PDF configuration opens only in an explicit compatibility session",
+          "status": "PASS"
+        }
+      ],
+      "audits": [
+        {
+          "static_action_nodes": 1354,
+          "missing": {}
+        }
+      ],
+      "mode": "pdf",
+      "device": "NOT_RUN",
+      "variant": "voyage_layout",
+      "seconds": 0.315
+    },
+    {
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "voyage_layout",
+      "mode": "library_navigation",
+      "tests": [
+        {
+          "name": "Holding a book opens its details and Back returns to the Kobo library",
+          "status": "PASS"
+        },
+        {
+          "name": "Tapping a book cover opens the actual reader directly",
+          "status": "PASS"
+        },
+        {
+          "name": "Native reader Home returns to the plugin library even when automatic startup is disabled",
+          "status": "PASS"
+        }
+      ],
+      "seconds": 0.515
+    },
+    {
+      "mode": "style_navigation",
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "voyage_layout",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Settings use a fixed bold header and a scroll viewport with no pagination footer"
+        },
+        {
+          "status": "PASS",
+          "name": "Vertical swipe moves settings content continuously while the header remains fixed"
+        },
+        {
+          "status": "PASS",
+          "name": "Partial-row pan preserves native tap hold and disabled-state callbacks"
+        },
+        {
+          "status": "PASS",
+          "name": "Scrollbar reaches the final native setting and clamps at both ends"
+        },
+        {
+          "status": "PASS",
+          "name": "Returning from a native submenu restores its parent scroll position"
+        },
+        {
+          "status": "PASS",
+          "name": "Quick-control labels are larger black text centered below their actual icons"
+        },
+        {
+          "status": "PASS",
+          "name": "Reading top tap opens chrome without creating native menus or moving the document"
+        },
+        {
+          "status": "PASS",
+          "name": "Top reading bar opens Aa and book statistics while Settings stays in quick controls"
+        },
+        {
+          "status": "PASS",
+          "name": "Top-bar navigation uses native document data and search keeps its feature window"
+        },
+        {
+          "status": "PASS",
+          "name": "Top bar and quick controls switch cleanly and font lists scroll without footer pages"
+        },
+        {
+          "status": "PASS",
+          "name": "Reading top-bar return goes to the plugin library even with automatic startup disabled"
+        }
+      ],
+      "seconds": 1.218
+    },
+    {
+      "tests": [
+        {
+          "name": "Settings icons and text share measured vertical centers and the title has no breadcrumb target",
+          "status": "PASS"
+        },
+        {
+          "name": "Settings is a standalone quick action with its own centered icon and label",
+          "status": "PASS"
+        },
+        {
+          "name": "Native opening notices retain delay timeout dismissability and callback while restyled",
+          "status": "PASS"
+        },
+        {
+          "name": "Native toast masks history and input propagation remain intact with the shared style",
+          "status": "PASS"
+        },
+        {
+          "name": "Notice style hooks restore on takeover disable and preserve another live owner",
+          "status": "PASS"
+        },
+        {
+          "name": "Notice hooks coexist with a later wrapper through disable and re-enable",
+          "status": "PASS"
+        },
+        {
+          "name": "Repeated gestures reuse one visible panel even after losing a cached reference",
+          "status": "PASS"
+        },
+        {
+          "name": "Shrinking Aa to layout redraws the document where the taller panel used to be",
+          "status": "PASS"
+        },
+        {
+          "name": "Font contrast and quarter-step weight controls apply live engine settings and persist",
+          "status": "PASS"
+        },
+        {
+          "name": "Thirteen-field themes restore all new typography values and independent table snapshots",
+          "status": "PASS"
+        },
+        {
+          "name": "Invalid contrast weight and word-spacing values reject the transaction without partial changes",
+          "status": "PASS"
+        },
+        {
+          "name": "Legacy seven-field themes preserve new adjustments until explicitly updated",
+          "status": "PASS"
+        },
+        {
+          "name": "New typography fields roll back together when a document save fails",
+          "status": "PASS"
+        },
+        {
+          "name": "Separated Aa spacing options expose word spacing without a nested More action",
+          "status": "PASS"
+        },
+        {
+          "name": "New typography defaults and inheritance clean all newly managed sidecar keys",
+          "status": "PASS"
+        },
+        {
+          "name": "New inherited typography fields save intent before a later process reads changed defaults",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "voyage_layout",
+      "mode": "fixes033",
+      "seconds": 1.017
+    },
+    {
+      "tests": [
+        {
+          "name": "New contrast weight spacing and embedded-font theme data survive a fresh process",
+          "status": "PASS"
+        },
+        {
+          "name": "Contrast weight and word spacing inherit changed defaults across process restart",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "voyage_layout",
+      "mode": "fixes033_restart",
+      "seconds": 0.315
+    },
+    {
+      "tests": [
+        {
+          "name": "Reading footer contains exactly Theme Font Layout in the requested order",
+          "status": "PASS"
+        },
+        {
+          "name": "Native TOC entry opens a non-fullscreen scrolling sheet over the actual book",
+          "status": "PASS"
+        },
+        {
+          "name": "Nested TOC expands and collapses through its real hit target without changing native data",
+          "status": "PASS"
+        },
+        {
+          "name": "TOC search finds nested entries even below a collapsed parent",
+          "status": "PASS"
+        },
+        {
+          "name": "TOC scrolling and PagePress move the sheet rather than the underlying document",
+          "status": "PASS"
+        },
+        {
+          "name": "TOC chapter selection jumps using real xpointers and preserves a back location",
+          "status": "PASS"
+        },
+        {
+          "name": "Page bookmarks are added by the custom sheet and saved in the native sidecar",
+          "status": "PASS"
+        },
+        {
+          "name": "Independent bookmark and annotation views filter native items without modifying their stored order",
+          "status": "PASS"
+        },
+        {
+          "name": "Annotation details use a scrollable sheet and edits persist through the native annotation path",
+          "status": "PASS"
+        },
+        {
+          "name": "Excerpt editing and note removal keep highlight identity and annotation count",
+          "status": "PASS"
+        },
+        {
+          "name": "Long annotation text scrolls within the sheet without moving the reader or losing content",
+          "status": "PASS"
+        },
+        {
+          "name": "Filtered sorted delete confirmation removes the selected annotation and no other item",
+          "status": "PASS"
+        },
+        {
+          "name": "Native annotation detail entry is intercepted and Back restores its new list",
+          "status": "PASS"
+        },
+        {
+          "name": "Navigation panels participate in overlay mutual exclusion and close outside without flipping a page",
+          "status": "PASS"
+        },
+        {
+          "name": "Explicit native management remains available and disabling takeover restores native TOC",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "mode": "navigation034",
+      "variant": "voyage_layout",
+      "device": "NOT_RUN",
+      "seconds": 1.018
+    },
+    {
+      "variant": "voyage_layout",
+      "mode": "navigation034_restart",
+      "audits": {},
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Custom bookmark notes and excerpts survive a new real reader process"
+        }
+      ],
+      "device": "NOT_RUN",
+      "seconds": 0.366
+    },
+    {
+      "mode": "navigation034_pdf",
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "voyage_layout",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "PDF contents and bookmark sheet use page numbers and preserve the same three footer entries"
+        }
+      ],
+      "seconds": 0.365
+    },
+    {
+      "audits": {},
+      "variant": "voyage_layout",
+      "device": "NOT_RUN",
+      "mode": "home034",
+      "tests": [
+        {
+          "name": "Library shell has live time battery status and exactly Library Home navigation",
+          "status": "PASS"
+        },
+        {
+          "name": "Home reads native history and completion data rather than using example books or figures",
+          "status": "PASS"
+        },
+        {
+          "name": "Home and library keep the exact nested library destination and settings close returns to Home",
+          "status": "PASS"
+        },
+        {
+          "name": "Home scroll and clock lifecycle preserve the shell and do not create duplicate tasks",
+          "status": "PASS"
+        },
+        {
+          "name": "Home chapter snapshot comes from actual current chapter and native reading progress",
+          "status": "PASS"
+        },
+        {
+          "name": "Closing the real reader captures chapter details for the next Home without a manual snapshot",
+          "status": "PASS"
+        },
+        {
+          "name": "Home reads real statistics schema in read-only mode and computes defined session averages",
+          "status": "PASS"
+        },
+        {
+          "name": "Missing statistics data displays unavailable values without creating a database",
+          "status": "PASS"
+        },
+        {
+          "name": "An empty native history renders an honest Home placeholder",
+          "status": "PASS"
+        },
+        {
+          "name": "Home continue-reading hit opens the actual recent book",
+          "status": "PASS"
+        }
+      ],
+      "seconds": 0.867
+    },
+    {
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "voyage_layout",
+      "mode": "regression035",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Home renders a real cached cover repeatedly without freeing or altering the shared source"
+        },
+        {
+          "status": "PASS",
+          "name": "Forty Home Library cycles preserve both page images and the shared cached cover bytes"
+        },
+        {
+          "status": "PASS",
+          "name": "Only the cover cache releases originals during eviction and closed caches reload cleanly"
+        },
+        {
+          "status": "PASS",
+          "name": "Home book opens and the top return action restores Home and its saved scroll position"
+        },
+        {
+          "status": "PASS",
+          "name": "Nested library source restores category layout and second-page position after reading"
+        },
+        {
+          "status": "PASS",
+          "name": "Native reader Home return also restores a matching Home source with auto startup disabled"
+        },
+        {
+          "status": "PASS",
+          "name": "An unrelated directly opened book does not inherit a previous book Home destination"
+        },
+        {
+          "status": "PASS",
+          "name": "Home origin is serialized with book identity for a fresh reader process"
+        }
+      ],
+      "seconds": 3.628
+    },
+    {
+      "device": "NOT_RUN",
+      "variant": "voyage_layout",
+      "mode": "regression035_restart",
+      "tests": [
+        {
+          "name": "A fresh process reads the saved Home provenance and restores it through native return",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "seconds": 0.365
+    },
+    {
+      "mode": "regression036",
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "voyage_layout",
+      "tests": [
+        {
+          "name": "Home and Library status remove duplicate search and menu actions but retain live battery",
+          "status": "PASS"
+        },
+        {
+          "name": "Dropdown battery is legible in the file manager without colliding with actions",
+          "status": "PASS"
+        },
+        {
+          "name": "Reading dropdown retains the battery without an origin shortcut",
+          "status": "PASS"
+        },
+        {
+          "name": "TOC has no bookmark annotation tabs and uses an input box plus a distinct locate button",
+          "status": "PASS"
+        },
+        {
+          "name": "Reader bar shares bookmark annotation navigation and exposes statistics without redundant actions",
+          "status": "PASS"
+        },
+        {
+          "name": "Book statistics use the actual current document and never include another book's time",
+          "status": "PASS"
+        },
+        {
+          "name": "Opening statistics flushes native pending page turns once and leaves the book position intact",
+          "status": "PASS"
+        },
+        {
+          "name": "Statistics scrolls and PagePress without moving the underlying book",
+          "status": "PASS"
+        },
+        {
+          "name": "Disabled statistics retain historic data and a missing database is not created",
+          "status": "PASS"
+        },
+        {
+          "name": "A statistics identity mismatch cannot display another document's figures",
+          "status": "PASS"
+        },
+        {
+          "name": "Statistics and other transient panels remain mutually exclusive during repeated transitions",
+          "status": "PASS"
+        },
+        {
+          "name": "PDF uses the same current-book statistics sheet and keeps the three Aa entries",
+          "status": "PASS"
+        }
+      ],
+      "seconds": 1.017
+    },
+    {
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "voyage_layout",
+      "mode": "regression037",
+      "tests": [
+        {
+          "name": "Only the Collections overflow offers management and opens an actual manager",
+          "status": "PASS"
+        },
+        {
+          "name": "To Be Read is displayed in Chinese without renaming or changing native membership",
+          "status": "PASS"
+        },
+        {
+          "name": "Collection members can be added and removed through the scrolling manager and saved natively",
+          "status": "PASS"
+        },
+        {
+          "name": "Existing members outside the indexed library remain available for removal",
+          "status": "PASS"
+        },
+        {
+          "name": "Rename preserves native settings membership defaults and saved collection destinations",
+          "status": "PASS"
+        },
+        {
+          "name": "Invalid duplicate names and silent save failures preserve both disk and live collections",
+          "status": "PASS"
+        },
+        {
+          "name": "Deleting a collection requires confirmation and preserves files while default Favorites stay protected",
+          "status": "PASS"
+        },
+        {
+          "name": "Home refresh immediately reloads changed native statistics without resetting scroll or browser state",
+          "status": "PASS"
+        },
+        {
+          "name": "One bookmark action provides both bookmark and annotation tabs without a second toolbar icon",
+          "status": "PASS"
+        },
+        {
+          "name": "Book refresh flushes pending native reading records exactly once without moving the document",
+          "status": "PASS"
+        },
+        {
+          "name": "Home and book statistics no longer render the thirty-minute explanatory notice",
+          "status": "PASS"
+        }
+      ],
+      "seconds": 0.967
+    },
+    {
+      "device": "NOT_RUN",
+      "variant": "voyage_layout",
+      "tests": [
+        {
+          "name": "Collection rename default and membership changes survive a fresh KOReader process",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "mode": "regression037_restart",
+      "seconds": 0.215
+    },
+    {
+      "tests": [
+        {
+          "name": "Actual Library to PDF opening notice is styled during the host ownership gap",
+          "status": "PASS"
+        },
+        {
+          "name": "Actual reader switch keeps native opening text lifecycle and style until the next reader owns it",
+          "status": "PASS"
+        },
+        {
+          "name": "Seamless native reload preserves the invisible opening notice instead of flashing it",
+          "status": "PASS"
+        },
+        {
+          "name": "An abandoned reader switch releases all transition ownership and restores native methods",
+          "status": "PASS"
+        },
+        {
+          "name": "Explicit disable cancels a pending handoff immediately and cannot reinstall styling later",
+          "status": "PASS"
+        },
+        {
+          "name": "Fixed-height reports and explicit fonts retain their requested layout",
+          "status": "PASS"
+        },
+        {
+          "name": "The native delayed notification callback is still invoked exactly once after style handoff",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "mode": "notice_transitions",
+      "device": "NOT_RUN",
+      "variant": "voyage_layout",
+      "seconds": 0.516
+    },
+    {
+      "device": "NOT_RUN",
+      "variant": "landscape",
+      "mode": "catalog",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "FileManager ShowMenu and keyboard route to the new settings without a native menu"
+        },
+        {
+          "status": "PASS",
+          "name": "Default entry opens Kobo library with two shell destinations and no native exit header"
+        },
+        {
+          "status": "PASS",
+          "name": "Kobo filter and sort popovers operate in place and preserve the shell"
+        },
+        {
+          "status": "PASS",
+          "name": "Closing settings restores the exact author destination and library view"
+        },
+        {
+          "status": "PASS",
+          "name": "Back from root settings and library never reveals the native file manager"
+        },
+        {
+          "status": "PASS",
+          "name": "Top tap is inert and top swipe alone opens device controls with an independent settings action"
+        },
+        {
+          "status": "PASS",
+          "name": "Closing a native plugin callback returns to the replacement library"
+        },
+        {
+          "status": "PASS",
+          "name": "Every static registered FileManager action remains reachable in a category"
+        },
+        {
+          "status": "PASS",
+          "name": "Missing plugin parent and missing target category automatically fall back to Misc"
+        },
+        {
+          "status": "PASS",
+          "name": "Lazy plugin branch opens in the replacement page using a real TouchMenu receiver"
+        },
+        {
+          "status": "PASS",
+          "name": "Plugin hold, disabled state and parent navigation preserve native contracts"
+        },
+        {
+          "status": "PASS",
+          "name": "Checkbox-only callbacks retain their separate hit target and native selection semantics"
+        },
+        {
+          "status": "PASS",
+          "name": "Holding a control without a hold action never executes its tap callback"
+        },
+        {
+          "status": "PASS",
+          "name": "Full takeover can be switched off and on immediately through recovery settings"
+        },
+        {
+          "status": "PASS",
+          "name": "Late registered plugins appear after catalog refresh"
+        },
+        {
+          "status": "PASS",
+          "name": "Search indexes native descriptions without evaluating lazy branches"
+        },
+        {
+          "status": "PASS",
+          "name": "Native compatibility session closes back to active interception"
+        },
+        {
+          "status": "PASS",
+          "name": "Routing exception restores native methods and disables session interception"
+        }
+      ],
+      "audits": [
+        {
+          "static_action_nodes": 730,
+          "missing": {}
+        },
+        {
+          "static_action_nodes": 733,
+          "missing": {}
+        },
+        {
+          "static_action_nodes": 734,
+          "missing": {}
+        }
+      ],
+      "seconds": 1.017
+    },
+    {
+      "tests": [
+        {
+          "name": "Reader compound menu and Aa open one bottom panel while upward swipe opens book statistics",
+          "status": "PASS"
+        },
+        {
+          "name": "Reader top tap opens a reading bar and dismissing settings returns to the same document",
+          "status": "PASS"
+        },
+        {
+          "name": "Every static registered EPUB action remains reachable after menu partitioning",
+          "status": "PASS"
+        },
+        {
+          "name": "Bottom Aa exposes the complete advanced native typography category",
+          "status": "PASS"
+        },
+        {
+          "name": "Bottom font, layout and themes render without turning the underlying document",
+          "status": "PASS"
+        },
+        {
+          "name": "Multi-field typography applies actual font, spacing and four margins and verifies disk values",
+          "status": "PASS"
+        },
+        {
+          "name": "Named theme snapshots persist independently and reject empty or duplicate names",
+          "status": "PASS"
+        },
+        {
+          "name": "Editing a book does not modify the theme, and applying the theme restores the full snapshot",
+          "status": "PASS"
+        },
+        {
+          "name": "Missing-font and invalid-margin themes reject the transaction before changing the book",
+          "status": "PASS"
+        },
+        {
+          "name": "Theme rename update and delete keep independent book values",
+          "status": "PASS"
+        },
+        {
+          "name": "Theme file write failure preserves both the old in-memory and on-disk library",
+          "status": "PASS"
+        },
+        {
+          "name": "Book save failure restores the live typography and inheritance metadata",
+          "status": "PASS"
+        },
+        {
+          "name": "Restoring inheritance keeps reading progress and cleans cached override keys before flush",
+          "status": "PASS"
+        },
+        {
+          "name": "Editing one inherited field preserves inheritance for all other managed fields",
+          "status": "PASS"
+        },
+        {
+          "name": "Defaults save and later inherited font changes do not overwrite an explicit spacing value",
+          "status": "PASS"
+        }
+      ],
+      "audits": [
+        {
+          "static_action_nodes": 1581,
+          "missing": {}
+        }
+      ],
+      "variant": "landscape",
+      "mode": "typography",
+      "device": "NOT_RUN",
+      "seconds": 0.867
+    },
+    {
+      "tests": [
+        {
+          "name": "Theme and applied document values survive a fresh KOReader process",
+          "status": "PASS"
+        },
+        {
+          "name": "Explicit inheritance follows a changed global default after process restart",
+          "status": "PASS"
+        }
+      ],
+      "device": "NOT_RUN",
+      "variant": "landscape",
+      "audits": {},
+      "mode": "restart",
+      "seconds": 0.265
+    },
+    {
+      "device": "NOT_RUN",
+      "variant": "landscape",
+      "tests": [
+        {
+          "name": "PDF menu capture preserves every static action and filters unsupported typography",
+          "status": "PASS"
+        },
+        {
+          "name": "Advanced PDF configuration opens only in an explicit compatibility session",
+          "status": "PASS"
+        }
+      ],
+      "audits": [
+        {
+          "static_action_nodes": 1354,
+          "missing": {}
+        }
+      ],
+      "mode": "pdf",
+      "seconds": 0.365
+    },
+    {
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "landscape",
+      "mode": "library_navigation",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Holding a book opens its details and Back returns to the Kobo library"
+        },
+        {
+          "status": "PASS",
+          "name": "Tapping a book cover opens the actual reader directly"
+        },
+        {
+          "status": "PASS",
+          "name": "Native reader Home returns to the plugin library even when automatic startup is disabled"
+        }
+      ],
+      "seconds": 0.618
+    },
+    {
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Settings use a fixed bold header and a scroll viewport with no pagination footer"
+        },
+        {
+          "status": "PASS",
+          "name": "Vertical swipe moves settings content continuously while the header remains fixed"
+        },
+        {
+          "status": "PASS",
+          "name": "Partial-row pan preserves native tap hold and disabled-state callbacks"
+        },
+        {
+          "status": "PASS",
+          "name": "Scrollbar reaches the final native setting and clamps at both ends"
+        },
+        {
+          "status": "PASS",
+          "name": "Returning from a native submenu restores its parent scroll position"
+        },
+        {
+          "status": "PASS",
+          "name": "Quick-control labels are larger black text centered below their actual icons"
+        },
+        {
+          "status": "PASS",
+          "name": "Reading top tap opens chrome without creating native menus or moving the document"
+        },
+        {
+          "status": "PASS",
+          "name": "Top reading bar opens Aa and book statistics while Settings stays in quick controls"
+        },
+        {
+          "status": "PASS",
+          "name": "Top-bar navigation uses native document data and search keeps its feature window"
+        },
+        {
+          "status": "PASS",
+          "name": "Top bar and quick controls switch cleanly and font lists scroll without footer pages"
+        },
+        {
+          "status": "PASS",
+          "name": "Reading top-bar return goes to the plugin library even with automatic startup disabled"
+        }
+      ],
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "landscape",
+      "mode": "style_navigation",
+      "seconds": 1.167
+    },
+    {
+      "tests": [
+        {
+          "name": "Settings icons and text share measured vertical centers and the title has no breadcrumb target",
+          "status": "PASS"
+        },
+        {
+          "name": "Settings is a standalone quick action with its own centered icon and label",
+          "status": "PASS"
+        },
+        {
+          "name": "Native opening notices retain delay timeout dismissability and callback while restyled",
+          "status": "PASS"
+        },
+        {
+          "name": "Native toast masks history and input propagation remain intact with the shared style",
+          "status": "PASS"
+        },
+        {
+          "name": "Notice style hooks restore on takeover disable and preserve another live owner",
+          "status": "PASS"
+        },
+        {
+          "name": "Notice hooks coexist with a later wrapper through disable and re-enable",
+          "status": "PASS"
+        },
+        {
+          "name": "Repeated gestures reuse one visible panel even after losing a cached reference",
+          "status": "PASS"
+        },
+        {
+          "name": "Shrinking Aa to layout redraws the document where the taller panel used to be",
+          "status": "PASS"
+        },
+        {
+          "name": "Font contrast and quarter-step weight controls apply live engine settings and persist",
+          "status": "PASS"
+        },
+        {
+          "name": "Thirteen-field themes restore all new typography values and independent table snapshots",
+          "status": "PASS"
+        },
+        {
+          "name": "Invalid contrast weight and word-spacing values reject the transaction without partial changes",
+          "status": "PASS"
+        },
+        {
+          "name": "Legacy seven-field themes preserve new adjustments until explicitly updated",
+          "status": "PASS"
+        },
+        {
+          "name": "New typography fields roll back together when a document save fails",
+          "status": "PASS"
+        },
+        {
+          "name": "Separated Aa spacing options expose word spacing without a nested More action",
+          "status": "PASS"
+        },
+        {
+          "name": "New typography defaults and inheritance clean all newly managed sidecar keys",
+          "status": "PASS"
+        },
+        {
+          "name": "New inherited typography fields save intent before a later process reads changed defaults",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "mode": "fixes033",
+      "device": "NOT_RUN",
+      "variant": "landscape",
+      "seconds": 1.017
+    },
+    {
+      "tests": [
+        {
+          "name": "New contrast weight spacing and embedded-font theme data survive a fresh process",
+          "status": "PASS"
+        },
+        {
+          "name": "Contrast weight and word spacing inherit changed defaults across process restart",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "landscape",
+      "mode": "fixes033_restart",
+      "seconds": 0.315
+    },
+    {
+      "tests": [
+        {
+          "name": "Reading footer contains exactly Theme Font Layout in the requested order",
+          "status": "PASS"
+        },
+        {
+          "name": "Native TOC entry opens a non-fullscreen scrolling sheet over the actual book",
+          "status": "PASS"
+        },
+        {
+          "name": "Nested TOC expands and collapses through its real hit target without changing native data",
+          "status": "PASS"
+        },
+        {
+          "name": "TOC search finds nested entries even below a collapsed parent",
+          "status": "PASS"
+        },
+        {
+          "name": "TOC scrolling and PagePress move the sheet rather than the underlying document",
+          "status": "PASS"
+        },
+        {
+          "name": "TOC chapter selection jumps using real xpointers and preserves a back location",
+          "status": "PASS"
+        },
+        {
+          "name": "Page bookmarks are added by the custom sheet and saved in the native sidecar",
+          "status": "PASS"
+        },
+        {
+          "name": "Independent bookmark and annotation views filter native items without modifying their stored order",
+          "status": "PASS"
+        },
+        {
+          "name": "Annotation details use a scrollable sheet and edits persist through the native annotation path",
+          "status": "PASS"
+        },
+        {
+          "name": "Excerpt editing and note removal keep highlight identity and annotation count",
+          "status": "PASS"
+        },
+        {
+          "name": "Long annotation text scrolls within the sheet without moving the reader or losing content",
+          "status": "PASS"
+        },
+        {
+          "name": "Filtered sorted delete confirmation removes the selected annotation and no other item",
+          "status": "PASS"
+        },
+        {
+          "name": "Native annotation detail entry is intercepted and Back restores its new list",
+          "status": "PASS"
+        },
+        {
+          "name": "Navigation panels participate in overlay mutual exclusion and close outside without flipping a page",
+          "status": "PASS"
+        },
+        {
+          "name": "Explicit native management remains available and disabling takeover restores native TOC",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "landscape",
+      "mode": "navigation034",
+      "seconds": 0.918
+    },
+    {
+      "mode": "navigation034_restart",
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "landscape",
+      "tests": [
+        {
+          "name": "Custom bookmark notes and excerpts survive a new real reader process",
+          "status": "PASS"
+        }
+      ],
+      "seconds": 0.365
+    },
+    {
+      "variant": "landscape",
+      "mode": "navigation034_pdf",
+      "audits": {},
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "PDF contents and bookmark sheet use page numbers and preserve the same three footer entries"
+        }
+      ],
+      "device": "NOT_RUN",
+      "seconds": 0.365
+    },
+    {
+      "device": "NOT_RUN",
+      "variant": "landscape",
+      "tests": [
+        {
+          "name": "Library shell has live time battery status and exactly Library Home navigation",
+          "status": "PASS"
+        },
+        {
+          "name": "Home reads native history and completion data rather than using example books or figures",
+          "status": "PASS"
+        },
+        {
+          "name": "Home and library keep the exact nested library destination and settings close returns to Home",
+          "status": "PASS"
+        },
+        {
+          "name": "Home scroll and clock lifecycle preserve the shell and do not create duplicate tasks",
+          "status": "PASS"
+        },
+        {
+          "name": "Home chapter snapshot comes from actual current chapter and native reading progress",
+          "status": "PASS"
+        },
+        {
+          "name": "Closing the real reader captures chapter details for the next Home without a manual snapshot",
+          "status": "PASS"
+        },
+        {
+          "name": "Home reads real statistics schema in read-only mode and computes defined session averages",
+          "status": "PASS"
+        },
+        {
+          "name": "Missing statistics data displays unavailable values without creating a database",
+          "status": "PASS"
+        },
+        {
+          "name": "An empty native history renders an honest Home placeholder",
+          "status": "PASS"
+        },
+        {
+          "name": "Home continue-reading hit opens the actual recent book",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "mode": "home034",
+      "seconds": 0.817
+    },
+    {
+      "variant": "landscape",
+      "mode": "regression035",
+      "tests": [
+        {
+          "name": "Home renders a real cached cover repeatedly without freeing or altering the shared source",
+          "status": "PASS"
+        },
+        {
+          "name": "Forty Home Library cycles preserve both page images and the shared cached cover bytes",
+          "status": "PASS"
+        },
+        {
+          "name": "Only the cover cache releases originals during eviction and closed caches reload cleanly",
+          "status": "PASS"
+        },
+        {
+          "name": "Home book opens and the top return action restores Home and its saved scroll position",
+          "status": "PASS"
+        },
+        {
+          "name": "Nested library source restores category layout and second-page position after reading",
+          "status": "PASS"
+        },
+        {
+          "name": "Native reader Home return also restores a matching Home source with auto startup disabled",
+          "status": "PASS"
+        },
+        {
+          "name": "An unrelated directly opened book does not inherit a previous book Home destination",
+          "status": "PASS"
+        },
+        {
+          "name": "Home origin is serialized with book identity for a fresh reader process",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "device": "NOT_RUN",
+      "seconds": 3.425
+    },
+    {
+      "variant": "landscape",
+      "mode": "regression035_restart",
+      "audits": {},
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "A fresh process reads the saved Home provenance and restores it through native return"
+        }
+      ],
+      "device": "NOT_RUN",
+      "seconds": 0.416
+    },
+    {
+      "variant": "landscape",
+      "mode": "regression036",
+      "audits": {},
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Home and Library status remove duplicate search and menu actions but retain live battery"
+        },
+        {
+          "status": "PASS",
+          "name": "Dropdown battery is legible in the file manager without colliding with actions"
+        },
+        {
+          "status": "PASS",
+          "name": "Reading dropdown retains the battery without an origin shortcut"
+        },
+        {
+          "status": "PASS",
+          "name": "TOC has no bookmark annotation tabs and uses an input box plus a distinct locate button"
+        },
+        {
+          "status": "PASS",
+          "name": "Reader bar shares bookmark annotation navigation and exposes statistics without redundant actions"
+        },
+        {
+          "status": "PASS",
+          "name": "Book statistics use the actual current document and never include another book's time"
+        },
+        {
+          "status": "PASS",
+          "name": "Opening statistics flushes native pending page turns once and leaves the book position intact"
+        },
+        {
+          "status": "PASS",
+          "name": "Statistics scrolls and PagePress without moving the underlying book"
+        },
+        {
+          "status": "PASS",
+          "name": "Disabled statistics retain historic data and a missing database is not created"
+        },
+        {
+          "status": "PASS",
+          "name": "A statistics identity mismatch cannot display another document's figures"
+        },
+        {
+          "status": "PASS",
+          "name": "Statistics and other transient panels remain mutually exclusive during repeated transitions"
+        },
+        {
+          "status": "PASS",
+          "name": "PDF uses the same current-book statistics sheet and keeps the three Aa entries"
+        }
+      ],
+      "device": "NOT_RUN",
+      "seconds": 1.117
+    },
+    {
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Only the Collections overflow offers management and opens an actual manager"
+        },
+        {
+          "status": "PASS",
+          "name": "To Be Read is displayed in Chinese without renaming or changing native membership"
+        },
+        {
+          "status": "PASS",
+          "name": "Collection members can be added and removed through the scrolling manager and saved natively"
+        },
+        {
+          "status": "PASS",
+          "name": "Existing members outside the indexed library remain available for removal"
+        },
+        {
+          "status": "PASS",
+          "name": "Rename preserves native settings membership defaults and saved collection destinations"
+        },
+        {
+          "status": "PASS",
+          "name": "Invalid duplicate names and silent save failures preserve both disk and live collections"
+        },
+        {
+          "status": "PASS",
+          "name": "Deleting a collection requires confirmation and preserves files while default Favorites stay protected"
+        },
+        {
+          "status": "PASS",
+          "name": "Home refresh immediately reloads changed native statistics without resetting scroll or browser state"
+        },
+        {
+          "status": "PASS",
+          "name": "One bookmark action provides both bookmark and annotation tabs without a second toolbar icon"
+        },
+        {
+          "status": "PASS",
+          "name": "Book refresh flushes pending native reading records exactly once without moving the document"
+        },
+        {
+          "status": "PASS",
+          "name": "Home and book statistics no longer render the thirty-minute explanatory notice"
+        }
+      ],
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "landscape",
+      "mode": "regression037",
+      "seconds": 0.968
+    },
+    {
+      "audits": {},
+      "device": "NOT_RUN",
+      "variant": "landscape",
+      "mode": "regression037_restart",
+      "tests": [
+        {
+          "name": "Collection rename default and membership changes survive a fresh KOReader process",
+          "status": "PASS"
+        }
+      ],
+      "seconds": 0.216
+    },
+    {
+      "variant": "landscape",
+      "mode": "notice_transitions",
+      "tests": [
+        {
+          "name": "Actual Library to PDF opening notice is styled during the host ownership gap",
+          "status": "PASS"
+        },
+        {
+          "name": "Actual reader switch keeps native opening text lifecycle and style until the next reader owns it",
+          "status": "PASS"
+        },
+        {
+          "name": "Seamless native reload preserves the invisible opening notice instead of flashing it",
+          "status": "PASS"
+        },
+        {
+          "name": "An abandoned reader switch releases all transition ownership and restores native methods",
+          "status": "PASS"
+        },
+        {
+          "name": "Explicit disable cancels a pending handoff immediately and cannot reinstall styling later",
+          "status": "PASS"
+        },
+        {
+          "name": "Fixed-height reports and explicit fonts retain their requested layout",
+          "status": "PASS"
+        },
+        {
+          "name": "The native delayed notification callback is still invoked exactly once after style handoff",
+          "status": "PASS"
+        }
+      ],
+      "audits": {},
+      "device": "NOT_RUN",
+      "seconds": 0.517
+    }
+  ]
+}

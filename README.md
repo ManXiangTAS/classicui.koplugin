@@ -2,11 +2,11 @@
 
 为 KOReader 提供统一的黑白阅读前端：书库、主页、阅读菜单和设置。首测设备为 Kindle Voyage，当前支持 **KOReader v2026.07.1 / v2026.07.2 stable**，固定源码 `9192014d8bd82a91dc1012473be0f238dedfdb54`。不修改 KOReader 核心文件。
 
-**当前版本：0.5.0-test.1，测试版。桌面集成与浏览器验证通过，修改后尚未进行 Voyage 真机验收。**
+**当前版本：0.5.0-test.2，测试版。基础控件统一及集成回归通过，修改后尚未进行 Voyage 真机验收。**
 
 ## 下载与安装
 
-从 [测试版发布页](https://github.com/ManXiangTAS/classicui.koplugin/releases/tag/v0.5.0-test.1) 下载 `ClassicUI_0.5.0-test.1_install.zip`。
+从 [测试版发布页](https://github.com/ManXiangTAS/classicui.koplugin/releases/tag/v0.5.0-test.2) 下载 `ClassicUI_0.5.0-test.2_install.zip`。
 
 1. 完全退出 KOReader，升级前备份原插件和 `koreader/settings`。
 2. 将压缩包中的 `einkfrontend.koplugin` 文件夹复制到 `koreader/plugins/`，升级时覆盖同名插件。
@@ -16,6 +16,10 @@
 恢复原生界面：设置 → 维护与恢复 → 前端开关与恢复，可临时进入原生菜单或停用插件。如果界面无法打开，完全退出 KOReader 后移走 `plugins/einkfrontend.koplugin`，保留书籍和设置，再启动。
 
 ## 本版变化
+
+- 标准提示、确认、输入、菜单、词典、数值/日期选择、图片预览及进度条统一直角样式；使用标准控件的插件自动承接。保留原生行为和有意设计的圆形控件，停用后撤销适配。本轮659次检查通过，详见[版本说明](docs/0.5.0-test.2_基础控件统一.md)与[接管清单](docs/native-controls/接管清单.md)。
+
+以下为0.5.0-test.1已加入的功能：
 
 - 设置页右上角三个点提供搜索和重启 KOReader。
 - 首次向导可设置传书与书库共用目录，默认 `/mnt/us/documents/ManualBook`；在设置中可更改。
@@ -59,7 +63,7 @@
 
 ## 验证与开发
 
-见 [版本说明](docs/0.4.0_主题与主页编辑.md)、[实测指南](Voyage_0.4.0_实测指南.md) 和 `test-results-051/combined-summary.json`。测试使用官方 KOReader Linux AppImage、真实 Lua 模块、crengine/MuPDF 及 Chromium，所有书籍和配置均在隔离目录中。测试报告不代表真机通过。
+见 [本轮版本说明](docs/0.5.0-test.2_基础控件统一.md)、[实测指南](Voyage_0.4.0_实测指南.md) 和 `test-results-052/combined-summary.json`。本轮使用官方 KOReader Linux AppImage、真实 Lua 模块、crengine/MuPDF 重新执行659次检查；上版 Chromium 报告保留为历史证据，不计入本轮重跑。所有书籍和配置均在隔离目录中。测试报告不代表真机通过。
 
 `python tests/build_public_release.py dist` 可重建公开安装包与源码包，并验证插件源文件哈希、时区、图标和许可。集成运行器用法：`python tests/run_regression046.py /absolute/path/to/koreader`；其他回归运行器位于 `tests/`。手机编辑测试额外需要 Playwright/Chromium，环境变量 `EINK_CHROMIUM` 指定浏览器。
 

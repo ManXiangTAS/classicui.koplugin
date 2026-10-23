@@ -1,0 +1,44 @@
+﻿source,line,expression,renderer,evidence
+frontend/apps/reader/modules/readerstyletweak.lua,183,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/button.lua,224,self.radius or Size.radius.button,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/button.lua,227,self.radius,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/button.lua,235,radius,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/button.lua,403,Size.radius.button,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/buttondialog.lua,252,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/buttonprogresswidget.lua,35,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/confirmbox.lua,157,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/datetimewidget.lua,423,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/dictquicklookup.lua,597,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/doublespinwidget.lua,298,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/fontchooser.lua,158,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/frontlightwidget.lua,405,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/imageviewer.lua,307,not self.fullscreen and 8 or nil,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/imageviewer.lua,373,not self.fullscreen and 8 or nil,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/infomessage.lua,164,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/inputdialog.lua,451,self.fullscreen and 0 or Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/keyboardlayoutdialog.lua,134,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/menu.lua,55,math.floor(self.width / 2),framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/menu.lua,71,radius,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/menu.lua,922,self.is_popout and math.floor(self.dimen.w * (1/20)) or 0,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/multiconfirmbox.lua,132,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/multiinputdialog.lua,214,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/naturallightwidget.lua,166,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/openwithdialog.lua,101,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/physicalkeyboard.lua,45,Size.radius.default,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/progressbardialog.lua,126,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/progresswidget.lua,47,Screen:scaleBySize(2),progresswidget,static_candidate; circular frames intentionally retained
+frontend/ui/widget/progresswidget.lua,281,Screen:scaleBySize(2),progresswidget,static_candidate; circular frames intentionally retained
+frontend/ui/widget/radiobuttonwidget.lua,221,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/skimtowidget.lua,315,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/skimtowidget.lua,360,radius,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/spinwidget.lua,266,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/textviewer.lua,471,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/toggleswitch.lua,52,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+frontend/ui/widget/toggleswitch.lua,101,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+plugins/coverbrowser.koplugin/mosaicmenu.lua,472,Screen:scaleBySize(10),framecontainer,static_candidate; circular frames intentionally retained
+plugins/coverbrowser.koplugin/mosaicmenu.lua,871,Size.border.thin,framecontainer,static_candidate; circular frames intentionally retained
+plugins/vocabbuilder.koplugin/main.lua,298,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+plugins/vocabbuilder.koplugin/main.lua,424,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+plugins/vocabbuilder.koplugin/main.lua,687,Size.radius.window,framecontainer,static_candidate; circular frames intentionally retained
+plugins/vocabbuilder.koplugin/main.lua,837,Size.radius.button,framecontainer,static_candidate; circular frames intentionally retained
+plugins/vocabbuilder.koplugin/main.lua,846,Size.radius.button,framecontainer,static_candidate; circular frames intentionally retained

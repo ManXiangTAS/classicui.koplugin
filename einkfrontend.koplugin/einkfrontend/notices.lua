@@ -5,6 +5,7 @@ local Toast=require("ui/widget/notification")
 local Font=require("ui/font")
 local UI=require("ui/uimanager")
 local P=require("einkfrontend/paint")
+local WidgetStyle=require("einkfrontend/widgetstyle")
 local N={owners=setmetatable({},{__mode="k"}),handoffs={}}
 -- ShowingReader tears down the old plugin before constructing the opening
 -- InfoMessage. Keep ownership through the native next-tick reader creation.
@@ -25,6 +26,7 @@ end
 function N.install(owner)
  N.owners[owner]=true
  if N.info_wrapper then return end
+ WidgetStyle.install(N)
  local info_original,toast_original=Info.init,Toast.init
  N.info_original=info_original;N.toast_original=toast_original
  N.info_wrapper=function(widget,...)
@@ -58,6 +60,7 @@ function N.detach(owner,cancel_handoffs)
  if next(N.owners) then return end
  if Info.init==N.info_wrapper then Info.init=N.info_original end
  if Toast.init==N.toast_wrapper then Toast.init=N.toast_original end
+ WidgetStyle.detach(N)
  N.info_wrapper=nil;N.toast_wrapper=nil
 end
 return N

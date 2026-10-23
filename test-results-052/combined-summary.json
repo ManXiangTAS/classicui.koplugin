@@ -1,0 +1,14 @@
+{
+  "version": "0.5.0-test.2",
+  "checks": 659,
+  "distinct_cases": 241,
+  "runs": 82,
+  "failures": 0,
+  "device": "NOT_RUN",
+  "scope": "All listed suites rerun for these common renderer changes; older browser evidence remains historical and is not counted again.",
+  "reports": [
+    "test-results-052/summary.json",
+    "test-results-030/summary.json",
+    "test-results/summary.json"
+  ]
+}

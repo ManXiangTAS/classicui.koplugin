@@ -1,6 +1,6 @@
 {
-  "snapshot_date": "2026-10-21",
-  "software_version": "0.5.0-test.1",
+  "snapshot_date": "2026-10-23",
+  "software_version": "0.5.0-test.2",
   "working_name": "墨页 E-Ink Frontend",
   "overall_status": "DEVELOPMENT_PREVIEW_DESKTOP_VERIFIED_DEVICE_PENDING",
   "device": {
@@ -144,42 +144,27 @@
     "epub_reflow": "Explicit opt-in; same-origin local engine; sandboxed previews; configurable layout; ZIP/size/CRC/path/encryption guards; _精排 copy"
   },
   "verification": {
-    "current_version": "0.5.0-test.1",
-    "checks": 911,
-    "distinct_cases": 361,
-    "process_runs": 101,
-    "summary": "test-results-051/combined-summary.json",
-    "lua_syntax_files": 44,
+    "version": "0.5.0-test.2",
+    "checks": 659,
+    "distinct_cases": 241,
+    "runs": 82,
+    "failures": 0,
+    "device": "NOT_RUN",
+    "scope": "All listed suites rerun for these common renderer changes; older browser evidence remains historical and is not counted again.",
+    "reports": [
+      "test-results-052/summary.json",
+      "test-results-030/summary.json",
+      "test-results/summary.json"
+    ],
+    "current_version": "0.5.0-test.2",
+    "process_runs": 82,
+    "summary": "test-results-052/combined-summary.json",
+    "lua_syntax_files": 45,
     "physical_device": "NOT_RUN_AFTER_CHANGES",
-    "timezone_inventory": 419,
-    "timezone_tests": "IANA offsets/DST, SQLite boundary, rollback, cross-owner state and restart",
-    "network_sync": "Native callback controlled in tests; actual system clock, RTC and NTP not changed",
     "current_suites": {
       "test-results": 143,
       "test-results-030": 408,
-      "test-results-043": 42,
-      "test-results-046": 54,
-      "test-results-048": 96,
-      "test-results-049": 42,
-      "test-results-050": 12,
-      "test-results-051": 60,
-      "home_web_http": 17,
-      "transfer_web_http": 37
-    },
-    "previous_full_baseline": {
-      "version": "0.3.9-dev",
-      "checks": 641,
-      "cases": 235,
-      "runs": 88
-    },
-    "alignment": {
-      "regression_checks": 150,
-      "regression_cases": "Already included among distinct cases; repeated via two alignment runners",
-      "frames": 27,
-      "measured_elements": 522,
-      "max_tolerance_pixels": 1,
-      "scroll_pixel_matches": 3,
-      "failures": 0
+      "test-results-052": 108
     }
   },
   "phase_status": {
@@ -296,5 +281,70 @@
     "runtime": "Official KOReader v2026.07.1, same source as v2026.07.2; SDL3 dummy; Chromium and actual LuaSocket HTTP",
     "transfer": "Safe scoped paths, chunk order, duplicate preservation, persistent destination, wizard, scoped More search, restart callback, cleanup failure retry, idle/expiry/suspend/root switch/firewall rollback verified",
     "web": "Real byte-identical uploads, opt-in typography, image/nav/OPF preservation, script/network isolation, ZIP expansion/path/CRC/symlink/XML/CSS rejection, cancel and no partial files"
+  },
+  "native_control_style": {
+    "common_renderers": 2,
+    "standard_controls_verified": 23,
+    "new_cases": 36,
+    "new_checks": 108,
+    "round_frame_source_candidates": 43,
+    "constructor_source_sites": 1059,
+    "constructor_source_files": 164,
+    "scope": "Standard rectangular FrameContainer and ProgressWidget shapes; independent function/layout rebuild is tracked separately",
+    "inventory": "docs/native-controls/接管清单.md",
+    "device": "NOT_RUN"
+  },
+  "verification_052": {
+    "version": "0.5.0-test.2",
+    "checks": 659,
+    "distinct_cases": 241,
+    "runs": 82,
+    "failures": 0,
+    "device": "NOT_RUN",
+    "scope": "All listed suites rerun for these common renderer changes; older browser evidence remains historical and is not counted again.",
+    "reports": [
+      "test-results-052/summary.json",
+      "test-results-030/summary.json",
+      "test-results/summary.json"
+    ]
+  },
+  "verification_051": {
+    "current_version": "0.5.0-test.1",
+    "checks": 911,
+    "distinct_cases": 361,
+    "process_runs": 101,
+    "summary": "test-results-051/combined-summary.json",
+    "lua_syntax_files": 44,
+    "physical_device": "NOT_RUN_AFTER_CHANGES",
+    "timezone_inventory": 419,
+    "timezone_tests": "IANA offsets/DST, SQLite boundary, rollback, cross-owner state and restart",
+    "network_sync": "Native callback controlled in tests; actual system clock, RTC and NTP not changed",
+    "current_suites": {
+      "test-results": 143,
+      "test-results-030": 408,
+      "test-results-043": 42,
+      "test-results-046": 54,
+      "test-results-048": 96,
+      "test-results-049": 42,
+      "test-results-050": 12,
+      "test-results-051": 60,
+      "home_web_http": 17,
+      "transfer_web_http": 37
+    },
+    "previous_full_baseline": {
+      "version": "0.3.9-dev",
+      "checks": 641,
+      "cases": 235,
+      "runs": 88
+    },
+    "alignment": {
+      "regression_checks": 150,
+      "regression_cases": "Already included among distinct cases; repeated via two alignment runners",
+      "frames": 27,
+      "measured_elements": 522,
+      "max_tolerance_pixels": 1,
+      "scroll_pixel_matches": 3,
+      "failures": 0
+    }
   }
 }
