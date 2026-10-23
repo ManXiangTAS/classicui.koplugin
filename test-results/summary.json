@@ -18,422 +18,7 @@
   "display_backend": "SDL3 dummy (real KOReader widgets and engines)",
   "results": [
     {
-      "width": 600,
-      "height": 800,
-      "tests": [
-        {
-          "status": "PASS",
-          "name": "plugin loads in FileManager"
-        },
-        {
-          "status": "PASS",
-          "name": "independent fullscreen route and back"
-        },
-        {
-          "status": "PASS",
-          "name": "global hidden files setter is idempotent and persisted"
-        },
-        {
-          "status": "PASS",
-          "name": "global sort validates and persists"
-        },
-        {
-          "status": "PASS",
-          "name": "plugin loads in ReaderUI and registers reader entry zones"
-        },
-        {
-          "status": "PASS",
-          "name": "setting roundtrip embedded_css"
-        },
-        {
-          "status": "PASS",
-          "name": "setting roundtrip font_hinting"
-        },
-        {
-          "status": "PASS",
-          "name": "setting roundtrip font_size"
-        },
-        {
-          "status": "PASS",
-          "name": "setting roundtrip line_spacing"
-        },
-        {
-          "status": "PASS",
-          "name": "setting roundtrip font_kerning"
-        },
-        {
-          "status": "PASS",
-          "name": "installed font choice applies and persists"
-        },
-        {
-          "status": "PASS",
-          "name": "boolean off passes false rather than Lua numeric zero"
-        },
-        {
-          "status": "PASS",
-          "name": "invalid value preserves previous configuration"
-        },
-        {
-          "status": "PASS",
-          "name": "unsupported embedded fonts stay disabled"
-        },
-        {
-          "status": "PASS",
-          "name": "reader centre tap opens bottom menu and PagePress cannot turn underlying book"
-        },
-        {
-          "status": "PASS",
-          "name": "real tap event changes value through custom setting controls"
-        },
-        {
-          "status": "PASS",
-          "name": "font choice scrolling and Enter activate the visible option"
-        },
-        {
-          "status": "PASS",
-          "name": "repeated zone setup stays unique and stop restores host"
-        },
-        {
-          "status": "PASS",
-          "name": "another book does not inherit current-book changes"
-        }
-      ],
       "variant": "desktop",
-      "mode": "write",
-      "seconds": 0.716
-    },
-    {
-      "variant": "desktop",
-      "mode": "restart",
-      "height": 800,
-      "width": 600,
-      "tests": [
-        {
-          "status": "PASS",
-          "name": "global values survive a new process"
-        },
-        {
-          "status": "PASS",
-          "name": "changed global sort survives new process"
-        },
-        {
-          "status": "PASS",
-          "name": "font name survives new process"
-        },
-        {
-          "status": "PASS",
-          "name": "new-process persistence embedded_css"
-        },
-        {
-          "status": "PASS",
-          "name": "new-process persistence font_hinting"
-        },
-        {
-          "status": "PASS",
-          "name": "new-process persistence font_size"
-        },
-        {
-          "status": "PASS",
-          "name": "new-process persistence line_spacing"
-        },
-        {
-          "status": "PASS",
-          "name": "new-process persistence font_kerning"
-        }
-      ],
-      "seconds": 0.316
-    },
-    {
-      "mode": "faults",
-      "width": 600,
-      "height": 800,
-      "tests": [
-        {
-          "status": "PASS",
-          "name": "persistence failure rolls back runtime value"
-        },
-        {
-          "status": "PASS",
-          "name": "callback error returns to native UI"
-        },
-        {
-          "status": "PASS",
-          "name": "version mismatch prevents activation"
-        }
-      ],
-      "variant": "desktop",
-      "seconds": 0.266
-    },
-    {
-      "width": 600,
-      "height": 800,
-      "tests": [
-        {
-          "status": "PASS",
-          "name": "asynchronous library scan extracts metadata"
-        },
-        {
-          "status": "PASS",
-          "name": "cover extraction and missing-cover fallback"
-        },
-        {
-          "status": "PASS",
-          "name": "author, series, search and list filters"
-        },
-        {
-          "status": "PASS",
-          "name": "native collection create, membership, persistence and removal"
-        },
-        {
-          "status": "PASS",
-          "name": "book detail and returning keep page position"
-        },
-        {
-          "status": "PASS",
-          "name": "series metadata edit, native readback and reset"
-        },
-        {
-          "status": "PASS",
-          "name": "collection persistence failure restores membership"
-        },
-        {
-          "status": "PASS",
-          "name": "text input control submits and returns to own page"
-        },
-        {
-          "status": "PASS",
-          "name": "native directory picker confirms without duplicate close"
-        },
-        {
-          "status": "PASS",
-          "name": "closing a scan cancels scheduled work and returns native host"
-        }
-      ],
-      "variant": "desktop",
-      "mode": "library",
-      "seconds": 0.467
-    },
-    {
-      "mode": "references",
-      "width": 600,
-      "height": 800,
-      "variant": "desktop",
-      "tests": [
-        {
-          "status": "PASS",
-          "name": "zero percent sidecar remains unread; finished and hold have explicit precedence"
-        },
-        {
-          "status": "PASS",
-          "name": "combined status search author and collection filters share counts"
-        },
-        {
-          "status": "PASS",
-          "name": "recent reading sort uses history not file modification time and handles missing history"
-        },
-        {
-          "status": "PASS",
-          "name": "each library tab keeps its own layout sort and nested destination"
-        },
-        {
-          "status": "PASS",
-          "name": "filter checkbox real tap preserves author context and applies across tabs"
-        },
-        {
-          "status": "PASS",
-          "name": "search setting result opens own setting with a plain inert title"
-        },
-        {
-          "status": "PASS",
-          "name": "optional Kindle library absence is safe and visible"
-        },
-        {
-          "status": "PASS",
-          "name": "PocketBook device panel opens by top swipe and leaves underlying route intact"
-        },
-        {
-          "status": "PASS",
-          "name": "device panel night toggle changes live screen and persisted setting"
-        },
-        {
-          "status": "PASS",
-          "name": "upward swipe dismisses device controls and ordinary library swipe still paginates"
-        },
-        {
-          "status": "PASS",
-          "name": "frontlight slider uses device bounds and rejects invalid input without changing intensity"
-        }
-      ],
-      "seconds": 0.466
-    },
-    {
-      "variant": "desktop",
-      "mode": "references_restart",
-      "width": 600,
-      "height": 800,
-      "tests": [
-        {
-          "status": "PASS",
-          "name": "new process restores per-tab destination layout sort and combined filter"
-        }
-      ],
-      "seconds": 0.265
-    },
-    {
-      "variant": "desktop",
-      "tests": [
-        {
-          "name": "reader control action ShowToc",
-          "status": "PASS"
-        },
-        {
-          "name": "reader control action ShowBookmark",
-          "status": "PASS"
-        },
-        {
-          "name": "reader control action ShowFulltextSearchInput",
-          "status": "PASS"
-        },
-        {
-          "name": "reader top down swipe opens separate device controls without changing book position",
-          "status": "PASS"
-        },
-        {
-          "name": "invalid jump keeps own control page and does not move the book",
-          "status": "PASS"
-        },
-        {
-          "name": "native book does not inherit another book home return destination",
-          "status": "PASS"
-        },
-        {
-          "name": "percentage jump reaches document",
-          "status": "PASS"
-        },
-        {
-          "name": "repeated percentage jumps return to original text anchor after typography change",
-          "status": "PASS"
-        }
-      ],
-      "width": 600,
-      "height": 800,
-      "mode": "reader_actions",
-      "seconds": 0.416
-    },
-    {
-      "tests": [
-        {
-          "name": "PDF excludes EPUB typography and retains native reader",
-          "status": "PASS"
-        }
-      ],
-      "variant": "desktop",
-      "width": 600,
-      "height": 800,
-      "mode": "pdf",
-      "seconds": 0.315
-    },
-    {
-      "width": 600,
-      "height": 800,
-      "mode": "embedded",
-      "variant": "desktop",
-      "tests": [
-        {
-          "name": "embedded-font availability and real toggle persistence",
-          "status": "PASS"
-        }
-      ],
-      "seconds": 0.316
-    },
-    {
-      "variant": "desktop",
-      "height": 800,
-      "tests": [
-        {
-          "name": "embedded font off survives new process",
-          "status": "PASS"
-        }
-      ],
-      "width": 600,
-      "mode": "embedded_restart",
-      "seconds": 0.266
-    },
-    {
-      "variant": "desktop",
-      "width": 600,
-      "mode": "auto_start",
-      "height": 800,
-      "tests": [
-        {
-          "status": "PASS",
-          "name": "startup reaches own frontend without native menu"
-        }
-      ],
-      "seconds": 0.416
-    },
-    {
-      "tests": [
-        {
-          "status": "PASS",
-          "name": "120-book scan yields, finishes, paginates and keeps detail position"
-        },
-        {
-          "status": "PASS",
-          "name": "opening real book then returning restores library page"
-        },
-        {
-          "status": "PASS",
-          "name": "Home entry opens and returns to its own Home source"
-        }
-      ],
-      "variant": "desktop",
-      "mode": "stress_flow",
-      "height": 800,
-      "width": 600,
-      "seconds": 2.172
-    },
-    {
-      "width": 600,
-      "height": 800,
-      "tests": [
-        {
-          "status": "PASS",
-          "name": "disabling plugin removes UI and reader zone"
-        }
-      ],
-      "mode": "disable",
-      "variant": "desktop",
-      "seconds": 0.265
-    },
-    {
-      "width": 600,
-      "height": 800,
-      "tests": [
-        {
-          "status": "PASS",
-          "name": "disabled plugin stays disabled after new process"
-        }
-      ],
-      "mode": "native_restart",
-      "variant": "desktop",
-      "seconds": 0.265
-    },
-    {
-      "tests": [
-        {
-          "name": "disabled plugin stays disabled after new process",
-          "status": "PASS"
-        }
-      ],
-      "height": 800,
-      "mode": "uninstalled",
-      "variant": "desktop",
-      "width": 600,
-      "seconds": 0.266
-    },
-    {
-      "variant": "voyage_layout",
       "tests": [
         {
           "name": "plugin loads in FileManager",
@@ -513,54 +98,76 @@
         }
       ],
       "mode": "write",
-      "width": 1072,
-      "height": 1448,
-      "seconds": 0.817
+      "width": 600,
+      "height": 800,
+      "seconds": 0.767
     },
     {
       "tests": [
         {
-          "name": "global values survive a new process",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "global values survive a new process"
         },
         {
-          "name": "changed global sort survives new process",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "changed global sort survives new process"
         },
         {
-          "name": "font name survives new process",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "font name survives new process"
         },
         {
-          "name": "new-process persistence embedded_css",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "new-process persistence embedded_css"
         },
         {
-          "name": "new-process persistence font_hinting",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "new-process persistence font_hinting"
         },
         {
-          "name": "new-process persistence font_size",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "new-process persistence font_size"
         },
         {
-          "name": "new-process persistence line_spacing",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "new-process persistence line_spacing"
         },
         {
-          "name": "new-process persistence font_kerning",
-          "status": "PASS"
+          "status": "PASS",
+          "name": "new-process persistence font_kerning"
         }
       ],
-      "variant": "voyage_layout",
+      "variant": "desktop",
       "mode": "restart",
-      "width": 1072,
-      "height": 1448,
+      "width": 600,
+      "height": 800,
       "seconds": 0.315
     },
     {
-      "width": 1072,
-      "height": 1448,
+      "variant": "desktop",
+      "height": 800,
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "persistence failure rolls back runtime value"
+        },
+        {
+          "status": "PASS",
+          "name": "callback error returns to native UI"
+        },
+        {
+          "status": "PASS",
+          "name": "version mismatch prevents activation"
+        }
+      ],
+      "width": 600,
+      "mode": "faults",
+      "seconds": 0.315
+    },
+    {
+      "width": 600,
+      "mode": "library",
+      "height": 800,
       "tests": [
         {
           "name": "asynchronous library scan extracts metadata",
@@ -603,142 +210,14 @@
           "status": "PASS"
         }
       ],
-      "variant": "voyage_layout",
-      "mode": "library",
-      "seconds": 0.617
-    },
-    {
-      "width": 1072,
-      "height": 1448,
-      "tests": [
-        {
-          "status": "PASS",
-          "name": "zero percent sidecar remains unread; finished and hold have explicit precedence"
-        },
-        {
-          "status": "PASS",
-          "name": "combined status search author and collection filters share counts"
-        },
-        {
-          "status": "PASS",
-          "name": "recent reading sort uses history not file modification time and handles missing history"
-        },
-        {
-          "status": "PASS",
-          "name": "each library tab keeps its own layout sort and nested destination"
-        },
-        {
-          "status": "PASS",
-          "name": "filter checkbox real tap preserves author context and applies across tabs"
-        },
-        {
-          "status": "PASS",
-          "name": "search setting result opens own setting with a plain inert title"
-        },
-        {
-          "status": "PASS",
-          "name": "optional Kindle library absence is safe and visible"
-        },
-        {
-          "status": "PASS",
-          "name": "PocketBook device panel opens by top swipe and leaves underlying route intact"
-        },
-        {
-          "status": "PASS",
-          "name": "device panel night toggle changes live screen and persisted setting"
-        },
-        {
-          "status": "PASS",
-          "name": "upward swipe dismisses device controls and ordinary library swipe still paginates"
-        },
-        {
-          "status": "PASS",
-          "name": "frontlight slider uses device bounds and rejects invalid input without changing intensity"
-        }
-      ],
-      "variant": "voyage_layout",
-      "mode": "references",
-      "seconds": 0.516
-    },
-    {
-      "width": 1072,
-      "height": 1448,
-      "tests": [
-        {
-          "status": "PASS",
-          "name": "new process restores per-tab destination layout sort and combined filter"
-        }
-      ],
-      "mode": "references_restart",
-      "variant": "voyage_layout",
-      "seconds": 0.215
-    },
-    {
-      "height": 1448,
-      "tests": [
-        {
-          "status": "PASS",
-          "name": "startup reaches own frontend without native menu"
-        }
-      ],
-      "mode": "auto_start",
-      "variant": "voyage_layout",
-      "width": 1072,
+      "variant": "desktop",
       "seconds": 0.466
     },
     {
-      "tests": [
-        {
-          "name": "asynchronous library scan extracts metadata",
-          "status": "PASS"
-        },
-        {
-          "name": "cover extraction and missing-cover fallback",
-          "status": "PASS"
-        },
-        {
-          "name": "author, series, search and list filters",
-          "status": "PASS"
-        },
-        {
-          "name": "native collection create, membership, persistence and removal",
-          "status": "PASS"
-        },
-        {
-          "name": "book detail and returning keep page position",
-          "status": "PASS"
-        },
-        {
-          "name": "series metadata edit, native readback and reset",
-          "status": "PASS"
-        },
-        {
-          "name": "collection persistence failure restores membership",
-          "status": "PASS"
-        },
-        {
-          "name": "text input control submits and returns to own page",
-          "status": "PASS"
-        },
-        {
-          "name": "native directory picker confirms without duplicate close",
-          "status": "PASS"
-        },
-        {
-          "name": "closing a scan cancels scheduled work and returns native host",
-          "status": "PASS"
-        }
-      ],
-      "variant": "landscape",
-      "mode": "library",
-      "width": 1448,
-      "height": 1072,
-      "seconds": 0.666
-    },
-    {
-      "width": 1448,
-      "height": 1072,
+      "variant": "desktop",
       "mode": "references",
+      "width": 600,
+      "height": 800,
       "tests": [
         {
           "name": "zero percent sidecar remains unread; finished and hold have explicit precedence",
@@ -785,13 +264,532 @@
           "status": "PASS"
         }
       ],
-      "variant": "landscape",
-      "seconds": 0.616
+      "seconds": 0.516
     },
     {
+      "variant": "desktop",
+      "tests": [
+        {
+          "name": "new process restores per-tab destination layout sort and combined filter",
+          "status": "PASS"
+        }
+      ],
+      "mode": "references_restart",
+      "width": 600,
+      "height": 800,
+      "seconds": 0.265
+    },
+    {
+      "width": 600,
+      "height": 800,
+      "mode": "reader_actions",
+      "variant": "desktop",
+      "tests": [
+        {
+          "name": "reader control action ShowToc",
+          "status": "PASS"
+        },
+        {
+          "name": "reader control action ShowBookmark",
+          "status": "PASS"
+        },
+        {
+          "name": "reader control action ShowFulltextSearchInput",
+          "status": "PASS"
+        },
+        {
+          "name": "reader top down swipe opens separate device controls without changing book position",
+          "status": "PASS"
+        },
+        {
+          "name": "invalid jump keeps own control page and does not move the book",
+          "status": "PASS"
+        },
+        {
+          "name": "native book does not inherit another book home return destination",
+          "status": "PASS"
+        },
+        {
+          "name": "percentage jump reaches document",
+          "status": "PASS"
+        },
+        {
+          "name": "repeated percentage jumps return to original text anchor after typography change",
+          "status": "PASS"
+        }
+      ],
+      "seconds": 0.416
+    },
+    {
+      "width": 600,
+      "height": 800,
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "PDF excludes EPUB typography and retains native reader"
+        }
+      ],
+      "variant": "desktop",
+      "mode": "pdf",
+      "seconds": 0.316
+    },
+    {
+      "width": 600,
+      "height": 800,
+      "mode": "embedded",
+      "variant": "desktop",
+      "tests": [
+        {
+          "name": "embedded-font availability and real toggle persistence",
+          "status": "PASS"
+        }
+      ],
+      "seconds": 0.316
+    },
+    {
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "embedded font off survives new process"
+        }
+      ],
+      "width": 600,
+      "height": 800,
+      "mode": "embedded_restart",
+      "variant": "desktop",
+      "seconds": 0.265
+    },
+    {
+      "width": 600,
+      "height": 800,
+      "tests": [
+        {
+          "name": "startup reaches own frontend without native menu",
+          "status": "PASS"
+        }
+      ],
+      "mode": "auto_start",
+      "variant": "desktop",
+      "seconds": 0.365
+    },
+    {
+      "height": 800,
+      "variant": "desktop",
+      "tests": [
+        {
+          "name": "120-book scan yields, finishes, paginates and keeps detail position",
+          "status": "PASS"
+        },
+        {
+          "name": "opening real book then returning restores library page",
+          "status": "PASS"
+        },
+        {
+          "name": "Home entry opens and returns to its own Home source",
+          "status": "PASS"
+        }
+      ],
+      "mode": "stress_flow",
+      "width": 600,
+      "seconds": 1.719
+    },
+    {
+      "height": 800,
+      "mode": "disable",
+      "variant": "desktop",
+      "tests": [
+        {
+          "name": "disabling plugin removes UI and reader zone",
+          "status": "PASS"
+        }
+      ],
+      "width": 600,
+      "seconds": 0.265
+    },
+    {
+      "width": 600,
+      "height": 800,
+      "mode": "native_restart",
+      "tests": [
+        {
+          "name": "disabled plugin stays disabled after new process",
+          "status": "PASS"
+        }
+      ],
+      "variant": "desktop",
+      "seconds": 0.215
+    },
+    {
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "disabled plugin stays disabled after new process"
+        }
+      ],
+      "width": 600,
+      "height": 800,
+      "mode": "uninstalled",
+      "variant": "desktop",
+      "seconds": 0.265
+    },
+    {
+      "width": 1072,
+      "height": 1448,
+      "mode": "write",
+      "variant": "voyage_layout",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "plugin loads in FileManager"
+        },
+        {
+          "status": "PASS",
+          "name": "independent fullscreen route and back"
+        },
+        {
+          "status": "PASS",
+          "name": "global hidden files setter is idempotent and persisted"
+        },
+        {
+          "status": "PASS",
+          "name": "global sort validates and persists"
+        },
+        {
+          "status": "PASS",
+          "name": "plugin loads in ReaderUI and registers reader entry zones"
+        },
+        {
+          "status": "PASS",
+          "name": "setting roundtrip embedded_css"
+        },
+        {
+          "status": "PASS",
+          "name": "setting roundtrip font_hinting"
+        },
+        {
+          "status": "PASS",
+          "name": "setting roundtrip font_size"
+        },
+        {
+          "status": "PASS",
+          "name": "setting roundtrip line_spacing"
+        },
+        {
+          "status": "PASS",
+          "name": "setting roundtrip font_kerning"
+        },
+        {
+          "status": "PASS",
+          "name": "installed font choice applies and persists"
+        },
+        {
+          "status": "PASS",
+          "name": "boolean off passes false rather than Lua numeric zero"
+        },
+        {
+          "status": "PASS",
+          "name": "invalid value preserves previous configuration"
+        },
+        {
+          "status": "PASS",
+          "name": "unsupported embedded fonts stay disabled"
+        },
+        {
+          "status": "PASS",
+          "name": "reader centre tap opens bottom menu and PagePress cannot turn underlying book"
+        },
+        {
+          "status": "PASS",
+          "name": "real tap event changes value through custom setting controls"
+        },
+        {
+          "status": "PASS",
+          "name": "font choice scrolling and Enter activate the visible option"
+        },
+        {
+          "status": "PASS",
+          "name": "repeated zone setup stays unique and stop restores host"
+        },
+        {
+          "status": "PASS",
+          "name": "another book does not inherit current-book changes"
+        }
+      ],
+      "seconds": 0.817
+    },
+    {
+      "mode": "restart",
+      "variant": "voyage_layout",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "global values survive a new process"
+        },
+        {
+          "status": "PASS",
+          "name": "changed global sort survives new process"
+        },
+        {
+          "status": "PASS",
+          "name": "font name survives new process"
+        },
+        {
+          "status": "PASS",
+          "name": "new-process persistence embedded_css"
+        },
+        {
+          "status": "PASS",
+          "name": "new-process persistence font_hinting"
+        },
+        {
+          "status": "PASS",
+          "name": "new-process persistence font_size"
+        },
+        {
+          "status": "PASS",
+          "name": "new-process persistence line_spacing"
+        },
+        {
+          "status": "PASS",
+          "name": "new-process persistence font_kerning"
+        }
+      ],
+      "width": 1072,
+      "height": 1448,
+      "seconds": 0.315
+    },
+    {
+      "variant": "voyage_layout",
+      "width": 1072,
+      "mode": "library",
+      "height": 1448,
+      "tests": [
+        {
+          "name": "asynchronous library scan extracts metadata",
+          "status": "PASS"
+        },
+        {
+          "name": "cover extraction and missing-cover fallback",
+          "status": "PASS"
+        },
+        {
+          "name": "author, series, search and list filters",
+          "status": "PASS"
+        },
+        {
+          "name": "native collection create, membership, persistence and removal",
+          "status": "PASS"
+        },
+        {
+          "name": "book detail and returning keep page position",
+          "status": "PASS"
+        },
+        {
+          "name": "series metadata edit, native readback and reset",
+          "status": "PASS"
+        },
+        {
+          "name": "collection persistence failure restores membership",
+          "status": "PASS"
+        },
+        {
+          "name": "text input control submits and returns to own page",
+          "status": "PASS"
+        },
+        {
+          "name": "native directory picker confirms without duplicate close",
+          "status": "PASS"
+        },
+        {
+          "name": "closing a scan cancels scheduled work and returns native host",
+          "status": "PASS"
+        }
+      ],
+      "seconds": 0.566
+    },
+    {
+      "mode": "references",
+      "variant": "voyage_layout",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "zero percent sidecar remains unread; finished and hold have explicit precedence"
+        },
+        {
+          "status": "PASS",
+          "name": "combined status search author and collection filters share counts"
+        },
+        {
+          "status": "PASS",
+          "name": "recent reading sort uses history not file modification time and handles missing history"
+        },
+        {
+          "status": "PASS",
+          "name": "each library tab keeps its own layout sort and nested destination"
+        },
+        {
+          "status": "PASS",
+          "name": "filter checkbox real tap preserves author context and applies across tabs"
+        },
+        {
+          "status": "PASS",
+          "name": "search setting result opens own setting with a plain inert title"
+        },
+        {
+          "status": "PASS",
+          "name": "optional Kindle library absence is safe and visible"
+        },
+        {
+          "status": "PASS",
+          "name": "PocketBook device panel opens by top swipe and leaves underlying route intact"
+        },
+        {
+          "status": "PASS",
+          "name": "device panel night toggle changes live screen and persisted setting"
+        },
+        {
+          "status": "PASS",
+          "name": "upward swipe dismisses device controls and ordinary library swipe still paginates"
+        },
+        {
+          "status": "PASS",
+          "name": "frontlight slider uses device bounds and rejects invalid input without changing intensity"
+        }
+      ],
+      "width": 1072,
+      "height": 1448,
+      "seconds": 0.517
+    },
+    {
+      "variant": "voyage_layout",
+      "width": 1072,
+      "height": 1448,
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "new process restores per-tab destination layout sort and combined filter"
+        }
+      ],
+      "mode": "references_restart",
+      "seconds": 0.265
+    },
+    {
+      "variant": "voyage_layout",
+      "width": 1072,
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "startup reaches own frontend without native menu"
+        }
+      ],
+      "mode": "auto_start",
+      "height": 1448,
+      "seconds": 0.516
+    },
+    {
+      "variant": "landscape",
+      "width": 1448,
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "asynchronous library scan extracts metadata"
+        },
+        {
+          "status": "PASS",
+          "name": "cover extraction and missing-cover fallback"
+        },
+        {
+          "status": "PASS",
+          "name": "author, series, search and list filters"
+        },
+        {
+          "status": "PASS",
+          "name": "native collection create, membership, persistence and removal"
+        },
+        {
+          "status": "PASS",
+          "name": "book detail and returning keep page position"
+        },
+        {
+          "status": "PASS",
+          "name": "series metadata edit, native readback and reset"
+        },
+        {
+          "status": "PASS",
+          "name": "collection persistence failure restores membership"
+        },
+        {
+          "status": "PASS",
+          "name": "text input control submits and returns to own page"
+        },
+        {
+          "status": "PASS",
+          "name": "native directory picker confirms without duplicate close"
+        },
+        {
+          "status": "PASS",
+          "name": "closing a scan cancels scheduled work and returns native host"
+        }
+      ],
+      "height": 1072,
+      "mode": "library",
+      "seconds": 0.666
+    },
+    {
+      "variant": "landscape",
+      "mode": "references",
       "width": 1448,
       "height": 1072,
-      "mode": "references_restart",
+      "tests": [
+        {
+          "name": "zero percent sidecar remains unread; finished and hold have explicit precedence",
+          "status": "PASS"
+        },
+        {
+          "name": "combined status search author and collection filters share counts",
+          "status": "PASS"
+        },
+        {
+          "name": "recent reading sort uses history not file modification time and handles missing history",
+          "status": "PASS"
+        },
+        {
+          "name": "each library tab keeps its own layout sort and nested destination",
+          "status": "PASS"
+        },
+        {
+          "name": "filter checkbox real tap preserves author context and applies across tabs",
+          "status": "PASS"
+        },
+        {
+          "name": "search setting result opens own setting with a plain inert title",
+          "status": "PASS"
+        },
+        {
+          "name": "optional Kindle library absence is safe and visible",
+          "status": "PASS"
+        },
+        {
+          "name": "PocketBook device panel opens by top swipe and leaves underlying route intact",
+          "status": "PASS"
+        },
+        {
+          "name": "device panel night toggle changes live screen and persisted setting",
+          "status": "PASS"
+        },
+        {
+          "name": "upward swipe dismisses device controls and ordinary library swipe still paginates",
+          "status": "PASS"
+        },
+        {
+          "name": "frontlight slider uses device bounds and rejects invalid input without changing intensity",
+          "status": "PASS"
+        }
+      ],
+      "seconds": 0.567
+    },
+    {
+      "height": 1072,
       "tests": [
         {
           "name": "new process restores per-tab destination layout sort and combined filter",
@@ -799,19 +797,21 @@
         }
       ],
       "variant": "landscape",
-      "seconds": 0.266
+      "mode": "references_restart",
+      "width": 1448,
+      "seconds": 0.215
     },
     {
-      "mode": "auto_start",
+      "variant": "landscape",
       "width": 1448,
       "height": 1072,
-      "variant": "landscape",
       "tests": [
         {
           "status": "PASS",
           "name": "startup reaches own frontend without native menu"
         }
       ],
+      "mode": "auto_start",
       "seconds": 0.466
     }
   ]

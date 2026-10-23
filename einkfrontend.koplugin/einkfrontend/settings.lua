@@ -20,6 +20,7 @@ function Settings.render(app,route,m,row,go)
   end
   if route.param=="library" or route.param=="network" then row("传书与书库",nil,go("transfer_settings")) end
   local nodes=app.native.catalog.roots[route.param] or {}
+  m.content_key=nodes
   if route.param=="input" and app.pagepress then row("翻页键",nil,go("pagepress_settings")) end
   if route.param=="device" or route.param=="network" then
    row("时间与日期",nil,go("clock_settings"))
@@ -42,6 +43,7 @@ function Settings.render(app,route,m,row,go)
   if #m.rows==0 then row("当前没有可用项目","") end
  elseif id=="native" then
   local host=app.native.host;m.settings=true;m.title=app.native.titles[#app.native.titles] or "设置";m.subtitle=""
+  m.content_key=host and host.item_table
   for _,node in ipairs(host and host.item_table or {}) do
    row(Native.text(node),"",function() app.native:select(node) end)
    local r=m.rows[#m.rows];r.enabled=Native.enabled(node);r.checked=Native.checked(node)

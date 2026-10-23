@@ -47,7 +47,7 @@ function Web.new(editor,options)
     'OUTPUT -p tcp -s '..self.ip..' --sport '..p..' -m conntrack --ctstate ESTABLISHED -j ACCEPT' }
    self.installed={}
    for _,rule in ipairs(self.rules) do
-    local status=os.execute('iptables -A '..rule..' >/dev/null 2>&1')
+    local status=os.execute('iptables -I '..rule..' >/dev/null 2>&1')
     assert(status==0,'无法打开临时编辑端口');self.installed[#self.installed+1]=rule
    end
   end
@@ -94,6 +94,7 @@ function Web:response(status,body,mime,extra)
  body=body or '';return 'HTTP/1.1 '..status..' '..reasons[status]..'\r\nConnection: close\r\nContent-Type: '..(mime or 'application/json; charset=utf-8')..'\r\nContent-Length: '..#body..'\r\n'..(extra or '')..'Cache-Control: no-store\r\nReferrer-Policy: no-referrer\r\nX-Content-Type-Options: nosniff\r\nContent-Security-Policy: default-src \'none\'; script-src \'unsafe-inline\'; style-src \'unsafe-inline\'; img-src blob:; connect-src \'self\'; base-uri \'none\'; frame-ancestors \'none\'; form-action \'none\'\r\n\r\n'..body
 end
 function Web:request(method,path,headers,body)
+ if self.stopped or self.editor.closed or now()>=self.expires then return self:response(401,'{}') end
  if headers.host~=self.host or (headers.origin and headers.origin~=self.origin) then return self:response(403,'{}') end
  if method=='GET' and path=='/' then return self:response(200,self.html,'text/html; charset=utf-8') end
  if headers.authorization~='Bearer '..self.token then return self:response(401,'{}') end

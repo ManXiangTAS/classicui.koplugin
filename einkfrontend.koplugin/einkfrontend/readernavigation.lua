@@ -26,7 +26,7 @@ function Nav:setView(view,item)
  self.view=view;self:refresh()
 end
 function Nav:refresh()
- self:clearText();UI:setDirty("all","ui")
+ self.hits={};self:clearText();UI:setDirty("all","ui")
 end
 function Nav:run(callback)
  local ok,why=pcall(callback)

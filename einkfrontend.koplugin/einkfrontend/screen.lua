@@ -51,7 +51,21 @@ function Page:_layout()
     self.grid_capacity=self.grid_columns*self.grid_rows
 end
 
+local function sameHitModel(a,b)
+    if not a or a==b or a.route~=b.route or a.title~=b.title or a.content_key~=b.content_key
+        or a.settings~=b.settings or a.library~=b.library or a.home~=b.home or #a.rows~=#b.rows then return false end
+    for i,row in ipairs(a.rows) do
+        local other=b.rows[i]
+        for _,key in ipairs({'title','note','value','enabled','checked','book','group','detail','progress'}) do
+            if row[key]~=other[key] then return false end
+        end
+    end
+    return true
+end
 function Page:setModel(model)
+    -- Preserve a still-identical row after a status-only native refresh (e.g.
+    -- tap followed by hold), but never retain controls for changed content.
+    if not sameHitModel(self.model,model) then self.hits={};self.settings_more_anchor=nil;self.scroll_track=nil end
     self.model = model
     self:_layout()
     self.capacity=model.grid and self.grid_capacity or self.list_capacity
@@ -109,9 +123,10 @@ function Page:_paintSettings(bb,x,y)
         Paint.inkIcon(bb,"chevron.left",x,y,S(46),self.header_h,S(24))
         self.hits[#self.hits+1]={x=x,y=y,w=S(46),h=self.header_h,callback=function() self.app:back() end,id="settings_back"}
     end
-    local root=self.model.route.id=="settings"
+    local root=require('einkfrontend/context').allowed(self.app,'settings_popup')
+    local scoped_search=require('einkfrontend/context').allowed(self.app,'page_search')
     local tx=root and S(20) or S(48)
-    local reserved=(root and 112 or 59)+(self.model.help and 48 or 0)
+    local reserved=((root or scoped_search) and 112 or 59)+(self.model.help and 48 or 0)
     local title=Paint.inkLabel(bb,self.model.title,x+tx,y,w-tx-S(reserved),self.header_h,Paint.style.title,true,nil,"left")
     local close=Paint.inkIcon(bb,"close",x+w-S(53),y,S(53),self.header_h,S(25))
     self.header_ink={title=title,close=close};self.settings_more_anchor=nil
@@ -120,9 +135,12 @@ function Page:_paintSettings(bb,x,y)
         if self.app.settings_popup then bb:invertRect(x+w-S(106),y,S(53),self.header_h-S(2)) end
         local hit={x=x+w-S(106),y=y,w=S(53),h=self.header_h,callback=function() self.app:showSettingsMore() end,id="settings_more"}
         self.hits[#self.hits+1]=hit;self.settings_more_anchor=hit
+    elseif scoped_search then
+        self.header_ink.search=Paint.inkIcon(bb,'appbar.search',x+w-S(106),y,S(53),self.header_h,S(25))
+        self.hits[#self.hits+1]={x=x+w-S(106),y=y,w=S(53),h=self.header_h,callback=function() self.app:searchPage() end,id='page_search'}
     end
     if self.model.help then
-        local hx=math.min(x+w-S(root and 153 or 100),title.x+title.w+S(12))
+        local hx=math.min(x+w-S((root or scoped_search) and 153 or 100),title.x+title.w+S(12))
         self.header_ink.info=Paint.inkIcon(bb,'info',hx,y,S(40),self.header_h,S(20))
         self.hits[#self.hits+1]={x=hx,y=y,w=S(40),h=self.header_h,callback=self.model.help,id='settings_help'}
     end
@@ -317,7 +335,9 @@ end
 
 function Page:scrollBy(delta)
     if self.model.home then self.scroll_y=0;self.scroll_max=0;self.model.route.scroll_y=0;return end
+    local before=self.scroll_y
     self.scroll_y=math.max(0,math.min(self.scroll_max,math.floor(self.scroll_y+delta)))
+    if self.scroll_y~=before then self.hits={} end
     self.model.route.scroll_y=self.scroll_y
     UIManager:setDirty(self,"ui")
 end

@@ -7,5 +7,8 @@ test-results*/**
 !test-results-052/syntax.json
 !test-results-053/combined-summary.json
 !test-results-053/syntax.json
+!test-results-054/combined-summary.json
+!test-results-054/syntax.json
+!test-results-054/network-summary.json
 dist/
 release-build/

@@ -2,11 +2,11 @@
 
 为 KOReader 提供统一的黑白阅读前端：书库、主页、阅读菜单和设置。首测设备为 Kindle Voyage，当前支持 **KOReader v2026.07.1 / v2026.07.2 stable**，固定源码 `9192014d8bd82a91dc1012473be0f238dedfdb54`。不修改 KOReader 核心文件。
 
-**当前版本：0.5.0-test.3，测试版。设置首页的小菜单及相关回归通过，修改后尚未进行 Voyage 真机验收。**
+**当前版本：0.5.0-test.4，测试版。菜单范围、点击区域、返回层级及会话边界复查通过，修改后尚未进行 Voyage 真机验收。**
 
 ## 下载与安装
 
-从 [测试版发布页](https://github.com/ManXiangTAS/classicui.koplugin/releases/tag/v0.5.0-test.3) 下载 `ClassicUI_0.5.0-test.3_install.zip`。
+从 [测试版发布页](https://github.com/ManXiangTAS/classicui.koplugin/releases/tag/v0.5.0-test.4) 下载 `ClassicUI_0.5.0-test.4_install.zip`。
 
 1. 完全退出 KOReader，升级前备份原插件和 `koreader/settings`。
 2. 将压缩包中的 `einkfrontend.koplugin` 文件夹复制到 `koreader/plugins/`，升级时覆盖同名插件。
@@ -16,6 +16,10 @@
 恢复原生界面：设置 → 维护与恢复 → 前端开关与恢复，可临时进入原生菜单或停用插件。如果界面无法打开，完全退出 KOReader 后移走 `plugins/einkfrontend.koplugin`，保留书籍和设置，再启动。
 
 ## 本版变化
+
+- 菜单显示和打开共用明确的页面条件，切换时清理无效菜单与旧点击区域；修复主题更多的点击重叠、返回层级和过期输入/确认回调。收藏管理恢复局部搜索放大镜。手机编辑修复防火墙规则位置及过期请求边界。详见[复查与修复说明](docs/0.5.0-test.4_菜单与边界复查.md)。
+
+以下为0.5.0-test.3已加入的功能：
 
 - 三个点仅出现在设置首页，点击后在按钮下方展开两行小菜单，仅含“搜索”和“重启 KOReader”。设置子页面去掉三个点；点外侧关闭且不会触发底层设置，旋转和切换页面时自动收起。详见[版本说明](docs/0.5.0-test.3_设置更多菜单.md)。
 
@@ -67,7 +71,7 @@
 
 ## 验证与开发
 
-见 [本轮版本说明](docs/0.5.0-test.3_设置更多菜单.md)、[实测指南](Voyage_0.4.0_实测指南.md) 和 `test-results-053/combined-summary.json`。本轮使用官方 KOReader Linux AppImage 和真实 Lua 模块重新执行168次检查，并验证441处设置像素对齐；上版报告保留为历史证据，不计入本轮重跑。所有书籍和配置均在隔离目录中。测试报告不代表真机通过。
+见 [本轮复查说明](docs/0.5.0-test.4_菜单与边界复查.md)、[实测指南](Voyage_0.4.0_实测指南.md) 和 `test-results-054/combined-summary.json`。本轮使用官方 KOReader Linux AppImage、真实 Lua 模块和 Chromium 重新验证菜单上下文、旧回调、搜索及网络边界；未重跑的旧报告保留为历史证据。所有书籍和配置均在隔离目录中。测试报告不代表真机通过。
 
 `python tests/build_public_release.py dist` 可重建公开安装包与源码包，并验证插件源文件哈希、时区、图标和许可。集成运行器用法：`python tests/run_regression046.py /absolute/path/to/koreader`；其他回归运行器位于 `tests/`。手机编辑测试额外需要 Playwright/Chromium，环境变量 `EINK_CHROMIUM` 指定浏览器。
 

@@ -209,34 +209,42 @@ function Adapter:libraryRoot()
 end
 
 function Adapter:promptText(title,initial,callback,options)
+    if self.app and not require('einkfrontend/context').alive(self.app) then return end
     local InputDialog=require("ui/widget/inputdialog")
     local UIManager=require("ui/uimanager")
-    local dialog
+    local dialog;local resolved=false
+    local valid=self.app and self.app:dialogGuard() or function() return true end
     options=options or {}
     dialog=InputDialog:new{title=title,input=initial or "",radius=0,allow_newline=options.multiline or false,
         text_height=options.multiline and require("device").screen:scaleBySize(120) or nil,
-        buttons={{{text="取消",callback=function() UIManager:close(dialog) end},
+        buttons={{{text="取消",callback=function() resolved=true;UIManager:close(dialog) end},
             {text="确定",callback=function()
+                if resolved or not valid() or not UIManager:isWidgetShown(dialog) then resolved=true;UIManager:close(dialog);return end
                 local text=dialog:getInputText()
                 if options.keep_on_error then
                     local ok,accepted=pcall(callback,text)
                     if not ok then
                         UIManager:show(require("ui/widget/infomessage"):new{text=tostring(accepted)})
-                    elseif accepted~=false then UIManager:close(dialog) end
-                else UIManager:close(dialog);callback(text) end
+                    elseif accepted~=false then resolved=true;UIManager:close(dialog) end
+                else resolved=true;UIManager:close(dialog);callback(text) end
             end}}}}
+    if self.app then self.app:trackDialog(dialog) end
     UIManager:show(dialog);dialog:onShowKeyboard()
     return dialog
 end
 
 function Adapter:chooseLibraryRoot(current,callback)
+    if self.app and not require('einkfrontend/context').alive(self.app) then return end
     local UIManager=require("ui/uimanager")
-    local chooser
+    local chooser;local resolved=false
+    local valid=self.app and self.app:dialogGuard() or function() return true end
     chooser=require("ui/widget/pathchooser"):new{path=current,select_directory=true,select_file=false,
         title="选择书库目录：长按文件夹确认",onConfirm=function(path)
+            if resolved or not valid() then return end;resolved=true
             -- PathChooser closes itself after onConfirm returns.
             callback(path)
         end}
+    if self.app then self.app:trackDialog(chooser) end
     UIManager:show(chooser)
     return chooser
 end

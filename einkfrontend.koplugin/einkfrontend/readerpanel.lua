@@ -16,8 +16,16 @@ function Panel:init()
 end
 function Panel:close() UI:close(self,"ui");UI:setDirty("all","ui") end
 function Panel:onCloseWidget() if self.app.reader_panel==self then self.app.reader_panel=nil end end
-function Panel:viewChanged() self.page=1;self.list_scroll=0;self.pending_font=nil;self.pending_adjustment=nil;UI:setDirty("all","ui") end
-function Panel:setTab(tab) self.tab=tab;self.page=1;self.list_scroll=0;self.pending_font=nil;self.pending_adjustment=nil;UI:setDirty("all","ui") end
+function Panel:viewChanged() self.hits={};self.sliders={};self.list_area=nil;self.list_pan=nil;self.page=1;self.list_scroll=0;self.pending_font=nil;self.pending_adjustment=nil;UI:setDirty("all","ui") end
+function Panel:setTab(tab) self.tab=tab;self:viewChanged() end
+function Panel:parentTab()
+ if self.tab=='option' then return self.option_parent or 'layout_options' end
+ return ({fonts='font',font_options='font',layout_options='layout',theme_manage='theme_list',theme_list='themes'})[self.tab]
+end
+function Panel:back()
+ local parent=self:parentTab()
+ if parent then self:setTab(parent) else self:close() end
+end
 function Panel:change(id,value)
  local ok,why=self.app.typography:change(id,value)
  if not ok then self.app:message(why) end
@@ -128,7 +136,7 @@ function Panel:rows()
     self:setTab("themes")
    end
   end) end)
-  row("返回主题列表",nil,function() self:setTab("themes") end)
+  row("返回主题列表",nil,function() self:setTab("theme_list") end)
  elseif self.tab=="font_options" or self.tab=="layout_options" then
   local ids=self.tab=="font_options" and {"font_hinting","font_kerning","embedded_fonts"} or {"word_spacing","word_expansion","cjk_width_scaling"}
   for _,id in ipairs(ids) do
@@ -171,10 +179,10 @@ function Panel:drawList(bb,x,y,w,h)
   if r.note then P.label(clip,r.note,S(20),ry+S(40),w-S(76),rowh-S(40),P.style.secondary,true) end
   P.rule(clip,S(20),ry+rowh-S(2),w-S(48),1.2)
   local hy=math.max(y,y+ry);local hh=math.max(0,math.min(y+viewh,y+ry+rowh)-hy)
-  self.hits[#self.hits+1]={x=x,y=hy,w=w-(r.more and S(52) or S(18)),h=hh,callback=r.callback,hold_callback=r.more}
+  self.hits[#self.hits+1]={x=x,y=hy,w=w-(r.more and S(70) or S(18)),h=hh,callback=r.callback,hold_callback=r.more,id='aa_row_'..i}
   if r.more then
    P.text(clip,"⋯",w-S(60),ry+S(15),S(42),22,true)
-   self.hits[#self.hits+1]={x=x+w-S(70),y=hy,w=S(48),h=hh,callback=r.more}
+   self.hits[#self.hits+1]={x=x+w-S(70),y=hy,w=S(48),h=hh,callback=r.more,id='aa_row_more_'..i}
   end
  end
  clip:free()
@@ -219,10 +227,10 @@ function Panel:paintTo(bb,x,y)
   local py=self.panel_y;bb:paintRect(x,py,w,height,B.COLOR_WHITE);P.rule(bb,x,py,w,2)
   if can then
    local titles={font="字体",fonts="选择字体",layout="排版",themes="主题",theme_manage="主题管理",theme_list="管理主题",font_options="字体选项",layout_options="字距选项",option=Registry.by_id[self.option_id] and Registry.by_id[self.option_id].title or "排版选项"}
-   local back=self.tab=="fonts" and "font" or self.tab=="option" and (self.option_parent or "layout_options") or self.tab=="font_options" and "font" or self.tab=="layout_options" and "layout" or (self.tab=="theme_manage" or self.tab=="theme_list") and "themes" or nil
+   local back=self:parentTab()
    if back then
     P.centerIcon(bb,"chevron.left",x,py,S(44),S(54),S(24))
-    self.hits[#self.hits+1]={x=x,y=py,w=S(44),h=S(54),callback=function() self:setTab(back) end,id="aa_back"}
+    self.hits[#self.hits+1]={x=x,y=py,w=S(44),h=S(54),callback=function() self:back() end,id="aa_back"}
    end
    local left=back and S(48) or S(20)
    P.label(bb,titles[self.tab] or "排版",x+left,py,w-left-S(60),S(54),20,true)
@@ -321,7 +329,7 @@ function Panel:onReaderSwipe(_,ges)
  return true
 end
 function Panel:onKeyPress(key)
- if key:match({Device.input.group.Back}) then if self.tab=="menu" then self:close() else self:setTab("menu") end
+ if key:match({Device.input.group.Back}) then self:back()
  elseif key:match({Device.input.group.PgFwd}) then self:turn(1)
  elseif key:match({Device.input.group.PgBack}) then self:turn(-1) end
  return true

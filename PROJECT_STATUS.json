@@ -1,6 +1,6 @@
 {
   "snapshot_date": "2026-10-23",
-  "software_version": "0.5.0-test.3",
+  "software_version": "0.5.0-test.4",
   "working_name": "墨页 E-Ink Frontend",
   "overall_status": "DEVELOPMENT_PREVIEW_DESKTOP_VERIFIED_DEVICE_PENDING",
   "device": {
@@ -144,24 +144,25 @@
     "epub_reflow": "Explicit opt-in; same-origin local engine; sandboxed previews; configurable layout; ZIP/size/CRC/path/encryption guards; _精排 copy"
   },
   "verification": {
-    "version": "0.5.0-test.3",
-    "checks": 168,
-    "distinct_cases": 56,
-    "runs": 15,
+    "version": "0.5.0-test.4",
+    "checks": 760,
+    "distinct_cases": 286,
+    "runs": 92,
     "failures": 0,
-    "pixel_frames": 15,
-    "pixel_measured_elements": 441,
     "device": "NOT_RUN",
     "reports": [
-      "test-results-053/summary.json",
+      "test-results/summary.json",
+      "test-results-030/summary.json",
+      "test-results-046/summary.json",
       "test-results-051/summary.json",
-      "test-results-041/summary.json"
+      "test-results-053/summary.json",
+      "test-results-054/summary.json",
+      "test-results-054/network-summary.json"
     ],
-    "scope": "Only the listed suites were rerun; historical core and browser reports are not added again.",
-    "current_version": "0.5.0-test.3",
-    "process_runs": 15,
-    "summary": "test-results-053/combined-summary.json",
-    "lua_syntax_files": 46,
+    "scope": "Each listed suite rerun; network server/browser grouped as one logical run; no historical checks added again.",
+    "current_version": "0.5.0-test.4",
+    "summary": "test-results-054/combined-summary.json",
+    "lua_syntax_files": 47,
     "physical_device": "NOT_RUN_AFTER_CHANGES"
   },
   "phase_status": {
@@ -364,5 +365,39 @@
     "search": "all settings",
     "restart": "confirm then flush settings then restart",
     "lifecycle": "outside tap, Back, dimensions, suspend, route change and close dismiss popup"
+  },
+  "verification_053": {
+    "version": "0.5.0-test.3",
+    "checks": 168,
+    "distinct_cases": 56,
+    "runs": 15,
+    "failures": 0,
+    "pixel_frames": 15,
+    "pixel_measured_elements": 441,
+    "device": "NOT_RUN",
+    "reports": [
+      "test-results-053/summary.json",
+      "test-results-051/summary.json",
+      "test-results-041/summary.json"
+    ],
+    "scope": "Only the listed suites were rerun; historical core and browser reports are not added again.",
+    "current_version": "0.5.0-test.3",
+    "process_runs": 15,
+    "summary": "test-results-053/combined-summary.json",
+    "lua_syntax_files": 46,
+    "physical_device": "NOT_RUN_AFTER_CHANGES"
+  },
+  "context_audit": {
+    "policy": "Shared render/open conditions; no reader controls without a live document; no popup outside its source route",
+    "fixes": [
+      "theme more hit overlap",
+      "nested Back destinations",
+      "stale hit maps on changed content",
+      "owned dialog and callback lifetime",
+      "collection scoped search visibility",
+      "mobile editor firewall insertion and session expiry"
+    ],
+    "new_checks": 51,
+    "physical_device": "NOT_RUN"
   }
 }

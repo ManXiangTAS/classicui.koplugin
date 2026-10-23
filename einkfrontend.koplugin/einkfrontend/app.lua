@@ -6,6 +6,7 @@ local Page = require("einkfrontend/screen")
 local Library = require("einkfrontend/library")
 local Browser = require("einkfrontend/browser")
 local Overlay=require("einkfrontend/overlay")
+local Context=require("einkfrontend/context")
 local App = {}
 App.__index = App
 
@@ -16,6 +17,7 @@ function App.new(plugin, adapter)
     local tab=browser.tabs[browser.active]
     local self=setmetatable({plugin=plugin,adapter=adapter,library=library,browser=browser,
         stack={},status="墨页 · 开发预览",library_layout=tab.layout,library_sort=tab.sort},App)
+    adapter.app=self;self.dialogs=setmetatable({},{__mode='k'})
     self.native=require("einkfrontend/native").new(self)
     self.themes=require("einkfrontend/themes").new()
     self.home_layout=require("einkfrontend/homelayout").new()
@@ -54,6 +56,8 @@ function App:fail(err)
 end
 
 function App:open(route,param)
+    if not Context.alive(self) then return end
+    self:closeDialogs()
     Overlay.close(self)
     if self.reader_topbar then self.reader_topbar:close() end
     if route=="home" then self.shell_page="home" end
@@ -92,6 +96,7 @@ function App:open(route,param)
 end
 
 function App:close()
+    self:closeDialogs()
     if self.transfer_server then self.transfer_server:stop() end
     Overlay.close(self)
     if self.reader_topbar then self.reader_topbar:close() end
@@ -119,6 +124,8 @@ function App:showControls()
 end
 
 function App:go(id,param,replace)
+    if not Context.alive(self) then return end
+    self:closeDialogs()
     if id=="home_customize" then return self:showHomeEditor(param) end
     if id=="home" then return self:open("home") end
     if not self.screen then return self:open(id,param) end
@@ -137,6 +144,8 @@ function App:go(id,param,replace)
 end
 
 function App:back()
+    if not Context.alive(self) then return end
+    self:closeDialogs()
     if #self.stack<=1 then return self:dismiss() end
     if self.stack[#self.stack].id=="native" and self.native:back() then return end
     self:saveLibraryView()
@@ -159,7 +168,7 @@ function App:change(item,value)
 end
 
 function App:showSettingsMore()
- if not self.screen or not self.screen.model or self.screen.model.route.id~='settings' then return end
+ if not Context.allowed(self,'settings_popup') then return end
  local popup=Overlay.present(self,'settings_popup',function()
   return require('einkfrontend/settingspopup'):new{app=self}
  end)
@@ -250,8 +259,9 @@ function App:searchLibrary()
 end
 
 function App:showLibraryMenu(kind)
+    if not Context.allowed(self,'library_popup') or (kind~='filter' and kind~='sort' and kind~='more') then return end
     local popup=Overlay.present(self,"library_popup",function() return require("einkfrontend/librarypopup"):new{app=self,kind=kind} end)
-    popup.kind=kind;UIManager:setDirty(popup,"ui");return popup
+    if popup then popup.kind=kind;UIManager:setDirty(popup,"ui") end;return popup
 end
 
 function App:libraryToolbar()
@@ -370,9 +380,8 @@ function App:editCollection(name,new_name)
 end
 
 function App:render()
-    if not self.screen then return end
+    if not self.screen or not Context.alive(self) then return end
     local route=self.stack[#self.stack]
-    if self.settings_popup and route.id~='settings' then self.settings_popup:close() end
     if route.id=="library" then route.id="books";route.param={} end
     if self.screen.model and self.screen.model.route==route then route.page=self.screen.model.page end
     local m={title="墨页",subtitle="",rows={},page=route.page or 1,route=route}
@@ -716,35 +725,59 @@ function App:render()
     route.title=m.title
     m.path_depth=#self.stack
     self.screen:setModel(m)
+    Overlay.closeInvalid(self)
+end
+function App:dialogGuard()
+    local parent=self.home_editor or self.navigation or self.reader_panel or self.screen or self.reader_topbar or self.controls
+    local route=parent==self.screen and self.stack[#self.stack] or nil
+    return function()
+        return Context.alive(self) and (not parent or UIManager:isWidgetShown(parent))
+            and (not route or self.stack[#self.stack]==route)
+    end
+end
+function App:trackDialog(dialog) self.dialogs[dialog]=true;return dialog end
+function App:closeDialogs()
+    local dialogs={};for dialog in pairs(self.dialogs or {}) do dialogs[#dialogs+1]=dialog end
+    for _,dialog in ipairs(dialogs) do
+        if UIManager:isWidgetShown(dialog) then UIManager:close(dialog) end
+        self.dialogs[dialog]=nil
+    end
 end
 function App:confirm(text,fn)
-    local box=require("ui/widget/confirmbox"):new{text=text,ok_text="确认",ok_callback=function() self:safe(fn) end}
+    if not Context.alive(self) then return end
+    local valid=self:dialogGuard();local resolved=false
+    local box
+    box=require("ui/widget/confirmbox"):new{text=text,ok_text="确认",ok_callback=function()
+        if resolved or not valid() or not UIManager:isWidgetShown(box) then return end
+        resolved=true;self:safe(fn)
+    end,cancel_callback=function() resolved=true end}
+    self:trackDialog(box)
     UIManager:show(box);return box
 end
 function App:message(text) UIManager:show(InfoMessage:new{text=tostring(text)}) end
 function App:showReader(tab)
+    if not Context.allowed(self,'reader_panel') then return end
     if tab=="progress" then return self:showBookStatistics() end
-    if not self.plugin.ui.document then return self:open("settings") end
     if self.screen then self:close() end
     local panel=Overlay.present(self,"reader_panel",function() return require("einkfrontend/readerpanel"):new{app=self,tab=tab or "menu"} end)
     if panel and tab then panel:setTab(tab) end
     return panel
 end
 function App:showBookStatistics()
-    assert(self.plugin.ui.document and self.adapter:alive(),"请先打开书籍")
+    if not Context.allowed(self,'book_statistics') then return end
     if self.screen then self:close() end
     local panel=Overlay.present(self,"book_statistics",function() return require("einkfrontend/bookstatistics"):new{app=self} end)
     if panel then panel:refresh() end
     return panel
 end
 function App:showReaderTopbar()
-    if not self.plugin.ui.document or not self.adapter:alive() then return end
+    if not Context.allowed(self,'reader_topbar') then return end
     if self.screen then self:close() end
     return Overlay.present(self,"reader_topbar",function() return require("einkfrontend/readertopbar"):new{app=self} end)
 end
 
 function App:showNavigation(tab,item)
-    assert(self.plugin.ui.document and self.adapter:alive(),"请先打开书籍")
+    if not Context.allowed(self,'navigation') then return end
     if self.screen then self:close() end
     local panel=Overlay.present(self,"navigation",function() return require("einkfrontend/readernavigation"):new{app=self} end)
     if panel then panel:setView(tab or "toc",item) end
@@ -772,8 +805,12 @@ function App:searchCurrent()
     if self.screen.model and self.screen.model.library_aux then return self:searchLibrary() end
     return self:searchSettings()
 end
+function App:searchPage()
+    if Context.allowed(self,'page_search') then return self:searchCurrent() end
+end
 function App:searchSettings()
     if not self.screen then self:open("settings") end
+    if not Context.alive(self) or not self.screen then return end
     return self.adapter:promptText("搜索全部设置","",function(query) self:userAction(function() require("einkfrontend/settings").search(self,query) end) end)
 end
 function App:openNativeConfig()

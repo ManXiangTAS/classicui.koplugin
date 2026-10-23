@@ -1,0 +1,314 @@
+{
+  "version": "0.4.0-dev",
+  "failures": 0,
+  "checks": 54,
+  "distinct_cases": 18,
+  "runs": 3,
+  "pixel_frames": 21,
+  "device": "NOT_RUN",
+  "results": [
+    {
+      "variant": "desktop",
+      "device": "NOT_RUN",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Themes offer one default tile and retain Save and Manage actions"
+        },
+        {
+          "status": "PASS",
+          "name": "Every Aa close button removes panel and toolbar"
+        },
+        {
+          "status": "PASS",
+          "name": "Dropdown in a book has neither library home nor sync shortcuts"
+        },
+        {
+          "status": "PASS",
+          "name": "Native catalog retains every static action and separates compatibility maintenance and power"
+        },
+        {
+          "status": "PASS",
+          "name": "Clock settings are single line rows and use the shared centered typography"
+        },
+        {
+          "status": "PASS",
+          "name": "Global settings search covers native lazy options and home widgets"
+        },
+        {
+          "status": "PASS",
+          "name": "Collection hidden state persists but collections remain manageable and can be restored"
+        },
+        {
+          "status": "PASS",
+          "name": "Collection visibility and rename failures restore frontend native memory and disk"
+        },
+        {
+          "status": "PASS",
+          "name": "Settings global search indexes lazy branches without invoking their action callbacks"
+        },
+        {
+          "status": "PASS",
+          "name": "Collection page search stays local and clearing restores all rows"
+        },
+        {
+          "status": "PASS",
+          "name": "Library search from its options shows real book results and category search stays scoped"
+        },
+        {
+          "status": "PASS",
+          "name": "Home editor previews changes immediately and does not save until requested"
+        },
+        {
+          "status": "PASS",
+          "name": "Web editor rejects unauthorized requests foreign origins DNS rebinding and stale revisions"
+        },
+        {
+          "status": "PASS",
+          "name": "Web editor strictly validates payloads nesting headers and body limits"
+        },
+        {
+          "status": "PASS",
+          "name": "Authorized web draft updates actual native preview and Save verifies disk"
+        },
+        {
+          "status": "PASS",
+          "name": "Native editor and web revisions protect against conflicting writers"
+        },
+        {
+          "status": "PASS",
+          "name": "Closing editor revokes token closes sockets removes poll and frees preview"
+        },
+        {
+          "status": "PASS",
+          "name": "Temporary web session expires and also stops on suspend"
+        }
+      ],
+      "frames": [
+        {
+          "file": "themes-reference-desktop.png"
+        },
+        {
+          "file": "reading-dropdown-desktop.png"
+        },
+        {
+          "file": "maintenance-desktop.png"
+        },
+        {
+          "file": "clock-settings-desktop.png"
+        },
+        {
+          "file": "home-editor-desktop.png"
+        },
+        {
+          "file": "home-editor-search-desktop.png"
+        },
+        {
+          "file": "home-editor-web-saved-desktop.png"
+        }
+      ]
+    },
+    {
+      "frames": [
+        {
+          "file": "themes-reference-voyage.png"
+        },
+        {
+          "file": "reading-dropdown-voyage.png"
+        },
+        {
+          "file": "maintenance-voyage.png"
+        },
+        {
+          "file": "clock-settings-voyage.png"
+        },
+        {
+          "file": "home-editor-voyage.png"
+        },
+        {
+          "file": "home-editor-search-voyage.png"
+        },
+        {
+          "file": "home-editor-web-saved-voyage.png"
+        }
+      ],
+      "variant": "voyage",
+      "device": "NOT_RUN",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Themes offer one default tile and retain Save and Manage actions"
+        },
+        {
+          "status": "PASS",
+          "name": "Every Aa close button removes panel and toolbar"
+        },
+        {
+          "status": "PASS",
+          "name": "Dropdown in a book has neither library home nor sync shortcuts"
+        },
+        {
+          "status": "PASS",
+          "name": "Native catalog retains every static action and separates compatibility maintenance and power"
+        },
+        {
+          "status": "PASS",
+          "name": "Clock settings are single line rows and use the shared centered typography"
+        },
+        {
+          "status": "PASS",
+          "name": "Global settings search covers native lazy options and home widgets"
+        },
+        {
+          "status": "PASS",
+          "name": "Collection hidden state persists but collections remain manageable and can be restored"
+        },
+        {
+          "status": "PASS",
+          "name": "Collection visibility and rename failures restore frontend native memory and disk"
+        },
+        {
+          "status": "PASS",
+          "name": "Settings global search indexes lazy branches without invoking their action callbacks"
+        },
+        {
+          "status": "PASS",
+          "name": "Collection page search stays local and clearing restores all rows"
+        },
+        {
+          "status": "PASS",
+          "name": "Library search from its options shows real book results and category search stays scoped"
+        },
+        {
+          "status": "PASS",
+          "name": "Home editor previews changes immediately and does not save until requested"
+        },
+        {
+          "status": "PASS",
+          "name": "Web editor rejects unauthorized requests foreign origins DNS rebinding and stale revisions"
+        },
+        {
+          "status": "PASS",
+          "name": "Web editor strictly validates payloads nesting headers and body limits"
+        },
+        {
+          "status": "PASS",
+          "name": "Authorized web draft updates actual native preview and Save verifies disk"
+        },
+        {
+          "status": "PASS",
+          "name": "Native editor and web revisions protect against conflicting writers"
+        },
+        {
+          "status": "PASS",
+          "name": "Closing editor revokes token closes sockets removes poll and frees preview"
+        },
+        {
+          "status": "PASS",
+          "name": "Temporary web session expires and also stops on suspend"
+        }
+      ]
+    },
+    {
+      "frames": [
+        {
+          "file": "themes-reference-landscape.png"
+        },
+        {
+          "file": "reading-dropdown-landscape.png"
+        },
+        {
+          "file": "maintenance-landscape.png"
+        },
+        {
+          "file": "clock-settings-landscape.png"
+        },
+        {
+          "file": "home-editor-landscape.png"
+        },
+        {
+          "file": "home-editor-search-landscape.png"
+        },
+        {
+          "file": "home-editor-web-saved-landscape.png"
+        }
+      ],
+      "variant": "landscape",
+      "device": "NOT_RUN",
+      "tests": [
+        {
+          "status": "PASS",
+          "name": "Themes offer one default tile and retain Save and Manage actions"
+        },
+        {
+          "status": "PASS",
+          "name": "Every Aa close button removes panel and toolbar"
+        },
+        {
+          "status": "PASS",
+          "name": "Dropdown in a book has neither library home nor sync shortcuts"
+        },
+        {
+          "status": "PASS",
+          "name": "Native catalog retains every static action and separates compatibility maintenance and power"
+        },
+        {
+          "status": "PASS",
+          "name": "Clock settings are single line rows and use the shared centered typography"
+        },
+        {
+          "status": "PASS",
+          "name": "Global settings search covers native lazy options and home widgets"
+        },
+        {
+          "status": "PASS",
+          "name": "Collection hidden state persists but collections remain manageable and can be restored"
+        },
+        {
+          "status": "PASS",
+          "name": "Collection visibility and rename failures restore frontend native memory and disk"
+        },
+        {
+          "status": "PASS",
+          "name": "Settings global search indexes lazy branches without invoking their action callbacks"
+        },
+        {
+          "status": "PASS",
+          "name": "Collection page search stays local and clearing restores all rows"
+        },
+        {
+          "status": "PASS",
+          "name": "Library search from its options shows real book results and category search stays scoped"
+        },
+        {
+          "status": "PASS",
+          "name": "Home editor previews changes immediately and does not save until requested"
+        },
+        {
+          "status": "PASS",
+          "name": "Web editor rejects unauthorized requests foreign origins DNS rebinding and stale revisions"
+        },
+        {
+          "status": "PASS",
+          "name": "Web editor strictly validates payloads nesting headers and body limits"
+        },
+        {
+          "status": "PASS",
+          "name": "Authorized web draft updates actual native preview and Save verifies disk"
+        },
+        {
+          "status": "PASS",
+          "name": "Native editor and web revisions protect against conflicting writers"
+        },
+        {
+          "status": "PASS",
+          "name": "Closing editor revokes token closes sockets removes poll and frees preview"
+        },
+        {
+          "status": "PASS",
+          "name": "Temporary web session expires and also stops on suspend"
+        }
+      ]
+    }
+  ]
+}
