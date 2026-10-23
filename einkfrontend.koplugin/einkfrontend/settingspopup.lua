@@ -58,8 +58,7 @@ function Popup:paintTo(bb, x, y)
 end
 
 function Popup:onSettingsPopupTap(_, ges)
-    local fn = ges and ges.pos and P.find(self, ges.pos)
-    if fn then self.app:safe(fn) else self:close() end
+    if not P.activate(self, ges and ges.pos) then self:close() end
     return true
 end
 function Popup:onSettingsPopupSwipe() self:close(); return true end

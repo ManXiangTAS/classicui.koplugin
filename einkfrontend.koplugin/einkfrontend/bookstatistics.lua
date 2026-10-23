@@ -1,6 +1,7 @@
 -- Original implementation. SPDX-License-Identifier: AGPL-3.0-or-later
 -- Current-document statistics: flush through the native owner, then query read-only.
 local Input=require("ui/widget/container/inputcontainer")
+local Rail=require('einkfrontend/scrollrail')
 local Device=require("device");local UI=require("ui/uimanager")
 local GestureRange=require("ui/gesturerange")
 local P=require("einkfrontend/paint");local S=P.s;local B=P.BB
@@ -53,7 +54,9 @@ function Stats.model(app)
 end
 function Stats:init()
  self.dimen=Device.screen:getSize();self.scroll=0
- self.ges_events={BookStatsTap={GestureRange:new{ges="tap",range=self.dimen}},BookStatsSwipe={GestureRange:new{ges="swipe",range=self.dimen}},
+ self.ges_events={
+        BookStatsHoldPan={ GestureRange:new{ges="hold_pan",range=self.dimen} },
+        BookStatsHoldRelease={ GestureRange:new{ges="hold_release",range=self.dimen} },BookStatsTap={GestureRange:new{ges="tap",range=self.dimen}},BookStatsSwipe={GestureRange:new{ges="swipe",range=self.dimen}},
  BookStatsPan={GestureRange:new{ges="pan",range=self.dimen}},BookStatsPanRelease={GestureRange:new{ges="pan_release",range=self.dimen}}}
 end
 function Stats:refresh(feedback)
@@ -81,6 +84,7 @@ function Stats:paintTo(bb,x,y)
  {"预计剩余",d.remaining or "—"},{"当前位置",tostring(d.page).." / "..tostring(d.pages).." 页"}}
  self.rows=rows;local rowh=S(62);local footer=S(40);local vh=y+h-cy-footer
  self.list_area={x=x,y=cy,w=w,h=vh};self.scroll_max=math.max(0,#rows*rowh-vh);self.scroll=math.max(0,math.min(self.scroll,self.scroll_max))
+ local full_w=w;w=w-(self.scroll_max>0 and Rail.reserve() or 0)
  local clip=bb:viewport(x,cy,w,vh)
  for i=math.floor(self.scroll/rowh)+1,math.min(#rows,math.ceil((self.scroll+vh)/rowh)) do
   local ry=(i-1)*rowh-self.scroll
@@ -89,30 +93,41 @@ function Stats:paintTo(bb,x,y)
   P.rule(clip,S(20),ry+rowh-S(2),w-S(40),1.2)
  end
  clip:free()
- if self.scroll_max>0 then
-  local th=math.max(S(24),math.floor(vh*vh/(#rows*rowh)))
-  bb:paintRect(x+w-S(8),cy,S(2),vh,B.COLOR_DARK_GRAY)
-  bb:paintRect(x+w-S(10),cy+math.floor((vh-th)*self.scroll/self.scroll_max),S(6),th,B.COLOR_BLACK)
- end
+ self.scroll_track=Rail.paint(bb,x,cy,full_w,vh,self.scroll,self.scroll_max);w=full_w
  local fy=y+h-footer;P.rule(bb,x+S(20),fy,w-S(40))
  P.label(bb,d.unavailable and "统计暂不可用" or d.paused and "统计未启用或已冻结，显示已有记录" or "按 KOReader 有效翻页计时，当前停留页尚未计入",x+S(20),fy,w-S(40),S(34),14,true)
 end
 function Stats:scrollBy(delta) self.scroll=math.max(0,math.min(self.scroll_max or 0,self.scroll+delta));UI:setDirty(self,"ui") end
 function Stats:onBookStatsTap(_,ges)
  if ges and ges.pos then
-  if ges.pos.y<self.panel_y then self:close() else local fn=P.find(self,ges.pos);if fn then self.app:safe(fn) end end
+  if ges.pos.y<self.panel_y then self:close() else
+   local value=Rail.tap(self.scroll_track,ges.pos,self.list_area.h*.7)
+   if value then self:scrollBy(value-self.scroll) else P.activate(self,ges.pos) end
+  end
  end
  return true
 end
 function Stats:onBookStatsSwipe(_,ges)
+ self.rail_drag=nil;self.pan=nil;self.list_pan=nil;self.pan_delta=nil;self.dragging_scrollbar=nil
  if not ges then return true end
  if ges.pos and ges.pos.y<self.panel_y then if ges.direction=="south" then self.app:showControls() end
  elseif ges.direction=="north" then self:scrollBy(self.list_area.h*.7)
  elseif ges.direction=="south" then self:scrollBy(-self.list_area.h*.7) end
  return true
 end
-function Stats:onBookStatsPan(_,ges) if ges and ges.pos and self.list_area and ges.pos.y>=self.list_area.y and ges.relative then self.pan=ges.relative.y end;return true end
-function Stats:onBookStatsPanRelease(_,ges) if self.pan then self:scrollBy(-(ges and ges.relative and ges.relative.y or self.pan));self.pan=nil end;return true end
+function Stats:onBookStatsPan(_,ges)
+ if ges and ges.pos then
+  local value,drag=Rail.pan(self.scroll_track,ges,self.rail_drag);self.rail_drag=drag
+  if value then self:scrollBy(value-self.scroll);self.pan=nil
+  elseif self.list_area and ges.pos.y>=self.list_area.y and ges.relative then self.pan=ges.relative.y end
+ end;return true
+end
+function Stats:onBookStatsPanRelease(_,ges)
+ local final=Rail.release(self.rail_drag,ges);if final then self:scrollBy(final-self.scroll) end
+ if self.rail_drag then self.pan=nil end
+ if self.pan then self:scrollBy(-(ges and ges.relative and ges.relative.y or self.pan)) end
+ self.pan=nil;self.rail_drag=nil;return true
+end
 function Stats:onKeyPress(key)
  if key:match({Device.input.group.Back}) then self:close()
  elseif key:match({Device.input.group.PgFwd}) then self:scrollBy(self.list_area.h*.7)
@@ -121,4 +136,6 @@ function Stats:onKeyPress(key)
 end
 Stats.onKeyRepeat=Stats.onKeyPress
 function Stats:onSetDimensions() self:init();UI:setDirty("all","ui");return true end
+Stats.onBookStatsHoldPan=Stats.onBookStatsPan
+Stats.onBookStatsHoldRelease=Stats.onBookStatsPanRelease
 return Stats

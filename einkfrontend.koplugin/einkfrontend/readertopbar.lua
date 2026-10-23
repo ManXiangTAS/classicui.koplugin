@@ -49,8 +49,7 @@ function Bar:paintTo(bb,x,y)
 end
 function Bar:onReaderTopTap(_,ges)
  if ges and ges.pos then
-  local fn=P.find(self,ges.pos)
-  if fn then self.app:safe(fn) else self:close() end
+  if not P.activate(self,ges.pos) then self:close() end
  end
  return true
 end

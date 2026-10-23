@@ -20,3 +20,6 @@ release-build/
 !test-results-058/syntax.json
 !test-results-060/combined-summary.json
 !test-results-060/syntax.json
+
+!test-results-061/*summary.json
+!test-results-061/syntax.json

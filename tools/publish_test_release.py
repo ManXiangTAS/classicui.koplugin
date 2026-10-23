@@ -25,7 +25,7 @@ for old in previous:
 try:release=request(base+'/releases/tags/'+tag)
 except urllib.error.HTTPError as e:
  if e.code!=404:raise
- release=request(base+'/releases','POST',{'tag_name':tag,'target_commitish':commit,'name':'ClassicUI · 墨页 '+VERSION+'（离线版）','body':(root/'docs/0.5.0-test.10_移除在线更新.md').read_text(),'draft':True,'prerelease':True})
+ release=request(base+'/releases','POST',{'tag_name':tag,'target_commitish':commit,'name':'ClassicUI · 墨页 '+VERSION+'（离线版）','body':(root/'docs/0.5.0-test.11_点击反馈与滚动条.md').read_text(),'draft':True,'prerelease':True})
 assets=Path(sys.argv[1]);files=[assets/f'ClassicUI_{VERSION}_install.zip',assets/f'ClassicUI_{VERSION}_source.zip',assets/'SHA256SUMS.txt']
 existing={a['name']:a for a in release['assets']}
 for path in files:

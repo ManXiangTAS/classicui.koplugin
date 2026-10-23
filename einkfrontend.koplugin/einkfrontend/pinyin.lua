@@ -73,7 +73,7 @@ function Bar:paintTo(bb,x,y)
 end
 function Bar:onPinyinTap(_,ges)
  if not self.state:live() then return true end
- local fn=ges and ges.pos and P.find(self,ges.pos);if fn then fn() end;return true
+ P.activate(self,ges and ges.pos);return true
 end
 local State={};State.__index=State
 function State:live() return not self.closed and self.keyboard._eink_pinyin==self and self.keyboard.visible and next(M.owners)~=nil end

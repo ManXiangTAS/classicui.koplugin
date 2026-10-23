@@ -1,5 +1,6 @@
 -- Original project code. SPDX-License-Identifier: AGPL-3.0-or-later
 local InputContainer = require("ui/widget/container/inputcontainer")
+local Rail=require('einkfrontend/scrollrail')
 local Device = require("device")
 local Geom = require("ui/geometry")
 local GestureRange = require("ui/gesturerange")
@@ -15,6 +16,8 @@ local Page = InputContainer:extend{ covers_fullscreen=true, stop_events_propagat
 function Page:init()
     self.dimen = Screen:getSize()
     self.ges_events = {
+        FrontendHoldPan={ GestureRange:new{ges="hold_pan",range=self.dimen} },
+        FrontendHoldRelease={ GestureRange:new{ges="hold_release",range=self.dimen} },
         FrontendTap = { GestureRange:new{ges="tap", range=self.dimen} },
         FrontendHold = { GestureRange:new{ges="hold", range=self.dimen} },
         FrontendSwipe = { GestureRange:new{ges="swipe", range=self.dimen} },
@@ -65,7 +68,7 @@ end
 function Page:setModel(model)
     -- Preserve a still-identical row after a status-only native refresh (e.g.
     -- tap followed by hold), but never retain controls for changed content.
-    if not sameHitModel(self.model,model) then self.hits={};self.settings_more_anchor=nil;self.scroll_track=nil end
+    if not sameHitModel(self.model,model) then self.hits={};self.settings_more_anchor=nil;self.scroll_track=nil;self.rail_drag=nil end
     self.model = model
     self:_layout()
     self.capacity=model.grid and self.grid_capacity or self.list_capacity
@@ -149,7 +152,9 @@ function Page:_paintSettings(bb,x,y)
     Paint.rule(bb,x,y+self.header_h-S(1.5),w,2)
     if self.info_h>0 then self:_text(bb,self.model.subtitle,x+S(20),y+self.header_h+S(10),w-S(48),14,false) end
     local top=y+self.header_h+self.info_h
-    local clip=bb:viewport(x,top,w,self.viewport_h)
+    local content_w=w-(self.scroll_max>0 and Rail.reserve() or 0)
+    local clip=bb:viewport(x,top,content_w,self.viewport_h)
+    w=content_w
     local start=math.floor(self.scroll_y/self.row_h)+1
     local last=math.min(#self.model.rows,math.ceil((self.scroll_y+self.viewport_h)/self.row_h))
     for i=start,last do
@@ -182,13 +187,7 @@ function Page:_paintSettings(bb,x,y)
         self.hits[#self.hits+1]={x=x,y=hy,w=w-S(20),h=hh,callback=not disabled and r.callback or nil,hold_callback=not disabled and r.hold_callback or nil,id="settings_row_"..i}
     end
     clip:free()
-    if self.scroll_max>0 then
-        local track_h=self.viewport_h-S(32);local thumb_h=math.max(S(28),math.floor(track_h*self.viewport_h/(#self.model.rows*self.row_h)))
-        local sy=top+S(16)+math.floor((track_h-thumb_h)*self.scroll_y/self.scroll_max)
-        self.scroll_track={x=x+w-S(19),y=top+S(16),w=S(19),h=track_h,thumb_h=thumb_h}
-        bb:paintRect(x+w-S(11),top+S(16),S(2),track_h,B.COLOR_DARK_GRAY)
-        bb:paintRect(x+w-S(13),sy,S(6),thumb_h,B.COLOR_BLACK)
-    else self.scroll_track=nil end
+    self.scroll_track=Rail.paint(bb,x,top,self.dimen.w,self.viewport_h,self.scroll_y,self.scroll_max)
 end
 
 function Page:_paint(bb,x,y)
@@ -325,11 +324,14 @@ function Page:paintTo(bb,x,y)
 end
 
 function Page:onFrontendTap(ignored,ges)
-    if ges and ges.pos then local fn=Paint.find(self,ges.pos);if fn then self.app:safe(function() fn(ges.pos) end) end end
+    if ges and ges.pos then
+        local value=Rail.tap(self.scroll_track,ges.pos,self.viewport_h*.7)
+        if value then self:scrollBy(value-self.scroll_y) else Paint.activate(self,ges.pos) end
+    end
     return true
 end
 function Page:onFrontendHold(ignored,ges)
-    if ges and ges.pos then local fn=Paint.find(self,ges.pos,true);if fn then self.app:safe(fn) end end
+    if ges and ges.pos then Paint.activate(self,ges.pos,true) end
     return true
 end
 
@@ -356,6 +358,7 @@ function Page:turn(delta)
 end
 
 function Page:onFrontendSwipe(ignored,ges)
+ self.rail_drag=nil;self.pan=nil;self.list_pan=nil;self.pan_delta=nil;self.dragging_scrollbar=nil
     if ges and ges.direction=="south" and ges.pos and ges.pos.y<=self.header_h then
         self.app:safe(function() self.app:showControls() end);return true
     end
@@ -374,19 +377,21 @@ end
 
 function Page:onFrontendPan(_,ges)
     if not self.model.settings or not ges then return true end
-    if ges.relative then self.pan_delta=ges.relative.y end
-    if ges.pos and self.scroll_track and ges.pos.x>=self.scroll_track.x then
-        local t=self.scroll_track;local ratio=(ges.pos.y-t.y-t.thumb_h/2)/math.max(1,t.h-t.thumb_h)
-        self:scrollBy(ratio*self.scroll_max-self.scroll_y);self.pan_delta=nil;self.dragging_scrollbar=true
+    if ges.pos then
+        local value,drag=Rail.pan(self.scroll_track,ges,self.rail_drag)
+        self.rail_drag=drag
+        if value then self:scrollBy(value-self.scroll_y);self.pan_delta=nil;self.dragging_scrollbar=true
+        elseif ges.relative then self.pan_delta=ges.relative.y end
     end
     return true
 end
 function Page:onFrontendPanRelease(_,ges)
+ local final=Rail.release(self.rail_drag,ges);if final then self:scrollBy(final-self.scroll_y) end
     if self.model.settings and not self.dragging_scrollbar then
         local delta=ges and ges.relative and ges.relative.y or self.pan_delta
         if delta then self:scrollBy(-delta) end
     end
-    self.pan_delta=nil;self.dragging_scrollbar=nil;return true
+    self.pan_delta=nil;self.dragging_scrollbar=nil;self.rail_drag=nil;return true
 end
 
 function Page:onKeyPress(key)
@@ -446,4 +451,6 @@ function Page:onCloseWidget()
     if self.app.screen==self and self.app.settings_popup then self.app.settings_popup:close() end
     if self.app.screen==self then self.app.screen=nil end
 end
+Page.onFrontendHoldPan=Page.onFrontendPan
+Page.onFrontendHoldRelease=Page.onFrontendPanRelease
 return Page

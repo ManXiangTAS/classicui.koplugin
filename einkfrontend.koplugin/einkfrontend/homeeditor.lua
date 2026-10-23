@@ -1,5 +1,6 @@
 -- Original implementation. SPDX-License-Identifier: AGPL-3.0-or-later
 local Input=require('ui/widget/container/inputcontainer')
+local Rail=require('einkfrontend/scrollrail')
 local Device=require('device');local UI=require('ui/uimanager');local Gesture=require('ui/gesturerange')
 local P=require('einkfrontend/paint');local S=P.s;local B=P.BB
 local Layout=require('einkfrontend/homelayout');local Copy=require('einkfrontend/catalog').copy
@@ -9,7 +10,9 @@ local Editor=Input:extend{covers_fullscreen=true,stop_events_propagation=true}
 function Editor:init()
  self.dimen=Device.screen:getSize();self.base=Copy(self.app.home_layout.config);self.draft=Copy(self.base)
  self.revision=0;self.query='';self.scroll=0;self.preview_scroll=0;self.selected=self.selected or 'currently'
- self.ges_events={EditorTap={Gesture:new{ges='tap',range=self.dimen}},EditorSwipe={Gesture:new{ges='swipe',range=self.dimen}}}
+ self.ges_events={
+        EditorHoldPan={ Gesture:new{ges="hold_pan",range=self.dimen} },
+        EditorHoldRelease={ Gesture:new{ges="hold_release",range=self.dimen} },EditorTap={Gesture:new{ges='tap',range=self.dimen}},EditorSwipe={Gesture:new{ges='swipe',range=self.dimen}},EditorPan={Gesture:new{ges='pan',range=self.dimen}},EditorPanRelease={Gesture:new{ges='pan_release',range=self.dimen}}}
  self:refreshPreview()
 end
 function Editor:refreshPreview()
@@ -91,7 +94,7 @@ function Editor:mobile()
  end)
 end
 function Editor:paintTo(bb,x,y)
- local w,h=self.dimen.w,self.dimen.h;self.hits={};bb:paintRect(x,y,w,h,B.COLOR_WHITE)
+ local w,h=self.dimen.w,self.dimen.h;self.hits={};self.scroll_track=nil;bb:paintRect(x,y,w,h,B.COLOR_WHITE)
  if self.full_preview then
   bb:blitFrom(self.preview,x,y,0,0,w,h)
   P.button(self,bb,'返回编辑',x+w-S(120),y+S(42),S(116),S(52),function() self.full_preview=false;UI:setDirty(self,'ui') end,{id='editor_preview_back'})
@@ -116,6 +119,7 @@ function Editor:paintTo(bb,x,y)
  if self.query~='' then P.button(self,bb,'×',x+w-S(48),cy,S(42),S(42),function() self.query='';self.scroll=0;UI:setDirty(self,'ui') end,{align='center',id='editor_search_clear'}) end
  cy=cy+S(42);local options=self:options();local bottom=S(48);local viewh=math.max(S(40),y+h-cy-bottom);local rowh=S(52)
  local rows=self:rows();self.filtered=rows;self.list_max=math.max(0,#rows*rowh-viewh);self.scroll=math.max(0,math.min(self.scroll,self.list_max));self.list_area={x=x,y=cy,w=w,h=viewh}
+ local full_w=w;w=w-(self.list_max>0 and Rail.reserve() or 0)
  local clip=bb:viewport(x,cy,w,viewh)
  if #rows==0 then P.inkLabel(clip,'没有匹配的部件',S(20),0,w-S(40),S(52),18,true,nil,'left') end
  for i,widget in ipairs(rows) do
@@ -142,13 +146,17 @@ function Editor:paintTo(bb,x,y)
    P.rule(clip,S(12),ry+rowh-1,w-S(24))
   end
  end
- clip:free();local oy=y+h-bottom;P.rule(bb,x,oy,w)
+ clip:free();self.scroll_track=Rail.paint(bb,x,cy,full_w,viewh,self.scroll,self.list_max);w=full_w;local oy=y+h-bottom;P.rule(bb,x,oy,w)
  for i,option in ipairs(options) do local opt=option;P.button(self,bb,opt[1],x+(i-1)*w/#options,oy,w/#options,bottom,opt[2],{align='center',size=15,id='editor_option_'..i}) end
 end
 function Editor:onEditorTap(_,ges)
- if ges and ges.pos then local fn=P.find(self,ges.pos);if fn then self.app:safe(fn) end end;return true
+ if ges and ges.pos then
+  local value=Rail.tap(self.scroll_track,ges.pos,self.list_area and self.list_area.h*.7 or 0)
+  if value then self.scroll=value;UI:setDirty(self,'ui') else P.activate(self,ges.pos) end
+ end;return true
 end
 function Editor:onEditorSwipe(_,ges)
+ self.rail_drag=nil;self.pan=nil;self.list_pan=nil;self.pan_delta=nil;self.dragging_scrollbar=nil
  if not ges then return true end
  local delta=ges.direction=='north' and 1 or ges.direction=='south' and -1 or 0
  if self.full_preview or (ges.pos and self.preview_area and ges.pos.y<self.preview_area.y+self.preview_area.h) then
@@ -156,9 +164,26 @@ function Editor:onEditorSwipe(_,ges)
  else self.scroll=math.max(0,math.min(self.list_max or 0,self.scroll+delta*S(156)));UI:setDirty(self,'ui') end
  return true
 end
+function Editor:onEditorPan(_,ges)
+ if self.full_preview or not ges or not ges.pos then return true end
+ local value,drag=Rail.pan(self.scroll_track,ges,self.rail_drag);self.rail_drag=drag
+ if value then self.scroll=value;UI:setDirty(self,'ui')
+ elseif self.list_area and ges.pos.y>=self.list_area.y and ges.relative then self.list_pan=ges.relative.y end
+ return true
+end
+function Editor:onEditorPanRelease(_,ges)
+ local final=Rail.release(self.rail_drag,ges);if final then self.scroll=final;UI:setDirty(self,"ui") end
+ if not self.rail_drag and self.list_pan then
+  self.scroll=math.max(0,math.min(self.list_max or 0,self.scroll-(ges and ges.relative and ges.relative.y or self.list_pan)))
+  UI:setDirty(self,'ui')
+ end
+ self.list_pan=nil;self.rail_drag=nil;return true
+end
 function Editor:onSetDimensions()
  self.dimen=Device.screen:getSize();for _,seq in pairs(self.ges_events) do seq[1].range=self.dimen end
  self.preview_scroll=0;self.revision=self.revision+1;self:refreshPreview();return true
 end
 function Editor:onKeyPress(key) if key:match({Device.input.group.Back}) then self:requestClose() end;return true end
+Editor.onEditorHoldPan=Editor.onEditorPan
+Editor.onEditorHoldRelease=Editor.onEditorPanRelease
 return Editor

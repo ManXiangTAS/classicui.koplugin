@@ -1,6 +1,7 @@
 -- Original implementation. SPDX-License-Identifier: AGPL-3.0-or-later
 -- Contextual bottom controls: the document remains visible behind this widget.
 local Input=require("ui/widget/container/inputcontainer")
+local Rail=require('einkfrontend/scrollrail')
 local Device=require("device")
 local UI=require("ui/uimanager")
 local GestureRange=require("ui/gesturerange")
@@ -11,12 +12,14 @@ local Copy=require("einkfrontend/catalog").copy
 local Panel=Input:extend{stop_events_propagation=true,covers_footer=true}
 function Panel:init()
  self.dimen=Device.screen:getSize();self.page=self.page or 1
- self.ges_events={ReaderTap={GestureRange:new{ges="tap",range=self.dimen}},ReaderHold={GestureRange:new{ges="hold",range=self.dimen}},
+ self.ges_events={
+        ReaderHoldPan={ GestureRange:new{ges="hold_pan",range=self.dimen} },
+        ReaderHoldRelease={ GestureRange:new{ges="hold_release",range=self.dimen} },ReaderTap={GestureRange:new{ges="tap",range=self.dimen}},ReaderHold={GestureRange:new{ges="hold",range=self.dimen}},
  ReaderSwipe={GestureRange:new{ges="swipe",range=self.dimen}},ReaderPan={GestureRange:new{ges="pan",range=self.dimen}},ReaderPanRelease={GestureRange:new{ges="pan_release",range=self.dimen}}}
 end
 function Panel:close() UI:close(self,"ui");UI:setDirty("all","ui") end
 function Panel:onCloseWidget() if self.app.reader_panel==self then self.app.reader_panel=nil end end
-function Panel:viewChanged() self.hits={};self.sliders={};self.list_area=nil;self.list_pan=nil;self.page=1;self.list_scroll=0;self.pending_font=nil;self.pending_adjustment=nil;UI:setDirty("all","ui") end
+function Panel:viewChanged() self.hits={};self.sliders={};self.list_area=nil;self.scroll_track=nil;self.rail_drag=nil;self.list_pan=nil;self.page=1;self.list_scroll=0;self.pending_font=nil;self.pending_adjustment=nil;UI:setDirty("all","ui") end
 function Panel:setTab(tab) self.tab=tab;self:viewChanged() end
 function Panel:parentTab()
  if self.tab=='option' then return self.option_parent or 'layout_options' end
@@ -74,6 +77,7 @@ function Panel:drawThemes(bb,x,y,w,h)
  local footer=S(112);local viewh=math.max(S(80),h-footer);local rowh=S(92)
  self.list_area={x=x,y=y,w=w,h=viewh};self.list_max=math.max(0,math.ceil(#choices/2)*rowh-viewh)
  self.list_scroll=math.max(0,math.min(self.list_scroll or 0,self.list_max))
+ local full_w=w;w=w-(self.list_max>0 and Rail.reserve() or 0)
  local clip=bb:viewport(x,y,w,viewh)
  for i,entry in ipairs(choices) do
   local cx=S(30)+(i-1)%2*w/2;local ry=math.floor((i-1)/2)*rowh-self.list_scroll
@@ -99,6 +103,8 @@ function Panel:drawThemes(bb,x,y,w,h)
   end
  end
  clip:free()
+ self.scroll_track=Rail.paint(bb,x,y,full_w,viewh,self.list_scroll,self.list_max)
+ w=full_w
  local fy=y+h-footer
  bb:paintBorder(x+S(24),fy+S(8),w-S(48),S(48),S(1.5),B.COLOR_BLACK)
  P.button(self,bb,"保存当前设置",x+S(24),fy+S(8),w-S(48),S(48),function() self:themeSave() end,{align="center",id="theme_save"})
@@ -172,6 +178,7 @@ function Panel:drawList(bb,x,y,w,h)
  local rowh=S(72);local viewh=h-footer
  self.list_area={x=x,y=y,w=w,h=viewh};self.list_max=math.max(0,#rows*rowh-viewh)
  self.list_scroll=math.max(0,math.min(self.list_scroll or 0,self.list_max));self.capacity=math.max(1,math.floor(viewh/rowh))
+ local full_w=w;w=w-(self.list_max>0 and Rail.reserve() or 0)
  local clip=bb:viewport(x,y,w,viewh);local start=math.floor(self.list_scroll/rowh)+1
  for i=start,math.min(#rows,math.ceil((self.list_scroll+viewh)/rowh)) do
   local r=rows[i];local ry=(i-1)*rowh-self.list_scroll
@@ -186,11 +193,7 @@ function Panel:drawList(bb,x,y,w,h)
   end
  end
  clip:free()
- if self.list_max>0 then
-  local th=math.max(S(24),math.floor(viewh*viewh/(#rows*rowh)))
-  bb:paintRect(x+w-S(10),y,S(2),viewh,B.COLOR_DARK_GRAY)
-  bb:paintRect(x+w-S(12),y+math.floor((viewh-th)*self.list_scroll/self.list_max),S(6),th,B.COLOR_BLACK)
- end
+ self.scroll_track=Rail.paint(bb,x,y,full_w,viewh,self.list_scroll,self.list_max)
 
 end
 
@@ -213,7 +216,7 @@ function Panel:drawSlider(bb,id,label,x,y,w,h)
  self.hits[#self.hits+1]={x=sx,y=sy,w=sw,h=sh,callback=function(pos) self:change(id,self:sliderValue(pos,slider)) end,id=id.."_slider"}
 end
 function Panel:paintTo(bb,x,y)
- self.hits={};self.sliders={};self.slider=nil;self.list_area=nil;self.list_max=nil
+ self.hits={};self.sliders={};self.slider=nil;self.list_area=nil;self.list_max=nil;self.scroll_track=nil
  local w,h=self.dimen.w,self.dimen.h;local toolbar=S(P.style.toolbar_h);local ty=y+h-toolbar
  local can=self.app.typography and self.app.typography:available()
  if not can and self.tab~="menu" then self.tab="pdf" end
@@ -285,16 +288,18 @@ function Panel:sliderValue(pos,slider)
 end
 function Panel:onReaderTap(_,ges)
  if not ges or not ges.pos then return true end
- local fn=P.find(self,ges.pos)
- if fn then self.app:safe(function() fn(ges.pos) end)
- elseif ges.pos.y<self.panel_y then self:close() end
+ local value=Rail.tap(self.scroll_track,ges.pos,self.list_area and self.list_area.h*.7 or 0)
+ if value then self.list_scroll=value;UI:setDirty(self,"ui")
+ elseif not P.activate(self,ges.pos) and ges.pos.y<self.panel_y then self:close() end
  return true
 end
 function Panel:onReaderHold(_,ges)
- if ges and ges.pos then local fn=P.find(self,ges.pos,true);if fn then self.app:safe(fn) end end;return true
+ if ges and ges.pos then P.activate(self,ges.pos,true) end;return true
 end
 function Panel:onReaderPan(_,ges)
  if ges and ges.pos then
+  local value,drag=Rail.pan(self.scroll_track,ges,self.rail_drag);self.rail_drag=drag
+  if value then self.list_scroll=value;self.list_pan=nil;UI:setDirty(self,"ui");return true end
   local selected=self.pending_adjustment and self.pending_adjustment.slider
   if not selected then for _,slider in ipairs(self.sliders or {}) do
    if ges.pos.y>=slider.y and ges.pos.y<slider.y+slider.h then selected=slider;break end
@@ -308,18 +313,21 @@ function Panel:onReaderPan(_,ges)
  return true
 end
 function Panel:onReaderPanRelease(_,ges)
+ local final=Rail.release(self.rail_drag,ges);if final then self.list_scroll=final;UI:setDirty(self,"ui") end
+ if self.rail_drag then self.rail_drag=nil;self.list_pan=nil;return true end
  if self.pending_adjustment then local pending=self.pending_adjustment;self.app:safe(function() self:change(pending.id,pending.value) end)
  elseif self.list_max and (self.list_pan or (ges and ges.relative)) then
   local delta=ges and ges.relative and ges.relative.y or self.list_pan
   self.list_scroll=math.max(0,math.min(self.list_max,(self.list_scroll or 0)-(delta or 0)));UI:setDirty(self,"ui")
  end
- self.list_pan=nil;return true
+ self.list_pan=nil;self.rail_drag=nil;return true
 end
 function Panel:turn(delta)
  if self.list_area then self.list_scroll=math.max(0,math.min(self.list_max or 0,(self.list_scroll or 0)+delta*self.list_area.h*.65)) end
  UI:setDirty(self,"ui")
 end
 function Panel:onReaderSwipe(_,ges)
+ self.rail_drag=nil;self.pan=nil;self.list_pan=nil;self.pan_delta=nil;self.dragging_scrollbar=nil
  if ges and ges.direction=="south" and ges.pos and ges.pos.y<S(60) then self.app:safe(function() self.app:showControls() end)
  elseif ges and self.list_area and ges.direction=="north" then self:turn(1)
  elseif ges and self.list_area and ges.direction=="south" then self:turn(-1)
@@ -336,4 +344,6 @@ function Panel:onKeyPress(key)
 end
 Panel.onKeyRepeat=Panel.onKeyPress
 function Panel:onSetDimensions() self:init();UI:setDirty(self,"full");return true end
+Panel.onReaderHoldPan=Panel.onReaderPan
+Panel.onReaderHoldRelease=Panel.onReaderPanRelease
 return Panel

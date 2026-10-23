@@ -63,7 +63,7 @@ function Controls:paintTo(bb,x,y)
   local ratio=(state.intensity-state.low)/math.max(1,state.high-state.low);local kx=math.floor(sx+ratio*sw)
   bb:paintCircle(kx,sy+S(1),S(12),B.COLOR_BLACK);bb:paintCircle(kx,sy+S(1),S(10),B.COLOR_WHITE)
   self.slider={x=sx,y=sy-S(20),w=sw,h=S(40)}
-  self.hits[#self.hits+1]={x=sx,y=sy-S(20),w=sw,h=S(40),callback=function(pos) self:setLight(pos) end}
+  self.hits[#self.hits+1]={x=sx,y=sy-S(20),w=sw,h=S(40),feedback=false,callback=function(pos) self:setLight(pos) end}
   self.hits[#self.hits+1]={x=x,y=sy-S(22),w=S(55),h=S(44),callback=function() self.app.adapter:setFrontlight(math.max(state.low,self.app.adapter:deviceStatus().intensity-1));UI:setDirty(self,"ui") end}
   self.hits[#self.hits+1]={x=x+w-S(55),y=sy-S(22),w=S(55),h=S(44),callback=function() self.app.adapter:setFrontlight(math.min(state.high,self.app.adapter:deviceStatus().intensity+1));UI:setDirty(self,"ui") end}
  end
@@ -80,7 +80,7 @@ end
 function Controls:onControlTap(_,ges)
  if not ges or not ges.pos then return true end
  if ges.pos.y>=self.panel_h then self:close();return true end
- local fn=P.find(self,ges.pos);if fn then self.app:safe(function() fn(ges.pos) end) end;return true
+ P.activate(self,ges.pos);return true
 end
 function Controls:onControlPan(_,ges)
  if ges and ges.pos and self.slider and ges.pos.y>=self.slider.y and ges.pos.y<=self.slider.y+self.slider.h then self.app:safe(function() self:setLight(ges.pos) end) end;return true

@@ -113,4 +113,33 @@ function P.find(widget,pos,hold)
   end
  end
 end
+-- Match native Button's e-ink feedback: fence only the pressed rectangle,
+-- restore it before invoking the action. No timers may outlive their page.
+function P.activate(widget,pos,hold)
+ if not pos then return false end
+ local fn,hit=P.find(widget,pos,hold)
+ if not fn then return false end
+ local UI=require("ui/uimanager");local screen=Device.screen
+ if widget.app and not UI:isWidgetShown(widget) then return false end
+ if hit.feedback~=false and not (hit.id and hit.id:match("_slider$"))
+  and not G_reader_settings:isFalse("flash_ui") then
+  local x=math.max(0,math.ceil(hit.x));local y=math.max(0,math.ceil(hit.y))
+  local w=math.min(screen:getWidth(),math.floor(hit.x+hit.w))-x
+  local h=math.min(screen:getHeight(),math.floor(hit.y+hit.h))-y
+  if w>0 and h>0 then
+   local region=require("ui/geometry"):new{x=x,y=y,w=w,h=h}
+   -- Drain earlier paints before touching the framebuffer, so they cannot
+   -- overwrite the highlight or make restoring it invert the new page.
+   UI:forceRePaint()
+   screen.bb:invertRect(x,y,w,h);UI:setDirty(nil,"fast",region)
+   local ok,err=pcall(function() UI:forceRePaint();UI:yieldToEPDC() end)
+   screen.bb:invertRect(x,y,w,h);UI:setDirty(nil,"ui",region)
+   if not ok then error(err,0) end
+  end
+ end
+ local action=function() fn(pos) end
+ if widget.app then widget.app:safe(action) else action() end
+ UI:forceRePaint()
+ return true
+end
 return P

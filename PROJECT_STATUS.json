@@ -1,6 +1,6 @@
 {
   "snapshot_date": "2026-10-23",
-  "software_version": "0.5.0-test.10",
+  "software_version": "0.5.0-test.11",
   "working_name": "墨页 E-Ink Frontend",
   "overall_status": "DEVELOPMENT_PREVIEW_DESKTOP_VERIFIED_DEVICE_PENDING",
   "device": {
@@ -145,25 +145,29 @@
     "offline_pinyin_candidates": "HOST_RIME_WORD_MAP; per-input preedit; click/page/space/return; external pinyin plugins yield; no sentence decoding",
     "kindle_stock_screensaver": "READ_ONLY_DEVICE_IMAGES; unified Sleep screen > Wallpaper radio option; random_image + auto path; display preferences preserved; legacy backup/restore retained; physical suspend NOT_RUN",
     "quick_input_language": "Always visible Chinese / EN switch for supported non-sensitive zh_CN/en input fields; preserve raw preedit, native English punctuation, persisted default; external input plugins yield",
-    "plugin_updater": "REMOVED; manual installation only; no updater network, timers, workers or stage activation. Compatibility tombstones overwrite legacy modules. Old settings and dedicated cache discarded without execution."
+    "plugin_updater": "REMOVED; manual installation only; no updater network, timers, workers or stage activation. Compatibility tombstones overwrite legacy modules. Old settings and dedicated cache discarded without execution.",
+    "press_feedback": "All frontend hit controls; bounded e-ink inversion; restore before callback; flash_ui respected; no timers; sliders use position feedback",
+    "scrollbar_gutter": "Shared DPI-scaled lane in settings, navigation, font/option/theme lists, statistics and home editor; bounded drag, arrows and tap; fixed home unchanged"
   },
   "verification": {
-    "version": "0.5.0-test.10",
-    "checks": 129,
-    "distinct_cases": 43,
-    "runs": 12,
+    "version": "0.5.0-test.11",
+    "checks": 306,
+    "distinct_cases": 102,
+    "runs": 18,
     "failures": 0,
     "device": "NOT_RUN",
     "reports": [
-      "test-results-060/summary.json",
-      "test-results-055/summary.json",
-      "test-results-053/summary.json",
-      "test-results-058/summary.json"
+      "test-results-061/summary.json",
+      "test-results-061/offline-summary.json",
+      "test-results-061/settings-popup-summary.json",
+      "test-results-061/input-summary.json",
+      "test-results-061/native-widgets-summary.json",
+      "test-results-061/home-summary.json"
     ],
-    "scope": "Fresh isolated offline boot with hostile pending/rollback fixtures, network-request trap, cleanup failures and symlinks; input, wallpaper and settings popup regression. No former relay access. Other historical reports excluded.",
-    "current_version": "0.5.0-test.10",
-    "summary": "test-results-060/combined-summary.json",
-    "lua_syntax_files": 57,
+    "scope": "Current press-feedback and scrollbar gesture tests, native widget lifecycle, fixed home/editor, settings-root popup, Chinese/English input, and offline hostile-cache startup regression across three layouts. Physical e-ink response and touch feel pending. Historical browser and wallpaper reports are not counted.",
+    "current_version": "0.5.0-test.11",
+    "summary": "test-results-061/combined-summary.json",
+    "lua_syntax_files": 58,
     "physical_device": "NOT_RUN_AFTER_CHANGES"
   },
   "phase_status": {
@@ -378,7 +382,7 @@
     "new_checks": 51,
     "physical_device": "NOT_RUN"
   },
-  "latest_validation": "test-results-060/combined-summary.json",
+  "latest_validation": "test-results-061/combined-summary.json",
   "historical_validation_051": {
     "version": "0.5.0-test.1",
     "checks": 911,
@@ -403,19 +407,21 @@
     "web": "Real byte-identical uploads, opt-in typography, image/nav/OPF preservation, script/network isolation, ZIP expansion/path/CRC/symlink/XML/CSS rejection, cancel and no partial files"
   },
   "current_validation": {
-    "version": "0.5.0-test.10",
-    "checks": 129,
-    "distinct_cases": 43,
-    "runs": 12,
+    "version": "0.5.0-test.11",
+    "checks": 306,
+    "distinct_cases": 102,
+    "runs": 18,
     "failures": 0,
     "device": "NOT_RUN",
     "reports": [
-      "test-results-060/summary.json",
-      "test-results-055/summary.json",
-      "test-results-053/summary.json",
-      "test-results-058/summary.json"
+      "test-results-061/summary.json",
+      "test-results-061/offline-summary.json",
+      "test-results-061/settings-popup-summary.json",
+      "test-results-061/input-summary.json",
+      "test-results-061/native-widgets-summary.json",
+      "test-results-061/home-summary.json"
     ],
-    "scope": "Fresh isolated offline boot with hostile pending/rollback fixtures, network-request trap, cleanup failures and symlinks; input, wallpaper and settings popup regression. No former relay access. Other historical reports excluded."
+    "scope": "Current press-feedback and scrollbar gesture tests, native widget lifecycle, fixed home/editor, settings-root popup, Chinese/English input, and offline hostile-cache startup regression across three layouts. Physical e-ink response and touch feel pending. Historical browser and wallpaper reports are not counted."
   },
   "historical_validation_057": {
     "version": "0.5.0-test.7",
@@ -475,5 +481,20 @@
     "device": "NOT_RUN",
     "server_requests_this_change": 0,
     "cache_policy": "Discard without applying or recovering previous updater journal"
+  },
+  "historical_validation_060": {
+    "version": "0.5.0-test.10",
+    "checks": 129,
+    "distinct_cases": 43,
+    "runs": 12,
+    "failures": 0,
+    "device": "NOT_RUN",
+    "reports": [
+      "test-results-060/summary.json",
+      "test-results-055/summary.json",
+      "test-results-053/summary.json",
+      "test-results-058/summary.json"
+    ],
+    "scope": "Fresh isolated offline boot with hostile pending/rollback fixtures, network-request trap, cleanup failures and symlinks; input, wallpaper and settings popup regression. No former relay access. Other historical reports excluded."
   }
 }

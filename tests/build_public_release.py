@@ -3,7 +3,7 @@
 from pathlib import Path
 import hashlib,json,re,sys,zipfile
 PROJECT=Path(__file__).resolve().parents[1]
-VERSION='0.5.0-test.10'
+VERSION='0.5.0-test.11'
 def sha(data):return hashlib.sha256(data).hexdigest()
 def public_paths():
  paths=[]
@@ -18,6 +18,9 @@ def public_paths():
  paths+=[PROJECT/rel for rel in ['docs/0.5.0-test.6_中英一键切换.md','test-results-056/summary.json','test-results-056/combined-summary.json','test-results-056/syntax.json']]
  paths+=[PROJECT/rel for rel in ['docs/0.5.0-test.8_屏保壁纸整合.md','test-results-058/summary.json','test-results-058/combined-summary.json','test-results-058/syntax.json']]
  paths+=[PROJECT/rel for rel in ['docs/0.5.0-test.10_移除在线更新.md','test-results-060/summary.json','test-results-060/combined-summary.json','test-results-060/syntax.json']]
+ paths+=[PROJECT/'docs/0.5.0-test.11_点击反馈与滚动条.md']
+ paths+=list((PROJECT/'test-results-061').glob('*summary.json'))
+ paths+=[PROJECT/'test-results-061/syntax.json']
  paths.append(PROJECT/'.gitignore')
  paths+=[PROJECT/rel for rel in ['docs/0.5.0-test.3_设置更多菜单.md','test-results-053/summary.json','test-results-053/combined-summary.json','test-results-053/syntax.json']]
  paths+=[PROJECT/rel for rel in ['docs/0.5.0-test.4_菜单与边界复查.md','test-results-054/summary.json','test-results-054/combined-summary.json','test-results-054/syntax.json','test-results-054/network-summary.json','test-results-046/summary.json']]
@@ -26,8 +29,8 @@ def public_paths():
  return sorted(set(paths))
 def inputs():
  status=json.loads((PROJECT/'PROJECT_STATUS.json').read_text());assert status['software_version']==VERSION
- checks=json.loads((PROJECT/'test-results-060/combined-summary.json').read_text());assert checks['failures']==0
- syntax=json.loads((PROJECT/'test-results-060/syntax.json').read_text());assert syntax['status']=='PASS'
+ checks=json.loads((PROJECT/'test-results-061/combined-summary.json').read_text());assert checks['failures']==0
+ syntax=json.loads((PROJECT/'test-results-061/syntax.json').read_text());assert syntax['status']=='PASS'
  for rel,digest in {**syntax['sha256'],**syntax.get('web_sha256',{})}.items():assert sha((PROJECT/rel).read_bytes())==digest,rel
  zones=PROJECT/'einkfrontend.koplugin/resources/timezones';inventory=json.loads((zones/'zones.json').read_text());assert inventory['version']=='2026e' and len(inventory['zones'])==419
  for z in inventory['zones']:assert sha((zones/z['id']).read_bytes())==z['sha256'],z['id']
@@ -54,12 +57,14 @@ def writezip(path,files):
 def build(output):
  output=Path(output);output.mkdir(parents=True,exist_ok=True)
  files,manifest,checks,syntax=inputs()
- info={'version':VERSION,'date':'2026-10-23','source_tree_sha256':sha(json.dumps(manifest,sort_keys=True).encode()),'koreader_commit':'9192014d8bd82a91dc1012473be0f238dedfdb54','checks':checks['checks'],'distinct_cases':checks['distinct_cases'],'runs':checks['runs'],'lua_files':syntax['files'],'device':'NOT_RUN_AFTER_CHANGES','settings_more':'Settings root only; two anchored rows for global settings search and restart; no page replacement; outside dismissal and lifecycle cleanup verified','native_controls':'Inherited reversible common renderer policy; no renderer changes this iteration','inherited_features':'LAN transfer, EPUB reflow and home editor retained; older browser evidence is historical and is not counted as rerun','pagepress':'Voyage physical pressure and haptic settings still pending','home':'Fixed viewport with bounded responsive widgets','network_clock':'No NTP or RTC changed on host','tutorial':'Existing 0.5.0 tutorial retained; this update is documented separately'}
+ info={'version':VERSION,'date':'2026-10-23','source_tree_sha256':sha(json.dumps(manifest,sort_keys=True).encode()),'koreader_commit':'9192014d8bd82a91dc1012473be0f238dedfdb54','checks':checks['checks'],'distinct_cases':checks['distinct_cases'],'runs':checks['runs'],'lua_files':syntax['files'],'device':'NOT_RUN_AFTER_CHANGES','settings_more':'Settings root only; two anchored rows for global settings search and restart; no page replacement; outside dismissal and lifecycle cleanup verified','native_controls':'Reversible square common renderer retained; frontend controls add bounded native-style press feedback','inherited_features':'LAN transfer, EPUB reflow and home editor retained; older browser evidence is historical and is not counted as rerun','pagepress':'Voyage physical pressure and haptic settings still pending','home':'Fixed viewport with bounded responsive widgets','network_clock':'No NTP or RTC changed on host','tutorial':'Existing 0.5.0 tutorial retained; this update is documented separately'}
  info['plugin_updater']='REMOVED; no source, network worker, automatic check, staging activation or rollback loader. Legacy modules are inert compatibility tombstones. Old settings and dedicated update cache are discarded without execution. Manual installation only.'
  info['input_method']='Persistent one-tap Chinese/English bar; preserves raw preedit on English switch; native English keys; offline host word map; external pinyin plugins take precedence; password/number/literal excluded'
  info['stock_screensaver']='Integrated into Sleep screen > Wallpaper; random_image + auto-detected local path only; exclusive wallpaper selection; display preferences preserved; legacy backups supported; physical suspend NOT_RUN'
  info['context_audit']='Shared page eligibility, stale-hit invalidation, nested Back behavior and owned dialog lifecycle checked across three layouts'
- info['inherited_features']='Offline fresh startup, legacy overlay, cache cleanup, settings More, input and wallpaper suites rerun; other historical reports excluded.'
+ info['inherited_features']='Current feedback/scroll gestures, native widgets, home/editor, offline startup, settings More and input rerun; historical browser/wallpaper reports excluded.'
+ info['press_feedback']='Synchronous bounded inversion before callbacks; exact restoration, disabled/closed control guards, no delayed actions; respects flash_ui; sliders do not flash'
+ info['scroll_lanes']='44 logical touch width; 8 thumb width; 16 edge inset; >=12 content gap; 36 minimum thumb height; DPI-scaled; arrows/tap/pan/hold-pan; gesture ownership locked; final release position honored'
  encoded=lambda value:(json.dumps(value,ensure_ascii=False,indent=2)+'\n').encode()
  install={k:v for k,v in files.items() if k.startswith('einkfrontend.koplugin/')};install['einkfrontend.koplugin/COPYING']=files['COPYING']
  install['README_安装与范围.md']=files['README.md'];install['Voyage_0.4.0_实测指南.md']=files['Voyage_0.4.0_实测指南.md'];install['BUILD_INFO.json']=encoded(info)

@@ -65,8 +65,7 @@ function Popup:paintTo(bb,x,y)
 end
 function Popup:onLibraryMenuTap(_,ges)
  if not ges or not ges.pos then return true end
- local fn=P.find(self,ges.pos)
- if fn then self.app:safe(fn) else self:close() end
+ if not P.activate(self,ges.pos) then self:close() end
  return true
 end
 function Popup:onLibraryMenuSwipe() return true end

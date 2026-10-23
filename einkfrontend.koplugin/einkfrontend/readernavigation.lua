@@ -1,6 +1,7 @@
 -- Original implementation. SPDX-License-Identifier: AGPL-3.0-or-later
 -- Non-fullscreen reading navigation, using the native ToC and annotations.
 local Input=require("ui/widget/container/inputcontainer")
+local Rail=require('einkfrontend/scrollrail')
 local Device=require("device");local UI=require("ui/uimanager")
 local GestureRange=require("ui/gesturerange")
 local TextBox=require("ui/widget/textboxwidget");local Font=require("ui/font")
@@ -11,7 +12,9 @@ function Nav:init()
  self.dimen=Device.screen:getSize();self.data=self.data or require("einkfrontend/navigationdata").new(self.app.plugin.ui)
  self.states=self.states or {toc={scroll=0,query=""},bookmarks={scroll=0,query=""},annotations={scroll=0,query=""},details={scroll=0,query=""}}
  self.collapsed=self.collapsed or {};self.view=self.view or "toc"
- self.ges_events={NavigationTap={GestureRange:new{ges="tap",range=self.dimen}},NavigationHold={GestureRange:new{ges="hold",range=self.dimen}},
+ self.ges_events={
+        NavigationHoldPan={ GestureRange:new{ges="hold_pan",range=self.dimen} },
+        NavigationHoldRelease={ GestureRange:new{ges="hold_release",range=self.dimen} },NavigationTap={GestureRange:new{ges="tap",range=self.dimen}},NavigationHold={GestureRange:new{ges="hold",range=self.dimen}},
  NavigationSwipe={GestureRange:new{ges="swipe",range=self.dimen}},NavigationPan={GestureRange:new{ges="pan",range=self.dimen}},NavigationPanRelease={GestureRange:new{ges="pan_release",range=self.dimen}}}
 end
 function Nav:clearText() if self.detail_box then self.detail_box:free();self.detail_box=nil end end
@@ -26,7 +29,7 @@ function Nav:setView(view,item)
  self.view=view;self:refresh()
 end
 function Nav:refresh()
- self.hits={};self:clearText();UI:setDirty("all","ui")
+ self.hits={};self.scroll_track=nil;self.rail_drag=nil;self.pan=nil;self:clearText();UI:setDirty("all","ui")
 end
 function Nav:run(callback)
  local ok,why=pcall(callback)
@@ -105,15 +108,16 @@ function Nav:paintDetails(bb,x,y,w,h)
   if item.datetime then text=text.."\n"..item.datetime end
   text=text.."\n\n"..(item.text or "页面书签")
   if item.note then text=text.."\n\n笔记\n"..item.note end
-  self.detail_box=TextBox:new{text=text,face=Font:getFace("smallinfofontbold",18),bold=true,width=w-S(48),fgcolor=B.COLOR_BLACK}
+  self.detail_box=TextBox:new{text=text,face=Font:getFace("smallinfofontbold",18),bold=true,width=w-Rail.reserve()-S(40),fgcolor=B.COLOR_BLACK}
  end
  self.scroll_max=math.max(0,self.detail_box:getSize().h+S(32)-h);state.scroll=math.max(0,math.min(state.scroll,self.scroll_max))
- local clip=bb:viewport(x,y,w,h);self.detail_box:paintTo(clip,S(20),S(16)-state.scroll);clip:free()
+ local clip=bb:viewport(x,y,w-Rail.reserve(),h);self.detail_box:paintTo(clip,S(20),S(16)-state.scroll);clip:free()
 end
 function Nav:paintList(bb,x,y,w,h)
  local rows=self:rows();self.current_rows=rows;local state=self.states[self.view]
  local rowh=S(self.view=="toc" and 72 or 104);self.row_h=rowh
  self.scroll_max=math.max(0,#rows*rowh-h);state.scroll=math.max(0,math.min(state.scroll,self.scroll_max))
+ w=w-(self.scroll_max>0 and Rail.reserve() or 0)
  local clip=bb:viewport(x,y,w,h)
  for i=math.floor(state.scroll/rowh)+1,math.min(#rows,math.ceil((state.scroll+h)/rowh)) do
   local row=rows[i];local ry=(i-1)*rowh-state.scroll;local indent=self.view=="toc" and S(math.min((row.depth or 1)-1,5)*18) or 0
@@ -194,12 +198,7 @@ function Nav:paintTo(bb,x,y)
  self.list_area={x=x,y=cy,w=w,h=vh}
  if self.view=="details" then self:paintDetails(bb,x,cy,w,vh) else self:paintList(bb,x,cy,w,vh) end
  local state=self.states[self.view]
- if self.scroll_max>0 then
-  local content=vh+self.scroll_max;local thumb=math.max(S(24),math.floor(vh*vh/content))
-  self.scroll_track={x=x+w-S(18),y=cy,w=S(18),h=vh,thumb=thumb}
-  bb:paintRect(x+w-S(7),cy,S(2),vh,B.COLOR_DARK_GRAY)
-  bb:paintRect(x+w-S(10),cy+math.floor((vh-thumb)*state.scroll/self.scroll_max),S(6),thumb,B.COLOR_BLACK)
- else self.scroll_track=nil end
+ self.scroll_track=Rail.paint(bb,x,cy,w,vh,state.scroll,self.scroll_max)
  local fy=y+h-footer;P.rule(bb,x+S(20),fy,w-S(40))
  P.label(bb,self.view=="details" and "上下滑动查看完整内容" or tostring(#self.current_rows).." 项 · 轻点跳转，长按查看",x+S(20),fy,w*.65-S(20),footer,14,true)
  if self.view~="toc" then P.button(self,bb,"更多操作",x+w*.67,fy,w*.33-S(8),footer,function() self:openNative() end,{size=14,align="center",id="navigation_native"}) end
@@ -210,25 +209,27 @@ end
 function Nav:onNavigationTap(_,ges)
  if not ges or not ges.pos then return true end
  if ges.pos.y<self.panel_y then self:close();return true end
- local fn=P.find(self,ges.pos);if fn then self.app:safe(fn) end;return true
+ local value=Rail.tap(self.scroll_track,ges.pos,self.list_area.h*.7)
+ if value then self:scrollBy(value-self.states[self.view].scroll) else P.activate(self,ges.pos) end;return true
 end
 function Nav:onNavigationHold(_,ges)
- if ges and ges.pos then local fn=P.find(self,ges.pos,true);if fn then self.app:safe(fn) end end;return true
+ if ges and ges.pos then P.activate(self,ges.pos,true) end;return true
 end
 function Nav:onNavigationPan(_,ges)
  if ges and ges.pos then
-  local t=self.scroll_track
-  if t and ges.pos.x>=t.x then
-   local ratio=math.max(0,math.min(1,(ges.pos.y-t.y-t.thumb/2)/math.max(1,t.h-t.thumb)))
-   self.states[self.view].scroll=ratio*self.scroll_max;UI:setDirty(self,"ui")
+  local value,drag=Rail.pan(self.scroll_track,ges,self.rail_drag);self.rail_drag=drag
+  if value then self:scrollBy(value-self.states[self.view].scroll);self.pan=nil
   elseif ges.pos.y>=self.list_area.y and ges.relative then self.pan=ges.relative.y end
  end
  return true
 end
 function Nav:onNavigationPanRelease(_,ges)
- if self.pan then self:scrollBy(-(ges and ges.relative and ges.relative.y or self.pan));self.pan=nil end;return true
+ local final=Rail.release(self.rail_drag,ges);if final then self:scrollBy(final-self.states[self.view].scroll) end
+ if self.rail_drag then self.pan=nil end
+ if self.pan then self:scrollBy(-(ges and ges.relative and ges.relative.y or self.pan));self.pan=nil end;self.rail_drag=nil;return true
 end
 function Nav:onNavigationSwipe(_,ges)
+ self.rail_drag=nil;self.pan=nil;self.list_pan=nil;self.pan_delta=nil;self.dragging_scrollbar=nil
  if not ges then return true end
  if ges.pos and ges.pos.y<self.panel_y then if ges.direction=="south" then self.app:showControls() end
  elseif ges.direction=="north" then self:scrollBy(self.list_area.h*.7)
@@ -243,4 +244,6 @@ function Nav:onKeyPress(key)
 end
 Nav.onKeyRepeat=Nav.onKeyPress
 function Nav:onSetDimensions() self:clearText();self:init();UI:setDirty("all","ui");return true end
+Nav.onNavigationHoldPan=Nav.onNavigationPan
+Nav.onNavigationHoldRelease=Nav.onNavigationPanRelease
 return Nav
