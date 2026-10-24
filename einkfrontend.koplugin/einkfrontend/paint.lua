@@ -84,7 +84,7 @@ end
 function P.battery(bb,percent,x,y,w,h)
  local value=tonumber(percent)
  if value and (value~=value or value<0 or value>100) then value=nil end
- local text=value and tostring(math.floor(value)).."%" or "��"
+ local text=value and tostring(math.floor(value)).."%" or "—"
  local label=P.inkLabel(bb,text,x,y,w,h,16,true,nil,"right")
  local bw,bh=P.s(29),P.s(14);local by=y+math.floor((h-bh)/2)
  x=label.x-P.s(8)-bw-P.s(3)
@@ -124,7 +124,7 @@ local function feedback(widget,hit,UI)
  local x,y,w,h,region,inverted,snapshot
  local circle=hit.feedback_circle
  local ok,err=pcall(function()
-  local box=circle and {x=circle.cx-circle.r,y=circle.cy-circle.r,w=2*circle.r+1,h=2*circle.r+1} or hit.feedback_rect or hit
+  local box=circle and {x=circle.cx-circle.r,y=circle.cy-circle.r,w=2*circle.r+1,h=2*circle.r+1} or hit
   x=math.max(0,math.ceil(box.x));y=math.max(0,math.ceil(box.y))
   w=math.min(screen:getWidth(),math.floor(box.x+box.w))-x
   h=math.min(screen:getHeight(),math.floor(box.y+box.h))-y

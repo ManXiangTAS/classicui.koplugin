@@ -1,18 +1,14 @@
-# �ع����
+# 回归测试
 
-������Ҫ�ٷ� KOReader Linux ģ��������Ŀ¼������ luajit �� SDL �⣩�������� `plugins/einkfrontend.koplugin` ���ӵ����ֿ���Ŀ¼������ʹ�ø������ú�ԭ��ʾ���鼮�����޸���ʵ��⡣
+测试需要官方 KOReader Linux 模拟器运行目录（包含 luajit 与 SDL 库），并将其 `plugins/einkfrontend.koplugin` 链接到本仓库插件目录。测试使用隔离设置和原创示例书籍，不修改真实书库。
 
 ```sh
 python3 tests/run_regression.py /path/to/koreader
 ```
 
-���� `--suite core` �Ȳ�������ָ���顣���Ǽ۸���Ԫ���ݡ�����Ǩ�ơ���������������������������Ӣ���롢ԭ���ؼ�����ҳ�����������ò˵����Զ�ǰ�⡣
+可用 `--suite core` 等参数运行指定组。覆盖价格与元数据、布局迁移、点击反馈与滚动、离线启动、中英输入、原生控件、主页、屏保和设置菜单。
 
-`--suite maintenance` ʹ�ø������͸����ļ���֤ɾ��ȷ�ϡ�ȡ����ʧ�ܡ��Ѵ򿪱������Լ�����ɨ�衢Ԥ����ָ���ͬ�����ʽ������ / ��ϣԪ���ݡ��������ݿ⡢·�����ӡ��洢�仯�����ԡ�ԭʼʾ��������ʷͳ�Ʊ��ֲ��䡣
-
-�Զ�ǰ������ߡ����䡢�ֶ����ȡ�Ӳ����洢���ϡ����ߵȲ��Լ����� LuaJIT ����ִ�У�`luajit tests/test_light_policy.lua`��`--suite autolight` ʹ��ģ�⴫��������ʵ KOReader ���á�Powerd �ͽ��棬��֤��ڡ�У׼Ԥ����ȡ������д���á����ߺ��Ķ����أ��ⲻ�����ʵ����빦�Ĳ��ԡ�
-
-�����������Ҫ Node.js��Playwright �� Chromium������ `EINK_CHROMIUM` Ϊ�����·����
+浏览器测试需要 Node.js、Playwright 和 Chromium，设置 `EINK_CHROMIUM` 为浏览器路径：
 
 ```sh
 npm install --prefix tests
@@ -20,19 +16,6 @@ EINK_CHROMIUM=/path/to/chromium python3 tests/run_web.py /path/to/koreader uploa
 EINK_CHROMIUM=/path/to/chromium python3 tests/run_web.py /path/to/koreader home_editor
 ```
 
-��־�뻭����������Ե� `test-results/`��������Դ���밲װ������ʵ Kindle ����ʾ��Ӳ����������ʵ����顣
+日志与画面输出到忽略的 `test-results/`，不进入源码与安装包。真实 Kindle 的显示与硬件操作仍需实机检查。
 
-��������Ĭ��ֻ���ɲݸ塣ά����ȷ�Ϻ󣬿��ֶ����й�������ѡ��������ʹ���뵱ǰ�汾��ȫһ�µ��ύ���� `Release ClassicUI <�汾��>`����ͨ���Ͳ��ṫ���°汾���������Լ�飺`python3 tests/test_release_policy.py`��
-
-## ���������߼���飨0.7.3��
-
-��Ҫ Python��Node.js���Լ���װ�� tests/node_modules �� Fengari��
-
-    npm install --prefix tests
-    python tests/run_local_checks.py
-
-Ҳ�ɽ� FENGARI_ROOT ����Ϊ���� Fengari �� src Ŀ¼�������ظ��������������в������� GitHub���޸���ʵ��������豸Ӳ������������ʹ���ڴ� HTTP ��������ҳ���ʹ�� Node VM �ͼ� DOM/HTTP ������Lua ���ʹ�� Fengari Lua 5.3��
-
-�����鸲�Ƿ������ԡ���װ��������/ժҪ/�ظ�������ԭǰ����ԡ�����ע������ҳ�ű��߼������λ�� test-results/local/combined-summary.json�������ܴ����������� LuaJIT��SDL/crengine/MuPDF ģ������Playwright ����������� Kindle ������ԡ�
-
-���� test_light_upgrade.lua ��֤�ɵ����ߡ�����Ŀ��仯����ֶ��ָ�����������/1 �븴�顢�򻯺�����õ���������У�飬�Լ�����λ�ڻ������Ϸ��Ļ������ꡣ�˻��Ƽ��ʹ������������֤��ʵ����դ��
+发布流程默认只生成草稿。维护者确认后，可手动运行构建并勾选发布，或使用与当前版本完全一致的提交标题 `Release ClassicUI <版本号>`；普通推送不会公开新版本。发布策略检查：`python3 tests/test_release_policy.py`。

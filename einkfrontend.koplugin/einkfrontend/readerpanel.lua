@@ -39,15 +39,15 @@ function Panel:source()
  local t=self.app.typography
  if not t or not t.meta then return "" end
  local id=t.meta.theme_id;local theme=id and self.app.themes:find(id)
- if theme and t:matches(theme.values) then return "���� �� "..theme.name end
- if id=="builtin:default" and t:matches(t:defaults()) then return "���� �� Ĭ��" end
- if id then return "���� �� �ѵ���" end
+ if theme and t:matches(theme.values) then return "主题 · "..theme.name end
+ if id=="builtin:default" and t:matches(t:defaults()) then return "主题 · 默认" end
+ if id then return "本书 · 已调整" end
  local inherited=false;for _,v in pairs(t.meta.inherit) do inherited=inherited or v end
- return inherited and "���� �� �̳�Ĭ��" or "���Ȿ��"
+ return inherited and "本书 · 继承默认" or "仅这本书"
 end
 function Panel:themeSave()
  local values=self.app.typography:snapshot()
- self.app.adapter:promptText("�����Ű����⣨1��24�֣�",self.draft_name or "",function(name) self.app:safe(function()
+ self.app.adapter:promptText("保存排版主题（1—24字）",self.draft_name or "",function(name) self.app:safe(function()
   self.draft_name=name
   local ok,id=self.app.themes:create(name,values)
   if not ok then self.app:message(id);return end
@@ -55,7 +55,7 @@ function Panel:themeSave()
  end) end)
 end
 function Panel:themeApply(id)
- local theme=assert(self.app.themes:find(id),"�����Ѳ�����")
+ local theme=assert(self.app.themes:find(id),"主题已不存在")
  local ok,why=self.app.typography:apply(theme.values,false,id)
  if not ok then self.app:message(why) end
  self:setTab("themes");UI:setDirty("all","ui");return ok,why
@@ -63,7 +63,7 @@ end
 function Panel:themeManage(id) self.theme_id=id;self:setTab("theme_manage") end
 function Panel:themeChoices()
  local t=self.app.typography
- local out={{id="builtin:default",name="Ĭ��",builtin=true,values=t:defaults()}}
+ local out={{id="builtin:default",name="默认",builtin=true,values=t:defaults()}}
  for _,theme in ipairs(self.app.themes.records) do out[#out+1]=theme end
  local selected
  for _,entry in ipairs(out) do
@@ -88,11 +88,11 @@ function Panel:drawThemes(bb,x,y,w,h)
    P.inkIcon(clip,"appbar.textsize",cx,iy,side,side,S(28))
    if active then
     clip:paintRect(cx-S(8),iy-S(8),S(23),S(22),B.COLOR_WHITE)
-    P.inkLabel(clip,"?",cx-S(13),iy-S(14),S(35),S(30),24,true)
+    P.inkLabel(clip,"✓",cx-S(13),iy-S(14),S(35),S(30),24,true)
    end
    local tx=cx+side+S(14);local tw=w/2-side-S(60)
    P.inkLabel(clip,entry.name,tx,active and ry+S(12) or ry,tw,active and S(44) or rowh,19,true,nil,"left")
-   if active then P.inkLabel(clip,"��ǰ����",tx,ry+S(50),tw,S(28),15,false,nil,"left") end
+   if active then P.inkLabel(clip,"当前主题",tx,ry+S(50),tw,S(28),15,false,nil,"left") end
    local hy=math.max(y,y+ry);local hh=math.min(y+viewh,y+ry+rowh)-hy
    local chosen=entry
    self.hits[#self.hits+1]={x=x+(i-1)%2*w/2,y=hy,w=w/2,h=hh,id="theme_"..entry.id,callback=function()
@@ -107,9 +107,9 @@ function Panel:drawThemes(bb,x,y,w,h)
  w=full_w
  local fy=y+h-footer
  bb:paintBorder(x+S(24),fy+S(8),w-S(48),S(48),S(1.5),B.COLOR_BLACK)
- P.button(self,bb,"���浱ǰ����",x+S(24),fy+S(8),w-S(48),S(48),function() self:themeSave() end,{align="center",id="theme_save"})
+ P.button(self,bb,"保存当前设置",x+S(24),fy+S(8),w-S(48),S(48),function() self:themeSave() end,{align="center",id="theme_save"})
  P.rule(bb,x,fy+S(72),w)
- P.button(self,bb,"��������",x+S(20),fy+S(72),w-S(40),S(40),function() self:setTab("theme_list") end,{id="theme_manage"})
+ P.button(self,bb,"管理主题",x+S(20),fy+S(72),w-S(40),S(40),function() self:setTab("theme_list") end,{id="theme_manage"})
  P.centerIcon(bb,"chevron.right",x+w-S(50),fy+S(72),S(30),S(40),S(24))
 end
 function Panel:rows()
@@ -117,32 +117,32 @@ function Panel:rows()
  if self.tab=="fonts" then
   local face=app.adapter:read("font_face")
   for _,choice in ipairs(app.adapter:choices("font_face")) do local value=choice[1]
-   row((value==face and "? " or "")..choice[2],nil,function() self:change("font_face",value);self:setTab("font") end)
+   row((value==face and "✓ " or "")..choice[2],nil,function() self:change("font_face",value);self:setTab("font") end)
   end
  elseif self.tab=="theme_list" then
   for _,theme in ipairs(app.themes.records) do local id=theme.id
    local matched=app.typography.meta.theme_id==id and app.typography:matches(theme.values)
    local v=theme.values
-   row((matched and "? " or "")..theme.name,(v.font_face or "����").." �� "..tostring(v.font_size).." �� �о� "..tostring(v.line_spacing).."%"..(not v.font_gamma and " �� ������" or ""),
+   row((matched and "✓ " or "")..theme.name,(v.font_face or "字体").." · "..tostring(v.font_size).." · 行距 "..tostring(v.line_spacing).."%"..(not v.font_gamma and " · 旧主题" or ""),
     function() self:themeApply(id) end,function() self:themeManage(id) end)
   end
-  if #rows==0 then row("��δ��������",app.themes.error) end
+  if #rows==0 then row("尚未保存主题",app.themes.error) end
  elseif self.tab=="theme_manage" then
-  local theme=assert(app.themes:find(self.theme_id),"�����Ѳ�����");local id=theme.id
-  row("���ã�"..theme.name,nil,function() self:themeApply(id) end)
-  row("������",nil,function() app.adapter:promptText("����������",theme.name,function(name) app:safe(function()
+  local theme=assert(app.themes:find(self.theme_id),"主题已不存在");local id=theme.id
+  row("套用："..theme.name,nil,function() self:themeApply(id) end)
+  row("重命名",nil,function() app.adapter:promptText("重命名主题",theme.name,function(name) app:safe(function()
    local ok,why=app.themes:rename(id,name);if not ok then app:message(why) end;UI:setDirty(self,"ui")
   end) end) end)
-  row("�õ�ǰ�Ű����",nil,function() app:confirm("�õ�ǰ�Ű�������⡰"..theme.name.."����",function()
+  row("用当前排版更新",nil,function() app:confirm("用当前排版更新主题“"..theme.name.."”？",function()
    local ok,why=app.themes:update(id,app.typography:snapshot());if not ok then app:message(why) end;self:setTab("themes")
   end) end)
-  row("ɾ������",nil,function() app:confirm("ɾ�����⡰"..theme.name.."������ǰ�鼮���Ű汣����",function()
+  row("删除主题",nil,function() app:confirm("删除主题“"..theme.name.."”？当前书籍的排版保留。",function()
    local ok,why=app.themes:delete(id);if not ok then app:message(why) else
     if app.typography.meta.theme_id==id then app.typography.meta.theme_id=nil;app.plugin.ui:saveSettings() end
     self:setTab("themes")
    end
   end) end)
-  row("���������б�",nil,function() self:setTab("theme_list") end)
+  row("返回主题列表",nil,function() self:setTab("theme_list") end)
  elseif self.tab=="font_options" or self.tab=="layout_options" then
   local ids=self.tab=="font_options" and {"font_hinting","font_kerning","embedded_fonts"} or {"word_spacing","word_expansion","cjk_width_scaling"}
   for _,id in ipairs(ids) do
@@ -151,24 +151,24 @@ function Panel:rows()
   end
  elseif self.tab=="option" then
   local id=self.option_id;local item=Registry.by_id[id];local value=app.adapter:read(id)
-  row("? ����"..(self.option_parent=="font_options" and "����ѡ��" or "�־�ѡ��"),nil,function() self:setTab(self.option_parent or "layout_options") end)
-  row(item.title.."��"..app:valueText(item,value),nil)
+  row("‹ 返回"..(self.option_parent=="font_options" and "字体选项" or "字距选项"),nil,function() self:setTab(self.option_parent or "layout_options") end)
+  row(item.title.."："..app:valueText(item,value),item.help)
   if item.kind=="number" then
-   row("���� "..item.step,nil,function() self:change(id,math.max(item.min,value-item.step)) end)
-   row("���� "..item.step,nil,function() self:change(id,math.min(item.max,value+item.step)) end)
-   row("�Զ�����ֵ",item.min.."��"..item.max,function() app.adapter:promptText(item.title,tostring(value),function(text) app:safe(function() self:change(id,tonumber(text)) end) end) end)
+   row("减少 "..item.step,nil,function() self:change(id,math.max(item.min,value-item.step)) end)
+   row("增加 "..item.step,nil,function() self:change(id,math.min(item.max,value+item.step)) end)
+   row("自定义数值",item.min.."—"..item.max,function() app.adapter:promptText(item.title,tostring(value),function(text) app:safe(function() self:change(id,tonumber(text)) end) end) end)
   elseif item.kind=="pair" then
-   row("�Զ���ʼ��","���� / ������%��",function() app.adapter:promptText("���� ������%��",table.concat(value," "),function(text) app:safe(function()
+   row("自定义词间距","缩放 / 收缩（%）",function() app.adapter:promptText("缩放 收缩（%）",table.concat(value," "),function(text) app:safe(function()
     local pair={};for token in text:gmatch("%S+") do pair[#pair+1]=tonumber(token) or -1 end;self:change(id,pair)
    end) end) end)
   else
-   for _,choice in ipairs(item.kind=="toggle" and {{false,"�ر�"},{true,"����"}} or app.adapter:choices(id)) do
-    local v=choice[1];row((Equal(v,value) and "? " or "")..choice[2],nil,function() self:change(id,v) end)
+   for _,choice in ipairs(item.kind=="toggle" and {{false,"关闭"},{true,"开启"}} or app.adapter:choices(id)) do
+    local v=choice[1];row((Equal(v,value) and "✓ " or "")..choice[2],nil,function() self:change(id,v) end)
    end
   end
  elseif self.tab=="pdf" then
-  row("ҳ��ñߡ�����������",nil,function() app:openNativeConfig() end)
-  row("ҳ����ʾ���Ķ�ƫ��",nil,function() self:close();app:open("settings") end)
+  row("页面裁边、缩放与重排","打开完整页面排版兼容页",function() app:openNativeConfig() end)
+  row("页面显示与阅读偏好",nil,function() self:close();app:open("settings") end)
  end
  return rows
 end
@@ -188,7 +188,7 @@ function Panel:drawList(bb,x,y,w,h)
   local hy=math.max(y,y+ry);local hh=math.max(0,math.min(y+viewh,y+ry+rowh)-hy)
   self.hits[#self.hits+1]={x=x,y=hy,w=w-(r.more and S(70) or S(18)),h=hh,callback=r.callback,hold_callback=r.more,id='aa_row_'..i}
   if r.more then
-   P.text(clip,"?",w-S(60),ry+S(15),S(42),22,true)
+   P.text(clip,"⋯",w-S(60),ry+S(15),S(42),22,true)
    self.hits[#self.hits+1]={x=x+w-S(70),y=hy,w=S(48),h=hh,callback=r.more,id='aa_row_more_'..i}
   end
  end
@@ -205,7 +205,7 @@ function Panel:drawSlider(bb,id,label,x,y,w,h)
  P.label(bb,label,x+S(20),y,w*.5,S(34),P.style.label,true)
  P.label(bb,text,x+w-S(100),y,S(80),S(34),P.style.label,true,"center")
  local sy=y+S(34);local sh=h-S(34)
- P.button(self,bb,"?",x+S(8),sy,S(52),sh,function() self:change(id,math.max(item.min,self.app.adapter:read(id)-item.step)) end,{size=24,align="center",id=id.."_minus"})
+ P.button(self,bb,"−",x+S(8),sy,S(52),sh,function() self:change(id,math.max(item.min,self.app.adapter:read(id)-item.step)) end,{size=24,align="center",id=id.."_minus"})
  P.button(self,bb,"+",x+w-S(60),sy,S(52),sh,function() self:change(id,math.min(item.max,self.app.adapter:read(id)+item.step)) end,{size=24,align="center",id=id.."_plus"})
  local sx,sw=x+S(76),w-S(152);local ly=sy+math.floor(sh/2)
  P.rule(bb,sx,ly,sw,3)
@@ -229,32 +229,32 @@ function Panel:paintTo(bb,x,y)
  if height>0 then
   local py=self.panel_y;bb:paintRect(x,py,w,height,B.COLOR_WHITE);P.rule(bb,x,py,w,2)
   if can then
-   local titles={font="����",fonts="ѡ������",layout="�Ű�",themes="����",theme_manage="�������",theme_list="��������",font_options="����ѡ��",layout_options="�־�ѡ��",option=Registry.by_id[self.option_id] and Registry.by_id[self.option_id].title or "�Ű�ѡ��"}
+   local titles={font="字体",fonts="选择字体",layout="排版",themes="主题",theme_manage="主题管理",theme_list="管理主题",font_options="字体选项",layout_options="字距选项",option=Registry.by_id[self.option_id] and Registry.by_id[self.option_id].title or "排版选项"}
    local back=self:parentTab()
    if back then
     P.centerIcon(bb,"chevron.left",x,py,S(44),S(54),S(24))
     self.hits[#self.hits+1]={x=x,y=py,w=S(44),h=S(54),callback=function() self:back() end,id="aa_back"}
    end
    local left=back and S(48) or S(20)
-   P.label(bb,titles[self.tab] or "�Ű�",x+left,py,w-left-S(60),S(54),20,true)
-  else P.label(bb,"ҳ���Ű�",x+S(20),py,w-S(80),S(54),P.style.label,true) end
+   P.label(bb,titles[self.tab] or "排版",x+left,py,w-left-S(60),S(54),20,true)
+  else P.label(bb,"页面排版",x+S(20),py,w-S(80),S(54),P.style.label,true) end
   P.centerIcon(bb,"close",x+w-S(54),py,S(54),S(54),S(24));self.hits[#self.hits+1]={x=x+w-S(54),y=py,w=S(54),h=S(54),callback=function() self:close() end,id="aa_close"}
   P.rule(bb,x+S(16),py+S(54),w-S(32))
   local cy=py+S(54)
   if self.tab=="font" then
    local scale=math.min(1,(height-S(54))/S(368));local function F(n) return math.floor(S(n)*scale) end
-   P.button(self,bb,"����",x+S(12),cy,w-S(24),F(64),function() self:setTab("fonts") end,{id="aa_font_face"})
-   P.label(bb,self.app.adapter:read("font_face").." ?",x+w*.28,cy,w*.72-S(24),F(64),P.style.label,true)
+   P.button(self,bb,"字体",x+S(12),cy,w-S(24),F(64),function() self:setTab("fonts") end,{id="aa_font_face"})
+   P.label(bb,self.app.adapter:read("font_face").." ›",x+w*.28,cy,w*.72-S(24),F(64),P.style.label,true)
    P.rule(bb,x+S(20),cy+F(64),w-S(40))
-   self:drawSlider(bb,"font_size","�ֺ�",x,cy+F(64),w,F(92))
-   self:drawSlider(bb,"font_gamma","�Աȶ�",x,cy+F(156),w,F(80))
-   self:drawSlider(bb,"font_base_weight","����",x,cy+F(236),w,F(80))
-   P.button(self,bb,"����ѡ�� ?",x+S(12),cy+F(316),w-S(24),F(52),function() self:setTab("font_options") end,{id="aa_font_options"})
+   self:drawSlider(bb,"font_size","字号",x,cy+F(64),w,F(92))
+   self:drawSlider(bb,"font_gamma","对比度",x,cy+F(156),w,F(80))
+   self:drawSlider(bb,"font_base_weight","字重",x,cy+F(236),w,F(80))
+   P.button(self,bb,"字体选项 ›",x+S(12),cy+F(316),w-S(24),F(52),function() self:setTab("font_options") end,{id="aa_font_options"})
   elseif self.tab=="layout" then
-   local value=self.app.adapter:read("line_spacing");P.label(bb,"�о�",x+S(20),cy,w*.3,S(72),18,true)
+   local value=self.app.adapter:read("line_spacing");P.label(bb,"行距",x+S(20),cy,w*.3,S(72),18,true)
    local margins=self.app.adapter:read("page_margins")
-   for ri,entries in ipairs({{{110,"����"},{120,"��׼"},{140,"����"}},{{8,"խ"},{12,"��׼"},{18,"��"}}}) do
-    local ry=cy+(ri-1)*S(72);if ri==2 then P.label(bb,"ҳ�߾�",x+S(20),ry,w*.3,S(72),18,true) end
+   for ri,entries in ipairs({{{110,"紧凑"},{120,"标准"},{140,"宽松"}},{{8,"窄"},{12,"标准"},{18,"宽"}}}) do
+    local ry=cy+(ri-1)*S(72);if ri==2 then P.label(bb,"页边距",x+S(20),ry,w*.3,S(72),18,true) end
     local bw=math.min(S(78),w*.2)
     for i,entry in ipairs(entries) do local v=entry[1];local bx=x+w-3*(bw+S(6))+(i-1)*(bw+S(6))-S(14)
      local selected=ri==1 and value==v or ri==2 and Equal(margins,{v,v,v,v})
@@ -263,15 +263,15 @@ function Panel:paintTo(bb,x,y)
     end
    end
    local css=self.app.adapter:read("embedded_css")
-   P.button(self,bb,"������ʽ��"..(css and "����" or "�ر�"),x+S(12),cy+S(154),w*.52,S(58),function() self:change("embedded_css",not css) end)
-   P.button(self,bb,"�߼��Ű� ?",x+w*.54,cy+S(154),w*.46-S(12),S(58),function() self.app.native:refresh();self.app:open("catalog_category","typography") end,{id="advanced_typography"})
-   P.button(self,bb,"�־�ѡ�� ?",x+S(12),cy+S(212),w-S(24),S(52),function() self:setTab("layout_options") end,{id="aa_layout_options"})
+   P.button(self,bb,"书内样式："..(css and "开启" or "关闭"),x+S(12),cy+S(154),w*.52,S(58),function() self:change("embedded_css",not css) end)
+   P.button(self,bb,"高级排版 ›",x+w*.54,cy+S(154),w*.46-S(12),S(58),function() self.app.native:refresh();self.app:open("catalog_category","typography") end,{id="advanced_typography"})
+   P.button(self,bb,"字距选项 ›",x+S(12),cy+S(212),w-S(24),S(52),function() self:setTab("layout_options") end,{id="aa_layout_options"})
   elseif self.tab=="themes" then self:drawThemes(bb,x,cy,w,height-S(54))
   else self:drawList(bb,x,cy,w,height-S(54)) end
 
  end
  bb:paintRect(x,ty,w,toolbar,B.COLOR_WHITE);P.rule(bb,x,ty,w,2)
- local buttons={{"����","themes"},{"����","font"},{"�Ű�","layout"}}
+ local buttons={{"主题","themes"},{"字体","font"},{"排版","layout"}}
  self.toolbar_layout={};self.toolbar_buttons={}
  for i,b in ipairs(buttons) do
   local tab=b[2];local bw=w/3;local target=not can and tab=="layout" and "pdf" or tab

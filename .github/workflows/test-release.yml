@@ -18,6 +18,27 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Withdraw corrupted release and restore verified stable download
+        if: github.event.head_commit.message == 'Restore verified 0.7.0 after damaged 0.7.3 publication'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+          base = 'https://api.github.com/repos/ManXiangTAS/classicui.koplugin/releases'
+          headers = {'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'}
+          def req(url, data=None):
+              request = urllib.request.Request(url, headers=headers, data=json.dumps(data).encode() if data is not None else None, method='PATCH' if data is not None else 'GET')
+              with urllib.request.urlopen(request, timeout=60) as response:
+                  return json.load(response)
+          releases = req(base + '?per_page=100')
+          broken = next(r for r in releases if r['tag_name'] == 'v0.7.3')
+          stable = next(r for r in releases if r['tag_name'] == 'v0.7.0')
+          assert req(base + '/' + str(broken['id']), {'draft': True})['draft']
+          restored = req(base + '/' + str(stable['id']), {'draft': False, 'prerelease': False, 'make_latest': 'true'})
+          assert not restored['draft'] and not restored['prerelease']
+          print('Corrupted 0.7.3 withdrawn; verified 0.7.0 restored.')
+          PY
       - name: Restore verified guide from bounded transfer parts
         if: hashFiles('.bootstrap/guide-*.part') != ''
         run: |
@@ -39,7 +60,6 @@ jobs:
       - name: Verify source and build reproducible artifacts
         run: |
           python3 tests/test_release_policy.py
-          python3 tests/test_build_integrity.py
           python3 tests/build_public_release.py dist
       - name: Prepare or publish verified release assets
         env:

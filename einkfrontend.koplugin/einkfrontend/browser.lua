@@ -1,9 +1,9 @@
 -- Original implementation. SPDX-License-Identifier: AGPL-3.0-or-later
--- Reference decisions and pinned upstream sources: docs/��Դ�ο�����þ���.md.
+-- Reference decisions and pinned upstream sources: docs/开源参考与采用矩阵.md.
 local Browser={}
 Browser.__index=Browser
-Browser.sort_labels={title="����",author="����",last_opened="����Ķ�",recent="�ļ��޸�ʱ��"}
-Browser.states={"δ��","�ڶ�","�����","����"}
+Browser.sort_labels={title="书名",author="作者",last_opened="最近阅读",recent="文件修改时间"}
+Browser.states={"未读","在读","已完成","搁置"}
 local roots={books={id="books",param={}},authors={id="groups",param="authors"},
     series={id="groups",param="series"},collections={id="collections"}}
 
@@ -42,12 +42,6 @@ function Browser.route(route)
             out.param.field=p.field;out.param.value=p.value
         end
         if type(p.query)=="string" then out.param.query=p.query end
-        -- Local filters also belong to the reading return position.
-        for _,state in ipairs(Browser.states) do if p.status==state then out.param.status=state end end
-        if type(p.statuses)=="table" then
-            out.param.statuses={}
-            for _,state in ipairs(Browser.states) do if p.statuses[state]==true then out.param.statuses[state]=true end end
-        end
     end
     return out
 end
@@ -76,7 +70,7 @@ end
 function Browser:label()
     local parts={}
     for _,s in ipairs(self.states) do if self.filter.statuses[s] then parts[#parts+1]=s end end
-    return #parts>0 and table.concat(parts,"��") or "ȫ��"
+    return #parts>0 and table.concat(parts,"、") or "全部"
 end
 
 function Browser:combined(local_filter)
