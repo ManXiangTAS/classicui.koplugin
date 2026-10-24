@@ -54,6 +54,7 @@ function Controls:paintTo(bb,x,y)
   local ink=P.inkLabel(bb,on and "开" or "关",tx,ty,tw,th,P.style.label,true,on and B.COLOR_WHITE or B.COLOR_BLACK)
   self.frontlight_layout={x=tx,y=ty,w=tw,h=th,on=on,ink=ink}
   self.hits[#self.hits+1]={x=x+w-S(90),y=y+S(base+3),w=S(90),h=S(46),callback=function()
+   if self.app.autolight then self.app.autolight:rememberLevel(power:frontlightIntensity()) end
    power:toggleFrontlight();power:updateResumeFrontlightState();UI:setDirty(self,"ui")
    if self.app.autolight then self.app.autolight:manual(power:frontlightIntensity(),false) end
   end}
@@ -67,8 +68,8 @@ function Controls:paintTo(bb,x,y)
   bb:paintCircle(kx,sy+S(1),S(12),B.COLOR_BLACK);bb:paintCircle(kx,sy+S(1),S(10),B.COLOR_WHITE)
   self.slider={x=sx,y=sy-S(20),w=sw,h=S(40)}
   self.hits[#self.hits+1]={x=sx,y=sy-S(20),w=sw,h=S(40),feedback=false,callback=function(pos) self:setLight(pos) end}
-  self.hits[#self.hits+1]={x=x,y=sy-S(22),w=S(55),h=S(44),callback=function() self.app.adapter:setFrontlight(math.max(state.low,self.app.adapter:deviceStatus().intensity-1));UI:setDirty(self,"ui") end}
-  self.hits[#self.hits+1]={x=x+w-S(55),y=sy-S(22),w=S(55),h=S(44),callback=function() self.app.adapter:setFrontlight(math.min(state.high,self.app.adapter:deviceStatus().intensity+1));UI:setDirty(self,"ui") end}
+  self.hits[#self.hits+1]={x=x,y=sy-S(22),w=S(55),h=S(44),id='control_light_minus',callback=function() self.app.adapter:stepFrontlight(-1);UI:setDirty(self,"ui") end}
+  self.hits[#self.hits+1]={x=x+w-S(55),y=sy-S(22),w=S(55),h=S(44),id='control_light_plus',callback=function() self.app.adapter:stepFrontlight(1);UI:setDirty(self,"ui") end}
   if self:hasAutoLight() then
    local ay=y+S(base+144)
    P.rule(bb,x+S(20),ay,w-S(40),1)

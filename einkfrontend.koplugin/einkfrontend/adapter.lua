@@ -285,16 +285,24 @@ function Adapter:setFrontlight(value)
     local state=self:deviceStatus()
     assert(state.frontlight and type(value)=="number" and value==value and value%1==0 and value>=state.low and value<=state.high,"前光数值超出设备范围")
     local power=require("device"):getPowerDevice()
+    if self.app and self.app.autolight then self.app.autolight:rememberLevel(state.intensity) end
     power:setIntensity(value)
     assert(power:frontlightIntensity()==value,"设备前光未能生效")
     power:updateResumeFrontlightState()
     if self.app and self.app.autolight then self.app.autolight:manual(value,true) end
 end
 
+function Adapter:stepFrontlight(delta)
+    local state=self:deviceStatus();local value=state.intensity+delta
+    if delta>0 and state.intensity<=state.low and self.app and self.app.autolight then value=self.app.autolight:restoreLevel() end
+    self:setFrontlight(math.max(state.low,math.min(state.high,value)))
+end
+
 function Adapter:toggleNightMode()
     local old=G_reader_settings:isTrue("night_mode")
     local ok,err=pcall(function()
         self:dispatch("ToggleNightMode");G_reader_settings:flush()
+        if self.app and self.app.autolight then self.app.autolight:syncMode() end
         assert(LuaSettings:open(G_reader_settings.file):isTrue("night_mode")~=old,"夜间模式未能保存")
     end)
     if not ok then

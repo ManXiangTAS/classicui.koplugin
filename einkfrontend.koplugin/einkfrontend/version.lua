@@ -1,1 +1,1 @@
-return '0.7.1-test.1'
+return '0.7.1-test.2'
