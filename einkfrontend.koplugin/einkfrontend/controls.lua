@@ -6,7 +6,7 @@ local Device=require("device");local UI=require("ui/uimanager")
 local P=require("einkfrontend/paint");local S=P.s;local B=P.BB
 local Controls=Input:extend{stop_events_propagation=true}
 function Controls:init()
- self.dimen=Device.screen:getSize();self.panel_h=math.min(self.dimen.h-S(90),S(56+math.ceil(#self:actions()/3)*116+(self.app.adapter:deviceStatus().frontlight and 174 or 0)+44))
+ self.dimen=Device.screen:getSize();self.panel_h=math.min(self.dimen.h-S(90),S(56+math.ceil(#self:actions()/3)*116+(self.app.adapter:deviceStatus().frontlight and 132 or 0)+44))
  self.ges_events={ControlTap={GestureRange:new{ges="tap",range=self.dimen}},ControlSwipe={GestureRange:new{ges="swipe",range=self.dimen}},
  ControlPan={GestureRange:new{ges="pan",range=self.dimen}}}
 end
@@ -45,34 +45,22 @@ function Controls:paintTo(bb,x,y)
  end
  local state=self.app.adapter:deviceStatus()
  if state.frontlight then
-  local power=Device:getPowerDevice();local on=power:isFrontlightOn()
   P.rule(bb,x+S(20),y+S(base),w-S(40),1.2)
-  P.text(bb,"前光",x+S(20),y+S(base+18),w-S(100),18,true)
-  local tx,ty,tw,th=x+w-S(70),y+S(base+11),S(48),S(29)
-  bb:paintRoundedRect(tx,ty,tw,th,B.COLOR_BLACK,S(14))
-  if not on then bb:paintRoundedRect(tx+S(2),ty+S(2),tw-2*S(2),th-2*S(2),B.COLOR_WHITE,S(12)) end
-  local ink=P.inkLabel(bb,on and "开" or "关",tx,ty,tw,th,P.style.label,true,on and B.COLOR_WHITE or B.COLOR_BLACK)
-  self.frontlight_layout={x=tx,y=ty,w=tw,h=th,on=on,ink=ink}
-  self.hits[#self.hits+1]={x=x+w-S(90),y=y+S(base+3),w=S(90),h=S(46),callback=function()
-   if self.app.autolight then self.app.autolight:rememberLevel(power:frontlightIntensity()) end
-   power:toggleFrontlight();power:updateResumeFrontlightState();UI:setDirty(self,"ui")
-   if self.app.autolight then self.app.autolight:manual(power:frontlightIntensity(),false) end
-  end}
-  P.label(bb,"亮度",x+S(20),y+S(base+49),S(64),S(40),P.style.label,true)
-  P.label(bb,tostring(state.intensity),x+S(88),y+S(base+49),S(56),S(40),P.style.label,true)
+  P.label(bb,"亮度",x+S(20),y+S(base+7),S(64),S(40),P.style.label,true)
+  P.label(bb,tostring(state.intensity),x+S(88),y+S(base+7),S(56),S(40),P.style.label,true)
   self.auto_checkbox=nil
   if self:hasAutoLight() then
-   local size=S(18);local bx=x+w-S(40);local by=y+S(base+60)
-   P.inkLabel(bb,'自动调光',x+w-S(158),y+S(base+49),S(106),S(40),16,false,nil,'right')
+   local size=S(18);local bx=x+w-S(40);local by=y+S(base+18)
+   P.inkLabel(bb,'自动调光',x+w-S(158),y+S(base+7),S(106),S(40),16,false,nil,'right')
    bb:paintBorder(bx,by,size,size,math.max(1,S(1)),B.COLOR_BLACK)
    local checked=self.app.autolight.config.enabled
    if checked then P.inkLabel(bb,'✓',bx,by,size,size,16,true) end
    self.auto_checkbox={x=bx,y=by,w=size,h=size,checked=checked}
-   self.hits[#self.hits+1]={x=x+w-S(166),y=y+S(base+47),w=S(150),h=S(44),id='control_auto_light',callback=function()
+   self.hits[#self.hits+1]={x=x+w-S(166),y=y+S(base+5),w=S(150),h=S(44),id='control_auto_light',callback=function()
     require('einkfrontend/lightsettings').toggle(self.app);UI:setDirty(self,'ui')
    end,feedback_rect={x=bx,y=by,w=size,h=size}}
   end
-  local sx,sy,sw=x+S(60),y+S(base+110),w-S(120)
+  local sx,sy,sw=x+S(60),y+S(base+68),w-S(120)
   P.centerText(bb,"−",x+S(10),sy-S(15),S(40),24,true)
   P.centerText(bb,"+",x+w-S(50),sy-S(15),S(40),24,true)
   P.rule(bb,sx,sy,sw,3)
