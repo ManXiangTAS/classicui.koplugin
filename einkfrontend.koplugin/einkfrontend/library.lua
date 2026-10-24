@@ -12,17 +12,31 @@ local lfs=require("libs/libkoreader-lfs")
 local ffiUtil=require("ffi/util")
 local Library={}
 Library.__index=Library
+Library.instances=setmetatable({},{__mode='k'})
 
 function Library.new(ui)
-    local settings=LuaSettings:open(DataStorage:getSettingsDir().."/einkfrontend-library.lua")
-    return setmetatable({ui=ui,settings=settings,books=settings:readSetting("books") or {},
+    local file=DataStorage:getSettingsDir().."/einkfrontend-library.lua"
+    -- Reader and file-manager instances must not flush competing snapshots.
+    local settings
+    for instance in pairs(Library.instances) do
+        if instance.settings.file==file then settings=instance.settings;break end
+    end
+    settings=settings or LuaSettings:open(file)
+    local self=setmetatable({ui=ui,settings=settings,books=settings:readSetting("books") or {},
         root=settings:readSetting("root"),covers={},cover_order={}},Library)
+    Library.instances[self]=true;return self
 end
 
 function Library:save()
     self.settings:saveSetting("root",self.root)
     self.settings:saveSetting("books",self.books)
     assert(self.settings:flush()~=false,"书库保存失败")
+    for instance in pairs(Library.instances) do
+        if instance~=self and instance.settings.file==self.settings.file then
+            instance:cancel();instance:clearCovers()
+            instance.settings=self.settings;instance.books=self.books;instance.root=self.root
+        end
+    end
 end
 
 function Library:cancel()

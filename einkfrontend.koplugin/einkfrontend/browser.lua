@@ -42,6 +42,12 @@ function Browser.route(route)
             out.param.field=p.field;out.param.value=p.value
         end
         if type(p.query)=="string" then out.param.query=p.query end
+        -- Local filters also belong to the reading return position.
+        for _,state in ipairs(Browser.states) do if p.status==state then out.param.status=state end end
+        if type(p.statuses)=="table" then
+            out.param.statuses={}
+            for _,state in ipairs(Browser.states) do if p.statuses[state]==true then out.param.statuses[state]=true end end
+        end
     end
     return out
 end

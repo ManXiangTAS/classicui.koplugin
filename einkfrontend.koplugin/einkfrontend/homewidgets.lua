@@ -42,9 +42,9 @@ function Widgets.paint(page,bb,frame,x,y,top,viewh)
  -- Paint to an owned temporary buffer, then blit only the visible cell. Negative
  -- coordinates are never passed to viewport(), including while scrolling.
  local cell=B.new(w,h,bb:getType());cell:paintRect(0,0,w,h,B.COLOR_WHITE)
- local function hit(id,left,cy,cw,ch,fn)
+ local function hit(id,left,cy,cw,ch,fn,hold)
   local hy=math.max(0,fy+cy);local hh=math.min(viewh,fy+cy+ch)-hy
-  if hh>0 then page.hits[#page.hits+1]={x=x+frame.x+left,y=top+hy,w=cw,h=hh,callback=fn,id=id} end
+  if hh>0 then page.hits[#page.hits+1]={x=x+frame.x+left,y=top+hy,w=cw,h=hh,callback=fn,hold_callback=hold,id=id} end
  end
  if frame.id=="reading_return" then
   require('einkfrontend/returnwidget').paint(cell,w,h,model.reading_return)
@@ -74,7 +74,7 @@ function Widgets.paint(page,bb,frame,x,y,top,viewh)
      P.label(cell,'剩余 '..model.detail.chapter_remaining,tx+tw*.58,author_y+S(72),tw*.42,S(24),13,true)
     end
    end
-   hit("home_continue",0,0,w,h,function() app:openRecentBook(book.file) end)
+   hit("home_continue",0,0,w,h,function() app:openRecentBook(book.file) end,function() app:go('book',book) end)
   else P.label(cell,"还没有阅读记录",0,S(12),w,h-S(24),18,true,"center") end
  elseif frame.id=="reading_stats" then
   local seconds,sessions,pages=model.book_seconds,model.sessions,model.book_pages
@@ -96,7 +96,7 @@ function Widgets.paint(page,bb,frame,x,y,top,viewh)
    local ch=math.min(S(140),rowh-S(32));local coverw=math.min(math.floor(cw),math.floor(ch*.70));ch=math.floor(coverw/0.70)
    cover(app,cell,book,bx,by,coverw,ch)
    block(cell,book.title,bx,by+ch+S(3),math.floor(cw),S(24),12)
-   hit("home_"..frame.id.."_"..i,bx,by,math.floor(cw),rowh-S(2),function() app:openRecentBook(book.file) end)
+   hit("home_"..frame.id.."_"..i,bx,by,math.floor(cw),rowh-S(2),function() app:openRecentBook(book.file) end,function() app:go('book',book) end)
   end
  elseif frame.id=="quote" then
   P.label(cell,"名人名言",0,0,w,S(32),18,true)

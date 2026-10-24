@@ -54,8 +54,17 @@ function Store:append(id,offset,body)
 end
 function Store:finish(id)
  self:checkRoot();local u=assert(self.upload,'没有正在接收的书籍');assert(id==u.id and u.received==u.size,'书籍尚未传输完成')
- assert(util.fsyncOpenedFile(self.file),'保存到存储失败，请检查空间与设备状态')
- assert(self.file:close(),'保存失败');self.file=nil
+ if not u.sealed then
+  assert(self.file,'上传文件已经关闭，请重新发送')
+  assert(util.fsyncOpenedFile(self.file),'保存到存储失败，请检查空间与设备状态')
+  local file=self.file;self.file=nil
+  local called,closed=pcall(file.close,file)
+  if not called or not closed then self:abort();error('保存失败，请重新发送书籍') end
+  u.sealed=true
+ end
+ -- A failed final rename is retryable without fsync on a closed handle or
+ -- finalizing the incremental digest twice.
+ if not u.identity then u.identity=self.digest() end
  local stem,ext=u.name:match('^(.*)(%.[^.]+)$');local name=u.name
  local fd;local ffi=require('ffi');local C=ffi.C
  for i=0,999 do
@@ -71,6 +80,6 @@ function Store:finish(id)
  if not ok then os.remove(target);error('无法完成书籍保存：'..tostring(why)) end
  self.temp=nil;self.upload=nil
  if not util.fsyncDirectory(self.root) then require('logger').warn('Transfer directory sync unavailable') end
- local digest=self.digest();self.digest=nil;return name,digest
+ self.digest=nil;return name,u.identity
 end
 return Store

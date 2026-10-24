@@ -96,7 +96,12 @@ function Web:request(method,path,headers,body)
    local valued=pcall(self.app.book_value.recordUpload,self.app.book_value,self.store.root..'/'..name,meta.price or '',identity)
    if not valued then warnings[#warnings+1]='价格未能保存，可在书籍详情中补填' end
    if self.scan_job then UI:unschedule(self.scan_job) end
-   self.scan_job=function() self.scan_job=nil;if self.app.plugin.active and self.app.adapter:alive() then self.app:scanLibrary(self.store.root) end end
+   self.scan_job=function()
+    self.scan_job=nil
+    if self.app.plugin.active and self.app.adapter:alive() then
+     self.app:userAction(function() self.app:scanLibrary(self.store.root) end)
+    end
+   end
    UI:scheduleIn(.5,self.scan_job);local receipt={name=name,saved=true,warning=#warnings>0 and table.concat(warnings,'；') or nil};self.receipts[id]=receipt;self.receipt_order[#self.receipt_order+1]=id;if #self.receipt_order>20 then self.receipts[table.remove(self.receipt_order,1)]=nil end;return receipt
   elseif method=='POST' and path:match('^/api/cancel/[a-f0-9]+$') then
    assert(#body==0,'请求格式无效')

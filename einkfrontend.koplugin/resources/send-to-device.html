@@ -10,12 +10,12 @@
 <div id="message" class="message" role="status" aria-live="polite"></div></section><details id="recent" class="recent" hidden><summary>最近发送的文件</summary><div id="recent-list"></div></details><p class="privacy">手机或电脑与 Kindle 连接同一 Wi-Fi。文件直接保存在设备上。</p><input id="input" type="file" multiple accept=".epub,.pdf,.txt,.fb2,.cbz,.cbr,.djvu,.mobi,.azw,.azw3,.html,.htm,.rtf,.doc,.docx"></main>
 <script>
 'use strict';
-const $=s=>document.querySelector(s),MAX=200*1024*1024;let token=location.hash.slice(1)||sessionStorage.getItem('moye-transfer-token')||'';history.replaceState(null,'',location.pathname);if(token)sessionStorage.setItem('moye-transfer-token',token);
+const $=s=>document.querySelector(s),MAX=200*1024*1024;let token=location.hash.slice(1);try{token=token||sessionStorage.getItem('moye-transfer-token')||'';if(token)sessionStorage.setItem('moye-transfer-token',token);}catch{}history.replaceState(null,'',location.pathname);
 let queue=[],recent=[],busy=false,info=null,active=null,controller=null;const allowed=/\.(epub|pdf|txt|fb2|cbz|cbr|djvu|mobi|azw|azw3|html?|rtf|docx?)$/i;
 function message(text,error=false){$('#message').textContent=text;$('#message').classList.toggle('error',error);}
 function bytes(s){return new TextEncoder().encode(s).length;}
-function priceValid(v){return v===''||/^\d+(\.\d{1,2})?$/.test(v)&&Number(v)<=999999.99;}
-async function api(path,{body,raw=false,signal}={}){const r=await fetch(path,{method:body===undefined?'GET':'POST',headers:{Authorization:'Bearer '+token,...(body===undefined?{}:{'Content-Type':raw?'application/octet-stream':'application/json'})},body:body===undefined?undefined:raw?body:JSON.stringify(body),signal});let d;try{d=await r.json();}catch{throw Error('连接中断，请在 Kindle 重新开启网页传书');}if(!r.ok)throw Error(r.status===401?'连接已过期，请在 Kindle 重新扫码':d.error||'发送未完成，请检查连接');return d;}
+function priceValid(v){return v===''||v.length<=12&&/^\d+(\.\d{1,2})?$/.test(v)&&Number(v)<=999999.99;}
+async function api(path,{body,raw=false,signal}={}){const r=await fetch(path,{method:body===undefined?'GET':'POST',headers:{Authorization:'Bearer '+token,...(body===undefined?{}:{'Content-Type':raw?'application/octet-stream':'application/json'})},body:body===undefined?undefined:raw?body:JSON.stringify(body),signal});let d;try{d=await r.json();}catch(error){if(error.name==='AbortError')throw error;throw Error('连接中断，请在 Kindle 重新开启网页传书');}if(!r.ok)throw Error(r.status===401?'连接已过期，请在 Kindle 重新扫码':d.error||'发送未完成，请检查连接');return d;}
 function make(tag,cls,text){const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;}
 function render(){
  $('#drop').hidden=!!queue.length;$('#ready').hidden=!queue.length;$('#panel-title').textContent=queue.length?'准备发送':'一次发送，开始阅读。';$('#files').replaceChildren();
@@ -28,7 +28,7 @@ function render(){
   const fields=make('div','fields');fields.hidden=!q.expanded;
   for(const [key,label] of [['title','标题（必填）'],['author','作者'],['price','本书价格（元，可选）']]){
    const field=make('label','field'+(key==='price'?' price':'')),input=make('input');input.value=q[key];input.disabled=busy||q.sent;input.dataset.field=key;input.dataset.index=String(i);input.autocomplete='off';
-   if(key==='price'){input.inputMode='decimal';input.placeholder='例如 39.80';}else{input.maxLength=200;input.required=key==='title';if(key==='author')input.placeholder='留空保留原作者';}
+   if(key==='price'){input.maxLength=12;input.inputMode='decimal';input.placeholder='例如 39.80';}else{input.maxLength=200;input.required=key==='title';if(key==='author')input.placeholder='留空保留原作者';}
    input.oninput=()=>{q[key]=input.value;input.setCustomValidity('');};field.append(make('span','',label),input);
    if(key==='price')field.append(make('small','','读完后计入主页的「阅读回报」。留空不计金额，免费书可填 0。'));
    fields.append(field);

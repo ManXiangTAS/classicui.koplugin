@@ -4,6 +4,7 @@ local Copy=require("einkfrontend/catalog").copy
 local Equal=require("einkfrontend/adapter").equal
 local LuaSettings=require("luasettings")
 local Layout={};Layout.__index=Layout
+Layout.instances=setmetatable({},{__mode='k'})
 Layout.registry={
  {id="currently",name="最近在读",height=244,enabled=true},
  {id="reading_stats",name="本书阅读数据",height=134,enabled=true},
@@ -81,7 +82,8 @@ function Layout.new()
   if complete then config.widgets[#config.widgets+1]={id="reading_return",enabled=false,span=2} end
  end
  local ok,why=pcall(Layout.validate,config)
- return setmetatable({settings=settings,config=ok and config or Layout.defaults(),error=not ok and tostring(why) or nil},Layout)
+ local self=setmetatable({settings=settings,config=ok and config or Layout.defaults(),error=not ok and tostring(why) or nil},Layout)
+ Layout.instances[self]=true;return self
 end
 function Layout:find(id,config)
  for i,widget in ipairs((config or self.config).widgets) do if widget.id==id then return widget,i end end
@@ -95,7 +97,13 @@ function Layout:commit(config)
   assert(Equal(LuaSettings:open(self.settings.file):readSetting("layout"),config),"主页布局未能保存")
  end)
  if not ok then self.settings.data=previous;pcall(self.settings.flush,self.settings);return false,tostring(err) end
- self.config=Copy(config);self.error=nil;return true
+ self.config=Copy(config);self.error=nil
+ for instance in pairs(Layout.instances) do
+  if instance~=self and instance.settings.file==self.settings.file then
+   instance.settings.data=Copy(self.settings.data);instance.config=Copy(config);instance.error=nil
+  end
+ end
+ return true
 end
 function Layout:change(fn)
  if self.error then return false,"主页配置损坏，原文件已保留；可恢复默认布局" end
