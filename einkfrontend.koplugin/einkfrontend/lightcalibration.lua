@@ -24,7 +24,8 @@ function Dialog:adjust(value)
 end
 function Dialog:apply()
  local light=self.app.autolight
- if light:finishCalibration(self.token,true) then
+ local accepted=self.manual and light:finishManual(self.token) or (not self.manual and light:finishCalibration(self.token,true))
+ if accepted then
   if self.enable_after then local ok,why=light:setEnabled(true);if not ok then self.app:message(why) end end
  else self.app:message(light.error or '校准未保存') end
  self:close()
@@ -33,9 +34,9 @@ function Dialog:paintTo(bb,x,y)
  local w=self.dimen.w;local h=math.min(S(370),self.dimen.h-S(24));local top=y+math.floor((self.dimen.h-h)/2)
  local left=x+S(12);local width=w-S(24);self.box={x=left,y=top,w=width,h=h};self.hits={}
  bb:paintRect(left,top,width,h,B.COLOR_WHITE);bb:paintBorder(left,top,width,h,S(2),B.COLOR_BLACK)
- P.label(bb,'最暗环境下的亮度',left+S(20),top+S(14),width-S(40),S(45),22,true)
+ P.label(bb,self.manual and '亮度' or '最暗环境下的亮度',left+S(20),top+S(14),width-S(40),S(45),22,true)
  P.rule(bb,left+S(20),top+S(65),width-S(40),1)
- P.label(bb,'请移至你平时最暗的阅读环境。',left+S(20),top+S(78),width-S(40),S(34),17,false)
+ P.label(bb,self.manual and '调整当前前光亮度。' or '请移至你平时最暗的阅读环境。',left+S(20),top+S(78),width-S(40),S(34),17,false)
  P.label(bb,'选择舒适亮度；取消会恢复原来的档位。',left+S(20),top+S(112),width-S(40),S(34),17,false)
  P.label(bb,tostring(self.token.value)..' / '..tostring(self.app.autolight.hi),left+S(20),top+S(155),width-S(40),S(45),28,true,'center')
  local sx,sy,sw=left+S(76),top+S(230),width-S(152)

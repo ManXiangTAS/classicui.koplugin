@@ -300,7 +300,7 @@ function M.requestDelete(app,book)
  app:confirm('永久删除“'..book.title..'”？\n'..book.file..'\n\n将移除书籍文件、阅读设置和书库记录，历史阅读统计保留。',function()
   app:userAction(function()
    local failed=M.deleteBook(app,book,attr)
-   app:back();app.status='书籍已删除';app:resetLibraryPages();app:render()
+   app:bookDeleted(book.file)
    if failed>0 then app:message('书籍已删除，部分残留数据未能清理，可在书库菜单中重试') end
   end)
  end)

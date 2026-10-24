@@ -163,6 +163,16 @@ function App:back()
     self:render()
 end
 
+function App:bookDeleted(file)
+    self:closeDialogs()
+    for i=#self.stack,1,-1 do
+        local param=self.stack[i].param
+        if type(param)=="table" and param.file==file then table.remove(self.stack,i) end
+    end
+    self.status="书籍已删除";self:resetLibraryPages()
+    if #self.stack==0 then self:open(self.shell_page=="home" and "home" or "library") else self:render() end
+end
+
 function App:change(item,value)
     local ok,message
     if item.section=="reading" and self.typography then ok,message=self.typography:change(item.id,value)
@@ -398,6 +408,7 @@ function App:render()
     elseif require("einkfrontend/pagepresssettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/lightsettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/maintenancesettings").render(self,route,m,row,go) then
+    elseif require("einkfrontend/bookactions").render(self,route,m,row,go) then
     elseif require("einkfrontend/bookvalue").render(self,route,m,row,go) then
     elseif require("einkfrontend/homecustom").render(self,route,m,row,go) then
     elseif require("einkfrontend/settings").render(self,route,m,row,go) then
@@ -529,15 +540,7 @@ function App:render()
         for _,state in ipairs({"未读","在读","已完成","搁置"}) do
             local status=state;row(status,"按阅读状态筛选",go("books",{status=status}))
         end
-        row("重新扫描书库","目录："..(self.library.root or self.adapter:libraryRoot()),function()
-            self:scanLibrary(self.library.root or self.adapter:libraryRoot())
-        end)
-        row("清理已删除书籍的数据","扫描残留设置、封面缓存和失效记录",function() require('einkfrontend/maintenancesettings').open(self) end)
-        row("更换书库目录","打开兼容目录选择器",function()
-            self.adapter:chooseLibraryRoot(self.library.root or self.adapter:libraryRoot(),function(path)
-                self:safe(function() self:scanLibrary(path) end)
-            end)
-        end)
+        row("书库设置",nil,go("catalog_category","library"))
     elseif route.id=="library_filter" then
         m.title="筛选书库";m.subtitle="跨分类应用，可多选；不选择状态表示全部"
         row("当前："..self.browser:label(),"搜索："..(self.browser.filter.query or ""))
@@ -591,45 +594,6 @@ function App:render()
                 self.browser.filter={statuses={},query=""};self:resetLibraryPages();self:render()
             end) end
         end
-    elseif route.id=="book" then
-        local book=route.param
-        book.authors=book.authors or "作者未知";book.series=book.series or "";book.title=book.title or book.file:match('([^/]+)$')
-        m.title=book.title;m.subtitle=book.authors..(book.series~="" and (" · "..book.series) or "")
-        row("开始阅读","打开书籍并关闭书库界面",function() self:openLibraryBook(book) end)
-        row("删除书籍","永久删除本机文件；历史阅读统计保留",function() require('einkfrontend/bookmaintenance').requestDelete(self,book) end)
-        local status,percent=self.library:status(book)
-        row("阅读状态："..status,percent and (math.floor(percent*100).."%") or "尚无进度记录",function() self:chooseReadStatus(book) end)
-        row("书名与作者",nil,function()
-            self.adapter:promptText("书名",book.title,function(title)
-                self.adapter:promptText("作者",book.authors=="作者未知" and "" or book.authors,function(author)
-                    return self:userAction(function() self.library:editDetails(book,{title=title,authors=author});self:render() end)
-                end,{keep_on_error=true})
-            end)
-        end)
-        local value=require('einkfrontend/bookvalue');local price=self.book_value:price(book.file)
-        row("本书价格",price~=nil and "¥"..value.money(price) or "未填写",function()
-            self.adapter:promptText("本书价格（元，留空清除）",value.money(self.book_value:price(book.file)),function(text)
-                return self:userAction(function() self.book_value:setPrice(book.file,text);self:render() end)
-            end,{keep_on_error=true})
-        end)
-        row("加入或移出收藏","管理本书的收藏归属",go("book_collections",book))
-        row("系列："..(book.series~="" and book.series or "未设置"),"修改本机显示，不改动书籍原文件",function()
-            self.adapter:promptText("系列名称",book.series,function(text) return self:userAction(function()
-                self.library:setMetadata(book,"series",text);self.status="系列已保存";self:render()
-            end) end,{keep_on_error=true})
-        end)
-        row("卷序："..tostring(book.series_index or "未设置"),"可输入小数；留空恢复书籍原值",function()
-            self.adapter:promptText("系列卷序",tostring(book.series_index or ""),function(text) return self:userAction(function()
-                local value
-                if text~="" then value=assert(tonumber(text),"请输入有效数字");assert(value==value and math.abs(value)<math.huge,"请输入有效数字") end
-                self.library:setMetadata(book,"series_index",value);self.status="卷序已保存";self:render()
-            end) end,{keep_on_error=true})
-        end)
-        row("恢复书籍原系列","清除本机系列名称和卷序覆盖",function()
-            self.library:setMetadata(book,"series",nil);self.library:setMetadata(book,"series_index",nil)
-            self.status="已恢复书籍原系列";self:render()
-        end)
-        row("书籍文件",book.file)
     elseif route.id=="collections" then
         m.title="收藏";m.subtitle="与 KOReader 原生收藏共用数据"
         for _,coll in ipairs(self.library:collections(self.browser:combined(),self.library_sort,true)) do
@@ -675,7 +639,7 @@ function App:render()
         if #m.rows==0 then row("暂无书籍","先扫描书库，再添加收藏成员") end
     elseif route.id=="book_collections" then
         local book=route.param
-        m.title="管理收藏";m.subtitle=book.title
+        m.settings=true;m.title="收藏归属";m.subtitle=''
         for _,coll in ipairs(self.library:collections()) do
             local name=coll.name
             local selected=self.library:inCollection(book.file,name)

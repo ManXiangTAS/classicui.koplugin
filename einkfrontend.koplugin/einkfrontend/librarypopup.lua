@@ -41,11 +41,7 @@ function Popup:rows()
   if app.browser.active=="collections" then
    add("管理收藏",nil,function() self:close();app:go("collection_manager") end)
   end
-  add("重新扫描书库",nil,function() self:close();app:scanLibrary(app.library.root or app.adapter:libraryRoot()) end)
-  add("清理已删除书籍的数据",nil,function() self:close();require('einkfrontend/maintenancesettings').open(app) end)
-  add("更换书库目录",nil,function()
-   self:close();app.adapter:chooseLibraryRoot(app.library.root or app.adapter:libraryRoot(),function(path) app:safe(function() app:scanLibrary(path) end) end)
-  end)
+  add("书库设置",nil,function() self:close();app:go('catalog_category','library') end)
   if app.adapter:hasKindleLibrary() then add("Kindle 原生书库",nil,function() self:close();app:close();app.adapter:openKindleLibrary() end) end
  end
  return rows

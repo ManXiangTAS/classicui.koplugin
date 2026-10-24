@@ -63,6 +63,9 @@ end
 function Light:rememberLevel(level)
  if C.finite(level) and level%1==0 and level>self.lo and level<=self.hi then self.last_level=level end
 end
+function Light:refreshControls()
+ for app in pairs(self.owners) do if app.controls and self.ui.setDirty then self.ui:setDirty(app.controls,'ui') end end
+end
 function Light:restoreLevel()
  return self.last_level or (C.finite(self.power.fl_intensity) and self.power.fl_intensity>self.lo and math.min(self.hi,self.power.fl_intensity)) or math.min(self.hi,self.lo+1)
 end
@@ -182,7 +185,7 @@ function Light:write(value)
  end)
  self.writing=false
  if not ok then self.error='前光调整失败，已保留手动控制';self.state='error';self.target=nil;self.fault=true;self:cancel();return false,why end
- self.expected=value;self:rememberLevel(value);return true
+ self.expected=value;self:rememberLevel(value);self:refreshControls();return true
 end
 function Light:ramp()
  self.ui:unschedule(self.ramp_job)
@@ -239,6 +242,11 @@ function Light:finishCalibration(token,accept)
  if not accept then self:write(token.original) end
  self.calibration=nil;self.samples={};self.pause_until=self.now()+15;self:queue(15)
  return accept
+end
+function Light:finishManual(token)
+ if self.calibration~=token then return false end
+ local value=token.value;self.calibration=nil;self.samples={}
+ self:manual(value,true);return true
 end
 function Light:start()
  if self.running then return end

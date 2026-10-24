@@ -6,7 +6,7 @@ local Device=require("device");local UI=require("ui/uimanager")
 local P=require("einkfrontend/paint");local S=P.s;local B=P.BB
 local Controls=Input:extend{stop_events_propagation=true}
 function Controls:init()
- self.dimen=Device.screen:getSize();self.panel_h=math.min(self.dimen.h-S(90),S(56+math.ceil(#self:actions()/3)*116+(self.app.adapter:deviceStatus().frontlight and (174+(self:hasAutoLight() and 44 or 0)) or 0)+44))
+ self.dimen=Device.screen:getSize();self.panel_h=math.min(self.dimen.h-S(90),S(56+math.ceil(#self:actions()/3)*116+(self.app.adapter:deviceStatus().frontlight and 174 or 0)+44))
  self.ges_events={ControlTap={GestureRange:new{ges="tap",range=self.dimen}},ControlSwipe={GestureRange:new{ges="swipe",range=self.dimen}},
  ControlPan={GestureRange:new{ges="pan",range=self.dimen}}}
 end
@@ -58,8 +58,20 @@ function Controls:paintTo(bb,x,y)
    power:toggleFrontlight();power:updateResumeFrontlightState();UI:setDirty(self,"ui")
    if self.app.autolight then self.app.autolight:manual(power:frontlightIntensity(),false) end
   end}
-  P.text(bb,"亮度",x+S(20),y+S(base+62),w*.5,P.style.label,true)
-  P.text(bb,tostring(state.intensity),x+w-S(60),y+S(base+62),S(42),P.style.label,true)
+  P.label(bb,"亮度",x+S(20),y+S(base+49),S(64),S(40),P.style.label,true)
+  P.label(bb,tostring(state.intensity),x+S(88),y+S(base+49),S(56),S(40),P.style.label,true)
+  self.auto_checkbox=nil
+  if self:hasAutoLight() then
+   local size=S(18);local bx=x+w-S(40);local by=y+S(base+60)
+   P.inkLabel(bb,'自动调光',x+w-S(158),y+S(base+49),S(106),S(40),16,false,nil,'right')
+   bb:paintBorder(bx,by,size,size,math.max(1,S(1)),B.COLOR_BLACK)
+   local checked=self.app.autolight.config.enabled
+   if checked then P.inkLabel(bb,'✓',bx,by,size,size,16,true) end
+   self.auto_checkbox={x=bx,y=by,w=size,h=size,checked=checked}
+   self.hits[#self.hits+1]={x=x+w-S(166),y=y+S(base+47),w=S(150),h=S(44),id='control_auto_light',callback=function()
+    require('einkfrontend/lightsettings').toggle(self.app);UI:setDirty(self,'ui')
+   end,feedback_rect={x=bx,y=by,w=size,h=size}}
+  end
   local sx,sy,sw=x+S(60),y+S(base+110),w-S(120)
   P.centerText(bb,"−",x+S(10),sy-S(15),S(40),24,true)
   P.centerText(bb,"+",x+w-S(50),sy-S(15),S(40),24,true)
@@ -70,13 +82,6 @@ function Controls:paintTo(bb,x,y)
   self.hits[#self.hits+1]={x=sx,y=sy-S(20),w=sw,h=S(40),feedback=false,callback=function(pos) self:setLight(pos) end}
   self.hits[#self.hits+1]={x=x,y=sy-S(22),w=S(55),h=S(44),id='control_light_minus',callback=function() self.app.adapter:stepFrontlight(-1);UI:setDirty(self,"ui") end}
   self.hits[#self.hits+1]={x=x+w-S(55),y=sy-S(22),w=S(55),h=S(44),id='control_light_plus',callback=function() self.app.adapter:stepFrontlight(1);UI:setDirty(self,"ui") end}
-  if self:hasAutoLight() then
-   local ay=y+S(base+144)
-   P.rule(bb,x+S(20),ay,w-S(40),1)
-   P.label(bb,'自动前光',x+S(20),ay,w/2,S(44),P.style.label,true)
-   P.label(bb,self.app.autolight:statusText()..'  ›',x+w/2,ay,w/2-S(20),S(44),P.style.label,false,'center')
-   self.hits[#self.hits+1]={x=x+S(12),y=ay,w=w-S(24),h=S(44),id='control_auto_light',callback=function() self:close();self.app:open('auto_light') end}
-  end
  end
  P.icon(bb,"chevron.up",x+w/2-S(17),y+self.panel_h-S(35),S(34))
  self.hits[#self.hits+1]={x=x,y=y+self.panel_h-S(42),w=w,h=S(42),callback=function() self:close() end}

@@ -1,5 +1,22 @@
 -- Original implementation. SPDX-License-Identifier: AGPL-3.0-or-later
 local View={}
+function View.toggle(app)
+ local light=app.autolight;if not light then return false end
+ local enabled=not light.config.enabled
+ if enabled and not light:anchor() then
+  local actual=light:actual()
+  if actual==nil or actual<=light.lo then app:message('请先在设置 → 显示与刷新 → 前光中选择暗处亮度。');return false end
+ end
+ local ok,why=light:setEnabled(enabled)
+ if not ok then app:message(why) end
+ if app.screen then app:render() end
+ return ok
+end
+function View.adjust(app)
+ local token,why=app.autolight:beginCalibration();if not token then app:message(why);return end
+ local dialog=require('einkfrontend/lightcalibration'):new{app=app,token=token,manual=true}
+ app:trackDialog(dialog);require('ui/uimanager'):show(dialog,'ui');return dialog
+end
 function View.calibrate(app,enable_after)
  local light=app.autolight
  local ok,why=light:probe();if not ok then app:message(why);return end
@@ -8,8 +25,8 @@ function View.calibrate(app,enable_after)
  app:trackDialog(dialog);require('ui/uimanager'):show(dialog,'ui');return dialog
 end
 function View.render(app,route,m,row,go)
- if route.id~='auto_light' and route.id~='auto_light_memory' then return false end
- m.settings=true;m.title=route.id=='auto_light' and '自动前光' or '亮度记忆';m.subtitle=''
+ if route.id~='frontlight_settings' and route.id~='auto_light' and route.id~='auto_light_memory' then return false end
+ m.settings=true;m.title=route.id=='auto_light_memory' and '亮度记忆' or '前光';m.subtitle=''
  local light=app.autolight
  if not light then row('当前前端未启用自动前光模块');return true end
  light:syncMode()
@@ -19,7 +36,7 @@ function View.render(app,route,m,row,go)
  end
  local function value(text) local r=m.rows[#m.rows];r.value=tostring(text);r.value_width=160 end
  m.help=function()
-  app:message('先在最暗的阅读环境选定舒适亮度，再手动开启。\n浅色与深色模式分别记住暗处校准和环境偏好，未单独校准的模式沿用基础暗处亮度；清除记忆只影响当前模式。\n自动补光会过滤短暂遮挡，逐档调整。在墨页下拉面板里手动调光，停留 3 秒后记住偏好，并优先保持 15 分钟。外部插件的改动只会暂停自动，不会学进偏好。\n手动关灯后保持关闭，点“＋”可恢复上次亮度；须点“恢复自动”才会提前恢复自动补光。休眠停止采样，唤醒后恢复。\n首次请遮挡、照射传感器，点“当前环境”核对读数变化。接口可读不等于本机已完成兼容性验证；不可用时保留手动控制。')
+  app:message('下拉面板的“自动调光”复选框只负责开关，校准和记忆在本页调整。首次开启以当前非零亮度作为起点；建议在最暗阅读环境校准舒适亮度。\n浅色与深色模式分别记住校准和环境偏好；清除记忆只影响当前模式。\n手动调光稳定 3 秒后学习，手动亮度优先保持 15 分钟；关灯后保持关闭。休眠停止采样，唤醒后恢复。\n首次请遮挡、照射传感器，点“当前环境”核对 Lux 变化；接口不可用时保留手动控制。')
  end
  if route.id=='auto_light_memory' then
   row('记住手动调整',nil,function() action(function() return light:setLearning(not light.config.learning) end) end)
@@ -32,15 +49,22 @@ function View.render(app,route,m,row,go)
   end)
   return true
  end
- row('自动前光',nil,function()
-  if light.config.enabled then action(function() return light:setEnabled(false) end)
-  else
-   local ok,why=light:probe();if not ok then app:message(why);return end
-   if not light:anchor() then View.calibrate(app,true)
-   else action(function() return light:setEnabled(true) end) end
-  end
- end)
- m.rows[#m.rows].checked=light.config.enabled;value(light.available and light:statusText() or '不可用')
+ local Device=require('device')
+ if not Device:hasFrontlight() then row('当前设备没有前光');return true end
+ row('亮度',nil,function() View.adjust(app) end);value((light:actual() or '—')..' / '..light.hi)
+ if Device:hasNaturalLight() then
+  row('暖光色温',nil,function()
+   app.native:refresh();local entry=app.native.catalog.entries.frontlight
+   if entry then app.native:open({entry.node},'前光');app.native:select(entry.node) else app:message('当前设备未提供暖光设置入口') end
+  end)
+ end
+ local toggle=function() View.toggle(app) end
+ row('自动调光',nil,toggle)
+ m.rows[#m.rows].checked=light.config.enabled;m.rows[#m.rows].checkmark_callback=toggle
+ value(light.available and light:statusText() or '不可用')
+ if not Device.hasLightSensor or not Device:hasLightSensor() then
+  row('当前设备没有环境光传感器','手动亮度和设备支持的暖光仍可调整');return true
+ end
  row('当前模式',nil);value(light:isDark() and '深色模式' or '浅色模式')
  row('最暗环境下的亮度',nil,function() View.calibrate(app,false) end)
  value(light:anchor() and (light:anchor()..' / '..light.hi) or '尚未校准')
