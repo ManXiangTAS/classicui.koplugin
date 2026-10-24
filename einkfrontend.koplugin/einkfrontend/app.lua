@@ -25,6 +25,7 @@ function App.new(plugin, adapter)
     if plugin.active then self.clock=require("einkfrontend/clock").new(self) end
     if plugin.active then self.typography=require("einkfrontend/typography").new(adapter) end
     if plugin.active then self.pagepress=require("einkfrontend/pagepress").attach(self) end
+    if plugin.active then self.autolight=require("einkfrontend/autolight").attach(self) end
     return self
 end
 
@@ -394,6 +395,7 @@ function App:render()
     elseif require("einkfrontend/inputsettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/clocksettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/pagepresssettings").render(self,route,m,row,go) then
+    elseif require("einkfrontend/lightsettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/bookvalue").render(self,route,m,row,go) then
     elseif require("einkfrontend/homecustom").render(self,route,m,row,go) then
     elseif require("einkfrontend/settings").render(self,route,m,row,go) then

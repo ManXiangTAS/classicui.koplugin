@@ -101,6 +101,7 @@ function Plugin:stopPlugin(transition)
     local notices=require("einkfrontend/notices")
     if transition then notices.handoff(self) end
     self.active=false
+    if self.app.autolight then self.app.autolight:detach(self.app) end
     if self.app.pagepress then self.app.pagepress:detach(self.app) end
     notices.detach(self,not transition)
     if self.gate then self.gate:restore() end
@@ -146,11 +147,16 @@ function Plugin:onCloseDocument()
     self:stopPlugin(self.ui.tearing_down)
 end
 function Plugin:onSuspend()
+    if self.app and self.app.autolight then self.app.autolight:suspend() end
     if self.app and self.app.transfer_server then self.app.transfer_server:stop() end
     if self.app and self.app.pagepress then self.app.pagepress:suspend() end
     if self.app and self.app.home_editor then self.app.home_editor:onSuspend() end
 end
 function Plugin:onResume()
+    if self.active and self.app and self.app.autolight then self.app.autolight:resume() end
     if self.active and self.app and self.app.pagepress then self.app.pagepress:resume() end
+end
+function Plugin:onFrontlightStateChanged()
+    if self.active and self.app and self.app.autolight then self.app.autolight:externalChanged() end
 end
 return Plugin

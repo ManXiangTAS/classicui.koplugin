@@ -2,7 +2,7 @@
 """Build deterministic manual-install and source archives for ClassicUI."""
 from pathlib import Path
 import hashlib,json,re,sys,zipfile
-PROJECT=Path(__file__).resolve().parents[1];VERSION='0.7.0'
+PROJECT=Path(__file__).resolve().parents[1];VERSION='0.7.1-test.1'
 def sha(data):return hashlib.sha256(data).hexdigest()
 def public_paths():
  files=[]

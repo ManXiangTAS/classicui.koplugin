@@ -6,7 +6,9 @@
 python3 tests/run_regression.py /path/to/koreader
 ```
 
-可用 `--suite core` 等参数运行指定组。覆盖价格与元数据、布局迁移、点击反馈与滚动、离线启动、中英输入、原生控件、主页、屏保和设置菜单。
+可用 `--suite core` 等参数运行指定组。覆盖价格与元数据、布局迁移、点击反馈与滚动、离线启动、中英输入、原生控件、主页、屏保、设置菜单和自动前光。
+
+自动前光的曲线、记忆、手动优先、硬件与存储故障、休眠等策略检查可用 LuaJIT 独立执行：`luajit tests/test_light_policy.lua`。`--suite autolight` 使用模拟传感器与真实 KOReader 设置、Powerd 和界面，验证入口、校准预览与取消、读写设置、休眠和阅读返回；这不替代真实光感与功耗测试。
 
 浏览器测试需要 Node.js、Playwright 和 Chromium，设置 `EINK_CHROMIUM` 为浏览器路径：
 

@@ -6,10 +6,11 @@ local Device=require("device");local UI=require("ui/uimanager")
 local P=require("einkfrontend/paint");local S=P.s;local B=P.BB
 local Controls=Input:extend{stop_events_propagation=true}
 function Controls:init()
- self.dimen=Device.screen:getSize();self.panel_h=math.min(self.dimen.h-S(90),S(56+math.ceil(#self:actions()/3)*116+(self.app.adapter:deviceStatus().frontlight and 174 or 0)+44))
+ self.dimen=Device.screen:getSize();self.panel_h=math.min(self.dimen.h-S(90),S(56+math.ceil(#self:actions()/3)*116+(self.app.adapter:deviceStatus().frontlight and (174+(self:hasAutoLight() and 44 or 0)) or 0)+44))
  self.ges_events={ControlTap={GestureRange:new{ges="tap",range=self.dimen}},ControlSwipe={GestureRange:new{ges="swipe",range=self.dimen}},
  ControlPan={GestureRange:new{ges="pan",range=self.dimen}}}
 end
+function Controls:hasAutoLight() return self.app.autolight and Device.hasLightSensor and Device:hasLightSensor() end
 function Controls:close() UI:close(self,"ui");UI:setDirty("all","ui") end
 function Controls:onCloseWidget() if self.app.controls==self then self.app.controls=nil end end
 function Controls:actions()
@@ -54,6 +55,7 @@ function Controls:paintTo(bb,x,y)
   self.frontlight_layout={x=tx,y=ty,w=tw,h=th,on=on,ink=ink}
   self.hits[#self.hits+1]={x=x+w-S(90),y=y+S(base+3),w=S(90),h=S(46),callback=function()
    power:toggleFrontlight();power:updateResumeFrontlightState();UI:setDirty(self,"ui")
+   if self.app.autolight then self.app.autolight:manual(power:frontlightIntensity(),false) end
   end}
   P.text(bb,"亮度",x+S(20),y+S(base+62),w*.5,P.style.label,true)
   P.text(bb,tostring(state.intensity),x+w-S(60),y+S(base+62),S(42),P.style.label,true)
@@ -67,6 +69,13 @@ function Controls:paintTo(bb,x,y)
   self.hits[#self.hits+1]={x=sx,y=sy-S(20),w=sw,h=S(40),feedback=false,callback=function(pos) self:setLight(pos) end}
   self.hits[#self.hits+1]={x=x,y=sy-S(22),w=S(55),h=S(44),callback=function() self.app.adapter:setFrontlight(math.max(state.low,self.app.adapter:deviceStatus().intensity-1));UI:setDirty(self,"ui") end}
   self.hits[#self.hits+1]={x=x+w-S(55),y=sy-S(22),w=S(55),h=S(44),callback=function() self.app.adapter:setFrontlight(math.min(state.high,self.app.adapter:deviceStatus().intensity+1));UI:setDirty(self,"ui") end}
+  if self:hasAutoLight() then
+   local ay=y+S(base+144)
+   P.rule(bb,x+S(20),ay,w-S(40),1)
+   P.label(bb,'自动前光',x+S(20),ay,w/2,S(44),P.style.label,true)
+   P.label(bb,self.app.autolight:statusText()..'  ›',x+w/2,ay,w/2-S(20),S(44),P.style.label,false,'center')
+   self.hits[#self.hits+1]={x=x+S(12),y=ay,w=w-S(24),h=S(44),id='control_auto_light',callback=function() self:close();self.app:open('auto_light') end}
+  end
  end
  P.icon(bb,"chevron.up",x+w/2-S(17),y+self.panel_h-S(35),S(34))
  self.hits[#self.hits+1]={x=x,y=y+self.panel_h-S(42),w=w,h=S(42),callback=function() self:close() end}

@@ -19,6 +19,7 @@ function Settings.render(app,route,m,row,go)
    row("原生页面配置","高级页面控件兼容入口",function() app:openNativeConfig() end)
   end
   if route.param=="library" or route.param=="network" then row("传书与书库",nil,go("transfer_settings")) end
+  if route.param=="display" then row("自动前光",nil,go("auto_light")) end
   local nodes=app.native.catalog.roots[route.param] or {}
   m.content_key=nodes
   if route.param=="input" and app.pagepress then row("翻页键",nil,go("pagepress_settings")) end
@@ -76,6 +77,7 @@ function Settings.search(app,query)
   if match(title.." "..(keywords or "")) then results[#results+1]={title=title,path=path,route=route,param=param} end
  end
  add("传书与书库","书库与文件","transfer_settings",nil,"上传 传输 书籍 文件 目录 文件夹 路径 网页 Wi-Fi EPUB")
+ add("自动前光","显示与前光","auto_light",nil,"自动亮度 光感 传感器 照度 记忆 自适应 补光 lux 暗处")
  add("阅读回报","主页","reading_return",nil,"回本 购机 设备 投入 金额 价值 价格")
  add("时间与日期","设备与系统","clock_settings",nil,"网络同步时间 校时 时区 夏令时 timezone ntp")
  add("中文输入法","触控与按键","input_method",nil,"拼音 中文 汉字 候选词 键盘 pinyin 中英 英文 输入 切换 EN")

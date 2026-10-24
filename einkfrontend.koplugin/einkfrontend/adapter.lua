@@ -287,6 +287,8 @@ function Adapter:setFrontlight(value)
     local power=require("device"):getPowerDevice()
     power:setIntensity(value)
     assert(power:frontlightIntensity()==value,"设备前光未能生效")
+    power:updateResumeFrontlightState()
+    if self.app and self.app.autolight then self.app.autolight:manual(value,true) end
 end
 
 function Adapter:toggleNightMode()
