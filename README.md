@@ -19,6 +19,8 @@
 
 ## 安装与兼容
 
+面向 KOReader 已支持的全系列 Kindle，前光、光感、暖光与按键功能按硬件能力提供；各型号的适配进度见 [Kindle 支持范围](docs/kindle-support.md)。
+
 目前适配 **KOReader v2026.07.1 / v2026.07.2**。从 [Releases](https://github.com/ManXiangTAS/classicui.koplugin/releases) 下载安装包，退出 KOReader 后，将 **`einkfrontend.koplugin`** 放入 `koreader/plugins/`，保留目录名称，再重启并启用插件。升级前请备份原插件与设置。
 
 与 SimpleUI 等接管相同入口的界面插件建议择一启用。部分第三方插件仍使用自己的窗口；设备专用功能与电子墨水屏表现需在对应实机上确认。完整步骤及恢复原生界面的方法见[使用指南](docs/guide.md)。

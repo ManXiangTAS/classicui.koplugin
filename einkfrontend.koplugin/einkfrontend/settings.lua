@@ -16,9 +16,11 @@ function Settings.render(app,route,m,row,go)
   for _,list in ipairs({app.native.categories,Native.extra_categories}) do for _,c in ipairs(list) do if c[1]==route.param then m.title=c[2] end end end
   if route.param=="typography" then
    m.title="高级排版"
-   row("原生页面配置","高级页面控件兼容入口",function() app:openNativeConfig() end)
+   row("原生页面配置",nil,function() app:openNativeConfig() end)
   end
   if route.param=="library" or route.param=="network" then row("传书与书库",nil,go("transfer_settings")) end
+  if route.param=="library" then row("清理已删除书籍的数据",nil,function() require('einkfrontend/maintenancesettings').open(app) end) end
+  if route.param=="display" then row("前光",nil,go("frontlight_settings")) end
   local nodes=app.native.catalog.roots[route.param] or {}
   m.content_key=nodes
   if route.param=="input" and app.pagepress then row("翻页键",nil,go("pagepress_settings")) end
@@ -34,7 +36,7 @@ function Settings.render(app,route,m,row,go)
    row("关于",nil,go("about"))
   end
   for _,node in ipairs(nodes) do
-   if node.id~="time" then
+   if node.id~="time" and node.id~="frontlight" then
    row(Native.text(node),"",function() app.native:open(nodes,m.title);app.native:select(node) end)
    local r=m.rows[#m.rows];r.enabled=Native.enabled(node);r.checked=Native.checked(node)
    r.hold_callback=function() app.native:open(nodes,m.title);app.native:select(node,true) end
@@ -76,6 +78,8 @@ function Settings.search(app,query)
   if match(title.." "..(keywords or "")) then results[#results+1]={title=title,path=path,route=route,param=param} end
  end
  add("传书与书库","书库与文件","transfer_settings",nil,"上传 传输 书籍 文件 目录 文件夹 路径 网页 Wi-Fi EPUB")
+ add("前光","显示与刷新","frontlight_settings",nil,"自动前光 自动调光 自动亮度 光感 传感器 照度 记忆 自适应 补光 lux 暗处 色温 暖光")
+ add("清理已删除书籍的数据","书库与文件","library_cleanup",nil,"删除书籍 残留 清理 缓存 失效 sdr 数据")
  add("阅读回报","主页","reading_return",nil,"回本 购机 设备 投入 金额 价值 价格")
  add("时间与日期","设备与系统","clock_settings",nil,"网络同步时间 校时 时区 夏令时 timezone ntp")
  add("中文输入法","触控与按键","input_method",nil,"拼音 中文 汉字 候选词 键盘 pinyin 中英 英文 输入 切换 EN")
@@ -91,7 +95,7 @@ function Settings.search(app,query)
   if type(nodes)~="table" or depth>10 or budget<=0 then return end
   for _,node in ipairs(nodes) do if type(node)=="table" and not seen[node] and budget>0 then
    seen[node]=true;budget=budget-1;local title=Native.text(node)
-   if match(title) then results[#results+1]={node=node,path=path} end
+   if node.id~='frontlight' and match(title) then results[#results+1]={node=node,path=path} end
    local children=node.sub_item_table
    if children then walk(children,path.." › "..title,depth+1)
    elseif type(node.sub_item_table_func)=="function" then

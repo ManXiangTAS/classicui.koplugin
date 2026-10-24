@@ -3,10 +3,10 @@
 from pathlib import Path
 import argparse,hashlib,json,os,shutil,subprocess,tempfile
 p=Path(__file__).resolve().parents[1]
-parser=argparse.ArgumentParser();parser.add_argument('runtime',type=Path);parser.add_argument('--suite',choices=['core','interaction','offline','input','native_widgets','home','wallpaper','settings']);args=parser.parse_args();r=args.runtime.resolve()
+parser=argparse.ArgumentParser();parser.add_argument('runtime',type=Path);parser.add_argument('--suite',choices=['core','interaction','offline','input','native_widgets','home','wallpaper','settings','autolight','maintenance']);args=parser.parse_args();r=args.runtime.resolve()
 assert (r/'plugins/einkfrontend.koplugin').resolve()==p/'einkfrontend.koplugin','Point the runtime plugin symlink at this checkout'
 out=p/'test-results';out.mkdir(exist_ok=True);results=[]
-for suite in ([args.suite] if args.suite else ['core','interaction','offline','input','native_widgets','home','wallpaper','settings']):
+for suite in ([args.suite] if args.suite else ['core','interaction','offline','input','native_widgets','home','wallpaper','settings','autolight','maintenance']):
  for variant,w,h,dpi in [('desktop',600,800,160),('voyage',1072,1448,300),('landscape',1448,1072,300)]:
   target=out/suite/variant;target.mkdir(parents=True,exist_ok=True);state=Path(tempfile.mkdtemp(prefix='state-',dir=target));books=state/'books';books.mkdir()
   for name in ['A.epub','B.epub','navigation.epub']:shutil.copyfile(p/'tests/fixtures'/name,books/name)

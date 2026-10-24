@@ -152,7 +152,7 @@ function Panel:rows()
  elseif self.tab=="option" then
   local id=self.option_id;local item=Registry.by_id[id];local value=app.adapter:read(id)
   row("‹ 返回"..(self.option_parent=="font_options" and "字体选项" or "字距选项"),nil,function() self:setTab(self.option_parent or "layout_options") end)
-  row(item.title.."："..app:valueText(item,value),item.help)
+  row(item.title.."："..app:valueText(item,value),nil)
   if item.kind=="number" then
    row("减少 "..item.step,nil,function() self:change(id,math.max(item.min,value-item.step)) end)
    row("增加 "..item.step,nil,function() self:change(id,math.min(item.max,value+item.step)) end)
@@ -167,7 +167,7 @@ function Panel:rows()
    end
   end
  elseif self.tab=="pdf" then
-  row("页面裁边、缩放与重排","打开完整页面排版兼容页",function() app:openNativeConfig() end)
+  row("页面裁边、缩放与重排",nil,function() app:openNativeConfig() end)
   row("页面显示与阅读偏好",nil,function() self:close();app:open("settings") end)
  end
  return rows
