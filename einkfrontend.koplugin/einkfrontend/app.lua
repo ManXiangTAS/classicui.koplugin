@@ -99,6 +99,7 @@ function App:open(route,param)
 end
 
 function App:close()
+    if self.book_maintenance then self.book_maintenance:cancel() end
     self:closeDialogs()
     if self.transfer_server then self.transfer_server:stop() end
     Overlay.close(self)
@@ -396,6 +397,7 @@ function App:render()
     elseif require("einkfrontend/clocksettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/pagepresssettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/lightsettings").render(self,route,m,row,go) then
+    elseif require("einkfrontend/maintenancesettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/bookvalue").render(self,route,m,row,go) then
     elseif require("einkfrontend/homecustom").render(self,route,m,row,go) then
     elseif require("einkfrontend/settings").render(self,route,m,row,go) then
@@ -530,6 +532,7 @@ function App:render()
         row("重新扫描书库","目录："..(self.library.root or self.adapter:libraryRoot()),function()
             self:scanLibrary(self.library.root or self.adapter:libraryRoot())
         end)
+        row("清理已删除书籍的数据","扫描残留设置、封面缓存和失效记录",function() require('einkfrontend/maintenancesettings').open(self) end)
         row("更换书库目录","打开兼容目录选择器",function()
             self.adapter:chooseLibraryRoot(self.library.root or self.adapter:libraryRoot(),function(path)
                 self:safe(function() self:scanLibrary(path) end)
@@ -590,8 +593,10 @@ function App:render()
         end
     elseif route.id=="book" then
         local book=route.param
+        book.authors=book.authors or "作者未知";book.series=book.series or "";book.title=book.title or book.file:match('([^/]+)$')
         m.title=book.title;m.subtitle=book.authors..(book.series~="" and (" · "..book.series) or "")
         row("开始阅读","打开书籍并关闭书库界面",function() self:openLibraryBook(book) end)
+        row("删除书籍","永久删除本机文件；历史阅读统计保留",function() require('einkfrontend/bookmaintenance').requestDelete(self,book) end)
         local status,percent=self.library:status(book)
         row("阅读状态："..status,percent and (math.floor(percent*100).."%") or "尚无进度记录",function() self:chooseReadStatus(book) end)
         row("书名与作者",nil,function()

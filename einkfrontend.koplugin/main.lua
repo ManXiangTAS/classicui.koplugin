@@ -147,6 +147,7 @@ function Plugin:onCloseDocument()
     self:stopPlugin(self.ui.tearing_down)
 end
 function Plugin:onSuspend()
+    if self.app and self.app.book_maintenance then self.app.book_maintenance:cancel() end
     if self.app and self.app.autolight then self.app.autolight:suspend() end
     if self.app and self.app.transfer_server then self.app.transfer_server:stop() end
     if self.app and self.app.pagepress then self.app.pagepress:suspend() end

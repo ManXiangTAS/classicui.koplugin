@@ -12,11 +12,13 @@ local lfs=require("libs/libkoreader-lfs")
 local ffiUtil=require("ffi/util")
 local Library={}
 Library.__index=Library
+Library.instances=setmetatable({},{__mode='k'})
 
 function Library.new(ui)
     local settings=LuaSettings:open(DataStorage:getSettingsDir().."/einkfrontend-library.lua")
-    return setmetatable({ui=ui,settings=settings,books=settings:readSetting("books") or {},
+    local self=setmetatable({ui=ui,settings=settings,books=settings:readSetting("books") or {},
         root=settings:readSetting("root"),covers={},cover_order={}},Library)
+    Library.instances[self]=true;return self
 end
 
 function Library:save()
