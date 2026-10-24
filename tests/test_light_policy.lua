@@ -166,6 +166,38 @@ test('Restore-last-level works in manual mode without enabling or training autom
  local f,m=fixture();m:manual(12,true);m:manual(0,false);assert(m:restoreLevel()==12)
  assert(not m.config.enabled and next(f.tasks)==nil and #m.config.memories==0)
 end)
+test('Kindle sensor probing is capability based across model names and native ranges',function()
+ local Sensor=require('einkfrontend/lightsensor');local old=package.loaded.liblipclua
+ package.loaded.liblipclua={init=function() return {close=function() end,
+  get_int_property=function(_,_,key) return key=='alsLux' and 45 or 0 end,
+  get_string_property=function() return 'active' end} end}
+ for _,model in ipairs({'KindleVoyage','KindleOasis2','KindleOasis3','KindlePaperWhite5SE','KindleScribe','KindleColorSoft','KindleFutureSensor'}) do
+  for _,high in ipairs({15,24,25,100}) do
+   local f=fixture();f.device.model=model;f.power.fl_max=high;f.power.lipc_handle={}
+   f.device.hasFrontlight=function() return true end;f.device.hasLightSensor=function() return true end
+   local sensor=Sensor.new(f.device);assert(sensor:probe());assert(sensor:read()==45 and sensor.backend=='lipc')
+  end
+ end
+ package.loaded.liblipclua=old
+end)
+test('Warmth capability alone never opens Lux automation on a Kindle without a sensor',function()
+ local Sensor=require('einkfrontend/lightsensor')
+ for _,warm in ipairs({false,true}) do
+  local f=fixture();f.device.model=warm and 'KindlePaperWhite5' or 'KindleBasic4'
+  f.device.hasFrontlight=function() return true end;f.device.hasLightSensor=function() return false end
+  f.device.hasNaturalLight=function() return warm end
+  local sensor=Sensor.new(f.device);local ok,why=sensor:probe();assert(not ok and why:find('传感器',1,true))
+  local m=Light.new(f.settings,f.device,f.ui,sensor,function() return f.now end);m:start();assert(not m:setEnabled(true))
+  assert(next(f.tasks)==nil and #f.writes==0)
+ end
+end)
+test('Kindles without frontlight expose a reason and schedule no lighting jobs',function()
+ local Sensor=require('einkfrontend/lightsensor');local f=fixture();f.device.model='KindleDXG'
+ f.device.hasFrontlight=function() return false end;f.device.hasLightSensor=function() return false end
+ local sensor=Sensor.new(f.device);local ok,why=sensor:probe();assert(not ok and why:find('前光',1,true))
+ local m=Light.new(f.settings,f.device,f.ui,sensor,function() return f.now end);m:start();assert(not m:setEnabled(true))
+ assert(next(f.tasks)==nil and #f.writes==0)
+end)
 test('Read-only Kindle backend validates native ownership and closes handles on errors',function()
  local Sensor=require('einkfrontend/lightsensor');local f=fixture();local native=0;local lux=20;local closed=0
  f.device.hasFrontlight=function() return true end;f.device.hasLightSensor=function() return true end;f.power.lipc_handle={}
