@@ -16,7 +16,7 @@ function Settings.render(app,route,m,row,go)
   for _,list in ipairs({app.native.categories,Native.extra_categories}) do for _,c in ipairs(list) do if c[1]==route.param then m.title=c[2] end end end
   if route.param=="typography" then
    m.title="高级排版"
-   row("原生页面配置","高级页面控件兼容入口",function() app:openNativeConfig() end)
+   row("原生页面配置",nil,function() app:openNativeConfig() end)
   end
   if route.param=="library" or route.param=="network" then row("传书与书库",nil,go("transfer_settings")) end
   if route.param=="library" then row("清理已删除书籍的数据",nil,function() require('einkfrontend/maintenancesettings').open(app) end) end

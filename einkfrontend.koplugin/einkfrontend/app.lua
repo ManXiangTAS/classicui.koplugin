@@ -445,21 +445,23 @@ function App:render()
         end
     elseif route.id=="section" then
         m.title=route.param=="reading" and "阅读与排版" or "书库与文件"
-        m.subtitle=route.param=="reading" and "仅修改当前书籍；不改变其他书的默认值" or "全局设置 · 立即生效并保存"
+        m.subtitle=""
+        m.help=function() self:message(route.param=="reading" and "本页只修改当前书籍，不改变其他书的默认值。" or "本页为全局设置，修改后立即保存。") end
         for _,item in ipairs(Registry.items(route.param)) do
             local value,scope,why=self.adapter:read(item.id)
-            row(item.title.."  ·  "..self:valueText(item,value),why or (scope.." · "..(item.help or "")),go("setting",item.id))
+            row(item.title.."  ·  "..self:valueText(item,value),why,go("setting",item.id))
         end
     elseif route.id=="setting" then
         local item=assert(Registry.by_id[route.param])
         local value,scope,why=self.adapter:read(item.id)
         m.title=item.title
-        m.subtitle=why or (scope.." · 当前值："..self:valueText(item,value))
+        m.subtitle=""
+        m.help=function() self:message((why or scope)..(item.help and ("\n"..item.help) or "")) end
         if why then
             row("当前不可用",why)
         elseif item.kind=="pair" then
             row("当前："..self:valueText(item,value),"缩放 / 收缩（%）")
-            row("自定义词间距",item.help,function() self.adapter:promptText("缩放 收缩（%）",table.concat(value," "),function(text)
+            row("自定义词间距",nil,function() self.adapter:promptText("缩放 收缩（%）",table.concat(value," "),function(text)
                 local pair={};for token in text:gmatch("%S+") do pair[#pair+1]=tonumber(token) or -1 end
                 self:change(item,pair)
             end) end)
@@ -473,16 +475,16 @@ function App:render()
                 self:change(item,margins)
             end) end)
         elseif item.kind=="number" then
-            row("当前值："..self:valueText(item,value),item.help)
+            row("当前值："..self:valueText(item,value),nil)
             row("减少 "..item.step,"范围 "..item.min.."—"..item.max,function() self:change(item,math.max(item.min,value-item.step)) end)
-            row("增加 "..item.step,"立即重新排版并保存",function() self:change(item,math.min(item.max,value+item.step)) end)
-            row("减少 "..(item.step*5),"较大步长调整",function() self:change(item,math.max(item.min,value-item.step*5)) end)
-            row("增加 "..(item.step*5),"较大步长调整",function() self:change(item,math.min(item.max,value+item.step*5)) end)
+            row("增加 "..item.step,nil,function() self:change(item,math.min(item.max,value+item.step)) end)
+            row("减少 "..(item.step*5),nil,function() self:change(item,math.max(item.min,value-item.step*5)) end)
+            row("增加 "..(item.step*5),nil,function() self:change(item,math.min(item.max,value+item.step*5)) end)
         else
             local choices=item.kind=="toggle" and {{false,"关闭"},{true,"开启"}} or self.adapter:choices(item.id)
             for _,choice in ipairs(choices) do
                 local v,label=choice[1],choice[2]
-                row((value==v and "■ " or "□ ")..label,item.help,function() self:change(item,v) end)
+                row((value==v and "■ " or "□ ")..label,nil,function() self:change(item,v) end)
             end
         end
     elseif route.id=="reader" then
@@ -530,33 +532,34 @@ function App:render()
             self:scanLibrary(self.library.root or self.adapter:libraryRoot())
         end) end
     elseif route.id=="library_options" then
-        m.title="书库选项";m.subtitle="新书库的视图和排序单独管理"
-        row("视图："..(self.library_layout=="grid" and "封面" or "列表"),"点击切换",function()
+        m.title="书库选项";m.subtitle=""
+        row("视图："..(self.library_layout=="grid" and "封面" or "列表"),nil,function()
             self.library_layout=self.library_layout=="grid" and "list" or "grid";self:saveLibraryView();self:render()
         end)
-        row("排序："..Browser.sort_labels[self.library_sort],"点击切换",function()
+        row("排序："..Browser.sort_labels[self.library_sort],nil,function()
             self:cycleLibrarySort()
         end)
         for _,state in ipairs({"未读","在读","已完成","搁置"}) do
-            local status=state;row(status,"按阅读状态筛选",go("books",{status=status}))
+            local status=state;row(status,nil,go("books",{status=status}))
         end
         row("书库设置",nil,go("catalog_category","library"))
     elseif route.id=="library_filter" then
-        m.title="筛选书库";m.subtitle="跨分类应用，可多选；不选择状态表示全部"
+        m.title="筛选书库";m.subtitle=""
+        m.help=function() self:message("阅读状态可多选，不选择时表示全部；筛选应用于各书库分类。") end
         row("当前："..self.browser:label(),"搜索："..(self.browser.filter.query or ""))
-        row("清除筛选和搜索","保留当前分类与排序",function()
+        row("清除筛选和搜索",nil,function()
             self.browser.filter={statuses={},query=""};self:resetLibraryPages();self:render()
         end)
         for _,state in ipairs(Browser.states) do
             local status=state
             local selected=self.browser.filter.statuses[status]
             local count=#self.library:list({status=status,query=self.browser.filter.query})
-            row((selected and "■ " or "□ ")..status.."（"..count.."）","点击切换",function()
+            row((selected and "■ " or "□ ")..status.."（"..count.."）",nil,function()
                 self.browser.filter.statuses[status]=not selected or nil
                 self:resetLibraryPages();self:render()
             end)
         end
-        row("扫描与书库选项","扫描目录 / 布局 / 修改目录",go("library_options"))
+        row("书库选项",nil,go("library_options"))
     elseif route.id=="groups" then
         m.title=route.param=="authors" and "作者" or "系列";m.subtitle="按已扫描的书籍元数据分组"
         for _,group in ipairs(self.library:groups(route.param,self.browser:combined(),self.library_sort)) do
@@ -602,8 +605,8 @@ function App:render()
             m.rows[#m.rows].book=coll.book
         end
     elseif route.id=="collection_manager" then
-        m.title="管理收藏";m.subtitle="选择收藏夹，管理名称和书籍"
-        row("新建收藏","输入一个收藏名称",function()
+        m.title="管理收藏";m.subtitle=""
+        row("新建收藏",nil,function()
             self:newCollection()
         end)
         for _,coll in ipairs(self.library:collections()) do
@@ -612,23 +615,23 @@ function App:render()
     elseif route.id=="collection_manage" then
         local name=route.param;local rc=require("readcollection")
         assert(rc.coll[name],"收藏已经不存在")
-        m.title=self.library:collectionLabel(name);m.subtitle="收藏夹管理"
+        m.title=self.library:collectionLabel(name);m.subtitle=""
         row("在书库显示："..(self.library:collectionVisible(name) and "开启" or "关闭"),nil,function()
             local ok,why=self.library:setCollectionVisible(name,not self.library:collectionVisible(name))
             if not ok then self:message(why) end;self:render()
         end)
-        row("管理书籍","添加或移出本收藏的书籍",go("collection_members",name))
+        row("管理书籍",nil,go("collection_members",name))
         if name~=rc.default_collection_name then
-            row("重命名","保留收藏中的书籍与原生设置",function()
+            row("重命名",nil,function()
                 self.adapter:promptText("重命名收藏",name,function(text) self:editCollection(name,text) end)
             end)
-            row("删除收藏","只删除收藏分组，保留书籍文件",function()
+            row("删除收藏",nil,function()
                 self:confirm("删除收藏“"..self.library:collectionLabel(name).."”？书籍文件会保留。",function() self:editCollection(name,nil) end)
             end)
         else row("默认收藏夹","可管理书籍，不能重命名或删除") end
     elseif route.id=="collection_members" then
         local name=route.param
-        m.title=self.library:collectionLabel(name);m.subtitle="轻点书籍，添加或移出收藏"
+        m.title=self.library:collectionLabel(name);m.subtitle=""
         for _,book in ipairs(self.library:collectionBooks(name)) do
             local selected=self.library:inCollection(book.file,name)
             row((selected and "■ " or "□ ")..book.title,book.authors,function()
@@ -643,30 +646,31 @@ function App:render()
         for _,coll in ipairs(self.library:collections()) do
             local name=coll.name
             local selected=self.library:inCollection(book.file,name)
-            row((selected and "■ " or "□ ")..coll.label,"点击切换本书归属",function()
+            row((selected and "■ " or "□ ")..coll.label,nil,function()
                 self.library:setCollection(book.file,name,not selected);self.status="收藏归属已保存";self:render()
             end)
         end
     elseif route.id=="frontend" then
-        m.title="前端与恢复";m.subtitle="本页修改仅作用于墨页插件"
+        m.title="前端与恢复";m.subtitle=""
+        m.help=function() self:message("本页设置仅作用于墨页。文件管理器启动入口在下次进入时生效；阅读点击入口控制中央 Aa 与顶部提示栏。\n原生兼容菜单临时打开，关闭后返回当前接管状态。\n停用墨页会恢复原生入口，并在重启后保持；重新启用请使用原生插件管理器。") end
         row("文件管理器启动入口："..(self.plugin:option("auto_open",true) and "开启" or "关闭"),
-            "下一次进入文件管理器时生效",function() self.plugin:toggleOption("auto_open",true);self:render() end)
+            nil,function() self.plugin:toggleOption("auto_open",true);self:render() end)
         row("阅读点击入口："..(self.plugin:option("reader_entry",true) and "开启" or "关闭"),
-            "中央 Aa 与顶部提示栏；可立即恢复",function()
+            nil,function()
                 self.plugin:toggleOption("reader_entry",true);self.plugin:refreshReaderEntry();self:render()
             end)
         row("全菜单接管："..(self.plugin:option("full_takeover",true) and "开启" or "关闭"),
-            "立即切换；保留插件和阅读数据",function()
+            nil,function()
                 self.plugin:toggleOption("full_takeover",true)
                 if self.plugin:option("full_takeover",true) then self.plugin:installTakeover()
                 else require("einkfrontend/notices").detach(self.plugin,true);if self.plugin.gate then self.plugin.gate:restore() end end
                 self:render()
             end)
-        row("原生兼容菜单","临时进入；关闭后返回当前接管状态",function()
+        row("原生兼容菜单",nil,function()
             self:close()
             if self.plugin.gate then self.plugin.gate:openNative() else self.plugin.ui.menu:onShowMenu() end
         end)
-        row("停用墨页并重启后保持","恢复原生入口；重新启用请用原生插件管理器",function() self.plugin:disableFrontend() end)
+        row("停用墨页并重启后保持",nil,function() self.plugin:disableFrontend() end)
     elseif route.id=="about" or route.id=="progress" then
         m.title="关于墨页";m.subtitle="ClassicUI · 墨页 · "..require("einkfrontend/version")
         local _,revision=require("einkfrontend/adapter").supported()

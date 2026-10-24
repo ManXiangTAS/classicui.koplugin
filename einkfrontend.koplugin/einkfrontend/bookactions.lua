@@ -8,10 +8,10 @@ function View.render(app,route,m,row,go)
  book.authors=book.authors or '作者未知';book.series=book.series or '';book.title=book.title or book.file:match('([^/]+)$')
  m.settings=true;m.title=route.id=='book' and book.title or titles[route.id];m.subtitle=''
  if route.id=='book' then
-  row('阅读','开始阅读 · 阅读状态',go('book_reading',book))
-  row('书籍信息','书名与作者 · 本书价格 · 文件位置',go('book_info',book))
-  row('整理书籍','收藏归属 · 系列 · 卷序',go('book_organize',book))
-  row('文件操作','删除本机书籍',go('book_files',book))
+  row('阅读',nil,go('book_reading',book))
+  row('书籍信息',nil,go('book_info',book))
+  row('整理书籍',nil,go('book_organize',book))
+  row('文件操作',nil,go('book_files',book))
  elseif route.id=='book_reading' then
   row('开始阅读',nil,function() app:openLibraryBook(book) end)
   local status,percent=app.library:status(book)
@@ -48,12 +48,12 @@ function View.render(app,route,m,row,go)
     end)
    end,{keep_on_error=true})
   end)
-  row('恢复书籍原系列','清除本机系列和卷序覆盖',function()
+  row('恢复书籍原系列',nil,function()
    app:userAction(function() app.library:setMetadata(book,'series',nil);app.library:setMetadata(book,'series_index',nil);app:render() end)
   end)
  else
   row('书籍文件',book.file)
-  row('删除书籍','永久删除本机文件；历史阅读统计保留',function() require('einkfrontend/bookmaintenance').requestDelete(app,book) end)
+  row('删除书籍',nil,function() require('einkfrontend/bookmaintenance').requestDelete(app,book) end)
  end
  return true
 end
