@@ -4,14 +4,14 @@ local Device=require('device');local time=require('ui/time');local Store=require
 local Base=require('einkfrontend/homeweb');local Web={};Web.__index=Web
 local function now() return time.to_s(time.now()) end
 local function random()
- local f=assert(io.open('/dev/urandom','rb'));local b=f:read(24);f:close();assert(b and #b==24,'随机源不可用')
+ local f=assert(io.open('/dev/urandom','rb'));local b=f:read(24);f:close();assert(b and #b==24,'���Դ������')
  return (b:gsub('.',function(c)return string.format('%02x',c:byte())end))
 end
 local function read(path) local f=assert(io.open('plugins/einkfrontend.koplugin/resources/'..path,'rb'));local s=f:read('*a');f:close();return s end
 function Web.new(app,options)
  options=options or {};local self=setmetatable({app=app,editor={},clients={},token=random(),expires=now()+1800,receipts={},receipt_order={},store=Store.new(options.root)},Web)
  local probe=assert(socket.udp());local ok=probe:setpeername('192.0.2.1',9);self.ip=options.ip or (ok and probe:getsockname());probe:close()
- assert(type(self.ip)=='string' and self.ip:match('^%d+%.%d+%.%d+%.%d+$') and self.ip~='0.0.0.0','请先连接 Wi-Fi')
+ assert(type(self.ip)=='string' and self.ip:match('^%d+%.%d+%.%d+%.%d+$') and self.ip~='0.0.0.0','�������� Wi-Fi')
  self.listener=assert(socket.bind(self.ip,0));self.listener:settimeout(0);local _,port=self.listener:getsockname();self.port=tonumber(port)
  self.host=self.ip..':'..self.port;self.origin='http://'..self.host;self.url=self.origin..'/#'..self.token
  local good,why=pcall(function()
@@ -23,12 +23,12 @@ function Web.new(app,options)
   if Device:isKindle() and not options.no_firewall then
    local rules={'INPUT -p tcp -d '..self.ip..' --dport '..self.port..' -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT',
     'OUTPUT -p tcp -s '..self.ip..' --sport '..self.port..' -m conntrack --ctstate ESTABLISHED -j ACCEPT'}
-   for _,rule in ipairs(rules) do assert(os.execute('iptables -I '..rule..' >/dev/null 2>&1')==0,'无法开启传书端口');self.installed[#self.installed+1]=rule end
+   for _,rule in ipairs(rules) do assert(os.execute('iptables -I '..rule..' >/dev/null 2>&1')==0,'�޷���������˿�');self.installed[#self.installed+1]=rule end
   end
   self.tick=function()
    if self.stopped then return end
    local healthy=pcall(self.poll,self)
-   if not healthy then self:stop();app:message('网页传书已停止，请重新开启');return end
+   if not healthy then self:stop();app:message('��ҳ������ֹͣ�������¿���');return end
    if not self.stopped then UI:scheduleIn(.03,self.tick) end
   end
   UI:scheduleIn(.03,self.tick)
@@ -47,16 +47,16 @@ function Web:stop()
  if self.scan_job then UI:unschedule(self.scan_job);self.scan_job=nil end
  local cleaned=self.store:abort();if not cleaned then cleaned=self.store:abort() end
  Base.stop(self)
- if not cleaned then require('logger').warn('Transfer temporary file cleanup pending');self.app:message('传书已关闭，但有未完成的临时文件暂时无法清理。请退出 KOReader 后检查接收目录中的隐藏 .moye-upload-*.part 文件。') end
+ if not cleaned then require('logger').warn('Transfer temporary file cleanup pending');self.app:message('�����ѹرգ�����δ��ɵ���ʱ�ļ���ʱ�޷����������˳� KOReader �������Ŀ¼�е����� .moye-upload-*.part �ļ���') end
  if self.app.transfer_server==self then self.app.transfer_server=nil end
 end
 function Web:showAddress()
  if self.stopped then return end
  if self.dialog then UI:close(self.dialog) end
- local box;box=require('ui/widget/buttondialog'):new{title='网页传书 · 同一 Wi-Fi\n'..self.origin..'\n30分钟后关闭，文件保存在\n'..self.store.root,buttons={
-  {{text='显示二维码',callback=function() if self.stopped then return end;UI:close(box);self.dialog=nil;self.qr=require('ui/widget/qrmessage'):new{text=self.url,width=require('einkfrontend/paint').s(340),height=require('einkfrontend/paint').s(340)};UI:show(self.qr) end}},
-  {{text='显示完整连接地址',callback=function() if not self.stopped then self.app:message(self.url..'\n地址包含临时访问密钥，请勿转发') end end}},
-  {{text='关闭传书',callback=function() self:stop();self.app:render() end}},
+ local box;box=require('ui/widget/buttondialog'):new{title='��ҳ���� �� ͬһ Wi-Fi\n'..self.origin..'\n30���Ӻ�رգ��ļ�������\n'..self.store.root,buttons={
+  {{text='��ʾ��ά��',callback=function() if self.stopped then return end;UI:close(box);self.dialog=nil;self.qr=require('ui/widget/qrmessage'):new{text=self.url,width=require('einkfrontend/paint').s(340),height=require('einkfrontend/paint').s(340)};UI:show(self.qr) end}},
+  {{text='��ʾ�������ӵ�ַ',callback=function() if not self.stopped then self.app:message(self.url..'\n��ַ������ʱ������Կ������ת��') end end}},
+  {{text='�رմ���',callback=function() self:stop();self.app:render() end}},
  }};self.dialog=box;UI:show(box)
 end
 function Web:request(method,path,headers,body)
@@ -68,44 +68,49 @@ function Web:request(method,path,headers,body)
  if method=='GET' and path=='/api/info' then return self:response(200,json.encode{directory=self.store.root,limit=Store.limit,chunk=Store.chunk,expires_in=math.max(0,math.floor(self.expires-now()))}) end
  local valid,why=pcall(function()
   if method=='POST' and path=='/api/begin' then
-   assert(headers['content-type']=='application/json','请求类型无效');assert(#body<=4096,'请求过大')
+   assert(headers['content-type']=='application/json','����������Ч');assert(#body<=4096,'�������')
    local depth,inside,escape=0,false,false
    for i=1,#body do local c=body:sub(i,i)
     if inside then if escape then escape=false elseif c=='\\' then escape=true elseif c=='"' then inside=false end
-    elseif c=='"' then inside=true elseif c=='{' or c=='[' then depth=depth+1;assert(depth<=8,'请求嵌套过深') elseif c=='}' or c==']' then depth=depth-1 end
+    elseif c=='"' then inside=true elseif c=='{' or c=='[' then depth=depth+1;assert(depth<=8,'����Ƕ�׹���') elseif c=='}' or c==']' then depth=depth-1 end
    end
-   local d=assert(json.decode(body));assert(type(d)=='table','请求格式无效');for k in pairs(d) do assert(k=='name' or k=='size' or k=='title' or k=='author' or k=='price','未知请求字段') end
+   local d=assert(json.decode(body));assert(type(d)=='table','�����ʽ��Ч');for k in pairs(d) do assert(k=='name' or k=='size' or k=='title' or k=='author' or k=='price','δ֪�����ֶ�') end
    local meta={}
-   if d.title~=nil then assert(type(d.title)=='string' and #d.title<=600 and d.title:match('%S') and not d.title:find('[%c]'),'书名无效');meta.title=d.title end
-   if d.author~=nil then assert(type(d.author)=='string' and #d.author<=600 and not d.author:find('[%c]'),'作者无效');meta.author=d.author end
+   if d.title~=nil then assert(type(d.title)=='string' and #d.title<=600 and d.title:match('%S') and not d.title:find('[%c]'),'������Ч');meta.title=d.title end
+   if d.author~=nil then assert(type(d.author)=='string' and #d.author<=600 and not d.author:find('[%c]'),'������Ч');meta.author=d.author end
    if d.price~=nil then require('einkfrontend/bookvalue').parse(d.price);meta.price=d.price end
    local u=self.store:begin(d.name,d.size,random());self.metadata=meta;self.last_activity=now();return {id=u.id,offset=0}
   elseif method=='POST' and path:match('^/api/chunk/[a-f0-9]+/%d+$') then
-   assert(headers['content-type']=='application/octet-stream','请求类型无效')
+   assert(headers['content-type']=='application/octet-stream','����������Ч')
    local id,offset=path:match('^/api/chunk/([a-f0-9]+)/(%d+)$');local n=self.store:append(id,tonumber(offset),body);self.last_activity=now();return {offset=n}
   elseif method=='POST' and path:match('^/api/finish/[a-f0-9]+$') then
-   assert(#body==0,'请求格式无效');local id=path:match('/([a-f0-9]+)$');if self.receipts[id] then return self.receipts[id] end;local name,identity=self.store:finish(id);self.last_activity=nil
+   assert(#body==0,'�����ʽ��Ч');local id=path:match('/([a-f0-9]+)$');if self.receipts[id] then return self.receipts[id] end;local name,identity=self.store:finish(id);self.last_activity=nil
    local meta=self.metadata or {};self.metadata=nil;local warnings={}
    if meta.title or meta.author then
     local ok=pcall(function()
      local changes={};if meta.title then changes.title=meta.title end;if meta.author then changes.authors=meta.author end
      self.app.library:editDetails({file=self.store.root..'/'..name},changes)
     end)
-    if not ok then warnings[#warnings+1]='书已送达，书名或作者未能保存，可在书籍详情中修改' end
+    if not ok then warnings[#warnings+1]='�����ʹ����������δ�ܱ��棬�����鼮�������޸�' end
    end
    local valued=pcall(self.app.book_value.recordUpload,self.app.book_value,self.store.root..'/'..name,meta.price or '',identity)
-   if not valued then warnings[#warnings+1]='价格未能保存，可在书籍详情中补填' end
+   if not valued then warnings[#warnings+1]='�۸�δ�ܱ��棬�����鼮�����в���' end
    if self.scan_job then UI:unschedule(self.scan_job) end
-   self.scan_job=function() self.scan_job=nil;if self.app.plugin.active and self.app.adapter:alive() then self.app:scanLibrary(self.store.root) end end
-   UI:scheduleIn(.5,self.scan_job);local receipt={name=name,saved=true,warning=#warnings>0 and table.concat(warnings,'；') or nil};self.receipts[id]=receipt;self.receipt_order[#self.receipt_order+1]=id;if #self.receipt_order>20 then self.receipts[table.remove(self.receipt_order,1)]=nil end;return receipt
+   self.scan_job=function()
+    self.scan_job=nil
+    if self.app.plugin.active and self.app.adapter:alive() then
+     self.app:userAction(function() self.app:scanLibrary(self.store.root) end)
+    end
+   end
+   UI:scheduleIn(.5,self.scan_job);local receipt={name=name,saved=true,warning=#warnings>0 and table.concat(warnings,'��') or nil};self.receipts[id]=receipt;self.receipt_order[#self.receipt_order+1]=id;if #self.receipt_order>20 then self.receipts[table.remove(self.receipt_order,1)]=nil end;return receipt
   elseif method=='POST' and path:match('^/api/cancel/[a-f0-9]+$') then
-   assert(#body==0,'请求格式无效')
+   assert(#body==0,'�����ʽ��Ч')
    local id=path:match('/([a-f0-9]+)$');if self.store.upload then
-    assert(self.store.upload.id==id,'上传标识无效');local cleaned=self.store:abort()
-    assert(cleaned,'临时文件未能清理，请关闭传书后重试');self.metadata=nil;self.last_activity=nil
+    assert(self.store.upload.id==id,'�ϴ���ʶ��Ч');local cleaned=self.store:abort()
+    assert(cleaned,'��ʱ�ļ�δ����������رմ��������');self.metadata=nil;self.last_activity=nil
    elseif self.store.temp then
-    assert(self.store.temp:match('/%.moye%-upload%-'..id..'%.part$'),'上传标识无效')
-    assert(self.store:abort(),'临时文件未能清理，请关闭传书后重试');self.metadata=nil;self.last_activity=nil
+    assert(self.store.temp:match('/%.moye%-upload%-'..id..'%.part$'),'�ϴ���ʶ��Ч')
+    assert(self.store:abort(),'��ʱ�ļ�δ����������رմ��������');self.metadata=nil;self.last_activity=nil
    end;return {cancelled=true}
   end
  end)

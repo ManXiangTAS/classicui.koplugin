@@ -39,6 +39,7 @@ jobs:
       - name: Verify source and build reproducible artifacts
         run: |
           python3 tests/test_release_policy.py
+          python3 tests/test_build_integrity.py
           python3 tests/build_public_release.py dist
       - name: Prepare or publish verified release assets
         env:

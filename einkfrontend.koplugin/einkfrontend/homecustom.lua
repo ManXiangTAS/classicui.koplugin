@@ -7,45 +7,45 @@ function Editor.render(app,route,model,row,go)
   local ok,why=layout:change(fn);if not ok then app:message(why) end;app:render()
  end
  if route.id=="home_customize" then
-  model.title="自定义主页";model.subtitle="选择部件，调整显示、顺序和宽度"
-  if layout.error then row("主页配置异常","原文件保留；请恢复默认布局后再编辑") end
-  row("预览主页","查看已保存的部件和布局",function() app:open("home") end)
-  row("部件间距："..(config.spacing=="compact" and "紧凑" or "标准"),"轻点切换",function()
+  model.title="�Զ�����ҳ";model.subtitle=""
+  if layout.error then row("��ҳ�����쳣","ԭ�ļ���������ָ�Ĭ�ϲ��ֺ��ٱ༭") end
+  row("Ԥ����ҳ",nil,function() app:open("home") end)
+  row("������ࣺ"..(config.spacing=="compact" and "����" or "��׼"),nil,function()
    save(function(c) c.spacing=c.spacing=="compact" and "standard" or "compact" end)
   end)
   for i,widget in ipairs(config.widgets) do
-   row(i..". "..Layout.by_id[widget.id].name,(widget.enabled and "显示" or "隐藏").." · "..(widget.span==2 and "整行" or "半行"),go("home_widget",widget.id))
+   row(i..". "..Layout.by_id[widget.id].name,(widget.enabled and "��ʾ" or "����").." �� "..(widget.span==2 and "����" or "����"),go("home_widget",widget.id))
   end
-  row("恢复默认布局","恢复最近在读、阅读数据和书库概览",function()
-   app:confirm("恢复默认主页布局？将保留自定义名言内容。",function()
+  row("�ָ�Ĭ�ϲ���",nil,function()
+   app:confirm("�ָ�Ĭ����ҳ���֣��������Զ����������ݡ�",function()
     local ok,why=layout:resetLayout();if not ok then app:message(why) end;app:render()
    end)
   end)
  elseif route.id=="home_widget" then
-  local id=route.param;local widget,index=layout:find(id);assert(widget,"主页部件不存在")
-  model.title=Layout.by_id[id].name;model.subtitle="修改立即保存，返回主页后生效"
-  row("显示部件："..(widget.enabled and "开启" or "关闭"),"关闭后仍可在编辑器中重新添加",function()
+  local id=route.param;local widget,index=layout:find(id);assert(widget,"��ҳ����������")
+  model.title=Layout.by_id[id].name;model.subtitle=""
+  row("��ʾ������"..(widget.enabled and "����" or "�ر�"),nil,function()
    save(function(c) layout:find(id,c).enabled=not widget.enabled end)
   end)
-  row("宽度："..(widget.span==2 and "整行" or "半行"),"相邻的两个半行部件并排显示",function()
+  row("���ȣ�"..(widget.span==2 and "����" or "����"),nil,function()
    save(function(c) layout:find(id,c).span=widget.span==2 and 1 or 2 end)
   end)
-  row("上移",index==1 and "已在最前" or "移到前一个部件之前",index>1 and function()
+  row("����",nil,index>1 and function()
    local ok,why=layout:move(id,-1);if not ok then app:message(why) end;app:render()
   end or nil)
-  row("下移",index==#config.widgets and "已在最后" or "移到后一个部件之后",index<#config.widgets and function()
+  row("����",nil,index<#config.widgets and function()
    local ok,why=layout:move(id,1);if not ok then app:message(why) end;app:render()
   end or nil)
   if id=="reading_return" then
-   row("购机投入",nil,function() require('einkfrontend/bookvalue').promptInvestment(app) end)
-   row("查看阅读回报",nil,go("reading_return"))
+   row("����Ͷ��",nil,function() require('einkfrontend/bookvalue').promptInvestment(app) end)
+   row("�鿴�Ķ��ر�",nil,go("reading_return"))
   elseif id=="heatmap" then
-   row("显示范围："..config.heatmap_weeks.." 周","轻点切换6、12或24周；深色表示阅读更久",function()
+   row("��ʾ��Χ��"..config.heatmap_weeks.." ��",nil,function()
     save(function(c) c.heatmap_weeks=({[6]=12,[12]=24,[24]=6})[c.heatmap_weeks] end)
    end)
   elseif id=="daily_goal" then
-   row("每日目标："..config.daily_goal_minutes.." 分钟","轻点修改；只保存到主页配置",function()
-    app.adapter:promptText("每日阅读目标（1—1440分钟）",tostring(config.daily_goal_minutes),function(text)
+   row("ÿ��Ŀ�꣺"..config.daily_goal_minutes.." ����",nil,function()
+    app.adapter:promptText("ÿ���Ķ�Ŀ�꣨1��1440���ӣ�",tostring(config.daily_goal_minutes),function(text)
      local ok,why=layout:change(function(c) c.daily_goal_minutes=tonumber(text) end)
      if ok then app:render() else app:message(why) end
      return ok
@@ -53,26 +53,27 @@ function Editor.render(app,route,model,row,go)
    end)
   elseif id=="recent" or id=="tbr" then
    local key=id=="tbr" and "tbr_count" or "recent_count"
-   row("书架数量："..config[key].." 本","仅调整本书架；轻点切换3本或5本",function()
+   row("���������"..config[key].." ��",nil,function()
     save(function(c) c[key]=c[key]==3 and 5 or 3 end)
    end)
   elseif id=="quote" then
-   row("编辑名言","每行一条；正文与出处之间用｜分隔",function()
-    app.adapter:promptText("编辑名言",config.quote_text,function(text)
+   row("�༭����",nil,function()
+    app.adapter:promptText("�༭���ԣ�ÿ��һ�������ģ�������",config.quote_text,function(text)
      save(function(c) c.quote_text=text;c.quote_index=1 end)
     end,{multiline=true})
    end)
-   row("下一条名言","也可在主页轻点名言部件切换",function()
+   row("��һ������",nil,function()
     local ok,why=layout:nextQuote();if not ok then app:message(why) end;app:render()
    end)
-   row("恢复默认名言","替换自定义内容，布局保持不变",function()
-    app:confirm("将自定义名言替换为默认内容？",function()
+   row("�ָ�Ĭ������",nil,function()
+    app:confirm("���Զ��������滻ΪĬ�����ݣ�",function()
      save(function(c) c.quote_text=Layout.defaults().quote_text;c.quote_index=1 end)
     end)
    end)
   end
-  if Layout.by_id[id].stats then row("数据说明","读取KOReader统计；阅读页次按每天每本书的不重复页计数") end
+
  else return false end
+ model.help=function() app:message("��ҳ�޸Ļ��Զ����棬������ҳ����Ч���������ڵİ��в���������ʾ��\n����ͼ���л� 6��12��24 �ܣ���ɫ��ʾ�Ķ����ã���ܿ��л� 3 ���� 5 ����\n����ÿ��һ�������������֮���ã��ָ��������ҳ���Կ��л���һ����\n�Ķ��������� KOReader ͳ�ƣ�ҳ�ΰ�ÿ��ÿ����Ĳ��ظ�ҳ������") end
  model.settings=true;return true
 end
 return Editor

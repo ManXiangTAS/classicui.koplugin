@@ -12,17 +12,31 @@ local lfs=require("libs/libkoreader-lfs")
 local ffiUtil=require("ffi/util")
 local Library={}
 Library.__index=Library
+Library.instances=setmetatable({},{__mode='k'})
 
 function Library.new(ui)
-    local settings=LuaSettings:open(DataStorage:getSettingsDir().."/einkfrontend-library.lua")
-    return setmetatable({ui=ui,settings=settings,books=settings:readSetting("books") or {},
+    local file=DataStorage:getSettingsDir().."/einkfrontend-library.lua"
+    -- Reader and file-manager instances must not flush competing snapshots.
+    local settings
+    for instance in pairs(Library.instances) do
+        if instance.settings.file==file then settings=instance.settings;break end
+    end
+    settings=settings or LuaSettings:open(file)
+    local self=setmetatable({ui=ui,settings=settings,books=settings:readSetting("books") or {},
         root=settings:readSetting("root"),covers={},cover_order={}},Library)
+    Library.instances[self]=true;return self
 end
 
 function Library:save()
     self.settings:saveSetting("root",self.root)
     self.settings:saveSetting("books",self.books)
-    assert(self.settings:flush()~=false,"书库保存失败")
+    assert(self.settings:flush()~=false,"��Ᵽ��ʧ��")
+    for instance in pairs(Library.instances) do
+        if instance~=self and instance.settings.file==self.settings.file then
+            instance:cancel();instance:clearCovers()
+            instance.settings=self.settings;instance.books=self.books;instance.root=self.root
+        end
+    end
 end
 
 function Library:cancel()
@@ -43,18 +57,18 @@ function Library:status(book)
     local percent=data:readSetting("percent_finished")
     if type(percent)~="number" or percent~=percent then percent=nil end
     if percent then percent=math.max(0,math.min(1,percent)) end
-    if summary and summary.status=="new" then return "未读",nil end
-    if summary and summary.status=="complete" then return "已完成",1 end
-    if summary and summary.status=="abandoned" then return "搁置",percent end
-    if summary and summary.status=="reading" then return "在读",percent end
-    if percent and percent>0 then return "在读",percent end
-    return "未读",nil
+    if summary and summary.status=="new" then return "δ��",nil end
+    if summary and summary.status=="complete" then return "�����",1 end
+    if summary and summary.status=="abandoned" then return "����",percent end
+    if summary and summary.status=="reading" then return "�ڶ�",percent end
+    if percent and percent>0 then return "�ڶ�",percent end
+    return "δ��",nil
 end
 
 function Library:scan(path,callback)
     self:cancel()
-    path=assert(ffiUtil.realpath(path),"书库目录不存在")
-    assert(lfs.attributes(path,"mode")=="directory","请选择书库文件夹")
+    path=assert(ffiUtil.realpath(path),"���Ŀ¼������")
+    assert(lfs.attributes(path,"mode")=="directory","��ѡ������ļ���")
     local old={}
     for _,book in ipairs(self.books) do old[book.file]=book end
     local found,errors,truncated={},0,false
@@ -80,7 +94,7 @@ function Library:scan(path,callback)
                             if not success then props={};errors=errors+1 end
                             props=props or {}
                             book={file=file,title=props.display_title or props.title or entry,
-                                authors=props.authors or "作者未知",series=props.series or "",
+                                authors=props.authors or "����δ֪",series=props.series or "",
                                 series_index=props.series_index,mtime=attr.modification,size=attr.size}
                         end
                         found[#found+1]=book
@@ -104,9 +118,9 @@ function Library:scan(path,callback)
         if coroutine.status(co)=="dead" then
             self.job=nil;self.tick=nil
             self.root=path;self.books=found;self:clearCovers();self:save()
-            callback(true,string.format("%d 本 · %d 项读取异常%s",#found,errors,truncated and " · 已到10000本上限" or ""))
+            callback(true,string.format("%d �� �� %d ���ȡ�쳣%s",#found,errors,truncated and " �� �ѵ�10000������" or ""))
         else
-            callback(nil,string.format("正在整理：%d 本",value or #found))
+            callback(nil,string.format("����������%d ��",value or #found))
             if self.job==co then UIManager:scheduleIn(0.01,self.tick) end
         end
     end
@@ -209,8 +223,8 @@ function Library:cover(file)
 end
 
 function Library:collectionLabel(name)
-    if name==require("readcollection").default_collection_name then return "收藏夹" end
-    if name:lower()=="to be read" then return "待读" end
+    if name==require("readcollection").default_collection_name then return "�ղؼ�" end
+    if name:lower()=="to be read" then return "����" end
     return name
 end
 
@@ -220,12 +234,12 @@ function Library:collectionVisible(name)
 end
 function Library:setCollectionVisible(name,visible)
  local Copy=require("einkfrontend/catalog").copy
- if not require("readcollection").coll[name] then return false,"收藏已经不存在" end
+ if not require("readcollection").coll[name] then return false,"�ղ��Ѿ�������" end
  local before=Copy(self.settings.data);local hidden=self.settings:readSetting("hidden_collections")
  hidden=type(hidden)=="table" and Copy(hidden) or {};hidden[name]=not visible or nil
  local ok,why=pcall(function()
   self.settings:saveSetting("hidden_collections",hidden);self.settings:flush()
-  assert(require("einkfrontend/adapter").equal(LuaSettings:open(self.settings.file):readSetting("hidden_collections"),hidden),"显示设置未能保存")
+  assert(require("einkfrontend/adapter").equal(LuaSettings:open(self.settings.file):readSetting("hidden_collections"),hidden),"��ʾ����δ�ܱ���")
  end)
  if not ok then self.settings.data=before;pcall(self.settings.flush,self.settings);return false,tostring(why) end
  return true
@@ -256,32 +270,32 @@ end
 
 function Library:createCollection(name)
     name=(name or ""):match("^%s*(.-)%s*$")
-    assert(name~="" and #name<=200,"收藏名称不能为空且不能超过200字节")
+    assert(name~="" and #name<=200,"�ղ����Ʋ���Ϊ���Ҳ��ܳ���200�ֽ�")
     local rc=require("readcollection")
-    assert(not rc.coll[name],"同名收藏已经存在")
+    assert(not rc.coll[name],"ͬ���ղ��Ѿ�����")
     rc:addCollection(name)
     local ok,err=pcall(function()
         rc:write({[name]=true})
         local disk=LuaSettings:open(DataStorage:getSettingsDir().."/collection.lua")
-        assert(disk:has(name),"收藏未能保存")
+        assert(disk:has(name),"�ղ�δ�ܱ���")
     end)
     if not ok then
         rc:removeCollection(name)
         local restored=pcall(rc.write,rc)
-        error(tostring(err)..(restored and "；已撤回新建" or "；撤回保存失败"))
+        error(tostring(err)..(restored and "���ѳ����½�" or "�����ر���ʧ��"))
     end
 end
 
 -- Keep native collection settings (including folder rules/defaults) and roll back on write failure.
 function Library:editCollection(name,new_name)
     local rc=require("readcollection")
-    assert(rc.coll[name],"收藏已经不存在")
-    assert(name~=rc.default_collection_name,"默认收藏夹不能重命名或删除")
+    assert(rc.coll[name],"�ղ��Ѿ�������")
+    assert(name~=rc.default_collection_name,"Ĭ���ղؼв�����������ɾ��")
     if new_name then
         new_name=new_name:match("^%s*(.-)%s*$")
-        assert(new_name~="" and #new_name<=200,"收藏名称不能为空且不能超过200字节")
+        assert(new_name~="" and #new_name<=200,"�ղ����Ʋ���Ϊ���Ҳ��ܳ���200�ֽ�")
         if new_name==name then return name end
-        assert(not rc.coll[new_name],"同名收藏已经存在")
+        assert(not rc.coll[new_name],"ͬ���ղ��Ѿ�����")
     end
     local Copy=require("einkfrontend/catalog").copy
     local previous={coll=Copy(rc.coll),settings=Copy(rc.coll_settings),default=rc.coll_default}
@@ -290,39 +304,39 @@ function Library:editCollection(name,new_name)
         if new_name then rc:renameCollection(name,new_name) else rc:removeCollection(name) end
         rc:write()
         local disk=LuaSettings:open(DataStorage:getSettingsDir().."/collection.lua")
-        assert(not disk:has(name),"收藏修改未能保存")
+        assert(not disk:has(name),"�ղ��޸�δ�ܱ���")
         if new_name then
-            local saved=assert(disk:readSetting(new_name),"新收藏名称未能保存")
-            assert(require("einkfrontend/adapter").equal(saved.settings,rc.coll_settings[new_name]),"收藏设置保存不一致")
+            local saved=assert(disk:readSetting(new_name),"���ղ�����δ�ܱ���")
+            assert(require("einkfrontend/adapter").equal(saved.settings,rc.coll_settings[new_name]),"�ղ����ñ��治һ��")
             local members={};for _,item in ipairs(saved) do members[item.file]=true end
-            for file in pairs(rc.coll[new_name]) do assert(members[file],"收藏成员未能保留");members[file]=nil end
-            assert(not next(members),"收藏成员保存不一致")
+            for file in pairs(rc.coll[new_name]) do assert(members[file],"�ղس�Աδ�ܱ���");members[file]=nil end
+            assert(not next(members),"�ղس�Ա���治һ��")
         end
         local hidden=self.settings:readSetting("hidden_collections")
         if type(hidden)=="table" and hidden[name]~=nil then
             hidden=Copy(hidden);local value=hidden[name];hidden[name]=nil;if new_name then hidden[new_name]=value end
             self.settings:saveSetting("hidden_collections",hidden);self.settings:flush()
-            assert(require("einkfrontend/adapter").equal(LuaSettings:open(self.settings.file):readSetting("hidden_collections"),hidden),"收藏显示设置未能更新")
+            assert(require("einkfrontend/adapter").equal(LuaSettings:open(self.settings.file):readSetting("hidden_collections"),hidden),"�ղ���ʾ����δ�ܸ���")
         end
     end)
     if not ok then
         self.settings.data=previous_front;pcall(self.settings.flush,self.settings)
         rc.coll,rc.coll_settings,rc.coll_default=previous.coll,previous.settings,previous.default
         local restored=pcall(rc.write,rc)
-        error(tostring(err)..(restored and "；已恢复原收藏" or "；恢复保存失败"))
+        error(tostring(err)..(restored and "���ѻָ�ԭ�ղ�" or "���ָ�����ʧ��"))
     end
     return new_name
 end
 
 function Library:collectionBooks(name)
-    local rc=require("readcollection");local members=assert(rc.coll[name],"收藏已经不存在")
+    local rc=require("readcollection");local members=assert(rc.coll[name],"�ղ��Ѿ�������")
     local books,seen={},{}
     for _,book in ipairs(self:list()) do books[#books+1]=book;seen[book.file]=true end
     -- Members outside the indexed root remain visible and removable.
     for file in pairs(members) do
         if not seen[file] then
             local props=DocSettings:open(file):readSetting("doc_props") or {}
-            books[#books+1]={file=file,title=props.display_title or props.title or file:match("([^/]+)$"),authors=props.authors or "作者未知"}
+            books[#books+1]={file=file,title=props.display_title or props.title or file:match("([^/]+)$"),authors=props.authors or "����δ֪"}
         end
     end
     table.sort(books,function(a,b) if a.title==b.title then return a.file<b.file end;return a.title<b.title end)
@@ -332,8 +346,8 @@ end
 function Library:inCollection(file,name) return require("readcollection"):isFileInCollection(file,name) end
 function Library:setCollection(file,name,enabled)
     local rc=require("readcollection")
-    assert(rc.coll[name],"收藏已经不存在")
-    assert(lfs.attributes(file,"mode")=="file","书籍文件不存在")
+    assert(rc.coll[name],"�ղ��Ѿ�������")
+    assert(lfs.attributes(file,"mode")=="file","�鼮�ļ�������")
     local old=rc:isFileInCollection(file,name)
     local ok,err=pcall(function()
         if enabled then
@@ -342,7 +356,7 @@ function Library:setCollection(file,name,enabled)
         local saved=LuaSettings:open(DataStorage:getSettingsDir().."/collection.lua"):readSetting(name) or {}
         local present=false
         for _,item in ipairs(saved) do if item.file==file then present=true end end
-        assert(present==enabled,"收藏成员未能保存")
+        assert(present==enabled,"�ղس�Աδ�ܱ���")
     end)
     if not ok then
         local restored=pcall(function()
@@ -350,15 +364,15 @@ function Library:setCollection(file,name,enabled)
             elseif not old then rc:removeItem(file,name,true) end
             rc:write({[name]=true})
         end)
-        error(tostring(err)..(restored and "；已恢复原归属" or "；恢复保存失败"))
+        error(tostring(err)..(restored and "���ѻָ�ԭ����" or "���ָ�����ʧ��"))
     end
 end
 
 function Library:setMetadata(book,key,value)
-    assert(key=="series" or key=="series_index","不支持的元数据项目")
-    if key=="series" and value~=nil then assert(type(value)=="string" and #value<=1000,"系列名称过长") end
+    assert(key=="series" or key=="series_index","��֧�ֵ�Ԫ������Ŀ")
+    if key=="series" and value~=nil then assert(type(value)=="string" and #value<=1000,"ϵ�����ƹ���") end
     if key=="series_index" and value~=nil then
-        assert(type(value)=="number" and value==value and value>=0 and value<100000,"卷序应为0至100000之间的数值")
+        assert(type(value)=="number" and value==value and value>=0 and value<100000,"����ӦΪ0��100000֮�����ֵ")
     end
     local info=BookInfo:new{ui=self.ui}
     local existing=DocSettings:findCustomMetadataFile(book.file)
@@ -374,15 +388,15 @@ function Library:setMetadata(book,key,value)
     custom[key]=value
     settings:saveSetting("custom_props",custom)
     local ok,err=pcall(function()
-        assert(settings:flushCustomMetadata(book.file),"元数据保存失败")
-        local path=assert(DocSettings:findCustomMetadataFile(book.file),"未找到保存的元数据")
+        assert(settings:flushCustomMetadata(book.file),"Ԫ���ݱ���ʧ��")
+        local path=assert(DocSettings:findCustomMetadataFile(book.file),"δ�ҵ������Ԫ����")
         local saved=DocSettings.openSettingsFile(path):readSetting("custom_props") or {}
-        assert(saved[key]==value,"元数据保存值不一致")
+        assert(saved[key]==value,"Ԫ���ݱ���ֵ��һ��")
     end)
     if not ok then
         custom[key]=previous;settings:saveSetting("custom_props",custom)
         local restored=settings:flushCustomMetadata(book.file)
-        error(tostring(err)..(restored and "；已恢复原值" or "；原值恢复也失败"))
+        error(tostring(err)..(restored and "���ѻָ�ԭֵ" or "��ԭֵ�ָ�Ҳʧ��"))
     end
     local props=settings:readSetting("doc_props") or {}
     book[key]=value~=nil and value or props[key]
@@ -400,9 +414,9 @@ end
 function Library:editDetails(book,changes)
     local Copy=require("einkfrontend/catalog").copy
     for key,value in pairs(changes) do
-        assert(key=="title" or key=="authors","未知书籍信息")
-        assert(type(value)=="string" and #value<=600 and not value:find("[%c]"),"书籍信息过长或包含控制字符")
-        if key=="title" then assert(value:match("%S"),"书名不能为空") end
+        assert(key=="title" or key=="authors","δ֪�鼮��Ϣ")
+        assert(type(value)=="string" and #value<=600 and not value:find("[%c]"),"�鼮��Ϣ��������������ַ�")
+        if key=="title" then assert(value:match("%S"),"��������Ϊ��") end
     end
     local info=BookInfo:new{ui=self.ui};local path=DocSettings:findCustomMetadataFile(book.file)
     local settings=DocSettings.openSettingsFile(path);local before=Copy(settings.data);local oldbook=Copy(book)
@@ -413,9 +427,9 @@ function Library:editDetails(book,changes)
         end
         local custom=Copy(settings:readSetting("custom_props") or {})
         for key,value in pairs(changes) do custom[key]=value end
-        settings:saveSetting("custom_props",custom);assert(settings:flushCustomMetadata(book.file),"书籍信息保存失败")
+        settings:saveSetting("custom_props",custom);assert(settings:flushCustomMetadata(book.file),"�鼮��Ϣ����ʧ��")
         local saved=DocSettings.openSettingsFile(assert(DocSettings:findCustomMetadataFile(book.file))):readSetting("custom_props")
-        for key,value in pairs(changes) do assert(saved[key]==value,"书籍信息未能保存");book[key]=value end
+        for key,value in pairs(changes) do assert(saved[key]==value,"�鼮��Ϣδ�ܱ���");book[key]=value end
         self:save()
     end)
     if not ok then
@@ -433,13 +447,13 @@ function Library:editDetails(book,changes)
 end
 
 function Library:setReadStatus(book,status)
-    assert(({new=true,reading=true,complete=true,abandoned=true})[status],"阅读状态无效")
+    assert(({new=true,reading=true,complete=true,abandoned=true})[status],"�Ķ�״̬��Ч")
     local doc=self.ui.document and self.ui.document.file==book.file and self.ui.doc_settings or DocSettings:open(book.file)
     local Copy=require('einkfrontend/catalog').copy;local old=Copy(doc:readSetting('summary'))
     local summary=Copy(old or {});summary.status=status
     local ok,why=pcall(function()
-        doc:saveSetting('summary',summary);assert(doc:flush()~=false,'阅读状态保存失败')
-        assert(DocSettings:open(book.file):readSetting('summary').status==status,'阅读状态未能保存')
+        doc:saveSetting('summary',summary);assert(doc:flush()~=false,'�Ķ�״̬����ʧ��')
+        assert(DocSettings:open(book.file):readSetting('summary').status==status,'�Ķ�״̬δ�ܱ���')
     end)
     if not ok then doc:saveSetting('summary',old);pcall(doc.flush,doc);error(why,0) end
     require('ui/widget/booklist').resetBookInfoCache(book.file)

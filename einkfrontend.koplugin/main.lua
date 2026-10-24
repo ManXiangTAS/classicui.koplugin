@@ -24,7 +24,7 @@ function Plugin:toggleOption(key,default)
 end
 
 function Plugin:onDispatcherRegisterActions()
-    Dispatcher:registerAction("einkfrontend_open",{category="none",event="EInkFrontendOpen",title="墨页：打开前端",general=true})
+    Dispatcher:registerAction("einkfrontend_open",{category="none",event="EInkFrontendOpen",title="īҳ����ǰ��",general=true})
 end
 
 function Plugin:init()
@@ -57,14 +57,14 @@ function Plugin:init()
 end
 
 function Plugin:addToMainMenu(items)
-    items.einkfrontend={text="墨页前端",sorting_hint="more_tools",callback=function() self:onEInkFrontendOpen() end}
+    items.einkfrontend={text="īҳǰ��",sorting_hint="more_tools",callback=function() self:onEInkFrontendOpen() end}
 end
 
 function Plugin:onEInkFrontendOpen()
     if not self.active then
         local supported=Adapter.supported()
-        UIManager:show(InfoMessage:new{text=supported and "墨页已停用；重新启用后重启 KOReader。" or
-            "墨页仅适配 KOReader 2026.07.1 / 2026.07.2 稳定版；当前版本保留原生界面。"})
+        UIManager:show(InfoMessage:new{text=supported and "īҳ��ͣ�ã��������ú����� KOReader��" or
+            "īҳ������ KOReader 2026.07.1 / 2026.07.2 �ȶ��棻��ǰ�汾����ԭ�����档"})
         return true
     end
     return self.app:safe(function() if self.ui.document then self.app:showReader("menu") else self.app:open() end end)
@@ -101,6 +101,7 @@ function Plugin:stopPlugin(transition)
     local notices=require("einkfrontend/notices")
     if transition then notices.handoff(self) end
     self.active=false
+    if self.app.autolight then self.app.autolight:detach(self.app) end
     if self.app.pagepress then self.app.pagepress:detach(self.app) end
     notices.detach(self,not transition)
     if self.gate then self.gate:restore() end
@@ -124,7 +125,7 @@ function Plugin:installTakeover()
     require("einkfrontend/notices").install(self)
     if self.gate then self.gate:restore() end
     self.gate=require("einkfrontend/gate").new(self.ui,function(destination,key,...)
-        if not self.active or not self.adapter:alive() then error("上下文已关闭") end
+        if not self.active or not self.adapter:alive() then error("�������ѹر�") end
         if destination=="ignore_top_tap" then return true
         elseif destination=="settings" then self.app:open("settings")
         elseif destination=="settings_search" then self.app:searchSettings()
@@ -146,11 +147,17 @@ function Plugin:onCloseDocument()
     self:stopPlugin(self.ui.tearing_down)
 end
 function Plugin:onSuspend()
+    if self.app and self.app.book_maintenance then self.app.book_maintenance:cancel() end
+    if self.app and self.app.autolight then self.app.autolight:suspend() end
     if self.app and self.app.transfer_server then self.app.transfer_server:stop() end
     if self.app and self.app.pagepress then self.app.pagepress:suspend() end
     if self.app and self.app.home_editor then self.app.home_editor:onSuspend() end
 end
 function Plugin:onResume()
+    if self.active and self.app and self.app.autolight then self.app.autolight:resume() end
     if self.active and self.app and self.app.pagepress then self.app.pagepress:resume() end
+end
+function Plugin:onFrontlightStateChanged()
+    if self.active and self.app and self.app.autolight then self.app.autolight:externalChanged() end
 end
 return Plugin

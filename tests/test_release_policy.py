@@ -70,10 +70,10 @@ class ReleasePolicy(unittest.TestCase):
         with patch.dict(os.environ, env, clear=True), patch('sys.argv', ['publish', str(self.assets)]), patch('urllib.request.urlopen', self.request), patch('time.sleep'), contextlib.redirect_stdout(io.StringIO()):
             runpy.run_path(str(ROOT / 'tools/publish_test_release.py'), run_name='__main__')
 
-    def test_push_prepares_draft_and_hides_previous_releases(self):
+    def test_push_prepares_draft_and_preserves_previous_releases(self):
         self.run_publisher()
         self.assertTrue(self.release['draft'])
-        self.assertTrue(self.old['draft'])
+        self.assertFalse(self.old['draft'])
         self.assertEqual(len(self.release['assets']), 3)
         self.assertFalse(any(data and data.get('draft') is False for method, url, data in self.calls if method == 'PATCH'))
 
@@ -104,6 +104,30 @@ class ReleasePolicy(unittest.TestCase):
         self.assertTrue(self.release['draft'])
         self.run_publisher(subject='Release ClassicUI ' + self.version, event='workflow_dispatch')
         self.assertTrue(self.release['draft'])
+
+
+    def test_candidate_does_not_hide_existing_stable_release(self):
+        self.run_publisher()
+        self.assertFalse(self.old['draft'])
+        self.assertFalse(any(method=='PATCH' and url.endswith('/1') for method,url,data in self.calls))
+
+    def test_failed_publication_keeps_existing_stable_visible(self):
+        original=self.request
+        def failing(req,**kwargs):
+            if req.method=='PATCH' and req.headers.get('Content-type')=='application/json':
+                data=json.loads(req.data)
+                if data.get('draft') is False:
+                    raise urllib.error.HTTPError(req.full_url,503,'unavailable',{},None)
+            return original(req,**kwargs)
+        with patch.object(self,'request',failing):
+            with self.assertRaises(urllib.error.HTTPError): self.run_publisher(confirmed=True)
+        self.assertFalse(self.old['draft'])
+
+    def test_previous_release_is_hidden_only_after_new_publication(self):
+        self.run_publisher(confirmed=True)
+        published=next(i for i,(m,u,d) in enumerate(self.calls) if m=='PATCH' and d and d.get('draft') is False)
+        hidden=next(i for i,(m,u,d) in enumerate(self.calls) if m=='PATCH' and u.endswith('/1') and d and d.get('draft') is True)
+        self.assertLess(published,hidden)
 
 
 if __name__ == '__main__':

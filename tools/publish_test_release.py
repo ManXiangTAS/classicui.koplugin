@@ -12,10 +12,10 @@ subject=(os.environ.get('RELEASE_COMMIT_MESSAGE','').splitlines() or [''])[0]
 if os.environ.get('GITHUB_EVENT_NAME')=='push' and subject=='Release ClassicUI '+VERSION:
  publish_confirmed=True
 assert repo=='ManXiangTAS/classicui.koplugin' and len(commit)==40
-assert 'removed=true' in (root/'einkfrontend.koplugin/einkfrontend/updater.lua').read_text()
+assert 'removed=true' in (root/'einkfrontend.koplugin/einkfrontend/updater.lua').read_text(encoding='utf-8')
 assets=Path(sys.argv[1])
 files=[assets/f'ClassicUI_{VERSION}_install.zip',assets/f'ClassicUI_{VERSION}_source.zip']
-(assets/'SHA256SUMS.txt').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in files));files.append(assets/'SHA256SUMS.txt')
+(assets/'SHA256SUMS.txt').write_text(''.join(hashlib.sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in files),encoding='utf-8',newline='\n');files.append(assets/'SHA256SUMS.txt')
 base='https://api.github.com/repos/'+repo;tag='v'+VERSION
 headers={'Accept':'application/vnd.github+json','Authorization':'Bearer '+token,'X-GitHub-Api-Version':'2022-11-28','User-Agent':'ClassicUI-release'}
 def request(url,method='GET',data=None,mime='application/json'):
@@ -32,17 +32,17 @@ except urllib.error.HTTPError as e:
  release=None
  for page in range(1,101):
   batch=request(base+'/releases?per_page=100&page='+str(page))
-  matches=[r for r in batch if r['draft'] and r.get('name')=='墨页 · ClassicUI '+VERSION]
+  matches=[r for r in batch if r['draft'] and r.get('name')=='īҳ �� ClassicUI '+VERSION]
   assert len(matches)<=1,'Multiple matching candidates; review them before continuing'
   if matches:release=matches[0];break
   if len(batch)<100:break
  else:raise RuntimeError('Release pagination limit exceeded')
- if release is None:release=request(base+'/releases','POST',{'tag_name':tag,'target_commitish':commit,'name':'墨页 · ClassicUI '+VERSION,'body':(root/f'docs/release-{VERSION}.md').read_text(),'draft':True,'prerelease':False})
+ if release is None:release=request(base+'/releases','POST',{'tag_name':tag,'target_commitish':commit,'name':'īҳ �� ClassicUI '+VERSION,'body':(root/f'docs/release-{VERSION}.md').read_text(encoding='utf-8'),'draft':True,'prerelease':False})
 if not release['draft']:
  print('Release already published; retaining its original assets.');sys.exit(0)
 # A candidate may be rebuilt before approval. Its draft metadata follows the
 # exact source used to build the assets; published versions are never replaced.
-release=request(base+'/releases/'+str(release['id']),'PATCH',{'tag_name':tag,'target_commitish':commit,'body':(root/f'docs/release-{VERSION}.md').read_text()})
+release=request(base+'/releases/'+str(release['id']),'PATCH',{'tag_name':tag,'target_commitish':commit,'body':(root/f'docs/release-{VERSION}.md').read_text(encoding='utf-8')})
 existing={a['name']:a for a in release['assets']}
 for path in files:
  digest='sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()
@@ -55,16 +55,17 @@ for path in files:
   uploaded=request(release['upload_url'].split('{')[0]+'?name='+path.name,'POST',path.read_bytes(),mime)
   assert uploaded['size']==path.stat().st_size
   if uploaded.get('digest'):assert uploaded['digest']==digest
-# Earlier releases stay reversible as drafts; tags and source history are retained.
-for page in range(1,101):
- batch=request(base+'/releases?per_page=100&page='+str(page))
- for old in batch:
-  if old['id']!=release['id'] and not old['draft']:
-   assert request(base+'/releases/'+str(old['id']),'PATCH',{'draft':True})['draft'];time.sleep(.3)
- if len(batch)<100:break
-else:raise RuntimeError('Release pagination limit exceeded')
 if publish_confirmed:
  release=request(base+'/releases/'+str(release['id']),'PATCH',{'tag_name':tag,'target_commitish':commit,'draft':False,'prerelease':False,'make_latest':'true'})
  assert not release['draft'] and not release['prerelease'] and release['tag_name']==tag
+ # Keep the public stable release available until its replacement is published.
+ # A failed draft build or failed publication must never remove the fallback.
+ for page in range(1,101):
+  batch=request(base+'/releases?per_page=100&page='+str(page))
+  for old in batch:
+   if old['id']!=release['id'] and not old['draft']:
+    assert request(base+'/releases/'+str(old['id']),'PATCH',{'draft':True})['draft'];time.sleep(.3)
+  if len(batch)<100:break
+ else:raise RuntimeError('Release pagination limit exceeded')
 else:assert release['draft'],'Candidate must remain a draft until stability is confirmed'
 print(json.dumps({'url':release['html_url'],'draft':release['draft'],'version':VERSION}))
