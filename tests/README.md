@@ -24,7 +24,7 @@ EINK_CHROMIUM=/path/to/chromium python3 tests/run_web.py /path/to/koreader home_
 
 发布流程默认只生成草稿。维护者确认后，可手动运行构建并勾选发布，或使用与当前版本完全一致的提交标题 `Release ClassicUI <版本号>`；普通推送不会公开新版本。发布策略检查：`python3 tests/test_release_policy.py`。
 
-## 本机离线逻辑检查（0.7.3）
+## 本机离线逻辑检查（0.7.4）
 
 需要 Python、Node.js，以及安装在 tests/node_modules 的 Fengari：
 
@@ -36,3 +36,9 @@ EINK_CHROMIUM=/path/to/chromium python3 tests/run_web.py /path/to/koreader home_
 这组检查覆盖发布策略、安装包完整性/摘要/重复构建、原前光策略、故障注入与网页脚本逻辑。结果位于 test-results/local/combined-summary.json。它不能代替上文所述 LuaJIT、SDL/crengine/MuPDF 模拟器、Playwright 浏览器联调及 Kindle 真机测试。
 
 新增 test_light_upgrade.lua 验证可调曲线、环境目标变化后的手动恢复、唤醒立即/1 秒复查、简化后的设置导航与输入校验，以及数字位于滑块正上方的绘制坐标。此绘制检查使用替身，不验证真实字体栅格。
+
+`test_folder_collections.lua` 验证文件夹收藏预览、嵌套命名、合并与重复导入、目录/书籍变化、备份失败和保存回滚、书库目录外的收藏成员，以及阅读顶部 Aa 与底部/中央触控入口。它使用模拟文件系统与 KOReader 接口，由本机检查自动运行；可单独执行 `node tests/run_portable_audit.cjs . library`。原生 `interaction` 组另有实际触摸事件与 Aa 展开检查；未在 Windows 上执行原生组。
+
+`test_device_feedback.lua` 覆盖29.5字号下更换字体、字重、对比度和应用主题的保存，以及导入预览中的新增/补入/已导入、空目录、各状态按钮和桌面/Voyage尺寸/横屏下的固定操作区。由本机检查自动运行；可单独执行 `node tests/run_portable_audit.cjs . feedback`。使用模拟绘制后端记录实际页面布局，`python tests/render_feedback_previews.py` 可用 Pillow 和本机字体生成预览（其他系统使用 `--font` 和 `--bold-font` 指定字体）。预览不替代原生字体渲染及真机验证。
+
+`test_home_capacity.lua` 覆盖半行部件取消后重新配对的容量恢复：实际调用Fit、Layout和Editor模块，替换设备、存储与预览绘制。检查纯隐藏允许执行、溢出草稿仍不能显式保存、连续隐藏后可保存、旧式自动保存页保留关闭选择、手机共用草稿替换及版本冲突、混合新增/扩宽/重排/偏好编辑不绕过容量限制，以及多种组合和原转述操作的模拟。可单独执行 `node tests/run_portable_audit.cjs . home_capacity`；本机总检查自动包含此组，不代表真实手机HTTP或Kindle硬件通过。

@@ -3,7 +3,7 @@ const fs=require('node:fs'),path=require('node:path');
 const base=process.env.FENGARI_ROOT?path.resolve(process.env.FENGARI_ROOT):path.join(path.dirname(require.resolve('fengari/package.json')),'src');
 const core=require(path.join(base,'fengaricore.js')),lua=require(path.join(base,'lua.js')),aux=require(path.join(base,'lauxlib.js'));
 const root=path.resolve(process.argv[2]||path.join(__dirname,'..')),mode=process.argv[3]||'audit';
-if(!['audit','policy','response','upgrade'].includes(mode))throw Error('mode must be audit or policy');
+if(!['audit','policy','response','upgrade','library','feedback','home_capacity'].includes(mode))throw Error('unknown portable audit mode');
 function state(){
  const L=aux.luaL_newstate();
  for(const [name,file,fn] of [['_G','lbaselib','luaopen_base'],['math','lmathlib','luaopen_math'],['table','ltablib','luaopen_table'],['string','lstrlib','luaopen_string'],['coroutine','lcorolib','luaopen_coroutine']]){
@@ -27,6 +27,7 @@ for(const file of testSyntaxFiles){
  if(code)throw Error(lua.lua_tojsstring(syntax,-1));lua.lua_pop(syntax,1);
 }
 const sources={};for(const file of files)sources['einkfrontend/'+file.slice(0,-4)]=fs.readFileSync(path.join(folder,file),'utf8');
+sources['einkfrontend/plugin']=fs.readFileSync(path.join(root,'einkfrontend.koplugin/main.lua'),'utf8');
 const quote=s=>'[========['+s+']========]';
 const prefix="unpack=table.unpack; package={path='',loaded={},preload={}}; _sources={"+Object.entries(sources).map(([k,v])=>'[ '+quote(k)+' ]='+quote(v)).join(',')+'}\n'+[
 'function require(name)',
@@ -43,8 +44,8 @@ if(mode==='policy'){
  for(let i=1;i<=lua.lua_rawlen(L,-1);i++){lua.lua_rawgeti(L,-1,i);checks.push({name:lua.lua_tojsstring(L,-1),passed:true});lua.lua_pop(L,1)}
  result={suite:'original-light-policy',checks,total:checks.length,failed:0};
 }else{
- run(L,fs.readFileSync(path.join(root,mode==='response'?'tests/test_light_response.lua':mode==='upgrade'?'tests/test_light_upgrade.lua':'tests/test_portable_failures.lua'),'utf8'),'portable-failure-cases');
- lua.lua_getglobal(L,core.to_luastring('AUDIT_RESULT'));result=JSON.parse(lua.lua_tojsstring(L,-1));result.suite=mode==='response'?'light-response':mode==='upgrade'?'light-upgrade':'portable-failures';
+ run(L,fs.readFileSync(path.join(root,mode==='home_capacity'?'tests/test_home_capacity.lua':mode==='feedback'?'tests/test_device_feedback.lua':mode==='library'?'tests/test_folder_collections.lua':mode==='response'?'tests/test_light_response.lua':mode==='upgrade'?'tests/test_light_upgrade.lua':'tests/test_portable_failures.lua'),'utf8'),'portable-failure-cases');
+ lua.lua_getglobal(L,core.to_luastring('AUDIT_RESULT'));result=JSON.parse(lua.lua_tojsstring(L,-1));result.suite=mode==='home_capacity'?'home-capacity':mode==='feedback'?'device-feedback':mode==='library'?'folder-collections-reader-entry':mode==='response'?'light-response':mode==='upgrade'?'light-upgrade':'portable-failures';
 }
 result.syntax_files=all.length+testSyntaxFiles.length;result.runtime='Fengari Lua 5.3';result.koreader='MOCKED';result.hardware='NOT_RUN';
 const out=path.join(root,'test-results','portable');fs.mkdirSync(out,{recursive:true});

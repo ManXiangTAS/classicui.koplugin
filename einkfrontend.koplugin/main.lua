@@ -67,22 +67,17 @@ function Plugin:onEInkFrontendOpen()
             "墨页仅适配 KOReader 2026.07.1 / 2026.07.2 稳定版；当前版本保留原生界面。"})
         return true
     end
-    return self.app:safe(function() if self.ui.document then self.app:showReader("menu") else self.app:open() end end)
+    return self.app:safe(function() if self.ui.document then self.app:showReaderTopbar() else self.app:open() end end)
 end
 
 function Plugin:refreshReaderEntry()
     if self.zones then self.ui:unRegisterTouchZones(self.zones);self.zones=nil end
     if not self.active or not self.ui.document or not self:option("reader_entry",true) then return end
-    self.zones={{id="einkfrontend_reader_panel",ges="tap",
-        screen_zone={ratio_x=0.3,ratio_y=0.28,ratio_w=0.4,ratio_h=0.35},
-        overrides={"readermenu_tap","readermenu_ext_tap","tap_forward","tap_backward"},
-        handler=function() return self:onEInkFrontendOpen() end}}
-    self.ui:registerTouchZones(self.zones)
-    self.zones[#self.zones+1]={id="einkfrontend_reader_topbar",ges="tap",
+    self.zones={{id="einkfrontend_reader_topbar",ges="tap",
         screen_zone={ratio_x=0,ratio_y=0,ratio_w=1,ratio_h=0.15},
         overrides={"readermenu_tap","readermenu_ext_tap","tap_forward","tap_backward"},
-        handler=function() return self.app:safe(function() self.app:showReaderTopbar() end) end}
-    self.ui:registerTouchZones({self.zones[#self.zones]})
+        handler=function() return self.app:safe(function() self.app:showReaderTopbar() end) end}}
+    self.ui:registerTouchZones(self.zones)
     self.zones[#self.zones+1]={id="einkfrontend_controls",ges="swipe",
         screen_zone={ratio_x=0,ratio_y=0,ratio_w=1,ratio_h=0.06},
         overrides={"readermenu_swipe","readermenu_ext_swipe","rolling_swipe","paging_swipe"},
@@ -126,7 +121,7 @@ function Plugin:installTakeover()
     if self.gate then self.gate:restore() end
     self.gate=require("einkfrontend/gate").new(self.ui,function(destination,key,...)
         if not self.active or not self.adapter:alive() then error("上下文已关闭") end
-        if destination=="ignore_top_tap" then return true
+        if destination=="ignore_top_tap" or destination=="ignore_config_tap" then return true
         elseif destination=="settings" then self.app:open("settings")
         elseif destination=="settings_search" then self.app:searchSettings()
         elseif destination=="controls" then self.app:showControls()
@@ -137,7 +132,7 @@ function Plugin:installTakeover()
         elseif destination=="aa" then self.app:showReader("font")
         elseif destination=="book_statistics" then self.app:showBookStatistics()
         elseif destination=="library" then self.app:returnToOrigin()
-        else self.app:showReader("menu") end
+        else self.app:showReaderTopbar() end
     end):install()
     self.gate.onFailure=function() self:stopPlugin() end
 end
@@ -147,6 +142,7 @@ function Plugin:onCloseDocument()
     self:stopPlugin(self.ui.tearing_down)
 end
 function Plugin:onSuspend()
+    if self.app and self.app.folder_import then self.app.folder_import:cancel() end
     if self.app and self.app.book_maintenance then self.app.book_maintenance:cancel() end
     if self.app and self.app.autolight then self.app.autolight:suspend() end
     if self.app and self.app.transfer_server then self.app.transfer_server:stop() end

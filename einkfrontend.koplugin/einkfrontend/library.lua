@@ -161,7 +161,8 @@ function Library:list(filter,sort,query)
         end
     end
     local collection=filter and filter.collection and require("readcollection").coll[filter.collection]
-    for _,book in ipairs(self.books) do
+    local source=filter and (filter.collection or filter.include_collections) and self:collectionBooks(filter.collection) or self.books
+    for _,book in ipairs(source) do
         local include=lfs.attributes(book.file,"mode")=="file"
         if filter and filter.field then include=include and book[filter.field]==filter.value end
         if filter and filter.collection then include=include and collection and collection[book.file]~=nil end
@@ -248,7 +249,8 @@ function Library:collections(filter,sort,visible_only)
     local rc=require("readcollection")
     local list={}
     local rank,book_by_file={},{}
-    for index,book in ipairs(self:list(filter,sort)) do rank[book.file]=index;book_by_file[book.file]=book end
+    local scope=require('einkfrontend/catalog').copy(filter or {});scope.include_collections=true
+    for index,book in ipairs(self:list(scope,sort)) do rank[book.file]=index;book_by_file[book.file]=book end
     for name,coll in pairs(rc.coll) do if not visible_only or self:collectionVisible(name) then
         local n=0;for _ in pairs(coll) do n=n+1 end
         local available,best,representative=0,math.huge,nil
@@ -329,14 +331,18 @@ function Library:editCollection(name,new_name)
 end
 
 function Library:collectionBooks(name)
-    local rc=require("readcollection");local members=assert(rc.coll[name],"收藏已经不存在")
+    local rc=require("readcollection");local members=rc.coll[name] or {}
+    if not name then for _,coll in pairs(rc.coll) do for file in pairs(coll) do members[file]=true end end end
     local books,seen={},{}
     for _,book in ipairs(self:list()) do books[#books+1]=book;seen[book.file]=true end
     -- Members outside the indexed root remain visible and removable.
     for file in pairs(members) do
-        if not seen[file] then
-            local props=DocSettings:open(file):readSetting("doc_props") or {}
-            books[#books+1]={file=file,title=props.display_title or props.title or file:match("([^/]+)$"),authors=props.authors or "作者未知"}
+        if not seen[file] and lfs.attributes(file,'mode')=='file' then
+            local ok,props=pcall(BookInfo.getDocProps,BookInfo:new{ui=self.ui},file,nil,true)
+            props=ok and props or {};props=props or {}
+            local attr=lfs.attributes(file) or {}
+            books[#books+1]={file=file,title=props.display_title or props.title or file:match("([^/]+)$"),authors=props.authors or "作者未知",
+                series=props.series or '',series_index=props.series_index,mtime=attr.modification or 0,size=attr.size}
         end
     end
     table.sort(books,function(a,b) if a.title==b.title then return a.file<b.file end;return a.title<b.title end)

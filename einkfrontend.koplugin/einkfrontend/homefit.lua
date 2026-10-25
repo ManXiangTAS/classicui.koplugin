@@ -2,6 +2,8 @@
 -- One bounded canvas. Minimum sizes protect text; surplus is shared by rows.
 local S=require('einkfrontend/paint').s
 local Layout=require('einkfrontend/homelayout')
+local Copy=require('einkfrontend/catalog').copy
+local Equal=require('einkfrontend/adapter').equal
 local Fit={}
 function Fit.viewport(height) return math.max(1,height-S(168)) end
 function Fit.plan(config,width,height)
@@ -50,7 +52,28 @@ function Fit.plan(config,width,height)
  local omitted={};for _,widget in ipairs(config.widgets) do if widget.enabled and not shown[widget.id] then omitted[#omitted+1]=widget.id end end
  return frames,math.max(0,y>0 and y-gap or 0),{fits=fits,needed=needed,available=height,body_h=body_h,requested=requested,visible=#frames,omitted=omitted}
 end
+local function onlyHides(before,after)
+ if #before.widgets~=#after.widgets then return false end
+ local hidden=false
+ for i,widget in ipairs(after.widgets) do
+  local old=before.widgets[i]
+  if widget.enabled~=old.enabled then
+   if old.enabled~=true or widget.enabled~=false then return false end
+   hidden=true
+  end
+ end
+ if not hidden then return false end
+ -- Restore just the enabled flags for comparison. Width, order, options and
+ -- every other field must be unchanged before granting this recovery path.
+ local restored=Copy(after)
+ for i,widget in ipairs(restored.widgets) do widget.enabled=before.widgets[i].enabled end
+ return Equal(before,restored)
+end
 function Fit.checkChange(before,after,width,height)
+ -- Removing a half-width widget can re-pair later rows and increase height.
+ -- Always let users hide widgets so they can continue reducing an overflow;
+ -- explicit editor saves still require the final preview to fit one screen.
+ if onlyHides(before,after) then return true end
  local _,_,old=Fit.plan(before,width,height);local _,_,new=Fit.plan(after,width,height)
  if not new.fits and new.needed>old.needed then return false,'主页空间不足，请先隐藏部件或改成半行，再添加新部件' end
  return true

@@ -20,6 +20,7 @@ function Settings.render(app,route,m,row,go)
   end
   if route.param=="library" or route.param=="network" then row("传书与书库",nil,go("transfer_settings")) end
   if route.param=="library" then row("清理已删除书籍的数据",nil,function() require('einkfrontend/maintenancesettings').open(app) end) end
+  if route.param=="library" then row("文件夹转为收藏",nil,go('folder_collections')) end
   if route.param=="display" then row("前光",nil,go("frontlight_settings")) end
   local nodes=app.native.catalog.roots[route.param] or {}
   m.content_key=nodes
@@ -83,6 +84,7 @@ function Settings.search(app,query)
  add("明亮环境标准","前光 › 自动调光设置","auto_light_threshold",nil,"照度 阈值 lux 日光")
  add("亮度记忆","前光 › 自动调光设置","auto_light_memory",nil,"学习 手动 偏好")
  add("清理已删除书籍的数据","书库与文件","library_cleanup",nil,"删除书籍 残留 清理 缓存 失效 sdr 数据")
+ add("文件夹转为收藏","书库与文件","folder_collections",nil,"旧书库 目录 路径 分类 归类 迁移 导入 收藏夹")
  add("阅读回报","主页","reading_return",nil,"回本 购机 设备 投入 金额 价值 价格")
  add("时间与日期","设备与系统","clock_settings",nil,"网络同步时间 校时 时区 夏令时 timezone ntp")
  add("中文输入法","触控与按键","input_method",nil,"拼音 中文 汉字 候选词 键盘 pinyin 中英 英文 输入 切换 EN")

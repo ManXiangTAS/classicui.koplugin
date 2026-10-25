@@ -233,13 +233,13 @@ function Adapter:promptText(title,initial,callback,options)
     return dialog
 end
 
-function Adapter:chooseLibraryRoot(current,callback)
+function Adapter:chooseLibraryRoot(current,callback,options)
     if self.app and not require('einkfrontend/context').alive(self.app) then return end
     local UIManager=require("ui/uimanager")
     local chooser;local resolved=false
     local valid=self.app and self.app:dialogGuard() or function() return true end
     chooser=require("ui/widget/pathchooser"):new{path=current,select_directory=true,select_file=false,
-        title="选择书库目录：长按文件夹确认",onConfirm=function(path)
+        title=options and options.title or "选择书库目录：长按文件夹确认",onConfirm=function(path)
             if resolved or not valid() then return end;resolved=true
             -- PathChooser closes itself after onConfirm returns.
             callback(path)

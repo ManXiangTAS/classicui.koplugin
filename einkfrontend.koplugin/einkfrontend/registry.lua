@@ -12,7 +12,7 @@ local R = {
       help = "使用书籍自带的排版样式。只影响当前流式文档。" },
     { id = "embedded_fonts", title = "内嵌字体", section = "reading", kind = "toggle",
       help = "使用书籍内嵌的字体。需要启用内嵌样式，且书中确有内嵌字体。" },
-    { id = "font_size", title = "字号", section = "reading", kind = "number", min = 12, max = 255, step = 1,
+    { id = "font_size", title = "字号", section = "reading", kind = "number", min = 12, max = 255, step = .5, fractional = true,
       help = "修改当前书籍字号。以 KOReader 的缩放单位显示。" },
     { id = "font_face", title = "阅读字体", section = "reading", kind = "choice",
       help = "从当前设备已安装字体中选择。只改变当前书籍。" },

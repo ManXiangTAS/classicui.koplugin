@@ -24,11 +24,14 @@ def main():
                  ["node",str(ROOT/"tests/run_portable_audit.cjs"),str(ROOT),"policy"],
                  ["node",str(ROOT/"tests/run_portable_audit.cjs"),str(ROOT),"response"],
                  ["node",str(ROOT/"tests/run_portable_audit.cjs"),str(ROOT),"upgrade"],
+                 ["node",str(ROOT/"tests/run_portable_audit.cjs"),str(ROOT),"library"],
+                 ["node",str(ROOT/"tests/run_portable_audit.cjs"),str(ROOT),"feedback"],
+                 ["node",str(ROOT/"tests/run_portable_audit.cjs"),str(ROOT),"home_capacity"],
                  ["node",str(ROOT/"tests/test_web_logic.cjs"),str(ROOT)]):
         proc=subprocess.run(args,cwd=ROOT,timeout=90)
         if proc.returncode: return proc.returncode
     reports=[python]
-    for file in (ROOT/"test-results/portable/audit-summary.json",ROOT/"test-results/portable/policy-summary.json",ROOT/"test-results/web-logic/summary.json",ROOT/"test-results/portable/response-summary.json",ROOT/"test-results/portable/upgrade-summary.json"):
+    for file in (ROOT/"test-results/portable/audit-summary.json",ROOT/"test-results/portable/policy-summary.json",ROOT/"test-results/web-logic/summary.json",ROOT/"test-results/portable/response-summary.json",ROOT/"test-results/portable/upgrade-summary.json",ROOT/"test-results/portable/library-summary.json",ROOT/"test-results/portable/feedback-summary.json",ROOT/"test-results/portable/home_capacity-summary.json"):
         reports.append(json.loads(file.read_text(encoding="utf-8")))
     summary={"version":(ROOT/"einkfrontend.koplugin/einkfrontend/version.lua").read_text(encoding="utf-8").split("'")[1],
              "total":sum(x["total"] for x in reports),"failed":sum(x["failed"] for x in reports),"suites":reports,

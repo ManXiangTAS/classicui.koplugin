@@ -38,26 +38,6 @@ jobs:
           git push origin HEAD:main
       - name: Verify exact source bytes before building
         run: python3 tests/verify_source_utf8.py
-      - name: Repair withdrawn 0.7.3 release tag and metadata
-        if: github.event.head_commit.message == 'Release ClassicUI 0.7.3'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          python3 - <<'PY'
-          import json, os, urllib.request
-          base = 'https://api.github.com/repos/ManXiangTAS/classicui.koplugin'
-          headers = {'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json'}
-          def req(path, data=None):
-              r = urllib.request.Request(base+path, headers=headers, method='PATCH' if data is not None else 'GET', data=json.dumps(data).encode() if data is not None else None)
-              with urllib.request.urlopen(r, timeout=60) as response: return json.load(response)
-          releases = req('/releases?per_page=100')
-          matches = [r for r in releases if r['tag_name']=='v0.7.3' or r['name'].endswith('ClassicUI 0.7.3')]
-          assert len(matches)==1 and matches[0]['draft'], 'Only the withdrawn release may be repaired'
-          name = '\u58a8\u9875 \u00b7 ClassicUI 0.7.3'
-          req('/releases/'+str(matches[0]['id']), {'name':name, 'tag_name':'v0.7.3', 'target_commitish':os.environ['GITHUB_SHA']})
-          tag = req('/git/refs/tags/v0.7.3', {'sha':os.environ['GITHUB_SHA'], 'force':True})
-          assert tag['object']['sha']==os.environ['GITHUB_SHA']
-          PY
       - name: Verify source and build reproducible artifacts
         run: |
           python3 tests/test_release_policy.py

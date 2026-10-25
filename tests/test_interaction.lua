@@ -254,6 +254,18 @@ check('Home remains a fixed viewport; editor list has its own independent rail',
  ed:close();app:open('home');UI:forceRePaint();assert(page.scroll_max==0)
 end)
 app:close();Reader:doShowReader(books..'/navigation.epub');app=Reader.instance.einkfrontend.app
+check('Center and bottom taps leave typography closed; Aa opens its expanded panel',function()
+ local plugin=app.plugin;plugin:refreshReaderEntry()
+ for _,zone in ipairs(plugin.zones) do assert(zone.id~='einkfrontend_reader_panel') end
+ for _,ratio in ipairs({.5,.94}) do
+  UI:sendEvent(Event:new('Gesture',{ges='tap',pos=require('ui/geometry'):new{x=Device.screen:getWidth()/2,y=Device.screen:getHeight()*ratio}}))
+  assert(not app.reader_panel and not Reader.instance.config.config_dialog)
+ end
+ app:showReaderTopbar();tap(assert(app.reader_topbar),'reader_aa')
+ local panel=assert(app.reader_panel);UI:forceRePaint()
+ assert(panel.tab=='font' and find(panel,'aa_font_face') and find(panel,'reader_bottom_themes'))
+ assert(not app.reader_topbar);shot('aa-expanded-entry');panel:close()
+end)
 check('Font picker rail is operable and selection rows stay outside its lane',function()
  app:showReader('fonts');local panel=app.reader_panel;UI:forceRePaint();railGeometry(panel,panel.scroll_track);shot('fonts-scroll')
  local font=app.adapter:read('font_face');drag(panel,panel.scroll_track,'onReaderPan','onReaderPanRelease',1)

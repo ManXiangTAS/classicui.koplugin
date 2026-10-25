@@ -60,6 +60,7 @@ end
 function App:open(route,param)
     if type(route)=="string" and route:match("^plugin_update") then route="about";param=nil end
     if not Context.alive(self) then return end
+    if self.folder_import and route~='folder_collections' then self.folder_import:cancel() end
     self:closeDialogs()
     Overlay.close(self)
     if self.reader_topbar then self.reader_topbar:close() end
@@ -99,6 +100,7 @@ function App:open(route,param)
 end
 
 function App:close()
+    if self.folder_import then self.folder_import:cancel() end
     if self.book_maintenance then self.book_maintenance:cancel() end
     self:closeDialogs()
     if self.transfer_server then self.transfer_server:stop() end
@@ -130,6 +132,7 @@ end
 function App:go(id,param,replace)
     if type(id)=="string" and id:match("^plugin_update") then id="about";param=nil end
     if not Context.alive(self) then return end
+    if self.folder_import and id~='folder_collections' then self.folder_import:cancel() end
     self:closeDialogs()
     if id=="home_customize" then return self:showHomeEditor(param) end
     if id=="home" then return self:open("home") end
@@ -150,6 +153,7 @@ end
 
 function App:back()
     if not Context.alive(self) then return end
+    if self.folder_import then self.folder_import:cancel() end
     self:closeDialogs()
     if #self.stack<=1 then return self:dismiss() end
     if self.stack[#self.stack].id=="native" and self.native:back() then return end
@@ -408,6 +412,7 @@ function App:render()
     elseif require("einkfrontend/pagepresssettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/lightsettings").render(self,route,m,row,go) then
     elseif require("einkfrontend/maintenancesettings").render(self,route,m,row,go) then
+    elseif require("einkfrontend/foldercollectionsettings").render(self,route,m,row) then
     elseif require("einkfrontend/bookactions").render(self,route,m,row,go) then
     elseif require("einkfrontend/bookvalue").render(self,route,m,row,go) then
     elseif require("einkfrontend/homecustom").render(self,route,m,row,go) then
@@ -600,7 +605,7 @@ function App:render()
     elseif route.id=="collections" then
         m.title="收藏";m.subtitle="与 KOReader 原生收藏共用数据"
         for _,coll in ipairs(self.library:collections(self.browser:combined(),self.library_sort,true)) do
-            row(coll.label,coll.available.." 本符合筛选 · 收藏共 "..coll.count.." 本",go("books",{collection=coll.name}))
+            row(coll.label,coll.count.." 本",go("books",{collection=coll.name}))
             m.rows[#m.rows].group=true
             m.rows[#m.rows].book=coll.book
         end
@@ -609,6 +614,7 @@ function App:render()
         row("新建收藏",nil,function()
             self:newCollection()
         end)
+        row("文件夹转为收藏",nil,go('folder_collections'))
         for _,coll in ipairs(self.library:collections()) do
             row(coll.label,coll.count.." 本",go("collection_manage",coll.name))
         end
@@ -652,7 +658,7 @@ function App:render()
         end
     elseif route.id=="frontend" then
         m.title="前端与恢复";m.subtitle=""
-        m.help=function() self:message("本页设置仅作用于墨页。文件管理器启动入口在下次进入时生效；阅读点击入口控制中央 Aa 与顶部提示栏。\n原生兼容菜单临时打开，关闭后返回当前接管状态。\n停用墨页会恢复原生入口，并在重启后保持；重新启用请使用原生插件管理器。") end
+        m.help=function() self:message("本页设置仅作用于墨页。文件管理器启动入口在下次进入时生效；阅读点击入口控制顶部工具栏，点击其中 Aa 展开主题、字体与排版。\n原生兼容菜单临时打开，关闭后返回当前接管状态。\n停用墨页会恢复原生入口，并在重启后保持；重新启用请使用原生插件管理器。") end
         row("文件管理器启动入口："..(self.plugin:option("auto_open",true) and "开启" or "关闭"),
             nil,function() self.plugin:toggleOption("auto_open",true);self:render() end)
         row("阅读点击入口："..(self.plugin:option("reader_entry",true) and "开启" or "关闭"),
@@ -757,8 +763,9 @@ function App:message(text) UIManager:show(InfoMessage:new{text=tostring(text)}) 
 function App:showReader(tab)
     if not Context.allowed(self,'reader_panel') then return end
     if tab=="progress" then return self:showBookStatistics() end
+    if not tab or tab=='menu' then tab='font' end
     if self.screen then self:close() end
-    local panel=Overlay.present(self,"reader_panel",function() return require("einkfrontend/readerpanel"):new{app=self,tab=tab or "menu"} end)
+    local panel=Overlay.present(self,"reader_panel",function() return require("einkfrontend/readerpanel"):new{app=self,tab=tab} end)
     if panel and tab then panel:setTab(tab) end
     return panel
 end

@@ -61,9 +61,10 @@ function Gate:install()
         self:wrap(self.ui.bookmark,"onShowBookmark","bookmarks")
         self:wrap(self.ui.bookmark,"showBookmarkDetails","annotation_details")
         -- Compound native handlers otherwise open both top and bottom menus.
-        self:wrap(menu,"onPressMenu","reader")
-        self:wrap(self.ui.config,"onShowConfigMenu","aa")
-        self:wrap(self.ui.config,"onTapShowConfigMenu","aa")
+        self:wrap(menu,"onPressMenu","reader_top")
+        -- Typography is opened explicitly by Aa, never by native bottom tap events.
+        self:wrap(self.ui.config,"onShowConfigMenu","ignore_config_tap")
+        self:wrap(self.ui.config,"onTapShowConfigMenu","ignore_config_tap")
         self:wrap(self.ui.config,"onSwipeShowConfigMenu","book_statistics","north")
     end
     local key=self.ui.document and "onCloseReaderMenu" or "onCloseFileManagerMenu"

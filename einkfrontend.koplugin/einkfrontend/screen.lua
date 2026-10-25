@@ -29,6 +29,7 @@ function Page:init()
 end
 
 function Page:_layout()
+    if self.model and self.model.folder_import then return require('einkfrontend/foldercollectionpage').layout(self) end
     if self.model and self.model.home then
         self.header_h=Screen:scaleBySize(96);self.footer_h=Screen:scaleBySize(72);self.info_h=0
         self.viewport_h=self.dimen.h-self.header_h-self.footer_h;self.list_capacity=1;self.row_h=Screen:scaleBySize(72)
@@ -57,7 +58,7 @@ end
 
 local function sameHitModel(a,b)
     if not a or a==b or a.route~=b.route or a.title~=b.title or a.content_key~=b.content_key
-        or a.settings~=b.settings or a.library~=b.library or a.home~=b.home or #a.rows~=#b.rows then return false end
+        or a.settings~=b.settings or a.library~=b.library or a.home~=b.home or a.folder_import~=b.folder_import or #a.rows~=#b.rows then return false end
     for i,row in ipairs(a.rows) do
         local other=b.rows[i]
         for _,key in ipairs({'title','note','value','enabled','checked','book','group','detail','progress'}) do
@@ -151,6 +152,7 @@ function Page:_paintSettings(bb,x,y)
     self.hits[#self.hits+1]={x=x+w-S(53),y=y,w=S(53),h=self.header_h,callback=function() self.app:dismiss() end,id="settings_close"}
 
     Paint.rule(bb,x,y+self.header_h-S(1.5),w,2)
+    if self.model.folder_import then return require('einkfrontend/foldercollectionpage').paint(self,bb,x,y) end
     if self.info_h>0 then self:_text(bb,self.model.subtitle,x+S(20),y+self.header_h+S(10),w-S(48),14,false) end
     local top=y+self.header_h+self.info_h
     local content_w=w-(self.scroll_max>0 and Rail.reserve() or 0)
